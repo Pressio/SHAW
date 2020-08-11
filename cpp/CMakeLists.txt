@@ -26,11 +26,6 @@ else()
   set(OMPLINK "")
 endif()
 
-function(set_comp_option_SKX exeName)
-  target_compile_options(${exeName}
-    PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-march=skylake-avx512 -mtune=skylake-avx512 -mrtm>)
-endfunction(set_comp_option_SKX)
-
 #==================================
 # for every target we need:
 find_package(KokkosKernels REQUIRED)
@@ -69,12 +64,12 @@ enable_testing()
 add_subdirectory(tests)
 #==================================
 
-set(exeName gemm)
-add_executable (${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/src/benchmark/gemm.cc)
-#target_compile_definitions(${exeName} PUBLIC -DEIGEN_USE_BLAS)
+# set(exeName gemm)
+# add_executable (${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/src/benchmark/gemm.cc)
+# #target_compile_definitions(${exeName} PUBLIC -DEIGEN_USE_BLAS)
 
-set(exeName gemv)
-add_executable (${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/src/benchmark/gemv.cc)
+# set(exeName gemv)
+# add_executable (${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/src/benchmark/gemv.cc)
 
 # set(exeName spmv)
 # add_executable (${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/src/benchmark/main_spmv.cc)
