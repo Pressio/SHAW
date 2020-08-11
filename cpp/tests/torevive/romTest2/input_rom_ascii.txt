@@ -1,0 +1,24 @@
+
+meshDirName fullMesh101x201
+dt 1.
+finalTime 200.
+useBinaryIO 0
+checkNumericalDispersion 0
+
+materialModelType default 2000. 5000.
+
+#--- signal data ----
+signal 2 600. 88. 40. 20.
+
+#--- other stuff ----
+vpSnapshotsFreq 2
+spSnapshotsFreq 2
+vpVizFreq 100000
+spVizFreq 100000
+
+# for ROMs, we also need to set:
+romOn 1
+vpRomSize 100
+spRomSize 100
+vpBasisFileName lsv_vp
+spBasisFileName lsv_sp

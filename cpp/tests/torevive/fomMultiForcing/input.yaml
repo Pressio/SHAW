@@ -1,0 +1,29 @@
+
+general:
+  meshDir: "/Users/fnrizzi/Desktop/waveFom/prem/mesh50x200"
+  dt: 1.
+  finalTime: 400.
+  checkNumericalDispersion: false
+  checkCfl: true
+  includeMatPropInJacobian: true
+  exploitForcingSparsity: true
+
+io:
+ useBinary: false
+ snapshotMatrix:
+   velocity: {freq: 1, fileName: snaps_vp}
+   stress:   {freq: 1, fileName: snaps_sp}
+ # seismogram:
+ #   freq: 140
+ #   receivers: [25, 50, 120, 160]
+
+source:
+  signal: {kind: gaussDer, depth: 640.0, angle: 0.0, period: 60., delay: 150.}
+
+material:
+  kind: prem
+
+sampling:
+ params: [signalPeriod]
+ values: [50, 52, 55]
+ forcingSize: 3
