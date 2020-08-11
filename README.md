@@ -10,7 +10,7 @@ This code has been developed for: cite-article.
 
 - [script driving the build](./do_build.sh)
 - [C++ source code and tests](./cpp)
-- [meshing](.meshing)
+- [meshing](./meshing)
 - [Python scripts for processing and workflows](./python_scripts)
 
 
