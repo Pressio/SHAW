@@ -99,3 +99,4 @@ python plotWavefield.py
 ```
 which should generate a plot like this:
 ![image](https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield.png)
+![image](https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield.png)
