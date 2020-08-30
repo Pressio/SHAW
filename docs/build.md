@@ -16,6 +16,7 @@ and execute:
 ```bash
 mkdir -p ${MYWORKDIR}
 ```
+The following has been tested with GCC-8.3.1 and GCC-8.4.0.
 
 ## Step 2: BLAS/LAPACK
 Here we build and install BLAS and LAPACK.

@@ -3,7 +3,6 @@
 Here we describe how to create and run a full-order model simulation.
 
 
-
 ## Preparing the env
 Set the following env variables:
 ```bash
@@ -13,7 +12,7 @@ export MYRUNDIR=${MYWORKDIR}/myFirstRun
 mkdir ${MYRUNDIR}
 ```
 assuming that you have run the [step-by-step guide](./docs/build.md) to build the code
-and used `MYWORKDIR` as the working directory for that procedue.
+and used `MYWORKDIR` as the working directory for that procedure.
 So that `MYWORKDIR/build` contains all the executables.
 
 
@@ -24,7 +23,7 @@ first, it allows us to decouple the mesh generation from the actual physics code
 second, we developed the code to support the concept of sample mesh,
 which is a key feature for nonlinear ROMs. This is **not** needed right now
 to solve the current elastic shear wave problem because this is a linear problem,
-but it can be useful if, in the fugute, we extend the code to support nonlinear problems.
+but it can be useful if, in the future, we extend the code to support nonlinear problems.
 
 To specify the grid, one only needs to specify the grid for the velocity points because
 the stress points are defined based on the staggered scheme (see paper).
@@ -51,9 +50,9 @@ For the purpose of this guide, you can do as follows:
 cp ${ESWSRCDIR}/tutorialRunFiles/input.yaml ${MYRUNDIR}
 ```
 The input file is organized into sections:
-- *genreal*: contains general inputs, e.g., where the mesh is, time stepping, etc;
+- *general*: contains general inputs, e.g., where the mesh is, time stepping, etc;
 - *io*: contains parameters to collect data, e.g., the snapshot matrix and seismogram;
-- *source*: contains paramters to define the kind of source signal, and its depth wrt earth surface;
+- *source*: contains parameters to define the kind of source signal, and its depth with respect to earth surface;
 - *material*: defines the type of material to use.
 
 
