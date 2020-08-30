@@ -19,19 +19,28 @@ You can find more details in that paper.
 
 # Building
 
-To simplify the process, define the following env variable:
+Here is a step-by-step guide on how to build/install all
+TPLs needed and the code.
+
+
+## Step 1: set basic environment
+To simplify the process, define the following env variables:
 ```bash
+export ESWSRCDIR=<path-to-the-code-repository>
+export CC=<path-to-your-C-compiler>
+export CXX=<path-to-your-CXX-compiler>
 export MYWORKDIR=<path-to-where-you-want-to-work-in>
 ```
 
-You need to have:
-```bash
-export CC=<path-to-your-C-compiler>
-export CXX=<path-to-your-CXX-compiler>
+## Step 2: BLAS/LAPACK
+Here we build and install BLAS and LAPACK.
+If you already have them installed, skip to step 2a
+Execute the following
 ```
-
-## BLAS/LAPACK
 If you
+
+### Step 2a: BLAS/LAPACK
+
 
 
 
