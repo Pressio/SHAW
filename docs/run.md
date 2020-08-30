@@ -46,7 +46,7 @@ containing the following files;
 Inputs for the code are based on yaml.
 For the purpose of this guide, you can do as follows:
 ```bash
-cp ${ESWSRCDIR}/exampleInputFiles/input.yaml ${MYRUNDIR}
+cp ${ESWSRCDIR}/tutorialRunFiles/input.yaml ${MYRUNDIR}
 ```
 The input file is organized into sections:
 - *genreal*: contains general inputs, e.g., where the mesh is, time stepping, etc;
@@ -62,4 +62,26 @@ You can proceed as follows:
 cd ${MYRUNDIR}
 ln -s ${MYWORKDIR}/build/shwave_fom .
 OMP_NUM_THREADS=4; OMP_PLACES=threads; OMP_PROC_BIND=spread; ./shwave_fom input.yaml
+```
+This should generate inside `${MYRUNDIR}` the following files:
+```bash
+coords_sp.txt : coordinates of the velocity grid points
+coords_vp.txt : coordinates of the stresses grid points
+seismogram_0  : seismogram at the receiver locations set in input.yaml
+snaps_vp_0    : snapshot matrix for the velocity
+snaps_sp_0    : snapshot matrix for the stresses
+```
+
+## Post-process data
+After the run is finished, we can post-process the data.
+
+Copy the processing scripts to the destination:
+```bash
+cp ${ESWSRCDIR}/tutorialRunFiles/*.py ${MYRUNDIR}
+```
+
+First, we visualize the seismogram data by doing:
+```bash
+cp ${MYRUNDIR}/
+python plotSeismogram.py
 ```
