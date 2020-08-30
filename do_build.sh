@@ -49,13 +49,12 @@ cd ${WORKINGDIR}
 # get eigen
 if [ ! -d ${WORKINGDIR}/tpls/eigen ]; then
     EIGENVERSION=3.3.7
-    EIGENURL=http://bitbucket.org/eigen/eigen/get/${EIGENVERSION}
-    EIGENUNPACKEDDIRNAME=eigen-eigen-323c052e1731
+    EIGENUNPACKEDDIRNAME=eigen-${EIGENVERSION}
 
     mkdir -p ${WORKINGDIR}/tpls/eigen
     cd ${WORKINGDIR}/tpls/eigen
-    wget ${EIGENURL}.tar.bz2
-    tar xf ${EIGENVERSION}.tar.bz2
+    cp ${TOPDIR}/tpls/eigen-${EIGENVERSION}.tar.gz .
+    tar zxf eigen-${EIGENVERSION}.tar.gz
     mv ${EIGENUNPACKEDDIRNAME} eigen
     cd ${WORKINGDIR}
 fi
@@ -120,7 +119,7 @@ cmake -DCMAKE_CXX_COMPILER=${CXX} \
       -DHAVE_KOKKOS:BOOL=ON \
       -DKokkosKernels_DIR=${KOKKOSKERDIR} \
       ${CPPSRC}
-make
+make -j4
 cd ..
 
 #----------------------

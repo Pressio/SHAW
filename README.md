@@ -83,29 +83,46 @@ bash build_kokkos_and_kernels.sh
 optimization, since this is meant to work on any system. However, if you want to
 have arch-specific optimizations (and you should), you need to change the arch flag
 passed to Kokkos (see inside `build_kokkos_and_kernels.sh`) and rebuild;
+* we only enable the OpenMP backend;
 * if you already have Kokkos/Kokkos-kernels installed, you can skip the build step
 above and directly set the needed env vars to point to your installation.
 
 
-<!-- - Build/install kokkos and kokkos-kernels. -->
-<!-- Currently we need to have only OpenMP execution enabled. -->
+## Step 4: Build the Elastic Shear Wave executables
+Proceed as follows:
+```bash
+cd $ESWSRCDIR}
+./do_build.sh \
+ -working-dir=${MYWORKDIR} \
+ -kokkos-pfx=${KOKKOSPFX} \
+ -kokkos-ker-pfx=${KOKKOSKERPFX} \
+ --omp=yes
+```
+this should generate inside `${MYWORKDIR}/build` the following executables:
+```bash
+-rw-r--r--   1 fnrizzi  staff    14K Aug 30 10:41 CMakeCache.txt
+drwxr-xr-x  18 fnrizzi  staff   576B Aug 30 10:42 CMakeFiles
+-rw-r--r--   1 fnrizzi  staff   333B Aug 30 10:41 CTestTestfile.cmake
+-rw-r--r--   1 fnrizzi  staff    15K Aug 30 10:41 Makefile
+-rw-r--r--   1 fnrizzi  staff   1.6K Aug 30 10:41 cmake_install.cmake
+-rwxr-xr-x   1 fnrizzi  staff    38K Aug 30 10:41 compareSnaps
+-rwxr-xr-x   1 fnrizzi  staff   348K Aug 30 10:42 computeThinSVD
+-rwxr-xr-x   1 fnrizzi  staff   597K Aug 30 10:41 extractStateFromSnaps
+-rwxr-xr-x   1 fnrizzi  staff   866K Aug 30 10:41 reconstructFomState
+-rwxr-xr-x   1 fnrizzi  staff   627K Aug 30 10:41 reconstructSeismogram
+-rwxr-xr-x   1 fnrizzi  staff   2.0M Aug 30 10:42 shwave_fom
+-rwxr-xr-x   1 fnrizzi  staff   2.4M Aug 30 10:42 shwave_rom
+drwxr-xr-x  11 fnrizzi  staff   352B Aug 30 10:41 tests
+```
 
-<!-- - Use [this file](./do_build.sh) as follows: -->
-<!-- ```bash -->
-<!-- ./do_build.sh \ -->
-<!--  -working-dir=<where-you-want-to-build> \ -->
-<!--  -kokkos-pfx=<path-to-your-kokkos-installation> \ -->
-<!--  -kokkos-ker-pfx=<path-to-your-kokkos-kernels-installation> \ -->
-<!--  --omp=yes -->
-<!-- ``` -->
 
 
-<!-- # Creating a RUN -->
+# Creating and running a case
 
-<!-- - First, you need to generate the grid. -->
-<!-- For example, assume you want a grid of 150 x 600 velocity points -->
-<!-- along the radial and polar directions: -->
-<!-- ```python -->
+- First, you need to generate the grid.
+For example, assume you want a grid of 150 x 600 velocity points
+along the radial and polar directions:
+```python
 <!-- python create_single_mesh.py \ -->
 <!--  -nr 150 -nth 600 \ -->
 <!--  -working-dir <destination-of-the-grid-files> -->
