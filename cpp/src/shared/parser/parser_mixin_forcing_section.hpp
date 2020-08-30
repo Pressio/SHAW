@@ -68,7 +68,7 @@ public:
 
 	signalKind sKind = {};
 	scalar_t sDepth = {};
-	scalar_t sAngle = {};
+	scalar_t sAngle = static_cast<scalar_t>(0);
 	scalar_t sPeriod = {};
 	scalar_t sDelay = {};
 
@@ -80,9 +80,10 @@ public:
        	if (n) sDepth = n.as<scalar_t>();
       	else throw std::runtime_error("You must set depth of the signal");
 
-	n = node2["angle"];
-       	if (n) sAngle = n.as<scalar_t>();
-      	else throw std::runtime_error("You must set angle of the signal");
+       	if (node2["angle"]) sAngle = node2["angle"].as<scalar_t>();
+      	else{
+	  std::cout << "Angle of source not specified, default==0";
+	}
 
       	n = node2["period"];
        	if (n) sPeriod = n.as<scalar_t>();

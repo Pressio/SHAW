@@ -24,5 +24,5 @@ the following packages: matplotlib, numpy, scipy, yaml.
 A [step-by-step guide](./docs/build.md) on how to build/install all
 TPLs needed and the elastic shear wave code.
 
-# Creating and running a full case
-A [step-by-step guide](./docs/run.md) on how to setup a run.
+# Creating and running a full-order model simulation
+A [step-by-step guide](./docs/run.md) on how to setup a FOM run.

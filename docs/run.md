@@ -1,13 +1,19 @@
 
 # Creating and running a full case
-Here we describe how to create and run a case. There are a few steps involved,
-so we will describe each one.
+Here we describe how to create and run a full-order model simulation.
+We assume that you have run the [step-by-step guide](./docs/build.md) to build the code.
 
+## Preparing the env
 Define an env var as follows:
 ```bash
+export ESWSRCDIR=<path-to-the-code-repository>
+export MYWORKDIR=<the-same-work-directory-used-for-building-process>
 export MYRUNDIR=${MYWORKDIR}/myFirstRun
 mkdir ${MYRUNDIR}
 ```
+where `MYWORKDIR` is the working directory you used during the building process
+that contains the build subdirectory with all the executables.
+
 
 ## Generating the mesh
 The code has been developed such that the mesh is generated with Python
@@ -25,13 +31,35 @@ along the radial and polar directions, respectively.
 To generate the mesh files proceed as follows:
 ```python
 cd ${ESWSRCDIR}/meshing
-python create_single_mesh.py -nr 150 -nth 600 -working-dir ${MYRUNDIR}
+python create_single_mesh.py -nr 200 -nth 1000 -working-dir ${MYRUNDIR}
 ```
-This should generate inside `$MYRUNDIR}` a directory called `mesh150x600`
+This should generate inside `$MYRUNDIR}` a directory called `mesh200x1000`
 containing the following files;
 ```bash
--rw-r--r--  1 fnrizzi  staff   2.0M Aug 30 11:19 coeff_vp.dat
--rw-r--r--  1 fnrizzi  staff    12M Aug 30 11:19 graph_sp.dat
--rw-r--r--  1 fnrizzi  staff   7.2M Aug 30 11:19 graph_vp.dat
--rw-r--r--  1 fnrizzi  staff   229B Aug 30 11:19 mesh_info.dat
+-rw-r--r--  1 fnrizzi  staff   4.5M Aug 30 12:20 coeff_vp.dat
+-rw-r--r--  1 fnrizzi  staff    28M Aug 30 12:20 graph_sp.dat
+-rw-r--r--  1 fnrizzi  staff    16M Aug 30 12:20 graph_vp.dat
+-rw-r--r--  1 fnrizzi  staff   231B Aug 30 12:20 mesh_info.dat
+```
+
+## Create input file
+Inputs for the code are based on yaml.
+For the purpose of this guide, you can do as follows:
+```bash
+cp ${ESWSRCDIR}/exampleInputFiles/input.yaml ${MYRUNDIR}
+```
+The input file is organized into sections:
+- *genreal*: contains general inputs, e.g., where the mesh is, time stepping, etc;
+- *io*: contains parameters to collect data, e.g., the snapshot matrix and seismogram;
+- *source*: contains paramters to define the kind of source signal, and its depth wrt earth surface;
+- *material*: defines the type of material to use.
+
+
+## Run the FOM
+After creating the input file, we can now link the FOM executable and run.
+You can proceed as follows:
+```bash
+cd ${MYRUNDIR}
+ln -s ${MYWORKDIR}/build/shwave_fom .
+OMP_NUM_THREADS=4; OMP_PLACES=threads; OMP_PROC_BIND=spread; ./shwave_fom input.yaml
 ```
