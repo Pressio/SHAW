@@ -52,7 +52,7 @@ def doPlot(th, r, z, figID, bd):
   ax1.set_rorigin(-1)
   plotEarthSurf(ax1)
   plotCMB(ax1)
-  fig1.colorbar(h1)
+  #fig1.colorbar(h1)
   plt.tight_layout()
   fig1.savefig('./wavefield.png', format="png",bbox_inches='tight', dpi=300)
   plt.show()
