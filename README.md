@@ -8,7 +8,6 @@ as well as the Galerkin reduced order model (ROM).
 This code has been developed for: cite-article.
 You can find more details in that paper.
 
-
 # Content
 
 - [bash script driving the build](./do_build.sh)
@@ -16,12 +15,15 @@ You can find more details in that paper.
 - [meshing](./meshing)
 - [Python scripts for processing and workflows](./python_scripts)
 
+# Prerequisites
+To build and use the code, you need to have CMake, serial C, C++
+and Fortran compilers, as well as Python>3.6 with at least
+the following packages: matplotlib, numpy, scipy, yaml.
+
 
 # Building
-
 Here is a step-by-step guide on how to build/install all
 TPLs needed and the code.
-
 
 ## Step 1: set basic environment
 To simplify the process, define the following env variables:
@@ -114,20 +116,50 @@ drwxr-xr-x  18 fnrizzi  staff   576B Aug 30 10:42 CMakeFiles
 -rwxr-xr-x   1 fnrizzi  staff   2.4M Aug 30 10:42 shwave_rom
 drwxr-xr-x  11 fnrizzi  staff   352B Aug 30 10:41 tests
 ```
+You can then run the tests to see if things are working as follows:
+```bash
+cd ${MYWORKDIR}/build
+ctest
+```
 
 
 
-# Creating and running a case
+# Creating and running a full case
+Here we describe how to create and run a case. There are a few steps involved,
+so we will describe each one.
 
-- First, you need to generate the grid.
-For example, assume you want a grid of 150 x 600 velocity points
-along the radial and polar directions:
+Define an env var as follows:
+```bash
+export MYRUNDIR=${MYWORKDIR}/myFirstRun
+mkdir ${MYRUNDIR}
+```
+
+## Generating the mesh
+The code has been developed such that the mesh is generated with Python
+and is used by the C++ code. There are two main reasons for this choice:
+first, it allows us to decouple the mesh generation from the actual physics code;
+second, we developed the code to support the concept of sample mesh,
+which is a key feature for nonlinear ROMs. This is **not** needed right now
+to solve the current elastic shear wave problem because this is a linear problem,
+but it can be useful if, in the fugute, we extend the code to support nonlinear problems.
+
+To specify the grid, one only needs to specify the grid for the velocity points because
+the stress points are defined based on the staggered scheme (see paper).
+Assume the test case you want to run uses a grid of 150 x 600 velocity points
+along the radial and polar directions, respectively.
+To generate the mesh files proceed as follows:
 ```python
-<!-- python create_single_mesh.py \ -->
-<!--  -nr 150 -nth 600 \ -->
-<!--  -working-dir <destination-of-the-grid-files> -->
-<!-- ``` -->
-<!-- Note that this generates the grid for all the degrees of freedom, namely velocity -->
-<!-- and stresses, since the grid is staggered. -->
+cd ${ESWSRCDIR}/meshing
+python create_single_mesh.py -nr 150 -nth 600 -working-dir ${MYRUNDIR}
+```
+This should generate inside `$MYRUNDIR}` a directory called `mesh150x600`
+containing the following files;
+```bash
+-rw-r--r--  1 fnrizzi  staff   2.0M Aug 30 11:19 coeff_vp.dat
+-rw-r--r--  1 fnrizzi  staff    12M Aug 30 11:19 graph_sp.dat
+-rw-r--r--  1 fnrizzi  staff   7.2M Aug 30 11:19 graph_vp.dat
+-rw-r--r--  1 fnrizzi  staff   229B Aug 30 11:19 mesh_info.dat
+```
+
 
 <!-- - Second, look at -->
