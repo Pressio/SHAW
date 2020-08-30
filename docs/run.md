@@ -85,3 +85,5 @@ First, we visualize the seismogram data by doing:
 cp ${MYRUNDIR}/
 python plotSeismogram.py
 ```
+which should generate a plot like this:
+![](./tutorialRunFiles/seismogram.png)

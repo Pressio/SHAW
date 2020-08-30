@@ -58,5 +58,7 @@ if __name__== "__main__":
   doPlot(311, t, D, '5')
   doPlot(312, t, D, '30')
   doPlot(313, t, D, '80')
+  plt.tight_layout()
+  f.savefig('seismogram.png', format="png", bbox_inches='tight', dpi=300)
 
   plt.show()
