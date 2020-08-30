@@ -29,7 +29,7 @@ def plotEarthSurf(ax):
   ax.plot(surfTh, surfRa, c='k', linewidth=0.5)
 
 #=========================================
-def doPlot(th, r, z, figID, bd):
+def doPlot(th, r, z, figID, bd, outName):
   cm1 = plt.cm.get_cmap('PuOr')
   cm2 = plt.cm.get_cmap('BrBG_r')
   cm3 = plt.cm.get_cmap('PiYG')
@@ -54,7 +54,7 @@ def doPlot(th, r, z, figID, bd):
   plotCMB(ax1)
   #fig1.colorbar(h1)
   plt.tight_layout()
-  fig1.savefig('./wavefield.png', format="png",bbox_inches='tight', dpi=300)
+  fig1.savefig(outName, format="png",bbox_inches='tight', dpi=300)
   plt.show()
 
 ###############################
@@ -65,6 +65,12 @@ if __name__== "__main__":
   th, r = -cc[:,0]+np.pi/2., cc[:, 1]/1000. #m to km
   th, r = th.reshape((nr,nth)), r.reshape((nr,nth))
 
+  fomFile = './state_timestep_4000_vp'
+  fomState = np.loadtxt(fomFile, skiprows=1)
+  doPlot(th, r, fomState.reshape((nr, nth)), 0,[-5e-9, 5e-9], "wavefield_4000.png")
+  fomFile = './state_timestep_6000_vp'
+  fomState = np.loadtxt(fomFile, skiprows=1)
+  doPlot(th, r, fomState.reshape((nr, nth)), 0,[-5e-9, 5e-9], "wavefield_6000.png")
   fomFile = './state_timestep_8000_vp'
   fomState = np.loadtxt(fomFile, skiprows=1)
-  doPlot(th, r, fomState.reshape((nr, nth)), 0,[-5e-9, 5e-9])
+  doPlot(th, r, fomState.reshape((nr, nth)), 0,[-5e-9, 5e-9], "wavefield_8000.png")

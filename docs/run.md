@@ -88,21 +88,16 @@ python plotSeismogram.py
 which should generate a plot like this:
 ![image](https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/seismogram.png)
 
-Second, we can visualize the full wavefield at the final time, `t=2000` (seconds) as follows:
+Second, we can visualize the full wavefield at three times, `t=1000, 1500, 2000` (seconds) as follows:
 ```bash
 cd ${MYRUNDIR}
 ln -s ${MYWORKDIR}/build/extractStateFromSnaps .
-./extractStateExeName --snaps=./snaps_vp_0 binary \
-	--fsize=1 --outformat=ascii --timesteps=8000 \
+./extractStateFromSnaps --snaps=./snaps_vp_0 binary \
+	--fsize=1 --outformat=ascii --timesteps=4000 6000 8000 \
 	--samplingfreq=100 --outfileappend=vp
 python plotWavefield.py
 ```
 which should generate a plot like this:
-<img
-	src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield.png"
-	width="100" height="100"
->
-<img
-	src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield.png"
-	width="100" height="100"
->
+<img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield_4000.png" width="33%">
+<img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield_6000.png" width="33%">
+<img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield_8000.png" width="33%">
