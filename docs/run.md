@@ -98,5 +98,11 @@ ln -s ${MYWORKDIR}/build/extractStateFromSnaps .
 python plotWavefield.py
 ```
 which should generate a plot like this:
-![image](https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield.png)
-![image](https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield.png)
+<img
+	src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield.png"
+	width="100" height="100"
+>
+<img
+	src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield.png"
+	width="100" height="100"
+>
