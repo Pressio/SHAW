@@ -97,7 +97,7 @@ ln -s ${MYWORKDIR}/build/extractStateFromSnaps .
 	--samplingfreq=100 --outfileappend=vp
 python plotWavefield.py
 ```
-which should generate a plot like this:
+which should generate a plot like this:<br>
 <img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield_4000.png" width="33%">
 <img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield_6000.png" width="33%">
 <img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield_8000.png" width="33%">
