@@ -11,8 +11,8 @@ export MYWORKDIR=<the-same-work-directory-used-for-building-process>
 export MYRUNDIR=${MYWORKDIR}/myFirstRun
 mkdir ${MYRUNDIR}
 ```
-where `MYWORKDIR` is the working directory you used during the building process
-that contains the build subdirectory with all the executables.
+where `MYWORKDIR` is the directory used for building containinig the
+build subdirectory with all the executables.
 
 
 ## Generating the mesh
@@ -33,7 +33,7 @@ To generate the mesh files proceed as follows:
 cd ${ESWSRCDIR}/meshing
 python create_single_mesh.py -nr 200 -nth 1000 -working-dir ${MYRUNDIR}
 ```
-This should generate inside `$MYRUNDIR}` a directory called `mesh200x1000`
+This should generate a directory `$MYRUNDIR}/mesh200x1000`
 containing the following files;
 ```bash
 -rw-r--r--  1 fnrizzi  staff   4.5M Aug 30 12:20 coeff_vp.dat
