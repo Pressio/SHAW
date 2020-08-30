@@ -93,11 +93,10 @@ Second, we can visualize the full wavefield at three times, `t=1000, 1500, 2000`
 cd ${MYRUNDIR}
 ln -s ${MYWORKDIR}/build/extractStateFromSnaps .
 ./extractStateFromSnaps --snaps=./snaps_vp_0 binary \
-	--fsize=1 --outformat=ascii --timesteps=4000 6000 8000 \
-	--samplingfreq=100 --outfileappend=vp
+--fsize=1 --outformat=ascii --timesteps=4000 6000 8000 --samplingfreq=100 --outfileappend=vp
 python plotWavefield.py
 ```
-which should generate a plot like this:<br>
+which should generate three plot as the following:<br>
 <img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield_4000.png" width="33%">
 <img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield_6000.png" width="33%">
 <img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield_8000.png" width="33%">

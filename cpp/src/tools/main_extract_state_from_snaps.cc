@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
   using pair_t = std::pair<std::string, std::string>;
   pair_t snaps = {};
-  std::size_t fSize = {};
+  std::size_t fSize = 1;
   std::vector<std::size_t> timeSteps = {};
   std::size_t samplingFreq = {};
   std::string outputFormat = {};
