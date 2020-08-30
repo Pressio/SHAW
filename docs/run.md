@@ -86,4 +86,4 @@ cp ${MYRUNDIR}/
 python plotSeismogram.py
 ```
 which should generate a plot like this:
-![image](./tutorialRunFiles/seismogram.png)
+![image](https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/seismogram.png)
