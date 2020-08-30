@@ -36,8 +36,6 @@ export MYWORKDIR=<path-to-where-you-want-to-work-in>
 Here we build and install BLAS and LAPACK.
 If you already have them installed, skip to step 2a
 Execute the following
-```
-If you
 
 ### Step 2a: BLAS/LAPACK
 
