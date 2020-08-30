@@ -88,12 +88,14 @@ python plotSeismogram.py
 which should generate a plot like this:
 ![image](https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/seismogram.png)
 
-Second, we can visualize the full wavefield at the final time as follows:
+Second, we can visualize the full wavefield at the final time, `t=2000` (seconds) as follows:
 ```bash
 cd ${MYRUNDIR}
-ln -s ${MYWORKDIR}/build/extractStateExeName .
+ln -s ${MYWORKDIR}/build/extractStateFromSnaps .
 ./extractStateExeName --snaps=./snaps_vp_0 binary \
 	--fsize=1 --outformat=ascii --timesteps=8000 \
 	--samplingfreq=100 --outfileappend=vp
 python plotWavefield.py
 ```
+which should generate a plot like this:
+![image](https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield.png)
