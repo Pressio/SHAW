@@ -1,18 +1,20 @@
 
 # Creating and running a full case
 Here we describe how to create and run a full-order model simulation.
-We assume that you have run the [step-by-step guide](./docs/build.md) to build the code.
+
+
 
 ## Preparing the env
-Define an env var as follows:
+Set the following env variables:
 ```bash
 export ESWSRCDIR=<path-to-the-code-repository>
 export MYWORKDIR=<the-same-work-directory-used-for-building-process>
 export MYRUNDIR=${MYWORKDIR}/myFirstRun
 mkdir ${MYRUNDIR}
 ```
-where `MYWORKDIR` is the directory used for building containinig the
-build subdirectory with all the executables.
+assuming that you have run the [step-by-step guide](./docs/build.md) to build the code
+and used `MYWORKDIR` as the working directory for that procedue.
+So that `MYWORKDIR/build` contains all the executables.
 
 
 ## Generating the mesh
