@@ -21,8 +21,8 @@ and Fortran compilers, as well as Python>3.6 with at least
 the following packages: matplotlib, numpy, scipy, yaml.
 
 # Building the code
-A step-by-step guide on how to build/install all
-TPLs needed and the elastic shear wave code can be found [here](./docs/build.md)
+A [step-by-step guide](./docs/build.md) on how to build/install all
+TPLs needed and the elastic shear wave code.
 
 # Creating and running a full case
-A step-by-step guide on how to setup a run can be found [here](./docs/run.md)
+A [step-by-step guide](./docs/run.md) on how to setup a run.
