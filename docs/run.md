@@ -11,9 +11,9 @@ export MYWORKDIR=<the-same-work-directory-used-for-building-process>
 export MYRUNDIR=${MYWORKDIR}/myFirstRun
 mkdir ${MYRUNDIR}
 ```
-assuming that you have run the [step-by-step guide](./docs/build.md) to build the code
-and used `MYWORKDIR` as the working directory for that procedure.
-So that `MYWORKDIR/build` contains all the executables.
+Here we assume you already ran the [step-by-step guide](./docs/build.md)
+to build the code and used `MYWORKDIR` as the working directory for that procedure,
+so that `MYWORKDIR/build` contains all the executables.
 
 
 ## Generating the mesh
