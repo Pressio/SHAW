@@ -65,7 +65,7 @@ bash build_kokkos_and_kernels.sh
 optimization, since this is meant to work on any system. However, if you want to
 have arch-specific optimizations (and you should), you need to change the arch flag
 passed to Kokkos (see inside `build_kokkos_and_kernels.sh`) and rebuild;
-* we only enable the OpenMP backend;
+* for  now, we only enable the OpenMP backend;
 * if you already have Kokkos/Kokkos-kernels installed, you can skip the build step
 above and directly set the needed env vars to point to your installation.
 
@@ -74,11 +74,7 @@ above and directly set the needed env vars to point to your installation.
 Proceed as follows:
 ```bash
 cd $ESWSRCDIR}
-./do_build.sh \
- -working-dir=${MYWORKDIR} \
- -kokkos-pfx=${KOKKOSPFX} \
- -kokkos-ker-pfx=${KOKKOSKERPFX} \
- --omp=yes
+./do_build.sh --working-dir=${MYWORKDIR} --kokkos-pfx=${KOKKOSPFX} --kokkos-ker-pfx=${KOKKOSKERPFX} --omp=yes
 ```
 this should generate inside `${MYWORKDIR}/build` the following executables:
 ```bash
