@@ -76,7 +76,7 @@ Proceed as follows:
 cd $ESWSRCDIR}
 ./do_build.sh --working-dir=${MYWORKDIR} --kokkos-pfx=${KOKKOSPFX} --kokkos-ker-pfx=${KOKKOSKERPFX} --omp=yes
 ```
-this should generate inside `${MYWORKDIR}/build` the following executables:
+this should generate inside `${MYWORKDIR}/build` the following:
 ```bash
 -rw-r--r--   1 fnrizzi  staff    14K Aug 30 10:41 CMakeCache.txt
 drwxr-xr-x  18 fnrizzi  staff   576B Aug 30 10:42 CMakeFiles
@@ -96,4 +96,27 @@ You can then run the tests to see if things are working as follows:
 ```bash
 cd ${MYWORKDIR}/build
 ctest
+```
+which should display (if tests pass) the following:
+```bash
+      Start  1: fomInnerDomainKokkos1
+ 1/10 Test  #1: fomInnerDomainKokkos1 .............   Passed    0.66 sec
+      Start  2: fomInnerDomainKokkos2
+ 2/10 Test  #2: fomInnerDomainKokkos2 .............   Passed    0.60 sec
+      Start  3: fomNearSurfaceKokkos1
+ 3/10 Test  #3: fomNearSurfaceKokkos1 .............   Passed    0.67 sec
+      Start  4: fomNearSurfaceKokkos2
+ 4/10 Test  #4: fomNearSurfaceKokkos2 .............   Passed    0.63 sec
+      Start  5: fomNearCmbKokkos1
+ 5/10 Test  #5: fomNearCmbKokkos1 .................   Passed    0.91 sec
+      Start  6: fomNearCmbKokkos2
+ 6/10 Test  #6: fomNearCmbKokkos2 .................   Passed    0.80 sec
+      Start  7: fomSymmetryAxisThetaZeroKokkos1
+ 7/10 Test  #7: fomSymmetryAxisThetaZeroKokkos1 ...   Passed    1.14 sec
+      Start  8: fomSymmetryAxisThetaZeroKokkos2
+ 8/10 Test  #8: fomSymmetryAxisThetaZeroKokkos2 ...   Passed    1.09 sec
+      Start  9: fomSymmetryAxisThetaPiKokkos1
+ 9/10 Test  #9: fomSymmetryAxisThetaPiKokkos1 .....   Passed    1.17 sec
+      Start 10: fomSymmetryAxisThetaPiKokkos2
+10/10 Test #10: fomSymmetryAxisThetaPiKokkos2 .....   Passed    1.08 sec
 ```
