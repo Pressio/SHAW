@@ -1,6 +1,6 @@
 
 # Scope
-This repository contains a C++ code for simulating elastic seismic shear waves in an axisymmetric domain.
+This repository contains code for simulating elastic seismic shear waves in an axisymmetric domain.
 The implementation uses Kokkos and Kokkos-kernels to enable performance portability,
 and we provide capabilities to run both the full order model (FOM)
 as well as the Galerkin reduced order model (ROM).
