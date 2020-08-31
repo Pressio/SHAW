@@ -34,7 +34,7 @@ To generate the mesh files proceed as follows:
 cd ${ESWSRCDIR}/meshing
 python create_single_mesh.py -nr 200 -nth 1000 -working-dir ${MYRUNDIR}
 ```
-This should generate a directory `$MYRUNDIR}/mesh200x1000`
+This should generate a directory `${MYRUNDIR}/mesh200x1000`
 containing the following files;
 ```bash
 -rw-r--r--  1 fnrizzi  staff   4.5M Aug 30 12:20 coeff_vp.dat
@@ -45,7 +45,7 @@ containing the following files;
 
 ## Create input file
 Inputs for the code are based on yaml.
-For the purpose of this guide, you can do as follows:
+For the purpose of this guide, you can start from doing:
 ```bash
 cp ${ESWSRCDIR}/tutorialRunFiles/input.yaml ${MYRUNDIR}
 ```
@@ -57,8 +57,7 @@ The input file is organized into sections:
 
 
 ## Run the FOM
-After creating the input file, we can now link the FOM executable and run.
-You can proceed as follows:
+After creating the input file, we can now link the FOM executable and run:
 ```bash
 cd ${MYRUNDIR}
 ln -s ${MYWORKDIR}/build/shwave_fom .
@@ -74,9 +73,8 @@ snaps_sp_0    : snapshot matrix for the stresses
 ```
 
 ## Post-process data
-After the run is finished, we can post-process the data.
-
-Copy the processing scripts to the destination:
+To post-process the data, we already created ad-hoc Python scripts for visualizing
+the results of this run. Copy the scripts to the destination:
 ```bash
 cp ${ESWSRCDIR}/tutorialRunFiles/*.py ${MYRUNDIR}
 ```
