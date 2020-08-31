@@ -27,13 +27,6 @@ mkdir tpls && cd tpls
 cp ${ESWSRCDIR}/bash/build_openblas.sh .
 bash build_openblas.sh
 ```
-and then define:
-```bash
-export BLAS_ROOT=${MYWORKDIR}/tpls/openblas/install
-export BLASLIBNAME=openblas
-export LAPACK_ROOT=${MYWORKDIR}/tpls/openblas/install
-export LAPACKLIBNAME=openblas
-```
 this should build and install OpenBLAS such that
 inside `$MYWORKDIR}/tpls/openblas/install/lib` you should see something as:
 ```bash
@@ -43,6 +36,13 @@ lrwxr-xr-x  1 fnrizzi  staff    34B Aug 30 09:40 libopenblas.0.dylib
 lrwxr-xr-x  1 fnrizzi  staff    30B Aug 30 09:40 libopenblas.a
 lrwxr-xr-x  1 fnrizzi  staff    34B Aug 30 09:40 libopenblas.dylib
 drwxr-xr-x  3 fnrizzi  staff    96B Aug 30 09:40 pkgconfig
+```
+and then set:
+```bash
+export BLAS_ROOT=${MYWORKDIR}/tpls/openblas/install
+export BLASLIBNAME=openblas
+export LAPACK_ROOT=${MYWORKDIR}/tpls/openblas/install
+export LAPACKLIBNAME=openblas
 ```
 **Note**: if you already have BLAS/LAPACK installed, you can skip
 the build step above and directly set the needed env vars to
