@@ -44,8 +44,9 @@ export BLASLIBNAME=openblas
 export LAPACK_ROOT=${MYWORKDIR}/tpls/openblas/install
 export LAPACKLIBNAME=openblas
 ```
-**Note**: if you already have BLAS/LAPACK installed, you can skip
-the build step above and directly set the needed env vars to
+**Note**: here, we use openblas for simplicity but if you already
+have BLAS/LAPACK installed, you can skip the build step above
+and directly set the needed env vars to
 point to your BLAS/LAPACK installation.
 
 
