@@ -60,7 +60,7 @@ ln -s ${MYWORKDIR}/build/computeThinSVD .
 This will take about two minutes because currently the SVD
 is not done very efficiently. The efficiency of this will be improved in a future version.
 This SVD step should generate inside `${MYRUNDIR}` the following files:
-```bash
+```
 lsv_vp    : left singular vectors for the velocity
 sva_vp    : singular values for the velocity
 lsv_sp    : left singular vectors for the stresses
@@ -87,7 +87,7 @@ we need 191 modes, while for the stresses we need 180 modes.
 These values have already been set inside the `rom_input.yaml`.
 Of course, you can play with different energies and set the modes in the `rom_input.yaml`.
 So we can now run the ROM by doing:
-```bash
+```
 cd ${MYRUNDIR}
 cp ${ESWSRCDIR}/tutorialRunFiles/rank1_rom_run/rom_input.yaml ${MYRUNDIR}
 ln -s ${MYWORKDIR}/build/shwave_rom .
