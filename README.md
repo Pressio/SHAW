@@ -12,7 +12,8 @@ You can find more details about the FOM and ROM in that paper.
 To build and use the code, you need to have CMake>=3.11.0,
 C, C++, Fortran compilers, as well as Python>3.6 with at least
 the following packages: matplotlib, numpy, scipy, yaml.
-The code has been tested with GCC-8.3.1 and GCC-8.4.0.
+The code has been tested on MaxOS Catalina 10.15.5 and RedHat 7.0
+with GCC-8.3.1 and GCC-8.4.0.
 
 # Building
 A [step-by-step guide](./docs/build.md) on how to build/install all
