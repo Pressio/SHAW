@@ -116,8 +116,7 @@ Then we use the ROM results to reconstruct the wavefield at the same time by doi
 cd ${MYRUNDIR}
 ln -s ${MYWORKDIR}/build/reconstructFomState .
 ./reconstructFomState --podmodes=./lsv_vp_0 binary --romsize=191 \
-	--romsnaps=./rom/snaps_vp binary --fsize=1 --outformat=ascii \
-	--timesteps=7200 --samplingfreq=12 --outfileappend=vp
+	--romsnaps=./rom/snaps_vp binary --fsize=1 --outformat=ascii --timesteps=7200 --samplingfreq=12 --outfileappend=vp
 ```
 which should create a file `fomReconstructedState_timestep_7200_vp` with the reconstructed wavefield.
 Make sure that above you use the correct arguments otherwise it will not work!
