@@ -93,7 +93,7 @@ ln -s ${MYWORKDIR}/build/extractStateFromSnaps .
 	--fsize=1 --outformat=ascii --timesteps=4000 6000 8000 --samplingfreq=100 --outfileappend=vp
 python plotWavefield.py
 ```
-which should generate three plot as the following:<br>
+which should generate three plots as follows:<br>
 <img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/fom/wavefield_4000.png" width="33%">
 <img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/fom/wavefield_6000.png" width="33%">
 <img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/fom/wavefield_8000.png" width="33%">

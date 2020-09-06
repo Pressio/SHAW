@@ -127,7 +127,7 @@ Let's then plot the FOM, ROM and error fields:
 cp ${ESWSRCDIR}/tutorialRunFiles/rank1_rom_rom/*.py ${MYRUNDIR}
 python plotWavefield.py
 ```
-which should generate three plot as follows:<br>
+which should generate three plots as follows:<br>
 <img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/rank1_rom_run/wavefield_fom.png" width="33%">
 <img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/rank1_rom_run/wavefield_rom.png" width="33%">
 <img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/rank1_rom_run/wavefield_error.png" width="33%">
