@@ -22,10 +22,10 @@ TPLs needed and the elastic shear wave code.
 # Step-by-step for running a full-order model simulation
 Follow [this guide](./docs/run_fom.md) on how to setup a FOM run.
 
-# Step-by-step for running a rank-1 Galerkin ROM simulation
+# Step-by-step for a rank-1 Galerkin ROM simulation
 Follow [this guide](./docs/run_rom.md) on how to setup a rank-1 Galerkin run.
 
-# Step-by-step for running a rank-2 Galerkin ROM simulation
+# Step-by-step for a rank-2 Galerkin ROM simulation
 Follow [this guide](./docs/run_rom2.md) on how to setup a rank-2 Galerkin
 run to efficiently generate samples of the forcing period.
 
