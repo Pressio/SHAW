@@ -2,7 +2,6 @@
 # Creating and running a full case
 Here we describe how to create and run a full-order model simulation.
 
-
 ## Preparing the env
 Set the following env variables:
 ```bash
@@ -13,7 +12,7 @@ mkdir ${MYRUNDIR}
 ```
 Here we assume you already ran the [step-by-step guide](./docs/build.md)
 to build the code and used `MYWORKDIR` as the working directory for that procedure,
-so that `MYWORKDIR/build` contains all the executables.
+so that `${MYWORKDIR}/build` contains all the executables.
 
 
 ## Generating the mesh
@@ -34,8 +33,7 @@ To generate the mesh files proceed as follows:
 cd ${ESWSRCDIR}/meshing
 python create_single_mesh.py -nr 200 -nth 1000 -working-dir ${MYRUNDIR}
 ```
-This should generate a directory `${MYRUNDIR}/mesh200x1000`
-containing the following files;
+This should generate a directory `${MYRUNDIR}/mesh200x1000` containing:
 ```bash
 -rw-r--r--  1 fnrizzi  staff   4.5M Aug 30 12:20 coeff_vp.dat
 -rw-r--r--  1 fnrizzi  staff    28M Aug 30 12:20 graph_sp.dat
@@ -47,7 +45,7 @@ containing the following files;
 Inputs for the code are based on yaml.
 For the purpose of this guide, you can start from doing:
 ```bash
-cp ${ESWSRCDIR}/tutorialRunFiles/input.yaml ${MYRUNDIR}
+cp ${ESWSRCDIR}/tutorialRunFiles/fom_run/input.yaml ${MYRUNDIR}
 ```
 The input file is organized into sections:
 - *general*: contains general inputs, e.g., where the mesh is, time stepping, etc;
@@ -76,7 +74,7 @@ snaps_sp_0    : snapshot matrix for the stresses
 To post-process the data, we already created ad-hoc Python scripts for visualizing
 the results of this run. Copy the scripts to the destination:
 ```bash
-cp ${ESWSRCDIR}/tutorialRunFiles/*.py ${MYRUNDIR}
+cp ${ESWSRCDIR}/tutorialRunFiles/fom_run/*.py ${MYRUNDIR}
 ```
 
 First, we visualize the seismogram data by doing:
@@ -96,6 +94,6 @@ ln -s ${MYWORKDIR}/build/extractStateFromSnaps .
 python plotWavefield.py
 ```
 which should generate three plot as the following:<br>
-<img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield_4000.png" width="33%">
-<img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield_6000.png" width="33%">
-<img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/wavefield_8000.png" width="33%">
+<img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/fom/wavefield_4000.png" width="33%">
+<img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/fom/wavefield_6000.png" width="33%">
+<img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/fom/wavefield_8000.png" width="33%">

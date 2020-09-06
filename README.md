@@ -18,11 +18,15 @@ The code has been tested with GCC-8.3.1 and GCC-8.4.0.
 A [step-by-step guide](./docs/build.md) on how to build/install all
 TPLs needed and the elastic shear wave code.
 
-# Creating and running a full-order model simulation
-A [step-by-step guide](./docs/run.md) on how to setup a FOM run.
+# Step-by-step for running a full-order model simulation
+Follow [this guide](./docs/run_fom.md) on how to setup a FOM run.
 
-# Creating and running a Galerkin ROM simulation
-Coming soon.
+# Step-by-step for running a rank-1 Galerkin ROM simulation
+Follow [this guide](./docs/run_rom.md) on how to setup a rank-1 Galerkin run.
+
+# Step-by-step for running a rank-2 Galerkin ROM simulation
+Follow [this guide](./docs/run_rom2.md) on how to setup a rank-2 Galerkin
+run to efficiently generate samples of the forcing period.
 
 # Content
 - [bash script driving the build](./do_build.sh)
