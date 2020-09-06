@@ -10,7 +10,7 @@ Set the following env variables:
 ```bash
 export ESWSRCDIR=<path-to-the-code-repository>
 export MYWORKDIR=<the-same-work-directory-used-for-building-process>
-export MYRUNDIR=${MYWORKDIR}/myFirstRun
+export MYRUNDIR=${MYWORKDIR}/myRank1RomRun
 mkdir ${MYRUNDIR}
 ```
 Here we assume you already ran the [step-by-step guide](./docs/build.md)
