@@ -27,7 +27,7 @@ Follow [this guide](./docs/run_rom.md) for an example to run a rank-1 Galerkin r
 
 # Step-by-step for a rank-2 Galerkin ROM simulation
 Follow [this guide](./docs/run_rom2.md) for an example to run a rank-2 Galerkin
-run to efficiently generate samples of the forcing period.
+to efficiently generate samples of the forcing period.
 
 # Content
 - [bash script driving the build](./do_build.sh)
