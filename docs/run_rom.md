@@ -95,7 +95,7 @@ OMP_NUM_THREADS=4; OMP_PLACES=cores; OMP_PROC_BIND=true; ./shwave_rom rom_input.
 mkdir ./rom; mv snaps_* rom
 ```
 This should generate inside `${MYRUNDIR}/rom` the following files:
-```bash
+```
 snaps_vp_0    : snapshot matrix for the velocity generalized coordinates
 snaps_sp_0    : snapshot matrix for the stresses generalized coordinates
 ```
