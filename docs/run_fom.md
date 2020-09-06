@@ -62,7 +62,7 @@ ln -s ${MYWORKDIR}/build/shwave_fom .
 OMP_NUM_THREADS=4; OMP_PLACES=threads; OMP_PROC_BIND=spread; ./shwave_fom input.yaml
 ```
 This should generate inside `${MYRUNDIR}` the following files:
-```bash
+```
 coords_sp.txt : coordinates of the velocity grid points
 coords_vp.txt : coordinates of the stresses grid points
 seismogram_0  : seismogram at the receiver locations set in input.yaml

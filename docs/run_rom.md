@@ -42,7 +42,7 @@ OMP_NUM_THREADS=4; OMP_PLACES=threads; OMP_PROC_BIND=spread; ./shwave_fom input.
 mkdir ./fom; mv coords_* seismogram_* snaps_* fom
 ```
 This should generate inside `${MYRUNDIR}/fom` the following files:
-```bash
+```
 coords_sp.txt : coordinates of the velocity grid points
 coords_vp.txt : coordinates of the stresses grid points
 seismogram_0  : seismogram at the receiver locations set in fom_input.yaml
