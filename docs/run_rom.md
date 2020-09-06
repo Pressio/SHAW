@@ -3,8 +3,7 @@
 Here we describe how to create and run a rank-1 Galerkin ROM simulation
 in a reproductive scenario.
 Specifically, this is a self-contained demo that shows the full steps:
-first we run the FOM at training points, compute the POD basis,
-then use the basis to execute the ROM.
+first we run the FOM, compute the POD basis, then use the basis to execute the ROM.
 
 ## Preparing the env
 Set the following env variables:
