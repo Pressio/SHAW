@@ -32,18 +32,11 @@ This should generate a directory `${MYRUNDIR}/mesh200x1000` containing:
 -rw-r--r--  1 fnrizzi  staff   231B Aug 30 12:20 mesh_info.dat
 ```
 
-## Create input file
-Inputs for the code are based on yaml.
-For the purpose of this guide, you can start from doing:
-```bash
-cp ${ESWSRCDIR}/tutorialRunFiles/rank1_rom_run/fom_input.yaml ${MYRUNDIR}
-cp ${ESWSRCDIR}/tutorialRunFiles/rank1_rom_run/rom_input.yaml ${MYRUNDIR}
-```
-
 ## Run the FOM
 After creating the input file, we can now link the FOM executable and run:
 ```bash
 cd ${MYRUNDIR}
+cp ${ESWSRCDIR}/tutorialRunFiles/rank1_rom_run/fom_input.yaml ${MYRUNDIR}
 ln -s ${MYWORKDIR}/build/shwave_fom .
 OMP_NUM_THREADS=4; OMP_PLACES=threads; OMP_PROC_BIND=spread; ./shwave_fom input.yaml
 mkdir ./fom; mv coords_* seismogram_* snaps_* fom
@@ -90,12 +83,13 @@ Nvp: 191 Nsp: 180
 ```
 where it says that to cover 99.9999999 % of the energy for the velocity
 we need 191 modes, while for the stresses we need 180 modes.
-Of course, you can play with different energies and set the modes in the `rom_input.yaml`.
 
 These values have already been set inside the `rom_input.yaml`.
-So we can now run the rom as:
+Of course, you can play with different energies and set the modes in the `rom_input.yaml`.
+So we can now run the ROM by doing:
 ```bash
 cd ${MYRUNDIR}
+cp ${ESWSRCDIR}/tutorialRunFiles/rank1_rom_run/rom_input.yaml ${MYRUNDIR}
 ln -s ${MYWORKDIR}/build/shwave_rom .
 OMP_NUM_THREADS=4; OMP_PLACES=cores; OMP_PROC_BIND=true; ./shwave_rom rom_input.yaml
 mkdir ./rom; mv snaps_* rom
