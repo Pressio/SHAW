@@ -68,8 +68,8 @@ sva_sp    : singular values for the stresses
 ```
 
 ## Run the ROM
-Before running the ROM, we need to figure out the number of modes to use.
-To this end, we use the cumulative energy of the singular values computed above
+Before running the ROM, we need to set the number of modes to use.
+To this end, we use the cumulative energy of the singular values computed via SVD above.
 We proceed as follows:
 ```bash
 cd ${MYRUNDIR}
