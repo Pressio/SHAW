@@ -83,7 +83,7 @@ cd ${MYRUNDIR}
 python plotSeismogram.py
 ```
 which should generate a plot like this:
-![image](https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/seismogram.png)
+![image](https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/fom_run/seismogram.png)
 
 Second, we can visualize the full wavefield at three times, `t=1000, 1500, 2000` (seconds) as follows:
 ```bash
@@ -94,6 +94,6 @@ ln -s ${MYWORKDIR}/build/extractStateFromSnaps .
 python plotWavefield.py
 ```
 which should generate three plots as follows:<br>
-<img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/fom/wavefield_4000.png" width="33%">
-<img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/fom/wavefield_6000.png" width="33%">
-<img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/fom/wavefield_8000.png" width="33%">
+<img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/fom_run/wavefield_4000.png" width="33%">
+<img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/fom_run/wavefield_6000.png" width="33%">
+<img src="https://github.com/fnrizzi/ElasticShearWaves/blob/master/tutorialRunFiles/fom_run/wavefield_8000.png" width="33%">
