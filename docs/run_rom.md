@@ -142,7 +142,8 @@ which should print:
  vp_err_abs_rel_linf_norms = 9.36860518631533e-10 0.003989553976275272
 ```
 where the second to the last line shows `vp_err_abs_rel_ltwo_norms` reporting
-the absolute and relative L2 error, indicating an excellent 0.3% relative error.
+the absolute (1.2584414985364181e-08) and relative (0.0029526114722209086) L2 error.
+The result indicates an excellent relative error of about 0.3%.
 
 Let's then plot the FOM, ROM and error fields:
 ```bash
