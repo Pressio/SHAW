@@ -38,7 +38,7 @@ After creating the input file, we can now link the FOM executable and run:
 cd ${MYRUNDIR}
 cp ${ESWSRCDIR}/tutorialRunFiles/rank1_rom_run/fom_input.yaml ${MYRUNDIR}
 ln -s ${MYWORKDIR}/build/shwave_fom .
-OMP_NUM_THREADS=4; OMP_PLACES=threads; OMP_PROC_BIND=spread; ./shwave_fom input.yaml
+OMP_NUM_THREADS=4 OMP_PLACES=threads OMP_PROC_BIND=spread ./shwave_fom fom_input.yaml
 mkdir ./fom; mv coords_* seismogram_* snaps_* fom
 ```
 This should generate inside `${MYRUNDIR}/fom` the following files:
@@ -57,8 +57,10 @@ cd ${MYRUNDIR}
 ln -s ${MYWORKDIR}/build/computeThinSVD .
 ./computeThinSVD ./fom 1 0
 ```
-This will take about two minutes because currently the SVD
-is not done very efficiently. The efficiency of this will be improved in a future version.
+This will take a couple minutes because currently the SVD
+is not done very efficiently. The current version of the SVD focuses on accuracy.
+The efficiency of this will be improved in a future version, but since this
+step is orthogonal to the rest, one can easily swap it with something else.
 This SVD step should generate inside `${MYRUNDIR}` the following files:
 ```
 lsv_vp    : left singular vectors for the velocity
@@ -84,17 +86,19 @@ Nvp: 191 Nsp: 180
 where it says that to cover 99.9999999 % of the energy for the velocity
 we need 191 modes, while for the stresses we need 180 modes.
 
-These values have already been set inside the `rom_input.yaml`.
-Of course, you can play with different energies and set the modes in the `rom_input.yaml`.
-So we can now run the ROM by doing:
+These values for the number of modes have already been set inside the `rom_input.yaml`.
+Of course, you can play with different energies and change
+the modes in the `rom_input.yaml` accordingly.
+We can now run the ROM by doing:
 ```
 cd ${MYRUNDIR}
 cp ${ESWSRCDIR}/tutorialRunFiles/rank1_rom_run/rom_input.yaml ${MYRUNDIR}
 ln -s ${MYWORKDIR}/build/shwave_rom .
-OMP_NUM_THREADS=4; OMP_PLACES=cores; OMP_PROC_BIND=true; ./shwave_rom rom_input.yaml
+OMP_NUM_THREADS=4 OMP_PLACES=cores OMP_PROC_BIND=true ./shwave_rom rom_input.yaml
 mkdir ./rom; mv snaps_* rom
 ```
-This should generate inside `${MYRUNDIR}/rom` the following files:
+This should be a quite fast run, about a couple seconds total,
+and should create inside `${MYRUNDIR}/rom` the following files:
 ```
 snaps_vp_0    : snapshot matrix for the velocity generalized coordinates
 snaps_sp_0    : snapshot matrix for the stresses generalized coordinates
@@ -115,12 +119,30 @@ Then we use the ROM results to reconstruct the wavefield at the same time by doi
 ```bash
 cd ${MYRUNDIR}
 ln -s ${MYWORKDIR}/build/reconstructFomState .
-./reconstructFomState --podmodes=./lsv_vp_0 binary --romsize=191 \
-	--romsnaps=./rom/snaps_vp binary --fsize=1 --outformat=ascii --timesteps=7200 --samplingfreq=12 --outfileappend=vp
+./reconstructFomState --podmodes=./lsv_vp binary --romsize=191 \
+	--romsnaps=./rom/snaps_vp_0 binary --fsize=1 --outformat=ascii \
+	--timesteps=7200 --samplingfreq=12 --outfileappend=vp
 ```
 which should create `fomReconstructedState_timestep_7200_vp` with the reconstructed wavefield.
 Make sure that above you use the correct arguments otherwise it will not work!
 For example, if you change the number of modes you need to ensure you pass the correct arg.
+
+Let's now compute the error between the FOM and the ROM-reconstructed wavefield as:
+```bash
+cp $ESWSRCDIR/python_scripts/compute_state_error.py .
+python compute_state_error.py -dof-name vp \
+	-fom-state ${PWD}/state_timestep_7200_vp -approx-state ${PWD}/fomReconstructedState_timestep_7200_vp
+```
+which should print:
+```
+ vp_fom_minmax    = -2.3482838537911068e-07 2.1150382886843842e-07
+ vp_approx_minmax = -2.3482604603492044e-07 2.1151956606326872e-07
+ vp_err_minmax    = -3.3787625883888276e-10 9.36860518631533e-10
+ vp_err_abs_rel_ltwo_norms = 1.2584414985364181e-08 0.0029526114722209086
+ vp_err_abs_rel_linf_norms = 9.36860518631533e-10 0.003989553976275272
+```
+where the second to the last line shows `vp_err_abs_rel_ltwo_norms` reporting
+the absolute and relative L2 error, indicating an excellent 0.3% relative error.
 
 Let's then plot the FOM, ROM and error fields:
 ```bash

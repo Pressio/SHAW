@@ -16,7 +16,7 @@ The code has been tested on MaxOS Catalina 10.15.5 and RedHat 7.0
 with GCC-8.3.1 and GCC-8.4.0.
 
 # Building
-A [step-by-step guide](./docs/build.md) on how to build/install all
+A [step-by-step guide](./docs/build.md) on how to build/install the
 TPLs needed and the elastic shear wave code.
 
 # Step-by-step for running a full-order model simulation

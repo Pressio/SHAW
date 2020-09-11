@@ -1,7 +1,7 @@
 
 # Step-by-step building process
-Here is a step-by-step guide on how to build/install all
-TPLs needed and the code.
+Here is a step-by-step guide on how to build/install
+the TPLs needed and the actual code.
 
 ## Step 1: set basic environment
 To simplify the process, define the following env variables:
@@ -16,7 +16,8 @@ and execute:
 ```bash
 mkdir -p ${MYWORKDIR}
 ```
-The following has been tested with GCC-8.3.1 and GCC-8.4.0.
+The following has been tested with CMake>=3.11.0, and
+GCC-8.3.1 and GCC-8.4.0.
 
 ## Step 2: BLAS/LAPACK
 Here we build and install BLAS and LAPACK.
@@ -62,10 +63,11 @@ bash build_kokkos_and_kernels.sh
 ```
 **Remarks**:
 * the above process builds Kokkos/Kokkos-kernels *without* any arch-specific
-optimization, since this is meant to work on any system. However, if you want to
-have arch-specific optimizations (and you should), you need to change the arch flag
-passed to Kokkos (see inside `build_kokkos_and_kernels.sh`) and rebuild;
-* for  now, we only enable the OpenMP backend;
+optimization, since this is meant to work on any system.
+If you want to enable arch-specific optimizations (and you should),
+you need to change the arch flag passed to Kokkos (see inside `build_kokkos_and_kernels.sh`)
+and rebuild it;
+* for now, we only enable the OpenMP backend;
 * if you already have Kokkos/Kokkos-kernels installed, you can skip the build step
 above and directly set the needed env vars to point to your installation.
 
@@ -73,7 +75,7 @@ above and directly set the needed env vars to point to your installation.
 ## Step 4: Build the Elastic Shear Wave executables
 Proceed as follows:
 ```bash
-cd $ESWSRCDIR}
+cd ${ESWSRCDIR}
 ./do_build.sh --working-dir=${MYWORKDIR} --kokkos-pfx=${KOKKOSPFX} --kokkos-ker-pfx=${KOKKOSKERPFX} --omp=yes
 ```
 this should generate inside `${MYWORKDIR}/build` the following:

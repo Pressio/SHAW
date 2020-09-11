@@ -59,7 +59,7 @@ After creating the input file, we can now link the FOM executable and run:
 ```bash
 cd ${MYRUNDIR}
 ln -s ${MYWORKDIR}/build/shwave_fom .
-OMP_NUM_THREADS=4; OMP_PLACES=threads; OMP_PROC_BIND=spread; ./shwave_fom input.yaml
+OMP_NUM_THREADS=4 OMP_PLACES=threads OMP_PROC_BIND=spread ./shwave_fom input.yaml
 ```
 This should generate inside `${MYRUNDIR}` the following files:
 ```
