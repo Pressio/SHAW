@@ -28,7 +28,7 @@ cp ${ESWSRCDIR}/bash/build_openblas.sh .
 bash build_openblas.sh
 ```
 this should build and install OpenBLAS such that
-inside `$MYWORKDIR}/tpls/openblas/install/lib` you should see something as:
+inside `${MYWORKDIR}/tpls/openblas/install/lib` you should see something as:
 ```bash
 total 78328
 drwxr-xr-x  3 fnrizzi  staff    96B Aug 30 09:40 cmake
