@@ -6,7 +6,7 @@ and we provide capabilities to run both the full order model (FOM)
 as well as the Galerkin reduced order model (ROM).
 
 Specifically, this code has been developed mainly for the following paper: pending review.
-(We will add a link as soon as we get the paper back).
+(We will add a link as soon as we get the paper back or we post it on arXiv).
 
 # Prerequisites
 To build and use the code, you need to have CMake>=3.11.0,
@@ -25,9 +25,10 @@ Follow [this guide](./docs/run_fom.md) for an example to run a FOM run.
 # Step-by-step for a rank-1 Galerkin ROM simulation
 Follow [this guide](./docs/run_rom.md) for an example to run a rank-1 Galerkin run.
 
+<!--
 # Step-by-step for a rank-2 Galerkin ROM simulation
 Coming soon.
-<!--Follow [this guide](./docs/run_rom2.md) for an example to run a rank-2 Galerkin
+Follow [this guide](./docs/run_rom2.md) for an example to run a rank-2 Galerkin
 to efficiently generate samples of the forcing period. -->
 
 # Content
