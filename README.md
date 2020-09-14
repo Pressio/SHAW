@@ -25,9 +25,9 @@ Follow [this guide](./docs/run_fom.md) for an example to run a FOM run.
 # Step-by-step for a rank-1 Galerkin ROM simulation
 Follow [this guide](./docs/run_rom.md) for an example to run a rank-1 Galerkin run.
 
-<!--
 # Step-by-step for a rank-2 Galerkin ROM simulation
 Coming soon.
+<!--
 Follow [this guide](./docs/run_rom2.md) for an example to run a rank-2 Galerkin
 to efficiently generate samples of the forcing period. -->
 
