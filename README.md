@@ -5,7 +5,7 @@ The implementation uses Kokkos and Kokkos-kernels to enable performance portabil
 and we provide capabilities to run both the full order model (FOM)
 as well as the Galerkin reduced order model (ROM).
 
-Specifically, this code has been developed mainly for the following paper: pending review.
+Specifically, this code has been developed mainly for a paper submitted on 11th Sept. 2020 to SISC which is under review.
 (We will add a link as soon as we get the paper back or we post it on arXiv).
 
 # Prerequisites
