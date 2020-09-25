@@ -6,7 +6,7 @@ and we provide capabilities to run both the full order model (FOM)
 as well as the Galerkin reduced order model (ROM).
 
 Specifically, this code has been developed mainly for a paper submitted on 11th Sept. 2020 to SISC which is under review.
-(We will add a link as soon as we get the paper back or we post it on arXiv).
+The arXiv preprint can be found at: https://arxiv.org/abs/2009.11742
 
 # Prerequisites
 To build and use the code, you need to have CMake>=3.11.0,
