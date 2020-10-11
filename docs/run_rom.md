@@ -147,7 +147,7 @@ The result indicates an excellent relative error of about 0.3%.
 
 Let's then plot the FOM, ROM and error fields:
 ```bash
-cp ${ESWSRCDIR}/tutorialRunFiles/rank1_rom_rom/*.py ${MYRUNDIR}
+cp ${ESWSRCDIR}/tutorialRunFiles/rank1_rom_run/*.py ${MYRUNDIR}
 python plotWavefield.py
 ```
 which should generate three plots as follows:<br>

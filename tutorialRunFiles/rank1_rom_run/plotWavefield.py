@@ -62,16 +62,17 @@ def doPlot(th, r, z, figID, bd, outName, title):
 if __name__== "__main__":
 ###############################
   nr, nth = 200, 1000
-  cc = np.loadtxt("./coords_vp.txt")
+  cc = np.loadtxt("./fom/coords_vp.txt")
   th, r = -cc[:,0]+np.pi/2., cc[:, 1]/1000. #m to km
   th, r = th.reshape((nr,nth)), r.reshape((nr,nth))
 
-  fomFile = './state_timestep_4000_vp'
+  fomFile = './state_timestep_7200_vp'
   fomState = np.loadtxt(fomFile, skiprows=1)
-  doPlot(th, r, fomState.reshape((nr, nth)), 0,[-5e-9, 5e-9], "wavefield_4000.png", title="t=1000 (s)")
-  fomFile = './state_timestep_6000_vp'
-  fomState = np.loadtxt(fomFile, skiprows=1)
-  doPlot(th, r, fomState.reshape((nr, nth)), 0,[-5e-9, 5e-9], "wavefield_6000.png", title="t=1500 (s)")
-  fomFile = './state_timestep_8000_vp'
-  fomState = np.loadtxt(fomFile, skiprows=1)
-  doPlot(th, r, fomState.reshape((nr, nth)), 0,[-5e-9, 5e-9], "wavefield_8000.png", title="t=2000 (s)")
+  doPlot(th, r, fomState.reshape((nr, nth)), 0,[-5e-9, 5e-9], "wavefield_fom.png", title="FOM")
+
+  romFile = './fomReconstructedState_timestep_7200_vp'
+  romState = np.loadtxt(romFile, skiprows=1)
+  doPlot(th, r, romState.reshape((nr, nth)), 0,[-5e-9, 5e-9], "wavefield_rom.png", title="ROM approximation")
+
+  error = fomState-romState
+  doPlot(th, r, error.reshape((nr, nth)), 0,[-5e-9, 5e-9], "wavefield_error.png", title="Error")
