@@ -90,7 +90,7 @@ These values for the number of modes have already been set inside the `rom_input
 Of course, you can play with different energies and change
 the modes in the `rom_input.yaml` accordingly.
 We can now run the ROM by doing:
-```
+```bash
 cd ${MYRUNDIR}
 cp ${ESWSRCDIR}/tutorialRunFiles/rank1_rom_run/rom_input.yaml ${MYRUNDIR}
 ln -s ${MYWORKDIR}/build/shwave_rom .
