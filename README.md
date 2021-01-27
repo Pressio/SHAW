@@ -1,5 +1,4 @@
-
-# Scope
+<!-- # Scope
 This repository contains code for simulating elastic seismic shear waves in an axisymmetric domain.
 The implementation uses Kokkos and Kokkos-kernels to enable performance portability,
 and we provide capabilities to run both the full order model (FOM)
@@ -27,12 +26,12 @@ Follow [this guide](./docs/run_rom.md) for an example to run a rank-1 Galerkin r
 
 # Step-by-step for a rank-2 Galerkin ROM simulation
 Coming soon.
-<!--
 Follow [this guide](./docs/run_rom2.md) for an example to run a rank-2 Galerkin
-to efficiently generate samples of the forcing period. -->
-
-# Content
+to efficiently generate samples of the forcing period. 
+ -->
+<!-- # Content
 - [bash script driving the build](./do_build.sh)
 - [C++ source code and tests](./cpp)
 - [meshing](./meshing)
 - [Python scripts for processing and workflows](./python_scripts)
+ -->
