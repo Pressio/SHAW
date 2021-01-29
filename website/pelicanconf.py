@@ -79,7 +79,11 @@ AUTHOR_FEED_RSS = None
 #                      ("License", 'various/license/', 'various/license')])]
 
 M_LINKS_NAVBAR1 = [('Get Started', '', '',
-                     [("Equations and discretization", 'getstarted/goveq', 'getstarted/goveq')]),
+                    [
+                      ("Equations and discretization", 'getstarted/goveq', 'getstarted/goveq'),
+                      ("Host Serial Kokkos Build", 'getstarted/build_kokkos_host_serial', 'getstarted/build_kokkos_host_serial'),
+                      ("Host OpenMP Kokkos Build", 'getstarted/build_kokkos_host_omp', 'getstarted/build_kokkos_host_omp')
+                    ]),
                    ('Various', '', '', [("License", 'various/license/', 'various/license')])]
 M_LINKS_NAVBAR2 = []
 M_LINKS_FOOTER1 = []

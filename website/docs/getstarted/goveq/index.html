@@ -12,8 +12,8 @@
   <meta property="og:title" content="Governing Equations and Discretization" />
   <meta name="twitter:title" content="Governing Equations and Discretization" />
   <meta property="og:url" content="/getstarted/goveq/" />
-  <meta property="og:description" content="Design Idea" />
-  <meta name="twitter:description" content="Design Idea" />
+  <meta property="og:description" content="Equations and Discretization" />
+  <meta name="twitter:description" content="Equations and Discretization" />
   <meta name="twitter:card" content="summary" />
   <meta property="og:type" content="page" />
 </head>
@@ -31,6 +31,8 @@
               <a href="/">Get Started</a>
               <ol>
                 <li><a href="/getstarted/goveq" id="m-navbar-current">Equations and discretization</a></li>
+                <li><a href="/getstarted/build_kokkos_host_serial">Host Serial Kokkos Build</a></li>
+                <li><a href="/getstarted/build_kokkos_host_omp">Host OpenMP Kokkos Build</a></li>
               </ol>
             </li>
             <li>
@@ -58,10 +60,10 @@
         </h1>
 <!-- content -->
 <div>
-<p>We focus on simulating the axisymmetric evolution of elastic seismic shear waves.</p>
+<p><em>The objective is to model the axisymmetric evolution of elastic seismic shear waves.</em></p>
 <p>First, we set the notation.
-Assuming the Earth can be approximated as a sphere, the following figure shows
-our notation of the spherical coordinate system.</p>
+Assuming the Earth (or another target planet) can be approximated as a sphere, the following
+figure shows our notation of the spherical coordinate system.</p>
 <figure class="m-figure">
 <img src="/static/img/sc.svg" style="width: 300px" />
 </figure>
@@ -87,7 +89,8 @@ This means that all the derivatives with respect to <svg class="m-math m-default
 <use x='0' y='0' xlink:href='#eq2-g0-30'/>
 </g>
 </svg> can be dropped.</p>
-<p>With such assumption, the set of equations governing the time evolution of elastic waves in the velocity-stress formulation can be written as:</p>
+<p>With this assumption, the set of equations governing the time evolution
+of elastic waves in the velocity-stress formulation can be written as:</p>
 <div class="m-math">
 <svg style="width: 46.912em; height: 2.562em;" viewBox="0 -24.590612 450.359967 24.590612">
 <title>
@@ -619,10 +622,15 @@ v_s
 </g>
 </svg> being the shear wave velocity.</p>
 <p>In practice, the axisymmetric approximation means that one solves the
-above governing equations are solved over a <em>circular sector</em>.
-Such a formulation is referred to as 2.5-dimensional because it involves a 2-dimensional spatial domain (a circular sector of the earth)
+above governing equations over a <em>circular sector</em>.
+Such a formulation is referred to as 2.5-dimensional because it involves
+a 2-dimensional spatial domain (a circular sector of the Earth)
 but models point sources with correct 3-dimensional spreading {cite}.</p>
-<p>Since shear waves cannot propagate in liquids, the system of equations above is not applicable to the core region of the earth. Therefore, we solve them in the region bounded between the core-mantle boundary (CMB) located at <svg class="m-math m-default" style="width: 6.766em; height: 1.045em;" viewBox="0 -7.704442 64.95676 10.029049">
+<p>Shear waves cannot propagate in liquids.
+Therefore, when modeling the Earth, the system of equations above is not
+applicable to the core region of the Earth, and are thus solved
+in the region bounded between the core-mantle boundary (CMB) located
+at <svg class="m-math m-default" style="width: 6.766em; height: 1.045em;" viewBox="0 -7.704442 64.95676 10.029049">
 <title>
 r_{cmb} = 3,480
 </title>
@@ -650,8 +658,8 @@ r_{cmb} = 3,480
 <use x='53.25078' y='0' xlink:href='#eq16-g2-56'/>
 <use x='59.10377' y='0' xlink:href='#eq16-g2-48'/>
 </g>
-</svg> km, and the earth surface
-located at <svg class="m-math m-default" style="width: 7.354em; height: 1.045em;" viewBox="0 -7.704442 70.596789 10.029049">
+</svg> km,
+and the Earth surface located at <svg class="m-math m-default" style="width: 7.354em; height: 1.045em;" viewBox="0 -7.704442 70.596789 10.029049">
 <title>
 r_{earth} = 6,371
 </title>
@@ -684,7 +692,7 @@ r_{earth} = 6,371
 <use x='64.743798' y='0' xlink:href='#eq17-g2-49'/>
 </g>
 </svg> km.</p>
-<p>We discretize the 2D spatial domain using a staggered grid as shown in the figure below.
+<p>The 2D spatial domain is discretized using a staggered grid as shown in the figure below.
 Staggered grids are typical for seismic modeling and wave problems in general.
 We use a second-order centered finite-difference method for the spatial operators.</p>
 <figure class="m-figure">

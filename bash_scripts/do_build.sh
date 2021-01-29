@@ -3,10 +3,10 @@
 set -e
 
 # load global variables
-source ${PWD}/bash/global_vars.sh
+source ${PWD}/global_vars.sh
 
 # parse cline arguments
-source ${PWD}/bash/cmd_line_options.sh
+source ${PWD}/cmd_line_options.sh
 
 # check that all basic variables are set, otherwise leave
 check_minimum_vars_set
@@ -29,11 +29,11 @@ else
 fi
 
 
-# check that blas and lapack are set
-if [[ -z ${BLAS_ROOT} ]]; then
-    echo "error: BLAS_ROOT must be found in the environment, exiting"
-    exit 2
-fi
+# # check that blas and lapack are set
+# if [[ -z ${BLAS_ROOT} ]]; then
+#     echo "error: BLAS_ROOT must be found in the environment, exiting"
+#     exit 2
+# fi
 
 # create working dir if not existing
 [[ ! -d ${WORKINGDIR} ]] && mkdir -p ${WORKINGDIR}
@@ -53,7 +53,7 @@ if [ ! -d ${WORKINGDIR}/tpls/eigen ]; then
 
     mkdir -p ${WORKINGDIR}/tpls/eigen
     cd ${WORKINGDIR}/tpls/eigen
-    cp ${TOPDIR}/tpls/eigen-${EIGENVERSION}.tar.gz .
+    cp ${TOPDIR}/../tpls/eigen-${EIGENVERSION}.tar.gz .
     tar zxf eigen-${EIGENVERSION}.tar.gz
     mv ${EIGENUNPACKEDDIRNAME} eigen
     cd ${WORKINGDIR}

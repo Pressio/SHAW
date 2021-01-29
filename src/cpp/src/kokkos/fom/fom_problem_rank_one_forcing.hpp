@@ -6,12 +6,11 @@
 #include "../shwavepp.hpp"
 #include "../common_types.hpp"
 #include "run_fom.hpp"
-#include "fom_problem_base.hpp"
 
 namespace kokkosapp{
 
-class FomProblemRankOneForcing final
-  : public FomProblemBase, kokkosapp::commonTypes
+class FomProblemRankOneForcing
+  : public kokkosapp::commonTypes
 {
   using kokkosapp::commonTypes::scalar_t;
   using kokkosapp::commonTypes::sc_t;
@@ -21,12 +20,12 @@ class FomProblemRankOneForcing final
   using kokkosapp::commonTypes::kll;
   using kokkosapp::commonTypes::exe_space;
 
-  static constexpr bool usingFullMesh = true;
-  using mesh_info_t	= MeshInfo<sc_t, int_t, usingFullMesh>;
-
   using state_d_t	= Kokkos::View<sc_t*, kll, exe_space>;
   using state_h_t	= typename state_d_t::host_mirror_type;
+
   using jacobian_d_type = KokkosSparse::CrsMatrix<sc_t, int_t, exe_space>;
+
+  using mesh_info_t	= MeshInfo<sc_t, int_t>;
   using fom_t		= ShWavePP<sc_t, int_t, mesh_info_t, jacobian_d_type, exe_space>;
   using forcing_t       = RankOneForcing<sc_t, state_d_t, int_t>;
 
@@ -57,7 +56,7 @@ public:
   {}
 
 public:
-  void execute() final
+  void execute()
   {
     if (parser_.enableSampling())
     {

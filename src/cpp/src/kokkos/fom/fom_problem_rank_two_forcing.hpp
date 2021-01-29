@@ -6,12 +6,11 @@
 #include "../shwavepp.hpp"
 #include "../common_types.hpp"
 #include "run_fom.hpp"
-#include "fom_problem_base.hpp"
 
 namespace kokkosapp{
 
-class FomProblemRankTwoForcing final
-  : public FomProblemBase, kokkosapp::commonTypes
+class FomProblemRankTwoForcing
+  : public kokkosapp::commonTypes
 {
   using kokkosapp::commonTypes::scalar_t;
   using kokkosapp::commonTypes::sc_t;
@@ -59,7 +58,7 @@ public:
   {}
 
 public:
-  void execute() final
+  void execute()
   {
     multiRunSamplingForcingPeriod();
   }

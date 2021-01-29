@@ -34,6 +34,8 @@
               <a href="/">Get Started</a>
               <ol>
                 <li><a href="/getstarted/goveq">Equations and discretization</a></li>
+                <li><a href="/getstarted/build_kokkos_host_serial">Host Serial Kokkos Build</a></li>
+                <li><a href="/getstarted/build_kokkos_host_omp">Host OpenMP Kokkos Build</a></li>
               </ol>
             </li>
             <li>
@@ -90,15 +92,7 @@ C++ code to simulate elastic shear waves in an axi-symmetric domain.</em></p>
 <div class="m-col-l-10 m-push-l-1">
 <p>Highlights:</p>
 <ul>
-<li><p>We use the velocity-shear formulation and the axi-symmetric approximation, thus making the model a so-called 2.5 dimensional model.</p>
-</li>
-<li><p>The code currently supports the following radial material models: a single layer,
-a bilayer model and the Preliminary Reference Earth Model (PREM).
-We remark that these are 1D models in the sense that they only depend on the radial distance.
-Given the modularity of the code, one can easily add other material models.</p>
-</li>
-<li><p>The current implementation relies on Kokkos, but we are planning on porting
-the code to other programming models.
+<li><p>The current implementation relies on Kokkos, but we are porting the code to other programming models.&lt;br/&gt;
 For example, the first porting will be to a distributed memory using, e.g., Tpetra from Trilinos.</p>
 </li>
 <li><p>The code implements what we call “rank-1” and “rank-2” formulations:</p>
@@ -127,6 +121,18 @@ standpoint because it has higher computational intensity.</li>
 </ul>
 </blockquote>
 </li>
+<li><p>We use the velocity-shear formulation in an axi-symmetric domain.</p>
+</li>
+<li><p>The model is so-called 2.5 dimensional model.</p>
+</li>
+<li><p>The code currently supports the following radial material models: a single layer,
+a bilayer model and the Preliminary Reference Earth Model (PREM).
+We remark that these are 1D models in the sense that they only depend on the radial distance.
+Given the modularity of the code, one can easily add other material models.</p>
+</li>
+<li><p>The code can be used to simulate the wave dynamics in another planet:
+this involves creating the grid and adding a suitable material model for that planet.</p>
+</li>
 </ul>
 </div>
 </div>
@@ -135,7 +141,16 @@ standpoint because it has higher computational intensity.</li>
 <p>Where to go from here:</p>
 <ol>
 <li>read about the <a href="/getstarted/goveq/">governing equations, domain and discretization</a></li>
-<li>learn how to build the code</li>
+<li><p>to build the code, you currently have the following options:</p>
+<blockquote>
+<ul>
+<li><a href="/getstarted/build_kokkos_host_serial/">Host serial Kokkos</a>:
+to build the Kokkos version with <em>host serial</em> backend.</li>
+<li><a href="/getstarted/build_kokkos_host_omp/">Host OpenMP Kokkos</a>:
+to build the Kokkos version with <em>host OpenMP</em> backend.</li>
+</ul>
+</blockquote>
+</li>
 <li>learn how to generate the grid for a simulation</li>
 <li>step-by-step guide on running a simulation</li>
 <li>learn about the structure of the input file</li>

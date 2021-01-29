@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8" />
+  <title> &raquo; Host Serial Kokkos Build | ESW</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,600%7CSource+Sans+Pro:400,400i,600,600i&amp;subset=latin-ext" />
+  <link rel="stylesheet" href="/static/m-dark.css" />
+  <link rel="canonical" href="/getstarted/build_kokkos_host_serial/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+  <meta property="og:site_name" content="ESW" />
+  <meta property="og:title" content="Host Serial Kokkos Build" />
+  <meta name="twitter:title" content="Host Serial Kokkos Build" />
+  <meta property="og:url" content="/getstarted/build_kokkos_host_serial/" />
+  <meta property="og:description" content="Host Serial Kokkos" />
+  <meta name="twitter:description" content="Host Serial Kokkos" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:type" content="page" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">ElShWave</a>
+      <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-12 m-col-m-none">
+            <li>
+              <a href="/">Get Started</a>
+              <ol>
+                <li><a href="/getstarted/goveq">Equations and discretization</a></li>
+                <li><a href="/getstarted/build_kokkos_host_serial" id="m-navbar-current">Host Serial Kokkos Build</a></li>
+                <li><a href="/getstarted/build_kokkos_host_omp">Host OpenMP Kokkos Build</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/">Various</a>
+              <ol>
+                <li><a href="/various/license/">License</a></li>
+              </ol>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main>
+<article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          <span class="m-breadcrumb">
+            <a href="{filename}/build_kokkos_host_serial.rst"></a> &raquo;
+          </span>
+          Host Serial Kokkos Build
+        </h1>
+<!-- content -->
+<section id="prerequisites">
+<h2><a href="#prerequisites">1. Prerequisites</a></h2>
+<ul>
+<li>CMake&gt;=3.13.0</li>
+<li>C, C++ (with support for c++14) compilers: we have tested this with GCC 8.3.1 and GCC 8.4.0</li>
+<li>BLAS/LAPACK: if you don’t have them, we provide a script to build them for you</li>
+</ul>
+</section>
+<section id="prep-environment">
+<h2><a href="#prep-environment">2. Prep environment</a></h2>
+<pre class="m-code"><span class="nb">export</span> <span class="nv">CC</span><span class="o">=</span>&lt;path-to-your-C-compiler&gt;
+<span class="nb">export</span> <span class="nv">CXX</span><span class="o">=</span>&lt;path-to-your-C++-compiler&gt;
+
+<span class="nb">export</span> <span class="nv">ESWSRCDIR</span><span class="o">=</span>&lt;path-to-where-you-clone-the-repository&gt;
+
+<span class="nb">export</span> <span class="nv">MYWORKDIR</span><span class="o">=</span>&lt;path-to-where-you-want-to-work-in&gt; <span class="c1">#e.g. ${HOME}/myWaveTest</span>
+mkdir -p <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span></pre>
+</section>
+<section id="blas-lapack">
+<h2><a href="#blas-lapack">3. BLAS/LAPACK</a></h2>
+<section id="a-you-have-and-want-to-use-a-specific-blas-lapack">
+<h3><a href="#a-you-have-and-want-to-use-a-specific-blas-lapack">a. You have and want to use a specific BLAS/LAPACK</a></h3>
+<p>If you want a specific BLAS/LAPACK, set the following and
+see <code>my-reference-label</code>.</p>
+<pre class="m-code"><span class="nb">export</span> <span class="nv">BLAS_ROOT</span><span class="o">=</span>&lt;path-to-blas-install-dir&gt;
+<span class="nb">export</span> <span class="nv">LAPACK_ROOT</span><span class="o">=</span>&lt;path-to-lapack-install-dir&gt;
+<span class="nb">export</span> <span class="nv">BLASLIBNAME</span><span class="o">=</span>&lt;blas-lib-name-without-extension&gt;     <span class="c1">#e.g. openblas</span>
+<span class="nb">export</span> <span class="nv">LAPACKLIBNAME</span><span class="o">=</span>&lt;lapack-lib-name-without-extension&gt; <span class="c1">#e.g. lapack</span></pre>
+</section>
+<section id="b-you-want-to-let-cmake-figure-it-out">
+<h3><a href="#b-you-want-to-let-cmake-figure-it-out">b. You want to let CMake figure it out</a></h3>
+<p>Just unset (to be safe) the following env vars</p>
+<pre class="m-code"><span class="nb">unset</span> BLAS_ROOT
+<span class="nb">unset</span> LAPACK_ROOT
+<span class="nb">unset</span> BLASLIBNAME
+<span class="nb">unset</span> LAPACKLIBNAME</pre>
+</section>
+<section id="c-you-want-to-use-out-script-to-build-openblas">
+<h3><a href="#c-you-want-to-use-out-script-to-build-openblas">c. You want to use out script to build OpenBLAS</a></h3>
+<p>You can install it yourself or you can follow the steps below
+to install OpenBLAS. We chose OpenBLAS for simplicity
+since it contains both BLAS and LAPACK and it is fairly easy to build.</p>
+<pre class="m-code"><span class="nb">export</span> <span class="nv">FC</span><span class="o">=</span>&lt;path-to-your-Fortran-compiler&gt;
+<span class="nb">cd</span> <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>
+mkdir tpls <span class="o">&amp;&amp;</span> <span class="nb">cd</span> tpls
+cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/bash/build_openblas.sh .
+bash build_openblas.sh</pre>
+<p>If this succeeds, inside <code>${MYWORKDIR}/tpls/openblas/install/lib</code>
+you see something as:</p>
+<pre class="m-code">drwxr-xr-x  <span class="m">3</span> fnrizzi  staff    96B Aug <span class="m">30</span> <span class="m">09</span>:40 cmake
+lrwxr-xr-x  <span class="m">1</span> fnrizzi  staff    34B Aug <span class="m">30</span> <span class="m">09</span>:40 libopenblas.0.dylib
+lrwxr-xr-x  <span class="m">1</span> fnrizzi  staff    30B Aug <span class="m">30</span> <span class="m">09</span>:40 libopenblas.a
+lrwxr-xr-x  <span class="m">1</span> fnrizzi  staff    34B Aug <span class="m">30</span> <span class="m">09</span>:40 libopenblas.dylib
+drwxr-xr-x  <span class="m">3</span> fnrizzi  staff    96B Aug <span class="m">30</span> <span class="m">09</span>:40 pkgconfig</pre>
+<p>And then do:</p>
+<pre class="m-code"><span class="nb">export</span> <span class="nv">BLAS_ROOT</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/tpls/openblas/install
+<span class="nb">export</span> <span class="nv">BLASLIBNAME</span><span class="o">=</span>openblas
+<span class="nb">export</span> <span class="nv">LAPACK_ROOT</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/tpls/openblas/install
+<span class="nb">export</span> <span class="nv">LAPACKLIBNAME</span><span class="o">=</span>openblas</pre>
+</section>
+</section>
+<section id="build-kokkos-and-kernels">
+<span id="my-reference-label"></span><h2><a href="#build-kokkos-and-kernels">4: Build Kokkos and Kernels</a></h2>
+<p>Now that we have BLAS/LAPACK built, we build Kokkos core and kernels.
+Proceeds as follows:</p>
+<pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>
+<span class="o">[[</span> ! -d tpls <span class="o">]]</span> <span class="o">&amp;&amp;</span> mkdir tpls
+<span class="nb">cd</span> tpls
+cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/bash_scripts/kokkos_host_serial/build_kokkos_and_kernels.sh .
+<span class="nb">export</span> <span class="nv">KOKKOSPFX</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/tpls/kokkos/kokkos_install
+<span class="nb">export</span> <span class="nv">KOKKOSKERPFX</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/tpls/kokkos/kokkos_kernels_install
+bash build_kokkos_and_kernels.sh</pre>
+<p><strong>Remarks</strong>:
+* the above process builds Kokkos/Kokkos-kernels <em>without</em> any arch-specific
+optimization, since this is just a serial build and meant to work on any system.
+If you want to enable arch-specific optimizations (and you should),
+you need to change the arch flag passed to Kokkos (see inside <cite>build_kokkos_and_kernels.sh</cite>)
+and rebuild it;</p>
+</section>
+<!-- /content -->
+      </div>
+    </div>
+  </div>
+</article>
+</main>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <p>
+        Site created by Francesco Rizzi. Powered by <a href="https://getpelican.com">Pelican</a>
+        and <a href="https://mcss.mosra.cz">m.css</a>, using a theme adapted from <a href="https://magnum.graphics/">magnum</a>.<br />
+        This site content is <a href="https://github.com/fnrizzi/ElasticShearWaves">available on GitHub</a>.<br />
+        </p>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>
