@@ -4,7 +4,7 @@
 TOPDIR=${PWD}
 
 # source
-CPPSRC=${TOPDIR}/../src/cpp
+CPPSRC=${TOPDIR}/..
 
 # the working dir
 WORKINGDIR=

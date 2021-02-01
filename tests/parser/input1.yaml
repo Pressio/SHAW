@@ -1,0 +1,32 @@
+
+general:
+  meshDir: fullMeshString
+  dt: 1.5
+  finalTime: 150.
+  checkNumericalDispersion: false
+  checkCfl: false
+
+# -------------
+io:
+ snapshotMatrix:
+   binary: false
+   velocity: {freq: 3, fileName: snaps_vp}
+   stress:   {freq: 4, fileName: snaps_sp}
+
+ seismogram:
+   binary: true
+   freq: 12
+   receivers: [25, 50, 120, 160]
+   fileName: myfileName
+
+# -------------
+source:
+  #  Units: depth [km] | angle [deg] | period [sec] | delay [sec]
+  signal: {kind: sinusoid, depth: 1111.0, angle: 88., period: 43., delay: 12.0}
+
+# -------------
+material:
+  kind: unilayer
+  # for kind= unilayer (from eath surface to cmb)
+  #           coeffs for density, coeffs for vs
+  layer: {density: [2000., 0.], velocity: [5000., 0.]}
