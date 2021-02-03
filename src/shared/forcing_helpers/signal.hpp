@@ -39,7 +39,7 @@ public:
   void operator()(const sc_t & t, sc_t & result) const
   {
     switch (myKind_)
-      {
+    {
       case signalKind::ricker:
 	{
 	  const auto tDiffSq = (t-delayTime_)*(t-delayTime_);
@@ -48,7 +48,7 @@ public:
 	  break;
 	}
 
-	// sinusoidal (as in shaxi)
+	// sinusoidal (as in original shaxi fortran)
       case signalKind::sinusoid:
 	{
 	  constexpr sc_t rn    = 0.001;
@@ -76,7 +76,7 @@ public:
 	break;
       }
 
-      }//end switch
+    }
   }//end ()
 
 };

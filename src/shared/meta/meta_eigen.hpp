@@ -8,7 +8,6 @@
 #include "Eigen/Sparse"
 #include "Eigen/SparseCore"
 
-//--------------------------------------------
 template <typename T, typename enable = void>
 struct is_vector_eigen : std::false_type {};
 
@@ -21,7 +20,6 @@ struct is_vector_eigen<
       >::value
     >::type
   > : std::true_type{};
-//--------------------------------------------
 
 
 template <typename T, typename enable = void>

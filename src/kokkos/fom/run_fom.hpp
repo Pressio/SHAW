@@ -2,37 +2,22 @@
 #ifndef LEAP_FROG_RUN_FOM_HPP_
 #define LEAP_FROG_RUN_FOM_HPP_
 
-#include "fom_velocity_update.hpp"
-#include "fom_stress_update.hpp"
-#include "fom_complexities.hpp"
 #include <numeric>
+#include "fom_update_kernels.hpp"
+#include "fom_complexities.hpp"
 
 namespace kokkosapp{
 
-template<typename state_d_t>
-typename std::enable_if< is_kokkos_1dview<state_d_t>::value, state_d_t >::type
-createAuxiliaryStateIfNeeded(state_d_t x, bool jacobContainsMatProp){
-  state_d_t auxX("auxX", 1);
-  if (!jacobContainsMatProp) Kokkos::resize(auxX, x.extent(0));
-  return auxX;
-}
-
-template<typename state_d_t>
-typename std::enable_if< is_kokkos_2dview<state_d_t>::value, state_d_t >::type
-createAuxiliaryStateIfNeeded(state_d_t x, bool jacobContainsMatProp){
-  state_d_t auxX("auxX", 1, 1);
-  if (!jacobContainsMatProp) Kokkos::resize(auxX, x.extent(0), x.extent(1));
-  return auxX;
-}
-
-
 template <
-  typename step_t, typename sc_t, typename app_t, typename forcing_t,
-  typename observer_t, typename seismo_t, typename state_d_t
+  typename step_t,
+  typename sc_t,
+  typename app_t,
+  typename forcing_t,
+  typename observer_t,
+  typename seismo_t,
+  typename state_d_t
   >
-void runFom(bool jacobContainsMatProp,
-	    bool exploitForcingSparsity,
-	    const step_t & numSteps,
+void runFom(const step_t & numSteps,
 	    const sc_t dt,
 	    const app_t & fomObj,
 	    forcing_t & forcingObj,
@@ -41,17 +26,13 @@ void runFom(bool jacobContainsMatProp,
 	    state_d_t xVp_d,
 	    state_d_t xSp_d)
 {
+  // zero states
   KokkosBlas::fill(xVp_d, constants<sc_t>::zero());
   KokkosBlas::fill(xSp_d, constants<sc_t>::zero());
 
   const auto jacVp_d     = fomObj.viewJacobianDevice(dofId::vp);
   const auto jacSp_d     = fomObj.viewJacobianDevice(dofId::sp);
   const auto rhoInvVp_d  = fomObj.viewInvDensityDevice(dofId::vp);
-  const auto shearMod_d  = fomObj.viewShearModulusDevice(dofId::sp);
-
-  // xSpAux_d is only needed when the material properties are factored out the Jacobians
-  // so let it initialized to 1 entry, and resize appropriately if needed
-  state_d_t xSpAux_d = createAuxiliaryStateIfNeeded(xSp_d, jacobContainsMatProp);
 
   // to collec timings
   Kokkos::Timer timer;
@@ -73,9 +54,7 @@ void runFom(bool jacobContainsMatProp,
     // ----------------
     // 1. do velocity
     timer.reset();
-    updateVelocity(jacobContainsMatProp, exploitForcingSparsity,
-		   dt, iStep, timeVp, xVp_d, xSp_d,
-		   jacVp_d, rhoInvVp_d, forcingObj);
+    updateVelocity(dt, xVp_d, xSp_d, jacVp_d, rhoInvVp_d, forcingObj);
     const double ct2 = timer.seconds();
     timer.reset();
     observerObj.observe(dofId::vp, iStep, xVp_d);
@@ -88,7 +67,7 @@ void runFom(bool jacobContainsMatProp,
     // ----------------
     // 2. do stress
     timer.reset();
-    updateStress(jacobContainsMatProp, dt, xSp_d, xSpAux_d, xVp_d, jacSp_d, shearMod_d);
+    updateStress(dt, xSp_d, xVp_d, jacSp_d);
     const double ct3 = timer.seconds();
     timer.reset();
     observerObj.observe(dofId::sp, iStep, xSp_d);
@@ -110,8 +89,7 @@ void runFom(bool jacobContainsMatProp,
 
   // compute complexity and print
   double memCostMB, flopsCost = 0.;
-  complexityFom<sc_t>(jacobContainsMatProp, exploitForcingSparsity,
-		      xVp_d, xSp_d, fomObj, forcingObj, memCostMB, flopsCost);
+  complexityFom<sc_t>(xVp_d, xSp_d, fomObj, forcingObj, memCostMB, flopsCost);
   printPerf(numSteps, perfTimes, memCostMB, flopsCost);
 }
 

@@ -48,7 +48,6 @@
 #include "./material_models/material_model_unilayer.hpp"
 #include "./material_models/material_model_bilayer.hpp"
 #include "./material_models/material_model_prem.hpp"
-#include "./material_models/material_model_ak135f.hpp"
 #include "./material_models/material_model_create.hpp"
 
 #include "./forcing_helpers/signal.hpp"
@@ -56,8 +55,8 @@
 #include "./forcing_helpers/rank_two_forcing.hpp"
 
 #include "./various/map_nominal_location_to_velocity_grid_point.hpp"
-#include "./collectors_helpers/compute_num_vp_points_on_surface.hpp"
-#include "./collectors_helpers/observer.hpp"
-#include "./collectors_helpers/seismogram.hpp"
+#include "./collectors/compute_num_vp_points_on_surface.hpp"
+#include "./collectors/state_observer.hpp"
+#include "./collectors/seismogram.hpp"
 
 #endif

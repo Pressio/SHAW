@@ -41,6 +41,26 @@ int main(int argc, char *argv[])
     vb.push_back(parser.getSourceProperty("period") == 43.);
     vb.push_back(parser.getSourceProperty("delay") == 12.);
 
+    // // material
+    vb.push_back(parser.getMaterialModelKind() == materialModelKind::unilayer);
+
+    const auto a1 = parser.viewDiscontinuityDepthsKm();
+    vb.push_back(a1.size()==1);
+    vb.push_back(a1[0]==0.);
+
+    const auto a2 = parser.viewDensityParametrization();
+    vb.push_back(a2.size()==1);
+    vb.push_back(a2.front().size()==3);
+    vb.push_back(a2[0][0]==2000.);
+    vb.push_back(a2[0][1]==0.);
+    vb.push_back(a2[0][2]==0.);
+
+    const auto a3 = parser.viewVelocityParametrization();
+    vb.push_back(a3.size()==1);
+    vb.push_back(a3.front().size()==3);
+    vb.push_back(a3[0][0]==5000.);
+    vb.push_back(a3[0][1]==0.);
+    vb.push_back(a3[0][2]==0.);
 
     if (std::none_of(vb.begin(), vb.end(), std::logical_not<bool>()))
       std::puts("PASS");

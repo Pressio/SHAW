@@ -47,7 +47,6 @@ public:
 
       //compute depth from discontDepth_
       const auto dM = thisPtDepthM - (discontDepthsKm_[1]*thous);
-
       auto & rhoC = densityParams_[1];
       auto & vsC  = velocityParams_[1];
       density = rhoC[0] + rhoC[1]*dM + rhoC[2]*dM*dM;

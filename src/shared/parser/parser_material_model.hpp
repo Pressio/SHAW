@@ -6,8 +6,8 @@ template <typename scalar_t, typename int_t>
 struct ParserMaterialModel
 {
   /* we use:
-   * 1. 2d array to store the parametrization of the material properties
    * 2. 1d array to store the nominal locations of the discontinuities
+   * 1. 2d array to store the parametrization of the material properties
    *
    * The 2d array is such that each row identifies a layer,
    * and each col contains the paramtrization coefficients for a polyn.
@@ -16,7 +16,6 @@ struct ParserMaterialModel
    *
    * The 1d array with discotinuities is such that each row contains
    * the depth (km) of the discontinuity.
-   *
    *
    * For example, let's say that we have a single layer model, which yields:
    * density_array = [c0, c1, c2] such that rho(depth) = c0 + depth*c1 + c2*depth^2
@@ -69,6 +68,7 @@ public:
       	matModKind_ = materialModelKind::unilayer;
 	density_.resize(1); vs_.resize(1); discont_.resize(1);
 	this->parseUnilayer(node);
+	this->validateSingleLayer();
       }
 
       else if (matKindStr == "bilayer" or
@@ -78,6 +78,7 @@ public:
       	matModKind_ = materialModelKind::bilayer;
 	density_.resize(2); vs_.resize(2); discont_.resize(2);
 	this->parseBilayer(node);
+	this->validateBiLayer();
       }
 
       else if (matKindStr == "prem" or matKindStr == "PREM"){
@@ -89,23 +90,21 @@ public:
       }
 
       else{
-      	throw std::runtime_error("Unknown model kind for material");
+      	throw std::runtime_error("Unknown material model kind, maybe mispelled it?");
       }
-
     }
     else{
-      throw std::runtime_error("Cannot find general section in yaml");
+      throw std::runtime_error("Cannot find material section in yaml");
     }
 
-    //this->validate();
     this->print();
   }
 
 private:
   void parseUnilayer(const YAML::Node & node)
   {
-    // (this does not have depth entry since it is layer below surface)
-    discont_[0] = {};
+    // for a single layer, there is no depth entry since it is a layer below surface
+    discont_[0] = 0.;
 
     // get density coeff
     auto densC = node["layer"]["density"].as<std::vector<scalar_t>>();
@@ -119,7 +118,7 @@ private:
   {
     // get data for first layer
     // (this does not have depth entry since it is layer below surface)
-    discont_[0] = {};
+    discont_[0] = 0.;
 
     auto densC = node["layer1"]["density"].as<std::vector<scalar_t>>();
     for (std::size_t i=0; i<densC.size(); ++i) density_[0][i] = densC[i];
@@ -176,7 +175,12 @@ private:
     }
   }
 
-  void validate() const
+  void validateSingleLayer() const
+  {
+    //tbd
+  }
+
+  void validateBiLayer() const
   {
     //TBD
   }

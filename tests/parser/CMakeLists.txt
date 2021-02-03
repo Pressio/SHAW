@@ -20,3 +20,23 @@ set_tests_properties(${test_name}
   PROPERTIES PASS_REGULAR_EXPRESSION "PASS"
   FAIL_REGULAR_EXPRESSION "FAILED"
   )
+
+# test for bilayer model
+configure_file(input3.yaml input3.yaml COPYONLY)
+set(test_name parser_test_3)
+add_executable(${test_name} main3.cc)
+add_test(NAME ${test_name} COMMAND ${test_name} input3.yaml)
+set_tests_properties(${test_name}
+  PROPERTIES PASS_REGULAR_EXPRESSION "PASS"
+  FAIL_REGULAR_EXPRESSION "FAILED"
+  )
+
+# test for prem
+configure_file(input4.yaml input4.yaml COPYONLY)
+set(test_name parser_test_4)
+add_executable(${test_name} main4.cc)
+add_test(NAME ${test_name} COMMAND ${test_name} input4.yaml)
+set_tests_properties(${test_name}
+  PROPERTIES PASS_REGULAR_EXPRESSION "PASS"
+  FAIL_REGULAR_EXPRESSION "FAILED"
+  )

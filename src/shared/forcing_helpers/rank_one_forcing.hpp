@@ -9,8 +9,23 @@
 template <typename sc_t, typename state_d_t, typename int_t>
 class RankOneForcing
 {
-  static_assert(is_vector_kokkos< state_d_t >::value,
-		"Rank-1 forcing must use a rank-1 kokkos view");
+  static_assert
+  (is_kokkos_1dview< state_d_t >::value,
+   "Rank-1 forcing needs a rank-1 kokkos view state");
+
+  /*
+    For now, we only consider a single source.
+
+    We do the following:
+
+    * on host, we precompute and store the full time signal
+    since this is a just an array with as many elements as the number of time steps
+    because the forcing source acts at a single grid point
+
+    * on device we have an array with as many entries as number
+    of velocity grid points and when we need to evaluate the forcing,
+    we just copy from host a single value to the right location on device
+   */
 
   using state_h_t = typename state_d_t::host_mirror_type;
 
@@ -19,13 +34,9 @@ class RankOneForcing
 
   // f_d_ contains the forcing vector over the mesh
   state_d_t f_d_;
-  // // indicator_d_ is all zeros except for the entry where forcing acts
-  // // this is set upon construction, and used to evaluate the forcing
-  // // each time the evaluation is requested, see evaluate method below
-  // state_d_t indicator_d_;
 
-  // The signal is always associated with a velocity point, not a stress point.
   // myVpGid_ identifies which velocity point the signal is located at
+  // remember that forcing always acts on a velocity point, not a stress point.
   int_t myVpGid_ = -1;
 
   sc_t maxFreq_ = {};
@@ -44,7 +55,6 @@ public:
       f_d_("Fd", meshInfo.getNumResidualVpPts()),
       dt_(parser.getTimeStepSize()),
       NSteps_(parser.getNumSteps()),
-      /*indicator_d_("Indic_d", meshInfo.getNumResidualVpPts()),*/
       maxFreq_(signalObj.getFrequency())
   {
     const auto gidsVp = appObj.viewGidListHost(dofId::vp);
@@ -60,13 +70,7 @@ public:
     KokkosBlas::fill(f_h_, constants<sc_t>::zero());
     KokkosBlas::fill(f_d_, constants<sc_t>::zero());
 
-    // // set the target entry in the indicator host vector equal to 1
-    // state_h_t indicator_h = Kokkos::create_mirror_view(indicator_d_);
-    // KokkosBlas::fill(indicator_h, constants<sc_t>::zero());
-    // indicator_h(myVpGid_) = constants<sc_t>::one();
-    // Kokkos::deep_copy(indicator_d_, indicator_h);
-
-    // store the full time series of the signal into the host array
+    // compute and store the full time series of the signal on host
     storeSignalTimeSeries(signalObj);
   }
 
@@ -90,6 +94,34 @@ public:
     storeSignalTimeSeries(newSignal);
   }
 
+public:
+  const sc_t & getMaxFreq() const{ return maxFreq_; }
+
+  int_t getVpGid() const{ return myVpGid_; }
+
+  const sc_t & getForcingValueAtStep(std::size_t step) const{ return f_h_(step-1); }
+
+  state_d_t viewForcingDevice() const{ return f_d_; }
+
+  void evaluate(const sc_t & time, const std::size_t & step)
+  {
+    KokkosBlas::fill(f_d_, constants<sc_t>::zero());
+    const auto src = Kokkos::subview(f_h_, step-1);
+    const auto des = Kokkos::subview(f_d_, myVpGid_);
+    Kokkos::deep_copy(des, src);
+  }
+
+  void complexityOfEvaluateMethod(double & memCostMB, double flopsCost) const
+  {
+    // no operation is done during evaluate, just copying, see above
+    const double memMBCostFill = 1.*( f_d_.extent(0)*sizeof(sc_t) )/1024./1024.;
+    // for copy we have one read + one write
+    const double memMBCostCopy = 1.*( 2*sizeof(sc_t) )/1024./1024.;
+
+    memCostMB = memMBCostFill + memMBCostCopy;
+    flopsCost = 0.;
+  }
+
 private:
   template <typename signal_t>
   void storeSignalTimeSeries(const signal_t signal){
@@ -100,50 +132,6 @@ private:
       time = iStep * dt_;
     }
   }
-
-public:
-  // for single source, max frquency is the frequency of the source signal
-  sc_t getMaxFreq() const{ return maxFreq_; }
-
-  int_t getVpGid() const{ return myVpGid_; }
-
-  sc_t getForcingValueAtStep(std::size_t step) const{
-    return f_h_(step-1);
-  }
-
-  state_d_t viewForcingDevice() const{ return f_d_; }
-
-  void evaluate(sc_t time, std::size_t step){
-    KokkosBlas::fill(f_d_, constants<sc_t>::zero());
-    const auto src = Kokkos::subview(f_h_, step-1);
-    const auto des = Kokkos::subview(f_d_, myVpGid_);
-    Kokkos::deep_copy(des, src);
-  }
-
-  void complexityOfEvaluateMethod(double & memCostMB, double flopsCost) const{
-    // no operation is done during evaluate, just copying, see above
-    const double memMBCostFill = 1.*( f_d_.extent(0)*sizeof(sc_t) )/1024./1024.;
-    // for copy we have one read + one write
-    const double memMBCostCopy = 1.*( 2*sizeof(sc_t) )/1024./1024.;
-
-    memCostMB = memMBCostFill + memMBCostCopy;
-    flopsCost = 0.;
-  }
-
-  // // // *** for non-host ****
-  // // template <typename _state_d_t = state_d_t>
-  // // typename std::enable_if< !is_accessible_on_host<_state_d_t>::value >::type
-  // // evaluate(sc_t time, std::size_t step){
-  // //   KokkosBlas::scal(f_d_, f_h_(step-1), indicator_d_);
-  // // }
-
-  // template <typename _state_d_t = state_d_t>
-  // typename std::enable_if< !is_accessible_on_host<_state_d_t>::value >::type
-  // complexity(double & memCostMB, double flopsCost) const{
-  //   using ord_t = typename state_d_t::traits::size_type;
-  //   using comp_t = Complexity<sc_t, ord_t>;
-  //   comp_t::scal(f_d_.extent(0), memCostMB, flopsCost);
-  // }
 };
 
 #endif

@@ -10,7 +10,6 @@ std::string materialModelKindToString(const materialModelKind e){
   case materialModelKind::unilayer: return "unilayer";
   case materialModelKind::bilayer:  return "bilayer";
   case materialModelKind::prem:	    return "prem";
-  case materialModelKind::ak135f:   return "ak135f";
   default:			    return "unknown";
   }
 }

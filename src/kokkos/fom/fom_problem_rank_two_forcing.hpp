@@ -75,7 +75,7 @@ private:
     /*create and store material prop
      * only do it once since material does not change */
     auto matObj = createMaterialModel<sc_t>(parser_);
-    appObj_.computeJacobiansWithMatProp(*matObj);
+    appObj_.computeJacobians(*matObj);
 
     // seismogram
     seismogram_t seismoObj(parser_, meshInfo_, appObj_, fSize_);
@@ -113,8 +113,7 @@ private:
       seismoObj.prepForNewRun(i);
 
       // run fom
-      runFom(true, parser_.exploitForcingSparsity(),
-      	     parser_.getNumSteps(), parser_.getTimeStepSize(),
+      runFom(parser_.getNumSteps(), parser_.getTimeStepSize(),
       	     appObj_, forcing, observerObj_, seismoObj, xVp_d_, xSp_d_);
 
       processCollectedData(seismoObj);

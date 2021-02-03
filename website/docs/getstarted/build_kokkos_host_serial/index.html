@@ -79,26 +79,25 @@ mkdir -p <span class="si">${</span><span class="nv">MYWORKDIR</span><span class=
 </section>
 <section id="blas-lapack">
 <h2><a href="#blas-lapack">3. BLAS/LAPACK</a></h2>
-<section id="a-you-have-and-want-to-use-a-specific-blas-lapack">
-<h3><a href="#a-you-have-and-want-to-use-a-specific-blas-lapack">a. You have and want to use a specific BLAS/LAPACK</a></h3>
-<p>If you want a specific BLAS/LAPACK, set the following and
-see <code>my-reference-label</code>.</p>
-<pre class="m-code"><span class="nb">export</span> <span class="nv">BLAS_ROOT</span><span class="o">=</span>&lt;path-to-blas-install-dir&gt;
-<span class="nb">export</span> <span class="nv">LAPACK_ROOT</span><span class="o">=</span>&lt;path-to-lapack-install-dir&gt;
-<span class="nb">export</span> <span class="nv">BLASLIBNAME</span><span class="o">=</span>&lt;blas-lib-name-without-extension&gt;     <span class="c1">#e.g. openblas</span>
-<span class="nb">export</span> <span class="nv">LAPACKLIBNAME</span><span class="o">=</span>&lt;lapack-lib-name-without-extension&gt; <span class="c1">#e.g. lapack</span></pre>
-</section>
-<section id="b-you-want-to-let-cmake-figure-it-out">
-<h3><a href="#b-you-want-to-let-cmake-figure-it-out">b. You want to let CMake figure it out</a></h3>
-<p>Just unset (to be safe) the following env vars</p>
+<section id="a-you-want-to-let-cmake-figure-it-out">
+<h3><a href="#a-you-want-to-let-cmake-figure-it-out">a. You want to let CMake figure it out</a></h3>
+<p>Just unset (to be safe) the following env vars, and then move to section 4.</p>
 <pre class="m-code"><span class="nb">unset</span> BLAS_ROOT
 <span class="nb">unset</span> LAPACK_ROOT
 <span class="nb">unset</span> BLASLIBNAME
 <span class="nb">unset</span> LAPACKLIBNAME</pre>
 </section>
-<section id="c-you-want-to-use-out-script-to-build-openblas">
-<h3><a href="#c-you-want-to-use-out-script-to-build-openblas">c. You want to use out script to build OpenBLAS</a></h3>
-<p>You can install it yourself or you can follow the steps below
+<section id="b-you-have-and-want-to-use-a-specific-blas-lapack">
+<h3><a href="#b-you-have-and-want-to-use-a-specific-blas-lapack">b. You have and want to use a specific BLAS/LAPACK</a></h3>
+<p>If you want a specific BLAS/LAPACK, set the following and then move to section 4.</p>
+<pre class="m-code"><span class="nb">export</span> <span class="nv">BLAS_ROOT</span><span class="o">=</span>&lt;path-to-blas-install-dir&gt;
+<span class="nb">export</span> <span class="nv">LAPACK_ROOT</span><span class="o">=</span>&lt;path-to-lapack-install-dir&gt;
+<span class="nb">export</span> <span class="nv">BLASLIBNAME</span><span class="o">=</span>&lt;blas-lib-name-without-extension&gt;     <span class="c1">#e.g. openblas</span>
+<span class="nb">export</span> <span class="nv">LAPACKLIBNAME</span><span class="o">=</span>&lt;lapack-lib-name-without-extension&gt; <span class="c1">#e.g. lapack</span></pre>
+</section>
+<section id="c-you-want-to-install-them">
+<h3><a href="#c-you-want-to-install-them">c. You want to install them</a></h3>
+<p>You can install BLAS/LAPACK yourself or you can follow the steps below
 to install OpenBLAS. We chose OpenBLAS for simplicity
 since it contains both BLAS and LAPACK and it is fairly easy to build.</p>
 <pre class="m-code"><span class="nb">export</span> <span class="nv">FC</span><span class="o">=</span>&lt;path-to-your-Fortran-compiler&gt;
@@ -115,15 +114,14 @@ lrwxr-xr-x  <span class="m">1</span> fnrizzi  staff    34B Aug <span class="m">3
 drwxr-xr-x  <span class="m">3</span> fnrizzi  staff    96B Aug <span class="m">30</span> <span class="m">09</span>:40 pkgconfig</pre>
 <p>And then do:</p>
 <pre class="m-code"><span class="nb">export</span> <span class="nv">BLAS_ROOT</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/tpls/openblas/install
-<span class="nb">export</span> <span class="nv">BLASLIBNAME</span><span class="o">=</span>openblas
 <span class="nb">export</span> <span class="nv">LAPACK_ROOT</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/tpls/openblas/install
+<span class="nb">export</span> <span class="nv">BLASLIBNAME</span><span class="o">=</span>openblas
 <span class="nb">export</span> <span class="nv">LAPACKLIBNAME</span><span class="o">=</span>openblas</pre>
 </section>
 </section>
 <section id="build-kokkos-and-kernels">
-<span id="my-reference-label"></span><h2><a href="#build-kokkos-and-kernels">4: Build Kokkos and Kernels</a></h2>
-<p>Now that we have BLAS/LAPACK built, we build Kokkos core and kernels.
-Proceeds as follows:</p>
+<h2><a href="#build-kokkos-and-kernels">4: Build Kokkos and Kernels</a></h2>
+<p>Now that you BLAS/LAPACK is ready, we build Kokkos core and kernels as follows:</p>
 <pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>
 <span class="o">[[</span> ! -d tpls <span class="o">]]</span> <span class="o">&amp;&amp;</span> mkdir tpls
 <span class="nb">cd</span> tpls
@@ -131,12 +129,22 @@ cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}
 <span class="nb">export</span> <span class="nv">KOKKOSPFX</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/tpls/kokkos/kokkos_install
 <span class="nb">export</span> <span class="nv">KOKKOSKERPFX</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/tpls/kokkos/kokkos_kernels_install
 bash build_kokkos_and_kernels.sh</pre>
-<p><strong>Remarks</strong>:
-* the above process builds Kokkos/Kokkos-kernels <em>without</em> any arch-specific
-optimization, since this is just a serial build and meant to work on any system.
-If you want to enable arch-specific optimizations (and you should),
-you need to change the arch flag passed to Kokkos (see inside <cite>build_kokkos_and_kernels.sh</cite>)
-and rebuild it;</p>
+<p><strong>Remarks</strong>:</p>
+<ul>
+<li>the script above does a simple <em>serial build</em> to get you started quickly on any system.</li>
+<li>If you want to enable arch-specific optimizations following
+the <a href="https://github.com/kokkos/kokkos">Kokkos userguide</a>
+and <a href="https://github.com/kokkos/kokkos-kernels/wiki/Building">here</a>,
+you need to modify the flags passed to
+<a href="https://github.com/fnrizzi/ElasticShearWaves/tree/master/bash_scripts/kokkos_host_serial/build_kokkos_and_kernels.sh">build_kokkos_and_kernels.sh</a>
+and rerun it.</li>
+</ul>
+</section>
+<section id="build-the-elastic-shear-wave-code">
+<h2><a href="#build-the-elastic-shear-wave-code">5: Build the Elastic Shear Wave Code</a></h2>
+<pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/bash_scripts
+./do_build.sh --working-dir<span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span> --kokkos-pfx<span class="o">=</span><span class="si">${</span><span class="nv">KOKKOSPFX</span><span class="si">}</span> --kokkos-ker-pfx<span class="o">=</span><span class="si">${</span><span class="nv">KOKKOSKERPFX</span><span class="si">}</span></pre>
+<p>this should generate inside <code>${MYWORKDIR}/build</code> the following:</p>
 </section>
 <!-- /content -->
       </div>

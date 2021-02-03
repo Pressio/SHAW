@@ -21,6 +21,7 @@ class ParserForcingSection
       : depth_(dep), angle_(ang), signal_(signalIn){}
   };
 
+  // for now, we only have a single source
   SourceInfo<scalar_t> source_;
 
 public:

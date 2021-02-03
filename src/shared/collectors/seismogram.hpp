@@ -35,19 +35,30 @@ struct CopySeis
 template <typename int_t, typename scalar_t, typename state_t>
 class Seismogram
 {
+  // container type to store the data
   using matrix_t = Kokkos::View<scalar_t***, Kokkos::LayoutLeft, Kokkos::HostSpace>;
+  // type to store global ids
   using gids_t = Kokkos::View<int_t*, Kokkos::HostSpace>;
 
-  bool useBinaryIO_   = {};
+  // flag to enable/disable collection of seismogram data
   bool enable_ = {};
+
+  // whether we need to store in binary
+  bool useBinaryIO_   = {};
+
+  // filename to store seigmogram data
   std::string seismoFileName_ = {};
+
+  // sampling frequency
   int_t freq_  = 0;
+
   int_t count_ = 0;
 
   // number of receivers
   int_t numReceivers_ {};
 
-  // list of velocity gids to index the state vector at correct locations
+  // list of velocity gids identifying the elements in the velocity state
+  // where we need to sample at
   gids_t targetGids_;
 
   // data matrix: each row identifies a receiver, the columns store vp(t)
@@ -62,8 +73,8 @@ public:
 	     const mesh_info_t & meshInfo,
 	     const app_t & appObj,
 	     int_t fBatchSize = 1)
-    : useBinaryIO_(parser.writeSeismogramBinary()),
-      enable_{parser.enableSeismogram()},
+    : enable_{parser.enableSeismogram()},
+      useBinaryIO_(parser.writeSeismogramBinary()),
       seismoFileName_{parser.getSeismogramFileName()}
   {
     if (enable_){
@@ -78,6 +89,10 @@ public:
       numReceivers_ = nominalAngles.size();
 
       // loop over nominal locations and map them to grid
+      // this is because nominal values are typicall round angles like 30, 60,
+      // but the grid does not have any point exactly at those locations
+      // so we need to map the nominal angles to grid points that are closest
+      // to the desired values
       Kokkos::resize(targetGids_, numReceivers_);
       for (auto i=0; i<numReceivers_; ++i)
       {
@@ -93,19 +108,24 @@ public:
 
       freq_ = parser.getSeismoFreq();
       const auto Nsteps = parser.getNumSteps();
-
       // make sure number of steps is divisible by sampling frequency
       if ( Nsteps % freq_ == 0){
 	const auto numCols = Nsteps/freq_;
 	Kokkos::resize(MM_, numReceivers_, numCols, fBatchSize);
       }
-      else
-	throw std::runtime_error("Seismo sampling frequency not a divisor of steps");
+      else{
+	throw std::runtime_error("Seismogram sampling frequency not a divisor of steps");
+      }
 
+      // estimate how much memory is needed to store seismogram
       const double mem = MM_.extent(0)*MM_.extent(1)*MM_.extent(2) * sizeof(scalar_t);
       std::cout << "Seismogram [GB] = " << mem/(1024.*1024.*1024.) << std::endl;
       std::cout << std::endl;
     }
+  }
+
+  const gids_t & viewMappedGids() const{
+    return targetGids_;
   }
 
   void prepForNewRun(int_t sampleID){

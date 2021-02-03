@@ -1,0 +1,22 @@
+
+general:
+  meshDir: fullMeshString
+  dt: 1.5
+  finalTime: 150.
+  checkNumericalDispersion: false
+  checkCfl: false
+
+# -------------
+# i/o is optional, so I can leave it empty
+# it should use default values
+
+# -------------
+source:
+  #  Units: depth [km] | angle [deg] | period [sec] | delay [sec]
+  signal: {kind: ricker, depth: 1100.0, angle: 88., period: 40., delay: 10.0}
+
+# -------------
+material:
+  kind: bilayer
+  layer1: {density: [2000., 0., 50.], velocity: [5000., 10., 44.]}
+  layer2: {depth: 556, density: [100., 0.5, 23.], velocity: [5000., 0.]}

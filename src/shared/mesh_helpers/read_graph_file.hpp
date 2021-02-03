@@ -179,7 +179,7 @@ void readFullMeshGraphFileImpl(const dofId dofid,
 
   source.close();
   std::cout << "Done" << std::endl;
-}//end readGraph
+}
 
 }//anonym namespace
 
