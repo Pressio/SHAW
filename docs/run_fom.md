@@ -26,7 +26,7 @@ but it can be useful if, in the future, we extend the code to support nonlinear 
 
 To specify the grid, one only needs to specify the grid for the velocity points because
 the stress points are defined based on the staggered scheme (see paper).
-Assume the test case you want to run uses a grid of 150 x 600 velocity points
+Assume the test case you want to run uses a grid of 200 x 1000 velocity points
 along the radial and polar directions, respectively.
 To generate the mesh files proceed as follows:
 ```python

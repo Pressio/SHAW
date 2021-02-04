@@ -47,7 +47,7 @@ if __name__== "__main__":
   D = {}
   D['5']  = data[0, :]
   D['30'] = data[1, :]
-  D['80'] = data[2, :]
+  D['55'] = data[2, :]
 
   # set the time axis
   # time = samplingFrequency*dt*numSamples
