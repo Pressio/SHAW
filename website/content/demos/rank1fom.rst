@@ -183,10 +183,3 @@ Second, we can visualize the full wavefield at three times, ``t=1000, 2000`` (se
 	  --samplingfreq=100 --outfileappend=vp
 
    python plotWavefield.py
-
-which should generate three plots as follows:
-
-.. image-grid::
-
-   {static}/img/demo_f2.png
-   {static}/img/demo_f3.png
