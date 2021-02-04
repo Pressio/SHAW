@@ -2,13 +2,13 @@
 <html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
   <meta charset="UTF-8" />
-  <title> &raquo; Host Serial Kokkos Build | ESW</title>
+  <title> &raquo; Host Serial Kokkos Build | ShWav</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,600%7CSource+Sans+Pro:400,400i,600,600i&amp;subset=latin-ext" />
   <link rel="stylesheet" href="/static/m-dark.css" />
   <link rel="canonical" href="/getstarted/build_kokkos_host_serial/" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#22272e" />
-  <meta property="og:site_name" content="ESW" />
+  <meta property="og:site_name" content="ShWav" />
   <meta property="og:title" content="Host Serial Kokkos Build" />
   <meta name="twitter:title" content="Host Serial Kokkos Build" />
   <meta property="og:url" content="/getstarted/build_kokkos_host_serial/" />
@@ -21,7 +21,7 @@
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">ElShWave</a>
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHWAV</a>
       <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
@@ -38,7 +38,8 @@
             <li>
               <a href="/">Demos</a>
               <ol>
-                <li><a href="/demos/rank1fom">Rank-1 FOM</a></li>
+                <li><a href="/demos/rank1fom">Single Forcing Run</a></li>
+                <li><a href="/demos/rank2fom">Multi-forcing Run</a></li>
               </ol>
             </li>
             <li>
@@ -78,7 +79,7 @@
 <pre class="m-code"><span class="nb">export</span> <span class="nv">CC</span><span class="o">=</span>&lt;path-to-your-C-compiler&gt;
 <span class="nb">export</span> <span class="nv">CXX</span><span class="o">=</span>&lt;path-to-your-C++-compiler&gt;
 
-<span class="nb">export</span> <span class="nv">ESWSRCDIR</span><span class="o">=</span>&lt;path-to-where-you-clone-the-repository&gt;
+<span class="nb">export</span> <span class="nv">ESWSRCDIR</span><span class="o">=</span>&lt;path-to-where-you-cloned-the-repository&gt;
 
 <span class="nb">export</span> <span class="nv">MYWORKDIR</span><span class="o">=</span>&lt;path-to-where-you-want-to-work-in&gt; <span class="c1">#e.g. ${HOME}/myWaveTest</span>
 mkdir -p <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span></pre>
@@ -127,15 +128,15 @@ drwxr-xr-x  <span class="m">3</span> fnrizzi  staff    96B Aug <span class="m">3
 </section>
 </section>
 <section id="build-kokkos-and-kernels">
-<h2><a href="#build-kokkos-and-kernels">4: Build Kokkos and Kernels</a></h2>
+<h2><a href="#build-kokkos-and-kernels">4. Build Kokkos and Kernels</a></h2>
 <p>Now that you BLAS/LAPACK is ready, we build Kokkos core and kernels as follows:</p>
 <pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>
 <span class="o">[[</span> ! -d tpls <span class="o">]]</span> <span class="o">&amp;&amp;</span> mkdir tpls
 <span class="nb">cd</span> tpls
-cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/bash_scripts/kokkos_host_serial/build_kokkos_and_kernels.sh .
+cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/bash_scripts/build_kokkos_and_kernels.sh .
 <span class="nb">export</span> <span class="nv">KOKKOSPFX</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/tpls/kokkos/kokkos_install
 <span class="nb">export</span> <span class="nv">KOKKOSKERPFX</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/tpls/kokkos/kokkos_kernels_install
-bash build_kokkos_and_kernels.sh</pre>
+bash build_kokkos_and_kernels.sh serial</pre>
 <p><strong>Remarks</strong>:</p>
 <ul>
 <li>the script above does a simple <em>serial build</em> to get you started quickly on any system.</li>
@@ -143,12 +144,12 @@ bash build_kokkos_and_kernels.sh</pre>
 the <a href="https://github.com/kokkos/kokkos">Kokkos userguide</a>
 and <a href="https://github.com/kokkos/kokkos-kernels/wiki/Building">here</a>,
 you need to modify the flags passed to
-<a href="https://github.com/fnrizzi/ElasticShearWaves/tree/master/bash_scripts/kokkos_host_serial/build_kokkos_and_kernels.sh">build_kokkos_and_kernels.sh</a>
+<a href="https://github.com/fnrizzi/ElasticShearWaves/tree/master/bash_scripts/build_kokkos_and_kernels.sh">build_kokkos_and_kernels.sh</a>
 and rerun it.</li>
 </ul>
 </section>
 <section id="build-the-shear-wave-code-and-run-tests">
-<h2><a href="#build-the-shear-wave-code-and-run-tests">5: Build the Shear Wave Code and Run Tests</a></h2>
+<h2><a href="#build-the-shear-wave-code-and-run-tests">5. Build the Shear Wave Code and Run Tests</a></h2>
 <pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/bash_scripts
 ./do_build.sh --working-dir<span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span> --kokkos-pfx<span class="o">=</span><span class="si">${</span><span class="nv">KOKKOSPFX</span><span class="si">}</span> --kokkos-ker-pfx<span class="o">=</span><span class="si">${</span><span class="nv">KOKKOSKERPFX</span><span class="si">}</span>
 <span class="nb">cd</span> <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/build

@@ -1,12 +1,12 @@
-Rank-1 FOM Demo
-###############
+Single Forcing Run
+##################
 
 :breadcrumb: {filename}/rank1fom.rst
-:summary: Running a rank-1 FOM
+:summary: Single Forcing FOM
 
 .. container::
 
-   This demo shows step-by-step how to create and run a rank-1 full-order model simulation.
+   This demo shows step-by-step how to create and run a simulation for a single forcing.
 
    Here we assume you already followed the `step-by-step guide <{filename}/getstarted/build_kokkos_host_serial.rst>`_
    to build the code and used ``MYWORKDIR`` as the working directory for that procedure,
@@ -31,7 +31,7 @@ Rank-1 FOM Demo
 The code has been developed such that the mesh is generated with Python
 and is used by the C++ code. There are two main reasons for this choice:
 first, it allows us to decouple the mesh generation from the actual physics code;
-second, we developed the code with an eye to later on study how to apply sample mesh 
+second, we developed the code with an eye to later on study how to apply sample mesh
 to nonlinear wav problems. This is **not** needed right now
 to solve the current elastic shear wave problem because this is a linear problem,
 but it can be useful if, in the future, we extend the code to support nonlinear problems.
@@ -122,8 +122,8 @@ Which is ready to get:
    cd ${MYRUNDIR}
    ln -s ${MYWORKDIR}/build/shwave_fom .
 
-   # if you use OpenMP build, remember to set 
-   # OMP_NUM_THREADS=4 OMP_PLACES=threads OMP_PROC_BIND=spread  
+   # if you use OpenMP build, remember to set
+   # OMP_NUM_THREADS=4 OMP_PLACES=threads OMP_PROC_BIND=spread
 
    ./shwave_fom input.yaml
 

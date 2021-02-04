@@ -2,13 +2,13 @@
 <html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
   <meta charset="UTF-8" />
-  <title> &raquo; Governing Equations and Discretization | ESW</title>
+  <title> &raquo; Governing Equations and Discretization | ShWav</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,600%7CSource+Sans+Pro:400,400i,600,600i&amp;subset=latin-ext" />
   <link rel="stylesheet" href="/static/m-dark.css" />
   <link rel="canonical" href="/getstarted/goveq/" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#22272e" />
-  <meta property="og:site_name" content="ESW" />
+  <meta property="og:site_name" content="ShWav" />
   <meta property="og:title" content="Governing Equations and Discretization" />
   <meta name="twitter:title" content="Governing Equations and Discretization" />
   <meta property="og:url" content="/getstarted/goveq/" />
@@ -21,7 +21,7 @@
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">ElShWave</a>
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHWAV</a>
       <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
@@ -38,7 +38,8 @@
             <li>
               <a href="/">Demos</a>
               <ol>
-                <li><a href="/demos/rank1fom">Rank-1 FOM</a></li>
+                <li><a href="/demos/rank1fom">Single Forcing Run</a></li>
+                <li><a href="/demos/rank2fom">Multi-forcing Run</a></li>
               </ol>
             </li>
             <li>
@@ -66,9 +67,9 @@
         </h1>
 <!-- content -->
 <div>
-<p><em>The objective is to model the axisymmetric evolution of elastic seismic shear waves.</em></p>
+<p><em>We model the axisymmetric evolution of elastic seismic shear waves.</em></p>
 <p>First, we set the notation.
-Assuming the Earth (or another target planet) can be approximated as a sphere, the following
+Assuming the Earth (or another planet) can be approximated as a sphere, the following
 figure shows our notation of the spherical coordinate system.</p>
 <figure class="m-figure">
 <img src="/static/img/sc.svg" style="width: 350px" />
@@ -385,7 +386,10 @@ G(r, \theta) \left( \frac{1}{r} \frac{\partial v}{\partial \theta}(r, \theta,t)
 <use x='319.931866' y='-28.214493' xlink:href='#eq5-g0-19'/>
 </g>
 </svg></div>
-<p>where <svg class="m-math m-default" style="width: 0.440em; height: 0.766em;" viewBox="0 -7.353395 4.22716 7.353395">
+<p>where:</p>
+<blockquote>
+<ul>
+<li><svg class="m-math m-default" style="width: 0.440em; height: 0.766em;" viewBox="0 -7.353395 4.22716 7.353395">
 <title>
 t
 </title>
@@ -395,7 +399,8 @@ t
 <g id='eq6-page1'>
 <use x='0' y='0' xlink:href='#eq6-g0-116'/>
 </g>
-</svg> represents time, <svg class="m-math m-default" style="width: 6.667em; height: 1.245em;" viewBox="0 -8.966376 64.007101 11.955168">
+</svg> represents time</li>
+<li><svg class="m-math m-default" style="width: 6.667em; height: 1.245em;" viewBox="0 -8.966376 64.007101 11.955168">
 <title>
 r \in [0, r_{earth}]
 </title>
@@ -426,8 +431,7 @@ r \in [0, r_{earth}]
 <use x='55.377399' y='1.793263' xlink:href='#eq7-g1-104'/>
 <use x='60.75544' y='0' xlink:href='#eq7-g3-93'/>
 </g>
-</svg> is the radial distance bounded by the radius of the earth,
-<svg class="m-math m-default" style="width: 4.694em; height: 1.245em;" viewBox="0 -8.966376 45.06188 11.955168">
+</svg> is the radial distance, <svg class="m-math m-default" style="width: 4.694em; height: 1.245em;" viewBox="0 -8.966376 45.06188 11.955168">
 <title>
 \theta \in [0, \pi]
 </title>
@@ -449,7 +453,8 @@ r \in [0, r_{earth}]
 <use x='34.740949' y='0' xlink:href='#eq8-g1-25'/>
 <use x='41.810218' y='0' xlink:href='#eq8-g2-93'/>
 </g>
-</svg> is the polar angle, <svg class="m-math m-default" style="width: 3.241em; height: 1.245em;" viewBox="0 -8.966376 31.117019 11.955168">
+</svg> is the polar angle</li>
+<li><svg class="m-math m-default" style="width: 3.241em; height: 1.245em;" viewBox="0 -8.966376 31.117019 11.955168">
 <title>
 \rho(r, \theta)
 </title>
@@ -469,8 +474,7 @@ r \in [0, r_{earth}]
 <use x='20.784352' y='0' xlink:href='#eq9-g0-18'/>
 <use x='26.564693' y='0' xlink:href='#eq9-g1-41'/>
 </g>
-</svg> is the density,
-<svg class="m-math m-default" style="width: 4.233em; height: 1.245em;" viewBox="0 -8.966376 40.63883 11.955168">
+</svg> is the density, <svg class="m-math m-default" style="width: 4.233em; height: 1.245em;" viewBox="0 -8.966376 40.63883 11.955168">
 <title>
 v(r, \theta, t)
 </title>
@@ -493,7 +497,8 @@ v(r, \theta, t)
 <use x='31.859344' y='0' xlink:href='#eq10-g0-116'/>
 <use x='36.086504' y='0' xlink:href='#eq10-g1-41'/>
 </g>
-</svg> is the velocity, <svg class="m-math m-default" style="width: 5.291em; height: 1.282em;" viewBox="0 -8.966376 50.792773 12.309385">
+</svg> is the velocity,</li>
+<li><svg class="m-math m-default" style="width: 5.291em; height: 1.282em;" viewBox="0 -8.966376 50.792773 12.309385">
 <title>
 \sigma_{r\phi}(r, \theta, t)
 </title>
@@ -549,7 +554,8 @@ v(r, \theta, t)
 <use x='46.369586' y='0' xlink:href='#eq12-g2-41'/>
 </g>
 </svg> are the two components of the stress tensor remaining after the
-axisymmetric approximation, <svg class="m-math m-default" style="width: 4.333em; height: 1.245em;" viewBox="0 -8.966376 41.597048 11.955168">
+axisymmetric approximation</li>
+<li><svg class="m-math m-default" style="width: 4.333em; height: 1.245em;" viewBox="0 -8.966376 41.597048 11.955168">
 <title>
 f(r, \theta,t)
 </title>
@@ -572,8 +578,8 @@ f(r, \theta,t)
 <use x='32.817562' y='0' xlink:href='#eq13-g0-116'/>
 <use x='37.044722' y='0' xlink:href='#eq13-g1-41'/>
 </g>
-</svg> is the forcing term,
-and the shear modulus is <svg class="m-math m-default" style="width: 12.195em; height: 1.298em;" viewBox="0 -9.474739 117.076071 12.463531">
+</svg> is the forcing term</li>
+<li><svg class="m-math m-default" style="width: 12.195em; height: 1.298em;" viewBox="0 -9.474739 117.076071 12.463531">
 <title>
 G(r, \theta) = v_s^2(r, \theta) \rho(r, \theta)
 </title>
@@ -613,8 +619,8 @@ G(r, \theta) = v_s^2(r, \theta) \rho(r, \theta)
 <use x='106.743404' y='0' xlink:href='#eq14-g1-18'/>
 <use x='112.523745' y='0' xlink:href='#eq14-g3-41'/>
 </g>
-</svg>,
-with <svg class="m-math m-default" style="width: 0.997em; height: 0.723em;" viewBox="0 -5.147373 9.575188 6.940636">
+</svg> is the shear modulus
+and <svg class="m-math m-default" style="width: 0.997em; height: 0.723em;" viewBox="0 -5.147373 9.575188 6.940636">
 <title>
 v_s
 </title>
@@ -626,7 +632,9 @@ v_s
 <use x='0' y='0' xlink:href='#eq15-g1-118'/>
 <use x='5.65927' y='1.793263' xlink:href='#eq15-g0-115'/>
 </g>
-</svg> being the shear wave velocity.</p>
+</svg> being the shear wave velocity.</li>
+</ul>
+</blockquote>
 <p>In practice, the axisymmetric approximation means that one solves the
 above governing equations over a <em>circular sector</em>.
 Such a formulation is referred to as 2.5-dimensional because it involves

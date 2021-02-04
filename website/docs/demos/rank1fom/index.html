@@ -2,18 +2,18 @@
 <html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
   <meta charset="UTF-8" />
-  <title> &raquo; Rank-1 FOM Demo | ESW</title>
+  <title> &raquo; Single Forcing Run | ShWav</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,600%7CSource+Sans+Pro:400,400i,600,600i&amp;subset=latin-ext" />
   <link rel="stylesheet" href="/static/m-dark.css" />
   <link rel="canonical" href="/demos/rank1fom/" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#22272e" />
-  <meta property="og:site_name" content="ESW" />
-  <meta property="og:title" content="Rank-1 FOM Demo" />
-  <meta name="twitter:title" content="Rank-1 FOM Demo" />
+  <meta property="og:site_name" content="ShWav" />
+  <meta property="og:title" content="Single Forcing Run" />
+  <meta name="twitter:title" content="Single Forcing Run" />
   <meta property="og:url" content="/demos/rank1fom/" />
-  <meta property="og:description" content="Running a rank-1 FOM" />
-  <meta name="twitter:description" content="Running a rank-1 FOM" />
+  <meta property="og:description" content="Single Forcing FOM" />
+  <meta name="twitter:description" content="Single Forcing FOM" />
   <meta name="twitter:card" content="summary" />
   <meta property="og:type" content="page" />
 </head>
@@ -21,7 +21,7 @@
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">ElShWave</a>
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHWAV</a>
       <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
@@ -38,7 +38,8 @@
             <li>
               <a href="/">Demos</a>
               <ol>
-                <li><a href="/demos/rank1fom" id="m-navbar-current">Rank-1 FOM</a></li>
+                <li><a href="/demos/rank1fom" id="m-navbar-current">Single Forcing Run</a></li>
+                <li><a href="/demos/rank2fom">Multi-forcing Run</a></li>
               </ol>
             </li>
             <li>
@@ -62,11 +63,11 @@
           <span class="m-breadcrumb">
             <a href="{filename}/rank1fom.rst"></a> &raquo;
           </span>
-          Rank-1 FOM Demo
+          Single Forcing Run
         </h1>
 <!-- content -->
 <div>
-<p>This demo shows step-by-step how to create and run a rank-1 full-order model simulation.</p>
+<p>This demo shows step-by-step how to create and run a simulation for a single forcing.</p>
 <p>Here we assume you already followed the <a href="/getstarted/build_kokkos_host_serial/">step-by-step guide</a>
 to build the code and used <code>MYWORKDIR</code> as the working directory for that procedure,
 so that <code>${MYWORKDIR}/build</code> contains all the executables.</p>
@@ -85,8 +86,8 @@ mkdir -p <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="
 <p>The code has been developed such that the mesh is generated with Python
 and is used by the C++ code. There are two main reasons for this choice:
 first, it allows us to decouple the mesh generation from the actual physics code;
-second, we developed the code to support the concept of sample mesh,
-which is a key feature for nonlinear ROMs. This is <strong>not</strong> needed right now
+second, we developed the code with an eye to later on study how to apply sample mesh
+to nonlinear wav problems. This is <strong>not</strong> needed right now
 to solve the current elastic shear wave problem because this is a linear problem,
 but it can be useful if, in the future, we extend the code to support nonlinear problems.</p>
 <p>To specify the grid, one only needs to specify the grid for the velocity points because
@@ -136,8 +137,6 @@ For this demo, we use the following input file:</p>
 
 <span class="nt">material</span><span class="p">:</span>
   <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">prem</span></pre>
-<p>Which we already prepared and you can get by doing:</p>
-<pre class="m-code">cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/demos/fom_rank1/input.yaml <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span></pre>
 <p>Note how the input file is organized into sections:</p>
 <ul>
 <li><em>general</em>: contains general inputs, e.g., where the mesh is, time stepping, etc;</li>
@@ -145,56 +144,60 @@ For this demo, we use the following input file:</p>
 <li><em>source</em>: to define the kind of source signal, and its depth with respect to earth surface;</li>
 <li><em>material</em>: defines the type of material to use.</li>
 </ul>
+<p>Which is ready to get:</p>
+<pre class="m-code">cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/demos/fom_rank1/input.yaml <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span></pre>
 </section>
 <section id="run-the-simulation">
 <h2><a href="#run-the-simulation">3. Run the simulation</a></h2>
-<p>If you just use a build using a serial Kokkos, you can do:</p>
 <pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
 ln -s <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/build/shwave_fom .
+
+<span class="c1"># if you use OpenMP build, remember to set</span>
+<span class="c1"># OMP_NUM_THREADS=4 OMP_PLACES=threads OMP_PROC_BIND=spread</span>
+
 ./shwave_fom input.yaml</pre>
-<p><strong>Note</strong> that for a serial build, running this demo should take about 1 minute or so.</p>
-<p>If you use an OpenMP build:</p>
-<pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
-ln -s <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/build/shwave_fom .
-<span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">4</span> <span class="nv">OMP_PLACES</span><span class="o">=</span>threads <span class="nv">OMP_PROC_BIND</span><span class="o">=</span>spread ./shwave_fom input.yaml</pre>
 </section>
-<section id="post-process-data">
-<h2><a href="#post-process-data">4. Post-process data</a></h2>
-<p>Executing the run above should generate inside <code>${MYRUNDIR}</code> the following files:</p>
+<section id="simulation-data">
+<h2><a href="#simulation-data">5. Simulation data</a></h2>
+<p>After running the demo, you should have inside <code>${MYRUNDIR}</code> the following files:</p>
 <pre class="m-code">coords_sp.txt : coordinates of the velocity grid points
 coords_vp.txt : coordinates of the stresses grid points
 seismogram_0  : seismogram at the receiver locations <span class="nb">set</span> in input.yaml
 snaps_vp_0    : snapshot matrix <span class="k">for</span> the velocity
 snaps_sp_0    : snapshot matrix <span class="k">for</span> the stresses</pre>
+</section>
+<section id="post-process-data">
+<h2><a href="#post-process-data">4. Post-process data</a></h2>
 <p>To post-process the data, you can use the Python scripts created for this demo:</p>
 <pre class="m-code">cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/demos/fom_rank1/*.py <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span></pre>
 <p>First, we visualize the seismogram data by doing:</p>
 <pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
 python plotSeismogram.py</pre>
-<p>which should generate a plot like this:</p>
 <figure class="m-figure">
 <img src="/static/img/demo1_f1.png" />
-<figcaption>Sample seismogram generated from this demo.</figcaption>
 </figure>
-<p>Second, we can visualize the full wavefield at three times, <code>t=1000, 2000</code> (seconds) as follows:</p>
+<p>Then, we can extract and visualize the full wavefield at <code>t=250, 1000, 2000</code> (seconds):</p>
 <pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
 ln -s <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/build/extractStateFromSnaps .
 
 ./extractStateFromSnaps --snaps<span class="o">=</span>./snaps_vp_0 binary <span class="se">\</span>
-       --fsize<span class="o">=</span><span class="m">1</span> --outformat<span class="o">=</span>ascii --timesteps<span class="o">=</span><span class="m">4000</span> <span class="m">8000</span> <span class="se">\</span>
-       --samplingfreq<span class="o">=</span><span class="m">100</span> --outfileappend<span class="o">=</span>vp
+ --fsize<span class="o">=</span><span class="m">1</span> --outformat<span class="o">=</span>ascii --timesteps<span class="o">=</span><span class="m">4000</span> <span class="m">8000</span>  --samplingfreq<span class="o">=</span><span class="m">100</span> --outfileappend<span class="o">=</span>vp
 
 python plotWavefield.py</pre>
-<p>which should generate three plots as follows:</p>
 <div class="m-imagegrid m-container-inflate">
 <div>
-<figure style="width: 50.000%">
+<figure style="width: 33.333%">
 <a href="/static/img/demo1_f2.png"><img src="/static/img/demo1_f2.png" /><div>
 </div>
 </a>
 </figure>
-<figure style="width: 50.000%">
+<figure style="width: 33.333%">
 <a href="/static/img/demo1_f3.png"><img src="/static/img/demo1_f3.png" /><div>
+</div>
+</a>
+</figure>
+<figure style="width: 33.333%">
+<a href="/static/img/demo1_f4.png"><img src="/static/img/demo1_f4.png" /><div>
 </div>
 </a>
 </figure>

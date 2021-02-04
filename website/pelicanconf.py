@@ -5,9 +5,9 @@ import logging
 AUTHOR = 'Francesco  Rizzi'
 
 # M_SITE_LOGO = 'gr/logo.png'
-M_SITE_LOGO_TEXT = 'ElShWave'
+M_SITE_LOGO_TEXT = 'SHWAV'
 
-SITENAME = 'ESW'
+SITENAME = 'ShWav'
 SITESUBTITLE = 'Elastic Shear Waves'
 SITEURL = ''
 
@@ -68,16 +68,6 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
-# M_LINKS_NAVBAR1 = [('Overview', '', '', [
-#                         ("What are pROMs", 'overview/proms/', 'overview/proms'),
-#                         ("Design Approach", 'overview/design/', 'overview/design')]),
-#                    ('Supported Algorithms', '', '', [
-#                      ("Galerkin", 'algos/galerkin/', 'algos/galerkin'),
-#                      ("LSPG", 'algos/lspg/', 'algos/lspg'),
-#                      ("WLS", 'algos/wls/', 'algos/wls')]),
-#                    ('Various', '', '', [
-#                      ("License", 'various/license/', 'various/license')])]
-
 M_LINKS_NAVBAR1 = [('Get Started', '', '',
                     [
                       ("Equations and discretization", 'getstarted/goveq', 'getstarted/goveq'),
@@ -87,7 +77,8 @@ M_LINKS_NAVBAR1 = [('Get Started', '', '',
 
                    ('Demos', '', '',
                     [
-                      ("Rank-1 FOM", 'demos/rank1fom', 'demos/rank1fom')
+                      ("Single Forcing Run", 'demos/rank1fom', 'demos/rank1fom'),
+                      ("Multi-forcing Run", 'demos/rank2fom', 'demos/rank2fom')
                     ]),
 
                    ('Various', '', '', [("License", 'various/license/', 'various/license')])]

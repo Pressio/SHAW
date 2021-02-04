@@ -2,14 +2,14 @@
 <html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
   <meta charset="UTF-8" />
-  <title>Elastic Shear Waves | ESW</title>
+  <title>Elastic Shear Waves | ShWav</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,600%7CSource+Sans+Pro:400,400i,600,600i&amp;subset=latin-ext" />
   <link rel="stylesheet" href="/static/m-dark.css" />
   <link rel="canonical" href="/" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#22272e" />
   <meta name="description" content="Performance-portable simulator for elastic shear waves." />
-  <meta property="og:site_name" content="ESW" />
+  <meta property="og:site_name" content="ShWav" />
   <meta property="og:title" content="Elastic Shear Waves" />
   <meta name="twitter:title" content="Elastic Shear Waves" />
   <meta property="og:url" content="/" />
@@ -24,7 +24,7 @@
 <header><nav id="navigation" class="m-navbar-landing">
   <div class="m-container">
     <div class="m-row">
-      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m m-navbar-brand-hidden">ElShWave</a>
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m m-navbar-brand-hidden">SHWAV</a>
       <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
@@ -41,7 +41,8 @@
             <li>
               <a href="/">Demos</a>
               <ol>
-                <li><a href="/demos/rank1fom">Rank-1 FOM</a></li>
+                <li><a href="/demos/rank1fom">Single Forcing Run</a></li>
+                <li><a href="/demos/rank2fom">Multi-forcing Run</a></li>
               </ol>
             </li>
             <li>
@@ -64,25 +65,25 @@
 <!-- landing -->
 <div class="m-row">
 <div class="m-col-l-9 m-push-l-1 m-nopadb">
-<h1 style="text-transform:capitalize">Elastic Shear Waves Proxy App</h1></div>
+<h1 style="text-transform:capitalize">Elastic Shear Waves (ShWav)</h1></div>
 </div>
 <div class="m-row">
 <div class="m-col-l-8 m-push-l-1">
 <p>Seismic modeling and simulation is an active field of research
-because of its importance in understanding the generation,
+because of its critical importance to understand the generation,
 propagation and effects of earthquakes and artificial explosions.</p>
 <p>One can distinguish between two main types of seismic waves: shear and pressure.
 Shear waves are also called S-waves (or secondary) because they come
-after P-waves (or primary). The main difference between them is that S waves
-are transversal (particles oscillate perpendicularly to the direction
-of wave propagation), while the P waves are longitudinal (particles oscillate
-in the same direction as the wave). Both P and S waves
+after P-waves (or primary). The main difference between them is that S-waves
+are <em>transversal</em> (particles oscillate perpendicularly to the direction
+of wave propagation), while P-waves are <em>longitudinal</em> (particles oscillate
+in the same direction as the wave). Both P- and S-waves
 are body waves, because they travel through the interior of the earth
-(or some other planet) and their trajectories are affected
+(or some other planet), and their evolution is affected
 by the generating source as well as the material properties of the medium,
 namely density, stiffness, composition, etc.</p>
-<p>Modeling and simulating these systems is challenging because:
-(a) physical models contain a large number of parameters (e.g., anisotropic material properties,
+<p>Modeling and simulating these systems is challenging because (a) physical models
+contain a large number of parameters (e.g., anisotropic material properties,
 signal forms and parametrizations); and (b) simulating these systems at global scale
 with high-accuracy requires a large computational cost.</p>
 <p><em>This project contributes to the field by providing an open-source
@@ -96,7 +97,7 @@ C++ code to simulate elastic shear waves in an axi-symmetric domain.</em></p>
 </div>
 <div class="m-row">
 <div class="m-col-l-11 m-push-l-1">
-<p><strong>Highlights:</strong></p>
+<p><strong>HIGHLIGHTS AND CAPABILITIES:</strong></p>
 <ul>
 <li><p>
 The current implementation relies on Kokkos, but we are porting the code to other programming models.<br />
@@ -109,8 +110,8 @@ For example, the first porting will be to a distributed memory using, e.g., Tpet
 <li><dl>
 <dt>rank-1:</dt>
 <dd><ul>
-<li>the discretized state variables are stored in a 1D array</li>
-<li>this formulation is used to simulate a problem for a <em>single forcing</em> term</li>
+<li>the discretized state variables and forcing are stored in 1D arrays</li>
+<li>this is used to simulate the case of a <em>single forcing realization</em></li>
 </ul>
 </dd>
 </dl>
@@ -118,9 +119,10 @@ For example, the first porting will be to a distributed memory using, e.g., Tpet
 <li><dl>
 <dt>rank-2:</dt>
 <dd><ul>
-<li>the discretized state variables are stored in a rank-2 tensor (i.e. a matrix)</li>
-<li>this formulation is useful to simulate the evolution for <em>multiple forcing</em>
-terms simultaneously. The rank-2 formulation has an advantage from a computational
+<li>the discretized state variables and forcing are stored in rank-2 tensors (i.e. matrices)</li>
+<li>this is useful to simultaneously solve the wave dyanmics
+for <em>multiple forcing realizations</em> (e.g. multiple source locations and/or periods).
+This rank-2 formulation has an advantage from a computational
 standpoint because it has higher computational intensity.</li>
 </ul>
 </dd>
@@ -144,10 +146,10 @@ this involves creating the grid and adding a suitable material model for that pl
 </div>
 <div class="m-row">
 <div class="m-col-l-9 m-push-l-1">
-<p><strong>Where to go from here:</strong></p>
+<p><strong>GET STARTED:</strong></p>
 <ol>
 <li>read about the <a href="/getstarted/goveq/">governing equations, domain and discretization</a></li>
-<li><p>to build the code, you currently have the following choices:</p>
+<li><p>build the code using of the following versions:</p>
 <blockquote>
 <ul>
 <li><a href="/getstarted/build_kokkos_host_serial/">Host serial Kokkos</a>:
@@ -157,8 +159,8 @@ Kokkos-only version with <em>host OpenMP</em> backend.</li>
 </ul>
 </blockquote>
 </li>
-<li>learn how to generate the grid for a simulation</li>
-<li>step-by-step guide on running a simulation</li>
+<li>step-by-step demo for <a href="/demos/rank1fom/">single forcing (or rank-1) simulation</a></li>
+<li>step-by-step demo for <a href="/demos/rank2fom/">multi-forcing (or rank-2) simulation</a></li>
 <li>learn about the structure of the input file</li>
 </ol>
 </div>

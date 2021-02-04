@@ -9,10 +9,10 @@ Governing Equations and Discretization
 
 .. container::
 
-	*The objective is to model the axisymmetric evolution of elastic seismic shear waves.*
+	*We model the axisymmetric evolution of elastic seismic shear waves.*
 
 	First, we set the notation.
-	Assuming the Earth (or another target planet) can be approximated as a sphere, the following
+	Assuming the Earth (or another planet) can be approximated as a sphere, the following
 	figure shows our notation of the spherical coordinate system.
 
 	.. figure:: {static}/img/sc.svg
@@ -45,13 +45,23 @@ Governing Equations and Discretization
 		  - \frac{\cot{\theta}}{r} v(r, \theta,t) \right)
 
 
-	where :math-info:`t` represents time, :math-info:`r \in [0, r_{earth}]` is the radial distance bounded by the radius of the earth,
-	:math-info:`\theta \in [0, \pi]` is the polar angle, :math-info:`\rho(r, \theta)` is the density,
-	:math-info:`v(r, \theta, t)` is the velocity, :math-info:`\sigma_{r\phi}(r, \theta, t)` and
-	:math-info:`\sigma_{\theta\phi}(r, \theta, t)` are the two components of the stress tensor remaining after the
-	axisymmetric approximation, :math-info:`f(r, \theta,t)` is the forcing term,
-	and the shear modulus is :math-info:`G(r, \theta) = v_s^2(r, \theta) \rho(r, \theta)`,
-	with :math-info:`v_s` being the shear wave velocity.
+	where:
+
+	   * :math-info:`t` represents time
+
+	   * :math-info:`r \in [0, r_{earth}]` is the radial distance, :math-info:`\theta \in [0, \pi]` is the polar angle
+
+	   * :math-info:`\rho(r, \theta)` is the density, :math-info:`v(r, \theta, t)` is the velocity,
+
+	   * :math-info:`\sigma_{r\phi}(r, \theta, t)` and
+	     :math-info:`\sigma_{\theta\phi}(r, \theta, t)` are the two components of the stress tensor remaining after the
+	     axisymmetric approximation
+
+	   * :math-info:`f(r, \theta,t)` is the forcing term
+
+	   * :math-info:`G(r, \theta) = v_s^2(r, \theta) \rho(r, \theta)` is the shear modulus
+	     and :math-info:`v_s` being the shear wave velocity.
+
 
 	In practice, the axisymmetric approximation means that one solves the
 	above governing equations over a *circular sector*.

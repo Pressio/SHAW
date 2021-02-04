@@ -4,10 +4,6 @@ Host Serial Kokkos Build
 :breadcrumb: {filename}/build_kokkos_host_serial.rst
 :summary: Building with Host Serial Kokkos
 
-.. role:: math-info(math)
-    :class: m-default
-
-
 `1. Prerequisites`_
 ====================
 
@@ -25,7 +21,7 @@ Host Serial Kokkos Build
    export CC=<path-to-your-C-compiler>
    export CXX=<path-to-your-C++-compiler>
 
-   export ESWSRCDIR=<path-to-where-you-clone-the-repository>
+   export ESWSRCDIR=<path-to-where-you-cloned-the-repository>
 
    export MYWORKDIR=<path-to-where-you-want-to-work-in> #e.g. ${HOME}/myWaveTest
    mkdir -p ${MYWORKDIR}
@@ -96,7 +92,7 @@ And then do:
    export LAPACKLIBNAME=openblas
 
 
-`4: Build Kokkos and Kernels`_
+`4. Build Kokkos and Kernels`_
 ==============================
 Now that you BLAS/LAPACK is ready, we build Kokkos core and kernels as follows:
 
@@ -105,10 +101,10 @@ Now that you BLAS/LAPACK is ready, we build Kokkos core and kernels as follows:
    cd ${MYWORKDIR}
    [[ ! -d tpls ]] && mkdir tpls
    cd tpls
-   cp ${ESWSRCDIR}/bash_scripts/kokkos_host_serial/build_kokkos_and_kernels.sh .
+   cp ${ESWSRCDIR}/bash_scripts/build_kokkos_and_kernels.sh .
    export KOKKOSPFX=${MYWORKDIR}/tpls/kokkos/kokkos_install
    export KOKKOSKERPFX=${MYWORKDIR}/tpls/kokkos/kokkos_kernels_install
-   bash build_kokkos_and_kernels.sh
+   bash build_kokkos_and_kernels.sh serial
 
 **Remarks**:
 
@@ -118,11 +114,11 @@ Now that you BLAS/LAPACK is ready, we build Kokkos core and kernels as follows:
   the `Kokkos userguide <https://github.com/kokkos/kokkos>`_
   and `here <https://github.com/kokkos/kokkos-kernels/wiki/Building>`_,
   you need to modify the flags passed to
-  `build_kokkos_and_kernels.sh <https://github.com/fnrizzi/ElasticShearWaves/tree/master/bash_scripts/kokkos_host_serial/build_kokkos_and_kernels.sh>`_
+  `build_kokkos_and_kernels.sh <https://github.com/fnrizzi/ElasticShearWaves/tree/master/bash_scripts/build_kokkos_and_kernels.sh>`_
   and rerun it.
 
 
-`5: Build the Shear Wave Code and Run Tests`_
+`5. Build the Shear Wave Code and Run Tests`_
 =============================================
 
 .. code:: bash

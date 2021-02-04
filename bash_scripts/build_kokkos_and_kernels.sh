@@ -4,6 +4,14 @@ set -e
 
 function buildKokkos(){
     local arch=$1
+    local backend=$2
+
+    if [[ ${backend} == openmp ]]; then
+	ompBool=On
+    fi
+    if [[ ${backend} == serial ]]; then
+	ompSerial=On
+    fi
 
     [[ ! -d ${KOKKOS_BUILD_DIR} ]] && mkdir -p ${KOKKOS_BUILD_DIR}
     cd ${KOKKOS_BUILD_DIR} #&& rm -rf CMakeCache* core/*
@@ -13,8 +21,8 @@ function buildKokkos(){
 	      -DCMAKE_BUILD_TYPE="Release" \
 	      -DCMAKE_INSTALL_PREFIX=${KOKKOSPFX} \
 	      -DKokkos_ENABLE_TESTS=Off \
-	      -DKokkos_ENABLE_SERIAL=On \
-	      -DKokkos_ENABLE_OPENMP=Off \
+	      -DKokkos_ENABLE_SERIAL=${ompSerial} \
+	      -DKokkos_ENABLE_OPENMP=${ompBool} \
 	      -DKokkos_ENABLE_AGGRESSIVE_VECTORIZATION=Off \
 	      ${KOKKOS_SRC}
     else
@@ -23,7 +31,8 @@ function buildKokkos(){
 	      -DCMAKE_INSTALL_PREFIX=${KOKKOSPFX} \
 	      -DKokkos_ARCH_${arch}=On \
 	      -DKokkos_ENABLE_TESTS=Off \
-	      -DKokkos_ENABLE_OPENMP=Off \
+	      -DKokkos_ENABLE_SERIAL=${ompSerial} \
+	      -DKokkos_ENABLE_OPENMP=${ompBool} \
 	      -DKokkos_ENABLE_AGGRESSIVE_VECTORIZATION=Off \
 	      ${KOKKOS_SRC}
     fi
@@ -96,7 +105,7 @@ KOKKOS_KER_SRC=${MYPWD}/kokkos/kokkos-kernels-${kokkosver}
 KOKKOS_BUILD_DIR=${MYPWD}/kokkos/kokkos_build
 KOKKOSKER_BUILD_DIR=${MYPWD}/kokkos/kokkos_kernels_build
 
-buildKokkos none
-buildKokkosKernels none
+buildKokkos none $1
+buildKokkosKernels none $1
 
 cd ${MYPWD}

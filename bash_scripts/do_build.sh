@@ -85,12 +85,12 @@ else
 fi
 
 #----------------------
-# build
+# build wave code
 #----------------------
 EIGENPATH="${WORKINGDIR}/tpls/eigen/eigen"
 
-USEOMP=OFF
-[[ ${WITHOPENMP} == yes ]] && USEOMP=ON
+#USEOMP=OFF
+#[[ ${WITHOPENMP} == yes ]] && USEOMP=ON
 
 KOKKOSKERDIR=
 if [[ $ARCH == mac ]]; then
@@ -108,7 +108,6 @@ cd ${bdirname} && rm -rf *
 cmake -DCMAKE_CXX_COMPILER=${CXX} \
       -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
       -DCMAKE_BUILD_TYPE=Release \
-      -DHAVE_OMP:BOOL=${USEOMP} \
       \
       -DEIGEN_INCLUDE_DIR=${EIGENPATH} \
       \
@@ -121,6 +120,8 @@ cmake -DCMAKE_CXX_COMPILER=${CXX} \
       ${CPPSRC}
 make -j4
 cd ..
+
+#-DHAVE_OMP:BOOL=${USEOMP}
 
 #----------------------
 # go back where we started
