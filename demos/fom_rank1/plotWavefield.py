@@ -29,15 +29,13 @@ def plotEarthSurf(ax):
   ax.plot(surfTh, surfRa, c='k', linewidth=0.5)
 
 #=========================================
-def doPlot(th, r, z, figID, bd, outName, title):
-  cm1 = plt.cm.get_cmap('PuOr')
-  cm2 = plt.cm.get_cmap('BrBG_r')
-  cm3 = plt.cm.get_cmap('PiYG')
+def doPlot(th, r, z, figID, bd, outName, title, plotSource=False):
+  cm1 = plt.cm.get_cmap('cividis')
 
   fig1 = plt.figure(figID)
   ax1 = fig1.add_subplot(111, projection='polar')
 
-  h1=ax1.pcolormesh(th, r, z, cmap=cm3, shading = "flat",
+  h1=ax1.pcolormesh(th, r, z, cmap=cm1, shading = "flat",
                     vmin=bd[0], vmax=bd[1], zorder=1)
   ax1.set_ylim([cmbRadius, earthRadius])
   ax1.set_yticks([]) #[3480, 5701, 6371])
@@ -49,13 +47,26 @@ def doPlot(th, r, z, figID, bd, outName, title):
                        r'$\pi/2$', r'$2\pi/6$', r'$\pi/6$', r'$0$'],
                       fontsize=11)
 
-  ax1.set_title(title, fontsize=15)
+  ax1.set_title(title, fontsize=15, color='w')
   ax1.set_rorigin(-1)
   plotEarthSurf(ax1)
   plotCMB(ax1)
-  #fig1.colorbar(h1)
+
+  # put a red circle to indicate where to source is located
+  # the depth is extracted from the input.yaml
+  if plotSource:
+    sourceRadius = earthRadius-640. #[km]
+    c = ax1.scatter(np.pi/2.01, sourceRadius, c='r', s=15)  
+    ax1.text(np.pi/2.01, sourceRadius, "Source", horizontalalignment='center', verticalalignment='top', color='w')  
+
+  mycolor = 'w'
+  ax1.xaxis.label.set_color(mycolor);
+  ax1.tick_params(axis='x', colors=mycolor)
+  ax1.yaxis.label.set_color(mycolor);
+  ax1.tick_params(axis='y', colors=mycolor)
+
   plt.tight_layout()
-  fig1.savefig(outName, format="png",bbox_inches='tight', dpi=300)
+  fig1.savefig(outName, format="png",bbox_inches='tight', dpi=300, transparent=True)
   plt.show()
 
 ###############################
@@ -66,6 +77,9 @@ if __name__== "__main__":
   th, r = -cc[:,0]+np.pi/2., cc[:, 1]/1000. #m to km
   th, r = th.reshape((nr,nth)), r.reshape((nr,nth))
 
+  fomFile = './state_timestep_1000_vp'
+  fomState = np.loadtxt(fomFile, skiprows=1)
+  doPlot(th, r, fomState.reshape((nr, nth)), 0,[-5e-9, 5e-9], "wavefield_1000.png", title="t=250 (s)", plotSource=True)
   fomFile = './state_timestep_4000_vp'
   fomState = np.loadtxt(fomFile, skiprows=1)
   doPlot(th, r, fomState.reshape((nr, nth)), 0,[-5e-9, 5e-9], "wavefield_4000.png", title="t=1000 (s)")

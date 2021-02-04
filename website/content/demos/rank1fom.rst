@@ -31,8 +31,8 @@ Rank-1 FOM Demo
 The code has been developed such that the mesh is generated with Python
 and is used by the C++ code. There are two main reasons for this choice:
 first, it allows us to decouple the mesh generation from the actual physics code;
-second, we developed the code to support the concept of sample mesh,
-which is a key feature for nonlinear ROMs. This is **not** needed right now
+second, we developed the code with an eye to later on study how to apply sample mesh 
+to nonlinear wav problems. This is **not** needed right now
 to solve the current elastic shear wave problem because this is a linear problem,
 but it can be useful if, in the future, we extend the code to support nonlinear problems.
 
@@ -98,12 +98,6 @@ For this demo, we use the following input file:
      kind: prem
 
 
-Which we already prepared and you can get by doing:
-
-.. code:: bash
-
-   cp ${ESWSRCDIR}/demos/fom_rank1/input.yaml ${MYRUNDIR}
-
 Note how the input file is organized into sections:
 
 - *general*: contains general inputs, e.g., where the mesh is, time stepping, etc;
@@ -114,33 +108,30 @@ Note how the input file is organized into sections:
 
 - *material*: defines the type of material to use.
 
+Which is ready to get:
+
+.. code:: bash
+
+   cp ${ESWSRCDIR}/demos/fom_rank1/input.yaml ${MYRUNDIR}
 
 `3. Run the simulation`_
 ========================
 
-If you just use a build using a serial Kokkos, you can do:
-
 .. code:: bash
 
    cd ${MYRUNDIR}
    ln -s ${MYWORKDIR}/build/shwave_fom .
+
+   # if you use OpenMP build, remember to set 
+   # OMP_NUM_THREADS=4 OMP_PLACES=threads OMP_PROC_BIND=spread  
+
    ./shwave_fom input.yaml
 
-**Note** that for a serial build, running this demo should take about 1 minute or so.
 
-If you use an OpenMP build:
-
-.. code:: bash
-
-   cd ${MYRUNDIR}
-   ln -s ${MYWORKDIR}/build/shwave_fom .
-   OMP_NUM_THREADS=4 OMP_PLACES=threads OMP_PROC_BIND=spread ./shwave_fom input.yaml
-
-
-`4. Post-process data`_
+`5. Simulation data`_
 =======================
 
-Executing the run above should generate inside ``${MYRUNDIR}`` the following files:
+After running the demo, you should have inside ``${MYRUNDIR}`` the following files:
 
 .. code:: bash
 
@@ -150,6 +141,9 @@ Executing the run above should generate inside ``${MYRUNDIR}`` the following fil
    snaps_vp_0    : snapshot matrix for the velocity
    snaps_sp_0    : snapshot matrix for the stresses
 
+
+`4. Post-process data`_
+=======================
 
 To post-process the data, you can use the Python scripts created for this demo:
 
@@ -165,13 +159,11 @@ First, we visualize the seismogram data by doing:
    cd ${MYRUNDIR}
    python plotSeismogram.py
 
-which should generate a plot like this:
 
 .. figure:: {static}/img/demo1_f1.png
 
-   Sample seismogram generated from this demo.
 
-Second, we can visualize the full wavefield at three times, ``t=1000, 2000`` (seconds) as follows:
+Then, we can extract and visualize the full wavefield at ``t=250, 1000, 2000`` (seconds):
 
 .. code:: bash
 
@@ -179,15 +171,13 @@ Second, we can visualize the full wavefield at three times, ``t=1000, 2000`` (se
    ln -s ${MYWORKDIR}/build/extractStateFromSnaps .
 
    ./extractStateFromSnaps --snaps=./snaps_vp_0 binary \
-	  --fsize=1 --outformat=ascii --timesteps=4000 8000 \
-	  --samplingfreq=100 --outfileappend=vp
+    --fsize=1 --outformat=ascii --timesteps=4000 8000  --samplingfreq=100 --outfileappend=vp
 
    python plotWavefield.py
 
-
-which should generate three plots as follows:
 
 .. image-grid::
 
    {static}/img/demo1_f2.png
    {static}/img/demo1_f3.png
+   {static}/img/demo1_f4.png
