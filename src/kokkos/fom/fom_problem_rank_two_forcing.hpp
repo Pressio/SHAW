@@ -27,9 +27,8 @@ class FomProblemRankTwoForcing
   using state_h_t	= typename state_d_t::host_mirror_type;
   using jacobian_d_type = KokkosSparse::CrsMatrix<sc_t, int_t, exe_space>;
   using fom_t		= ShWavePP<sc_t, int_t, mesh_info_t, jacobian_d_type, exe_space>;
-
-  using obs_t		= Observer<int_t, sc_t, state_d_t>;
-  using seismogram_t	= Seismogram<int_t, sc_t, state_d_t>;
+  using obs_t		= StateObserver<int_t, sc_t>;
+  using seismogram_t	= Seismogram<int_t, sc_t>;
   using forcing_t       = RankTwoForcing<sc_t, state_d_t, int_t>;
 
 private:

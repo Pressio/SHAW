@@ -22,21 +22,20 @@ complexityFom(const state_d_t xVp,
   const auto nVp = xVp.extent(0);
   const auto nSp = xSp.extent(0);
 
-  std::array<double, 5> memMB = {};
-  std::array<double, 5> flops = {};
+  std::array<double, 3> memMB = {};
+  std::array<double, 3> flops = {};
 
   // spmv: xVp = xVp + dt * Jvp * xSp
   const auto nnz_j_vp = fomObj.getJacobianNNZ(dofId::vp);
-  comp_t::template spmv<ord_t>(nnz_j_vp, nVp, memMB[1], flops[1]);
+  comp_t::template spmv<ord_t>(nnz_j_vp, nVp, memMB[0], flops[0]);
 
   // mult: xVp = xVp + dt * rhoInv * f   (note that beta=1)
-  comp_t::mult_beta_one(nVp, memMB[2], flops[2]);
+  comp_t::mult_beta_one(nVp, memMB[1], flops[1]);
 
   // spmv: xSp = xSp + dt * Jsp * xVp
   const auto nnz_j_sp = fomObj.getJacobianNNZ(dofId::sp);
-  comp_t::template spmv<ord_t>(nnz_j_sp, nSp, memMB[3], flops[3]);
+  comp_t::template spmv<ord_t>(nnz_j_sp, nSp, memMB[2], flops[2]);
 
-  // accumulate
   memCostMB   = std::accumulate(memMB.begin(),   memMB.end(),   0.);
   flopsCost = std::accumulate(flops.begin(), flops.end(), 0.);
 }
@@ -62,24 +61,23 @@ complexityFom(const state_d_t xVp,
   const auto nSp    = xSp.extent(0);
   const auto fSize = xVp.extent(1);
 
-  std::array<double, 5> memMB = {};
-  std::array<double, 5> flops = {};
+  std::array<double, 3> memMB = {};
+  std::array<double, 3> flops = {};
 
   // //account for forcing complexity
   // forcingObj.complexityOfEvaluateMethod(memMB[0], flops[0]);
 
   // xVp = xVp + dt * Jvp * xSp
   const auto nnz_j_vp = fomObj.getJacobianNNZ(dofId::vp);
-  comp_t::template spmm<ord_t>(nnz_j_vp, nVp, fSize, memMB[1], flops[1]);
+  comp_t::template spmm<ord_t>(nnz_j_vp, nVp, fSize, memMB[0], flops[0]);
 
-  memMB[2] = 4.*fSize*sizeof(sc_t);
-  flops[2] = 3.*fSize;
+  memMB[1] = 4.*fSize*sizeof(sc_t);
+  flops[1] = 3.*fSize;
 
   // spmm: xSp = xSp + dt * Jsp * xVp
   const auto nnz_j_sp = fomObj.getJacobianNNZ(dofId::sp);
-  comp_t::template spmm<ord_t>(nnz_j_sp, nSp, fSize, memMB[3], flops[3]);
+  comp_t::template spmm<ord_t>(nnz_j_sp, nSp, fSize, memMB[2], flops[2]);
 
-  // accumulate
   memCostMB = std::accumulate(memMB.begin(), memMB.end(), 0.);
   flopsCost = std::accumulate(flops.begin(), flops.end(), 0.);
 }

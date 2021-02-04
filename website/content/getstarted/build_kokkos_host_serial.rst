@@ -2,7 +2,7 @@ Host Serial Kokkos Build
 ########################
 
 :breadcrumb: {filename}/build_kokkos_host_serial.rst
-:summary: Host Serial Kokkos
+:summary: Building with Host Serial Kokkos
 
 .. role:: math-info(math)
     :class: m-default
@@ -17,8 +17,8 @@ Host Serial Kokkos Build
 
 * BLAS/LAPACK: if you don't have them, we provide a script to build them for you
 
-`2. Prep environment`_
-======================
+`2. Prepare environment`_
+=========================
 
 .. code:: bash
 
@@ -33,6 +33,8 @@ Host Serial Kokkos Build
 
 `3. BLAS/LAPACK`_
 =================
+
+To handle BLAS/LAPACK, we envision the following three scenarios.
 
 `a. You want to let CMake figure it out`_
 -----------------------------------------
@@ -120,12 +122,61 @@ Now that you BLAS/LAPACK is ready, we build Kokkos core and kernels as follows:
   and rerun it.
 
 
-`5: Build the Elastic Shear Wave Code`_
-=======================================
+`5: Build the Shear Wave Code and Run Tests`_
+=============================================
 
 .. code:: bash
 
    cd ${ESWSRCDIR}/bash_scripts
    ./do_build.sh --working-dir=${MYWORKDIR} --kokkos-pfx=${KOKKOSPFX} --kokkos-ker-pfx=${KOKKOSKERPFX}
+   cd ${MYWORKDIR}/build
+   ctest
 
-this should generate inside ``${MYWORKDIR}/build`` the following:
+which should display (at the time of this writing we have these tests):
+
+.. code:: bash
+
+   Start  1: parser_test_1
+   1/21 Test  #1: parser_test_1 .....................   Passed    0.32 sec
+   Start  2: parser_test_2
+   2/21 Test  #2: parser_test_2 .....................   Passed    0.19 sec
+   Start  3: parser_test_3
+   3/21 Test  #3: parser_test_3 .....................   Passed    0.22 sec
+   Start  4: parser_test_4
+   4/21 Test  #4: parser_test_4 .....................   Passed    0.19 sec
+   Start  5: seismogram_test
+   5/21 Test  #5: seismogram_test ...................   Passed    0.20 sec
+   Start  6: forcing_rank1
+   6/21 Test  #6: forcing_rank1 .....................   Passed    0.20 sec
+   Start  7: graphs
+   7/21 Test  #7: graphs ............................   Passed    0.19 sec
+   Start  8: coords
+   8/21 Test  #8: coords ............................   Passed    0.20 sec
+   Start  9: jacobian_vp
+   9/21 Test  #9: jacobian_vp .......................   Passed    0.20 sec
+   Start 10: jacobian_sp
+   10/21 Test #10: jacobian_sp .......................   Passed    0.20 sec
+   Start 11: stress_labels
+   11/21 Test #11: stress_labels .....................   Passed    0.20 sec
+   Start 12: fomInnerDomainKokkos1
+   12/21 Test #12: fomInnerDomainKokkos1 .............   Passed    0.67 sec
+   Start 13: fomInnerDomainKokkos2
+   13/21 Test #13: fomInnerDomainKokkos2 .............   Passed    0.47 sec
+   Start 14: fomNearSurfaceKokkos1
+   14/21 Test #14: fomNearSurfaceKokkos1 .............   Passed    0.50 sec
+   Start 15: fomNearSurfaceKokkos2
+   15/21 Test #15: fomNearSurfaceKokkos2 .............   Passed    0.47 sec
+   Start 16: fomNearCmbKokkos1
+   16/21 Test #16: fomNearCmbKokkos1 .................   Passed    0.64 sec
+   Start 17: fomNearCmbKokkos2
+   17/21 Test #17: fomNearCmbKokkos2 .................   Passed    0.64 sec
+   Start 18: fomSymmetryAxisThetaZeroKokkos1
+   18/21 Test #18: fomSymmetryAxisThetaZeroKokkos1 ...   Passed    0.86 sec
+   Start 19: fomSymmetryAxisThetaZeroKokkos2
+   19/21 Test #19: fomSymmetryAxisThetaZeroKokkos2 ...   Passed    0.85 sec
+   Start 20: fomSymmetryAxisThetaPiKokkos1
+   20/21 Test #20: fomSymmetryAxisThetaPiKokkos1 .....   Passed    0.84 sec
+   Start 21: fomSymmetryAxisThetaPiKokkos2
+   21/21 Test #21: fomSymmetryAxisThetaPiKokkos2 .....   Passed    0.85 sec
+
+   100% tests passed, 0 tests failed out of 21

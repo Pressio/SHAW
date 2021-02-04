@@ -5,12 +5,20 @@
 template <typename state_t, typename dest_t>
 struct Copy
 {
-  std::size_t count_;
+  std::size_t colIndex_;
   state_t x_;
   dest_t M_;
 
-  Copy(std::size_t count, state_t x, dest_t M)
-    : count_(count), x_(x), M_(M){}
+  Copy(std::size_t colIndex, state_t x, dest_t M)
+    : colIndex_(colIndex), x_(x), M_(M){}
+
+  template <typename _state_t = state_t>
+  KOKKOS_INLINE_FUNCTION
+  typename std::enable_if<is_kokkos_1dview<_state_t>::value>::type
+  operator() (const std::size_t & i) const
+  {
+    M_(i, colIndex_, 0) = x_(i);
+  }
 
   template <typename _state_t = state_t>
   KOKKOS_INLINE_FUNCTION
@@ -18,20 +26,13 @@ struct Copy
   operator() (const std::size_t & i) const
   {
     for (std::size_t j=0; j<M_.extent(2); ++j)
-      M_(i, count_, j) = x_(i,j);
-  }
-  template <typename _state_t = state_t>
-  KOKKOS_INLINE_FUNCTION
-  typename std::enable_if<is_kokkos_1dview<_state_t>::value>::type
-  operator() (const std::size_t & i) const
-  {
-    M_(i, count_, 0) = x_(i);
+      M_(i, colIndex_, j) = x_(i,j);
   }
 };
 
 
-template <typename int_t, typename scalar_t, typename state_t>
-struct Observer
+template <typename int_t, typename scalar_t>
+struct StateObserver
 {
   using matrix_t = Kokkos::View<scalar_t***, Kokkos::LayoutLeft, Kokkos::HostSpace>;
 
@@ -42,8 +43,9 @@ private:
 
   std::array<int_t, 2> numDofs_ = {};
 
-  // count the snapshots
+  // to count the snapshots
   std::array<int_t, 2> count_ = {};
+  // sampling frequency
   std::array<int_t, 2> snapshotFreq_ = {};
 
   // snapshot matrices
@@ -55,10 +57,10 @@ private:
 
 public:
   template <typename parser_t>
-  Observer(int_t numDof_vp,
-	   int_t numDof_sp,
-	   const parser_t & parser,
-	   int_t fSize = 1)
+  StateObserver(int_t numDof_vp,
+		int_t numDof_sp,
+		const parser_t & parser,
+		int_t fSize = 1)
     : useBinaryIO_(parser.writeSnapshotsBinary()),
       enableSnapMat_{parser.enableSnapshotMatrix()},
       snapFileName_{{parser.getSnapshotFileName(dofId::vp),
@@ -76,17 +78,20 @@ public:
       int_t numColsSp = 0;
 
       // make sure number of steps is divisible by sampling frequency
-      if ( Nsteps % snapshotFreq_[0] == 0)
+      if ( Nsteps % snapshotFreq_[0] == 0){
 	numColsVp = Nsteps/snapshotFreq_[0];
-      else
+      }
+      else{
 	throw std::runtime_error("Snapshot Vp frequency not a divisor of steps");
+      }
 
       // make sure number of steps is divisible by sampling frequency
       if ( Nsteps % snapshotFreq_[1] == 0 ){
 	numColsSp = Nsteps/snapshotFreq_[1];
       }
-      else
+      else{
 	throw std::runtime_error("Snapshot Sp frequency not a divisor of steps");
+      }
 
       //resize matrix
       Kokkos::resize(Avp_, numDof_vp, numColsVp, fSize);
@@ -99,23 +104,27 @@ public:
     }
   }
 
-  void prepForNewRun(int_t runIdIn){
+  void prepForNewRun(int_t runIdIn)
+  {
     // assumes the new run has same sampling frequncies as before
     count_ = {0,0};
     runID_ = runIdIn;
   }
 
-  const auto & viewSnapshotMatrix(const dofId dof) const {
+  const auto & viewSnapshotMatrix(const dofId dof) const
+  {
     switch (dof){
     case dofId::vp: return Avp_;
     case dofId::sp: return Asp_;
     }
   }
 
+  template<typename state_t>
   void observe(const dofId dof, int_t step, const state_t x)
   {
 
-    if (enableSnapMat_){
+    if (enableSnapMat_)
+    {
       auto & A	      = (dof==dofId::vp) ? Avp_ : Asp_;
       const auto freq = (dof==dofId::vp) ? snapshotFreq_[0] : snapshotFreq_[1];
       auto & count    = (dof==dofId::vp) ? count_[0] : count_[1];
@@ -124,7 +133,10 @@ public:
       {
   	auto xhv = Kokkos::create_mirror_view(x);
 	Kokkos::deep_copy(xhv, x);
-	Copy<typename state_t::HostMirror, matrix_t> fnc(count, xhv, A);
+
+	// might want to make the copy a bit more efficient
+	using state_h_t = typename state_t::HostMirror;
+	Copy<state_h_t, matrix_t> fnc(count, xhv, A);
 	Kokkos::parallel_for(xhv.extent(0), fnc);
   	count++;
       }
@@ -133,7 +145,8 @@ public:
 
   void writeSnapshotMatrixToFile(const dofId dof) const
   {
-    if (enableSnapMat_){
+    if (enableSnapMat_)
+    {
       std::cout << "Writing snapshots " + dofIdToString(dof);
 
       const auto dofName = dofIdToString(dof);
@@ -142,18 +155,14 @@ public:
       // append the runID to the file
       auto fN2 = fN + "_" + std::to_string(runID_);
 
-      // if the forcing has rank-1 so the third dim of A is 1
-      if (A.extent(2) == 1){
+      if (A.extent(2) == 1)
+      {
+	// if the forcing has rank-1 the third dim of A is 1
 	const auto Av = Kokkos::subview(A, Kokkos::ALL(), Kokkos::ALL(), 0);
 	writeToFile(fN2, Av, useBinaryIO_);
       }
       else{
 	writeToFile(fN2, A, useBinaryIO_);
-	// for (std::size_t i=0; i<A.extent(2); ++i){
-	// 	std::string iFile = fileName + "_" + std::to_string(i);
-	// 	const auto Av = Kokkos::subview(A, Kokkos::ALL(), Kokkos::ALL(), i);
-	// 	writeMatrixToFile(iFile, Av, useBinaryIO_);
-	// }
       }
       std::cout << "... Done" << std::endl;
     }
@@ -161,9 +170,6 @@ public:
 
 };
 #endif
-
-
-
 
 // std::string finalFileName = "final_state_" + dofName;
 // if runID != -1 it means we are doing multiple runs, so modify file name

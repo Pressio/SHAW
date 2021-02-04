@@ -39,6 +39,11 @@ link_libraries	   (dl yaml-cpp Kokkos::kokkoskernels) # Kokkos::BLAS Kokkos::LAP
 set(exeName	shwave_fom)
 add_executable	(${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/src/kokkos/main_fom.cc)
 
+set(exeName extractStateFromSnaps)
+add_executable	(${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/src/tools/main_extract_state_from_snaps.cc)
+
+
+
 # set(exeName	shwave_rom)
 # add_executable  (${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/kokkos/main_rom.cc)
 
@@ -47,9 +52,6 @@ add_executable	(${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/src/kokkos/main_fom.cc)
 
 # set(exeName reconstructSeismogram)
 # add_executable	(${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/tools/main_reconstruct_seismo.cc)
-
-# set(exeName extractStateFromSnaps)
-# add_executable	(${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/tools/main_extract_state_from_snaps.cc)
 
 set(exeName compareSnaps)
 add_executable		(${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/src/tools/main_cmp_snaps.cc)

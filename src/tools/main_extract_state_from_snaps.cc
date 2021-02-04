@@ -1,10 +1,16 @@
 
 #include "CLI11.hpp"
 #include "Kokkos_Core.hpp"
-#include "../shared/constants.hpp"
-#include "../shared/meta.hpp"
-#include "../shared/io.hpp"
 #include "KokkosBlas2_gemv.hpp"
+#include "../shared/constants.hpp"
+#include "../shared/meta/meta_eigen.hpp"
+#include "../shared/meta/meta_kokkos.hpp"
+#include "../shared/io/matrix_write.hpp"
+#include "../shared/io/matrix_read.hpp"
+#include "../shared/io/read_basis.hpp"
+#include "../shared/io/read_reference_state.hpp"
+#include "../shared/io/vector_write.hpp"
+#include "../shared/io/vector_read.hpp"
 #include "utility"
 
 int main(int argc, char *argv[])

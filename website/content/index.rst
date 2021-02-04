@@ -10,7 +10,7 @@ Elastic Shear Waves
 :landing:
     .. container:: m-row
 
-        .. container:: m-col-l-8 m-push-l-1 m-nopadb
+        .. container:: m-col-l-9 m-push-l-1 m-nopadb
 
             .. raw:: html
 
@@ -18,11 +18,11 @@ Elastic Shear Waves
 
     .. container:: m-row
 
-        .. container:: m-col-l-7 m-push-l-1
+        .. container:: m-col-l-8 m-push-l-1
 
             Seismic modeling and simulation is an active field of research
             because of its importance in understanding the generation,
-            propagation and effects of earthquakes as well as artificial explosions.
+            propagation and effects of earthquakes and artificial explosions.
 
             One can distinguish between two main types of seismic waves: shear and pressure.
             Shear waves are also called S-waves (or secondary) because they come
@@ -61,12 +61,12 @@ Elastic Shear Waves
 
     .. container:: m-row
 
-        .. container:: m-col-l-10 m-push-l-1
+        .. container:: m-col-l-11 m-push-l-1
 
-            Highlights:
+            **Highlights:**
 
-            * The current implementation relies on Kokkos, but we are porting the code to other programming models.<br/>
-              For example, the first porting will be to a distributed memory using, e.g., Tpetra from Trilinos.
+            * | The current implementation relies on Kokkos, but we are porting the code to other programming models.
+	      | For example, the first porting will be to a distributed memory using, e.g., Tpetra from Trilinos.
 
             * The code implements what we call "rank-1" and "rank-2" formulations:
 
@@ -80,9 +80,7 @@ Elastic Shear Waves
                       terms simultaneously. The rank-2 formulation has an advantage from a computational
                       standpoint because it has higher computational intensity.
 
-            * We use the velocity-shear formulation in an axi-symmetric domain.
-
-	    * The model is so-called 2.5 dimensional model.
+            * We use the velocity-shear formulation in an axi-symmetric domain, leading to a so-called 2.5 dimensional model.
 
             * The code currently supports the following radial material models: a single layer,
               a bilayer model and the Preliminary Reference Earth Model (PREM).
@@ -96,17 +94,17 @@ Elastic Shear Waves
 
         .. container:: m-col-l-9 m-push-l-1
 
-            Where to go from here:
+	    **Where to go from here:**
 
             1. read about the `governing equations, domain and discretization <{filename}/getstarted/goveq.rst>`_
 
-            2. to build the code, you currently have the following options:
+            2. to build the code, you currently have the following choices:
 
 		* `Host serial Kokkos <{filename}/getstarted/build_kokkos_host_serial.rst>`_:
-		  to build the Kokkos version with *host serial* backend.
+		  Kokkos-only version with *host serial* backend.
 
 		* `Host OpenMP Kokkos <{filename}/getstarted/build_kokkos_host_omp.rst>`_:
-		  to build the Kokkos version with *host OpenMP* backend.
+		  Kokkos-only version with *host OpenMP* backend.
 
             3. learn how to generate the grid for a simulation
 

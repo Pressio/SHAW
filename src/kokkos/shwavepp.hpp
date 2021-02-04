@@ -20,16 +20,14 @@ public:
 
   using jacobian_ord_type = typename jacobian_d_t::ordinal_type;
 
-  using coords_d_t	= Kokkos::View<scalar_type*[2], klr, exespace>;
-  using coords_h_t	= typename coords_d_t::host_mirror_type;
+  using coords_h_t	= Kokkos::View<scalar_type*[2], klr, Kokkos::HostSpace>;
 
   using graph_vp_d_t	= Kokkos::View<int_t*[5], klr, exespace>;
   using graph_vp_h_t	= typename graph_vp_d_t::host_mirror_type;
   using graph_sp_d_t	= Kokkos::View<int_t*[3], klr, exespace>;
   using graph_sp_h_t	= typename graph_sp_d_t::host_mirror_type;
 
-  using sten_coeff_d_t	= Kokkos::View<scalar_type*[4], klr, exespace>;
-  using sten_coeff_h_t	= typename sten_coeff_d_t::host_mirror_type;
+  using sten_coeff_h_t	= Kokkos::View<scalar_type*[4], klr, Kokkos::HostSpace>;
 
   using rho_inv_d_t	= Kokkos::View<scalar_type*, exespace>;
   using rho_inv_h_t	= typename rho_inv_d_t::host_mirror_type;
@@ -456,21 +454,21 @@ private:
   //***** members for Vp *****
   //**************************
   // numGptVp = number of points for the velocity (Vp)
-  int_t numGptVp_		= {};
+  int_t numGptVp_ = {};
 
   // coords for velocity point (we store theta and r) - host only
   // theta in col[0], 1/r in col[1]
   coords_h_t coordsVp_h_ = {};
 
   // array containing 1/density at each velocity point
-  rho_inv_d_t rhoInvVp_d_	= {};
-  rho_inv_d_t rhoInvVp_h_	= {};
+  rho_inv_d_t rhoInvVp_d_ = {};
+  rho_inv_d_t rhoInvVp_h_ = {};
 
   // graph for vp
   graph_vp_h_t  graphVp_h_ = {};
 
   // jacobian matrix for Vp
-  jacobian_d_t JacVp_d_	= {};
+  jacobian_d_t JacVp_d_ = {};
 
   //**************************
   //***** members for Sp *****
@@ -487,7 +485,7 @@ private:
   labels_h_t labelsSp_h_ = {};
 
   // density and shear modulus for sp points
-  shmod_d_t shearModSp_d_	= {};
+  shmod_d_t shearModSp_d_ = {};
 
   // graph for sp
   graph_sp_h_t  graphSp_h_ = {};
@@ -495,7 +493,7 @@ private:
   // jacobian matrix for sp
   jacobian_d_t JacSp_d_ = {};
 
-};//end class
+};
 
 }//end namespace kokkosapp
 #endif

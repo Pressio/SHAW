@@ -34,9 +34,7 @@ updateVelocity(const sc_t & dt,
    */
 
   constexpr auto one  = constants<sc_t>::one();
-
   KokkosSparse::spmv(KokkosSparse::NoTranspose, dt, jacVp_d, xSp_d, one, xVp_d);
-
   auto f_d = fObj.viewForcingDevice();
   KokkosBlas::mult(one, xVp_d, dt, rhoInvVp_d, f_d);
 }

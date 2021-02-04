@@ -32,7 +32,7 @@ struct CopySeis
 };
 
 
-template <typename int_t, typename scalar_t, typename state_t>
+template <typename int_t, typename scalar_t>
 class Seismogram
 {
   // container type to store the data
@@ -134,6 +134,7 @@ public:
     runID_ = sampleID;
   }
 
+  template <typename state_t>
   void storeVelocitySignalAtReceivers(int_t step, const state_t & x)
   {
     if (enable_){
@@ -163,6 +164,6 @@ public:
       std::cout << "... Done" << std::endl;
     }
   }
-
 };
+
 #endif

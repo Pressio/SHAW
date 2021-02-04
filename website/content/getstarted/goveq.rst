@@ -16,7 +16,7 @@ Governing Equations and Discretization
 	figure shows our notation of the spherical coordinate system.
 
 	.. figure:: {static}/img/sc.svg
-		:width: 300 px
+		:width: 350 px
 
 
 	In the axisymmetric approximation, one assumes fields/quantities to not vary along :math-info:`\phi`.
@@ -73,4 +73,4 @@ Governing Equations and Discretization
 	We use a second-order centered finite-difference method for the spatial operators.
 
 	.. figure:: {static}/img/mesh.png
-		:width: 400 px
+		:width: 450 px

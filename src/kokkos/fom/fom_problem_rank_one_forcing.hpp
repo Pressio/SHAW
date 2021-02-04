@@ -27,8 +27,8 @@ public:
   using mesh_info_t	= MeshInfo<sc_t, int_t>;
   using fom_t		= ShWavePP<sc_t, int_t, mesh_info_t, jacobian_d_type, exe_space>;
   using forcing_t       = RankOneForcing<sc_t, state_d_t, int_t>;
-  using obs_t		= Observer<int_t, sc_t, state_d_t>;
-  using seismogram_t	= Seismogram<int_t, sc_t, state_d_t>;
+  using obs_t		= StateObserver<int_t, sc_t>;
+  using seismogram_t	= Seismogram<int_t, sc_t>;
 
 private:
   // parser with inputs
