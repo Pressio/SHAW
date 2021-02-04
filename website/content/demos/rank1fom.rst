@@ -167,7 +167,7 @@ First, we visualize the seismogram data by doing:
 
 which should generate a plot like this:
 
-.. figure:: {static}/img/demo_f1.png
+.. figure:: {static}/img/demo1_f1.png
 
    Sample seismogram generated from this demo.
 
@@ -189,5 +189,5 @@ which should generate three plots as follows:
 
 .. image-grid::
 
-   {static}/img/demo_f2.png
-   {static}/img/demo_f3.png
+   {static}/img/demo1_f2.png
+   {static}/img/demo1_f3.png
