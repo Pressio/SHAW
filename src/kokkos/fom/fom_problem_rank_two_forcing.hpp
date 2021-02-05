@@ -80,9 +80,6 @@ private:
        2. the other properties (like location) of the source do not change
     */
 
-    // /*create and store material prop
-    //  * only do it once since material does not change */
-    // auto matObj = createMaterialModel<sc_t>(parser_, meshInfo_);
     appObj_.computeJacobians(*materialObj_);
 
     // seismogram

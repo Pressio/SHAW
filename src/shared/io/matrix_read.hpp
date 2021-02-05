@@ -7,34 +7,6 @@
 #include <iostream>
 #include <ostream>
 
-
-template<class dmat_t>
-typename std::enable_if< is_dynamic_matrix_eigen<dmat_t>::value >::type
-readBinaryMatrixWithSize(const std::string filename, dmat_t & M)
-{
-  using int_t = typename dmat_t::Index;
-  using sc_t  = typename dmat_t::Scalar;
-  std::ifstream fin(filename, std::ios::in | std::ios::binary);
-  fin.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-
-  int_t rows={};
-  int_t cols={};
-  fin.read((char*) (&rows),sizeof(int_t));
-  fin.read((char*) (&cols),sizeof(int_t));
-  const auto nBytes = rows*cols*sizeof(sc_t);
-  M.resize(rows, cols);
-  fin.read( (char *) M.data(), nBytes );
-
-  if (!fin){
-    std::cout << std::strerror(errno) << std::endl;
-    throw std::runtime_error("ERROR READING binary file");
-  }
-  else
-    std::cout << fin.gcount() << " bytes read\n";
-
-  fin.close();
-}
-
 template<class dmat_t>
 typename std::enable_if< is_col_major_matrix_kokkos<dmat_t>::value >::type
 readBinaryMatrixWithSize(const std::string filename, dmat_t & M)
@@ -88,36 +60,6 @@ readBinaryMatrixWithSize(const std::string filename, dmat_t & M)
     std::cout << fin.gcount() << " bytes read\n";
 
   fin.close();
-}
-
-template <typename dmat_t>
-typename std::enable_if<is_dynamic_matrix_eigen<dmat_t>::value>::type
-readAsciiMatrixWithSize(const std::string fileName, dmat_t & M)
-{
-  using int_t = typename dmat_t::Index;
-  std::ifstream source; source.open(fileName, std::ios_base::in);
-  std::string line, colv;
-
-  {
-    // first line contains the size of the matrix
-    std::getline(source, line);
-    std::istringstream in(line);
-    std::string col1, col2;
-    in >> col1; in >> col2;
-    M.resize( std::stoi(col1), std::stoi(col2) );
-  }
-
-  // then read the actual data
-  int_t iRow = 0;
-  while (std::getline(source, line) ){
-    std::istringstream in(line);
-    for (int_t j=0; j<M.cols(); ++j){
-      in >> colv;
-      M(iRow, j) = atof(colv.c_str());
-    }
-    iRow++;
-  }
-  source.close();
 }
 
 template <typename dmat_t>

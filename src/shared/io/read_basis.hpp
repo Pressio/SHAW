@@ -4,6 +4,7 @@
 
 #include "matrix_read.hpp"
 
+#ifdef SHW_HAVE_TPL_EIGEN
 template <typename sc_t, typename int_t, typename dmat_t>
 typename std::enable_if< is_dynamic_matrix_eigen<dmat_t>::value, dmat_t >::type
 readBasis(const std::string fileName,
@@ -29,6 +30,7 @@ readBasis(const std::string fileName,
   // to represnet things. So we need to construct a new object and return it.
   return dmat_t( M.leftCols(targetRomSize) );
 }
+#endif
 
 template <typename sc_t, typename int_t, typename dmat_t>
 typename std::enable_if< is_col_major_matrix_kokkos<dmat_t>::value, dmat_t >::type

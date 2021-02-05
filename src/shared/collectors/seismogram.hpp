@@ -15,19 +15,19 @@ struct CopySeis
 
   template <typename _state_t = state_t>
   KOKKOS_INLINE_FUNCTION
+  typename std::enable_if<is_kokkos_1dview<_state_t>::value>::type
+  operator() (const std::size_t & i) const
+  {
+    M_(i, count_, 0) = x_(gids_(i));
+  }
+
+  template <typename _state_t = state_t>
+  KOKKOS_INLINE_FUNCTION
   typename std::enable_if<is_kokkos_2dview<_state_t>::value>::type
   operator() (const std::size_t & i) const
   {
     for (std::size_t j=0; j<M_.extent(2); ++j)
       M_(i, count_, j) = x_(gids_(i), j);
-  }
-
-  template <typename _state_t = state_t>
-  KOKKOS_INLINE_FUNCTION
-  typename std::enable_if<is_kokkos_1dview<_state_t>::value>::type
-  operator() (const std::size_t & i) const
-  {
-    M_(i, count_, 0) = x_(gids_(i));
   }
 };
 
@@ -37,6 +37,7 @@ class Seismogram
 {
   // container type to store the data
   using matrix_t = Kokkos::View<scalar_t***, Kokkos::LayoutLeft, Kokkos::HostSpace>;
+
   // type to store global ids
   using gids_t = Kokkos::View<int_t*, Kokkos::HostSpace>;
 
@@ -128,22 +129,28 @@ public:
     return targetGids_;
   }
 
-  void prepForNewRun(int_t sampleID){
+  void prepForNewRun(const int_t & sampleID){
     // assumes the new run has same sampling frequncies as before
     count_ = {0};
     runID_ = sampleID;
   }
 
   template <typename state_t>
-  void storeVelocitySignalAtReceivers(int_t step, const state_t & x)
+  void storeVelocitySignalAtReceivers(const int_t & step, const state_t & x)
   {
     if (enable_){
       if ( step % freq_ == 0 and step > 0){
 	auto xhv = Kokkos::create_mirror_view(x);
 	Kokkos::deep_copy(xhv, x);
 
-	CopySeis<gids_t, typename state_t::HostMirror, matrix_t> fnc(count_, targetGids_, xhv, MM_);
-	Kokkos::parallel_for(targetGids_.extent(0), fnc);
+	using state_h_mirr_t = typename state_t::HostMirror;
+	using functor_t = CopySeis<gids_t, state_h_mirr_t, matrix_t>;
+	functor_t fnc(count_, targetGids_, xhv, MM_);
+
+	// must specify an host exespace here otherwise it picks the default
+	// which might be a device one
+	Kokkos::RangePolicy<Kokkos::Serial> policy(0, targetGids_.extent(0));
+	Kokkos::parallel_for(policy, fnc);
 	count_++;
       }
     }

@@ -41,43 +41,44 @@ public:
     switch (myKind_)
     {
       case signalKind::ricker:
-	{
-	  const auto tDiffSq = (t-delayTime_)*(t-delayTime_);
-	  const auto expTerm = std::exp( -myPISq*frequencySq_*tDiffSq );
-	  result = (one - two*myPISq*tDiffSq*frequencySq_) * expTerm;
-	  break;
-	}
+    	{
+	  using namespace std;
+    	  const auto tDiffSq = (t-delayTime_)*(t-delayTime_);
+    	  const auto expTerm = exp( -myPISq*frequencySq_*tDiffSq );
+    	  result = (one - two*myPISq*tDiffSq*frequencySq_) * expTerm;
+    	  break;
+    	}
 
-	// sinusoidal (as in original shaxi fortran)
+    	// sinusoidal (as in original shaxi fortran)
       case signalKind::sinusoid:
-	{
-	  constexpr sc_t rn    = 0.001;
-	  constexpr auto term2 = ( rn/(rn+two) );
+    	{
+    	  constexpr auto rn    = static_cast<sc_t>(0.001);
+    	  constexpr auto term2 = rn/(rn+two);
 
-	  if (t < period_){
-	    const sc_t term1 = std::sin( rn*M_PI*t/period_ );
-	    const sc_t term3 = std::sin( (rn+two)*M_PI*t/period_ );
-	    result = term1 - term2 * term3;
-	  }
-	  else{
-	    constexpr auto term1 = std::sin( rn*M_PI );
-	    constexpr auto term3 = std::sin( (rn+two)*M_PI );
-	    result = term1 - term2 * term3;
-	  }
+    	  if (t < period_){
+    	    const auto term1 = std::sin(rn*M_PI*t/period_ );
+    	    const auto term3 = std::sin((rn+two)*M_PI*t/period_ );
+    	    result = term1 - term2 * term3;
+    	  }
+    	  else{
+    	    const auto term1 = std::sin( rn*M_PI );
+    	    const auto term3 = std::sin((rn+two)*M_PI );
+    	    result = term1 - term2 * term3;
+    	  }
+    	  break;
+    	}
+
+    	// first derivative of Gaussian
+      case signalKind::gaussDer:
+	{
+	  const auto tDiff   = (t-delayTime_);
+	  const auto tDiffSq = tDiff*tDiff;
+	  const auto expTerm = std::exp( -frequencySq_*tDiffSq );
+	  result = -two*tDiff*frequencySq_*expTerm;
 	  break;
 	}
-
-	// first derivative of Gaussian
-      case signalKind::gaussDer:{
-	const auto tDiff   = (t-delayTime_);
-	const auto tDiffSq = tDiff*tDiff;
-	const auto expTerm = std::exp( -frequencySq_*tDiffSq );
-	result = -two*tDiff*frequencySq_*expTerm;
-	break;
-      }
-
     }
-  }//end ()
-
+  }
 };
+
 #endif

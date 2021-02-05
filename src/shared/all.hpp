@@ -18,7 +18,9 @@
 #include "./complexity.hpp"
 #include "./various/print_perf.hpp"
 
+#ifdef SHW_HAVE_TPL_EIGEN
 #include "./meta/meta_eigen.hpp"
+#endif
 #include "./meta/meta_kokkos.hpp"
 #include "./various/equality.hpp"
 #include "./various/angular_helpers.hpp"

@@ -90,9 +90,6 @@ public:
 private:
   void singleRun()
   {
-    // // create material model object
-    // auto matObj = createMaterialModel<sc_t>(parser_, meshInfo_);
-
     // use material model to compute Jacobian matrices
     appObj_.computeJacobians(*materialObj_);
 

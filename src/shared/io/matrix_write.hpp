@@ -90,7 +90,7 @@ void write_matrix_to_ascii(const std::string fileName,
 
 }// impl namespace
 
-
+#ifdef SHW_HAVE_TPL_EIGEN
 // *** EIGEN  ***
 template<class T>
 typename std::enable_if<is_dynamic_matrix_eigen<T>::value>::type
@@ -104,6 +104,7 @@ writeToFile(const std::string fileName,
   else
     impl::write_matrix_to_ascii(fileName, A, A.rows(), A.cols(), printSize);
 }
+#endif
 
 // *** KOKKOS  ***
 template<class T>

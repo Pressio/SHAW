@@ -27,24 +27,30 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # endif()
 
 #==================================
-# for every target we need:
-find_package	   (KokkosKernels REQUIRED)
-include_directories(${EIGEN_INCLUDE_DIR} ${YAMLCPP_INCLUDE_DIR} ${KOKKOS_INCLUDE_DIR})
+find_package(KokkosKernels REQUIRED)
+
+include_directories(${YAMLCPP_INCLUDE_DIR} ${KOKKOS_INCLUDE_DIR})
+link_directories(${YAMLCPP_LIB_DIR})
+link_libraries(dl yaml-cpp Kokkos::kokkoskernels) # Kokkos::BLAS Kokkos::LAPACK)
+
+set(exeName1 shwave_fom)
+add_executable(${exeName1} ${CMAKE_CURRENT_SOURCE_DIR}/src/kokkos/main_fom.cc)
+
+#include_directories(${EIGEN_INCLUDE_DIR} ${YAMLCPP_INCLUDE_DIR} ${KOKKOS_INCLUDE_DIR})
 #link_directories   (${BLAS_LIB_DIR} ${YAMLCPP_LIB_DIR})
 #link_libraries	   (dl ${OMPLINK} yaml-cpp Kokkos::kokkoskernels ${BLASLIBNAME} gfortran)
-link_directories   (${YAMLCPP_LIB_DIR})
-link_libraries	   (dl yaml-cpp Kokkos::kokkoskernels) # Kokkos::BLAS Kokkos::LAPACK)
+#link_directories   (${YAMLCPP_LIB_DIR})
+#link_libraries	   (dl yaml-cpp Kokkos::kokkoskernels) # Kokkos::BLAS Kokkos::LAPACK)
 
-set(exeName	shwave_fom)
-add_executable	(${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/src/kokkos/main_fom.cc)
-
-set(exeName extractStateFromSnaps)
-add_executable	(${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/src/tools/main_extract_state_from_snaps.cc)
+# set(exeName extractStateFromSnaps)
+# add_executable	(${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/src/tools/main_extract_state_from_snaps.cc)
 
 set(exeName compareSnaps)
-add_executable		(${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/src/tools/main_cmp_snaps.cc)
-target_compile_options	(${exeName} PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-march=native>)
+add_executable(${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/src/tools/main_cmp_snaps.cc)
+target_include_directories(${exeName} PRIVATE ${EIGEN_INCLUDE_DIR})
+target_compile_definitions(${exeName} PRIVATE SHW_ENABLE_TPL_EIGEN)
 
+# target_compile_options	(${exeName} PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-march=native>)
 # set(exeName	shwave_rom)
 # add_executable  (${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/kokkos/main_rom.cc)
 # set(exeName reconstructFomState)

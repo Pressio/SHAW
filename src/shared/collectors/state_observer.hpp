@@ -3,13 +3,13 @@
 #define SHAXIPP_OBSERVER_HPP_
 
 template <typename state_t, typename dest_t>
-struct Copy
+struct CopyState
 {
   std::size_t colIndex_;
   state_t x_;
   dest_t M_;
 
-  Copy(std::size_t colIndex, state_t x, dest_t M)
+  CopyState(const std::size_t & colIndex, const state_t & x, const dest_t & M)
     : colIndex_(colIndex), x_(x), M_(M){}
 
   template <typename _state_t = state_t>
@@ -104,14 +104,14 @@ public:
     }
   }
 
-  void prepForNewRun(int_t runIdIn)
+  void prepForNewRun(const int_t & runIdIn)
   {
     // assumes the new run has same sampling frequncies as before
     count_ = {0,0};
     runID_ = runIdIn;
   }
 
-  const auto & viewSnapshotMatrix(const dofId dof) const
+  const auto & viewSnapshotMatrix(const dofId & dof) const
   {
     switch (dof){
     case dofId::vp: return Avp_;
@@ -120,7 +120,7 @@ public:
   }
 
   template<typename state_t>
-  void observe(const dofId dof, int_t step, const state_t x)
+  void observe(dofId dof, const int_t & step, const state_t & x)
   {
 
     if (enableSnapMat_)
@@ -134,16 +134,25 @@ public:
   	auto xhv = Kokkos::create_mirror_view(x);
 	Kokkos::deep_copy(xhv, x);
 
-	// might want to make the copy a bit more efficient
-	using state_h_t = typename state_t::HostMirror;
-	Copy<state_h_t, matrix_t> fnc(count, xhv, A);
-	Kokkos::parallel_for(xhv.extent(0), fnc);
+	using state_h_mirr_t = typename state_t::HostMirror;
+	using functor_t = CopyState<state_h_mirr_t, matrix_t>;
+	functor_t fnc(count, xhv, A);
+
+	// must specify an host exespace here otherwise it picks the default
+	// which might be a device one
+#ifdef Kokkos_ENABLE_OPENMP
+	Kokkos::RangePolicy<Kokkos::OpenMP> policy(0, xhv.extent(0));
+#else
+	Kokkos::RangePolicy<Kokkos::Serial> policy(0, xhv.extent(0));
+#endif
+	Kokkos::parallel_for(policy, fnc);
+
   	count++;
       }
     }
   }
 
-  void writeSnapshotMatrixToFile(const dofId dof) const
+  void writeSnapshotMatrixToFile(const dofId & dof) const
   {
     if (enableSnapMat_)
     {
@@ -167,22 +176,6 @@ public:
       std::cout << "... Done" << std::endl;
     }
   }
-
 };
+
 #endif
-
-// std::string finalFileName = "final_state_" + dofName;
-// if runID != -1 it means we are doing multiple runs, so modify file name
-// 		    finalFileName += "_" + std::to_string(runID_);
-
-// if (enableSnapViz_){
-//   const auto vizFreq = (dof==dofId::vp) ? vizFreq_[0] : vizFreq_[1];
-//   if ( step % vizFreq == 0 and step > 0){
-// 	const auto dofName = dofIdToString(dof);
-// 	auto xhv = Kokkos::create_mirror_view(x);
-// 	Kokkos::deep_copy(xhv, x);
-//   	auto fileName = "state_" + dofName + "_" + std::to_string(step);
-//   	if (runID_ != -1) fileName += "_" + std::to_string(runID_);
-//   	writeMatrixWithSizeToFile(fileName, xhv, useBinaryIO_);
-//   }
-// }

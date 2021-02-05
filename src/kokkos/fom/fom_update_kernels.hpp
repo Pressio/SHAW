@@ -37,6 +37,7 @@ updateVelocity(const sc_t & dt,
   KokkosSparse::spmv(KokkosSparse::NoTranspose, dt, jacVp_d, xSp_d, one, xVp_d);
   auto f_d = fObj.viewForcingDevice();
   KokkosBlas::mult(one, xVp_d, dt, rhoInvVp_d, f_d);
+  Kokkos::fence();
 }
 
 // rank-1 specialize
@@ -45,13 +46,13 @@ typename std::enable_if<is_kokkos_1dview<state_d_t>::value>::type
 updateStress(const sc_t & dt,
 	     state_d_t xSp_d,
 	     const typename state_d_t::const_type xVp_d,
-	     const jac_d_t jacSp_d)
+	     jac_d_t jacSp_d)
 {
   // xSp = xSp + dt * Jac * xVp
 
-  constexpr auto zero = constants<sc_t>::zero();
   constexpr auto one  = constants<sc_t>::one();
   KokkosSparse::spmv(KokkosSparse::NoTranspose, dt, jacSp_d, xVp_d, one, xSp_d);
+  Kokkos::fence();
 }
 
 // rank-2 specialize
@@ -62,9 +63,7 @@ template <
   typename rho_inv_d_t,
   typename forcing_t
   >
-typename std::enable_if<
-  is_accessible_on_host<state_d_t>::value and is_kokkos_2dview<state_d_t>::value
-  >::type
+typename std::enable_if<is_kokkos_2dview<state_d_t>::value>::type
 updateVelocity(const sc_t & dt,
 	       state_d_t xVp_d,
 	       typename state_d_t::const_type xSp_d,
@@ -72,8 +71,7 @@ updateVelocity(const sc_t & dt,
 	       const rho_inv_d_t rhoInvVp_d,
 	       forcing_t & fObj)
 {
-  constexpr auto one  = constants<sc_t>::one();
-
+  //constexpr auto one  = constants<sc_t>::one();
   // if (exploitForcingSparsity){
   //   // xVp = xVp + dt * Jvp * xSp
   //   KokkosSparse::spmv(KokkosSparse::NoTranspose, dt, jacVp_d, xSp_d, one, xVp_d);

@@ -64,9 +64,9 @@ public:
     const auto domainSurfaceRadiusKm = meshInfo.getMaxRadiusKm();
     const sc_t myRadiusKm = domainSurfaceRadiusKm - depthKm;
     mapPointSourceToGridPoint(angleDeg, myRadiusKm, depthKm,
-			      meshInfo.viewDomainBounds(),
-			      meshInfo.getNumVpPts(), gidsVp, coords,
-			      meshInfo.getAngularSpacing(), myVpGid_);
+    			      meshInfo.viewDomainBounds(),
+    			      meshInfo.getNumVpPts(), gidsVp, coords,
+    			      meshInfo.getAngularSpacing(), myVpGid_);
 
     KokkosBlas::fill(f_h_, constants<sc_t>::zero());
     KokkosBlas::fill(f_d_, constants<sc_t>::zero());
@@ -125,10 +125,12 @@ public:
 
 private:
   template <typename signal_t>
-  void storeSignalTimeSeries(const signal_t signal){
+  void storeSignalTimeSeries(const signal_t signal)
+  {
     // store the full time series of the signal into the host array
     sc_t time = constants<sc_t>::zero();
-    for (int_t iStep = 1; iStep<=NSteps_; ++iStep){
+    for (int_t iStep = 1; iStep<=NSteps_; ++iStep)
+    {
       signal(time, f_h_(iStep-1));
       time = iStep * dt_;
     }
