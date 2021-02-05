@@ -68,11 +68,13 @@ public:
     cot_h_t cotSp_h("cotSph", numGptSp_);
 
     // read Vp graph
-    readFullMeshGraphFile<scalar_type>(meshDir_, dofId::vp, graphVp_h_, coordsVp_h_, cotVp_h);
+    readFullMeshGraphFile<scalar_type>(meshDir_, dofId::vp, graphVp_h_,
+				       coordsVp_h_, cotVp_h);
     readFullMeshCoeffFile<scalar_type>(meshDir_, dofId::vp, coeffsVp_h);
 
     // read Sp graph
-    readFullMeshGraphFile<scalar_type>(meshDir_, dofId::sp, graphSp_h_, coordsSp_h_,
+    readFullMeshGraphFile<scalar_type>(meshDir_, dofId::sp, graphSp_h_,
+				       coordsSp_h_,
 				       cotSp_h, labelsSp_h_);
 
     // store material properties since are needed to fill jacobians
@@ -157,8 +159,13 @@ public:
     }
   }
 
-  scalar_type getMinShearWaveVelocity() const{ return minMaxShearWaveVelocity_[0]; }
-  scalar_type getMaxShearWaveVelocity() const{ return minMaxShearWaveVelocity_[1]; }
+  scalar_type getMinShearWaveVelocity() const{
+    return minMaxShearWaveVelocity_[0];
+  }
+
+  scalar_type getMaxShearWaveVelocity() const{
+    return minMaxShearWaveVelocity_[1];
+  }
 
   void writeCoordinatesToFile(dofId dof)
   {
@@ -290,7 +297,6 @@ private:
 	const auto & c2	    = coeffsVp_h(iPt, 2);
 	const auto & c3	    = coeffsVp_h(iPt, 3);
 
-	// this is here because it is used for a test to check correctness of entries
 	const auto c_west  = (-rInv*dthInv_ + rInv*cotVp_h[ptGID])*c0*rhoInv;
 	const auto c_north = (drrInv_	    + three*oneHalf*rInv )*c1*rhoInv;
 	const auto c_east  = (rInv*dthInv_  + rInv*cotVp_h[ptGID])*c2*rhoInv;

@@ -65,50 +65,56 @@ int main(int argc, char *argv[])
     auto matObj = createMaterialModel<sc_t>(parser, meshInfo);
     appObj.computeJacobians(*matObj);
 
-    //auto Jd = appObj.viewJacobianDevice(dofId::vp);
+    auto Jd = appObj.viewJacobianDevice(dofId::vp);
 
-    // auto h_graph = Kokkos::create_mirror(Jd.graph);
-    // auto h_e = Kokkos::create_mirror_view(Jd.graph.entries);
-    // for (auto i=0; i<h_e.extent(0); ++i)
-    //   std::cout << h_e(i) << std::endl;
+    using jd_t = typename prob_t::jacobian_d_type;
+    using jh_t = typename prob_t::jacobian_d_type::HostMirror;
 
-    // auto h_v = Kokkos::create_mirror_view(Jd.values);
-    // for (auto i=0; i<h_v.extent(0); ++i)
-    //   std::cout << h_v(i) << std::endl;
+    using int_t = kokkosapp::commonTypes::int_t;
+    Kokkos::View<sc_t*, Kokkos::HostSpace> val_h("valSp", Jd.nnz());
+    Kokkos::View<int_t*, Kokkos::HostSpace> ptr_h("ptrSp", Jd.numRows()+1);
+    Kokkos::View<int_t*, Kokkos::HostSpace> ind_h("indSp", Jd.nnz());
 
-    // // *** do check ***
-    // if (Jd.numRows() != 20){ sentinel = "FAIL"; }
-    // if (Jd.numCols() != 31){ sentinel = "FAIL"; }
+    Kokkos::deep_copy(val_h, Jd.values);
+    Kokkos::deep_copy(ptr_h, Jd.graph.row_map);
+    Kokkos::deep_copy(ind_h, Jd.graph.entries);
 
-    // for (std::size_t i=0; i<Jd.numRows(); ++i)
-    // {
-    //   auto rowview_d = Jd.rowConst(i);
+    jh_t Jh("JacH", Jd.numRows(), Jd.numCols(), Jd.nnz(),
+	    val_h.data(), ptr_h.data(), ind_h.data());
 
-    //   const auto l = rowview.length;
-    //   std::cout << "row = " << i << " l = " << l << std::endl;
+    // *** do check ***
+    if (Jh.numRows() != 20){ sentinel = "FAIL"; }
+    if (Jh.numCols() != 31){ sentinel = "FAIL"; }
 
-    //   // check correct number of nnz for this row
-    //   if (l != goldNNZPerRow[i]){ sentinel = "FAIL"; break; }
+    for (std::size_t i=0; i<Jh.numRows(); ++i)
+    {
+      auto rowview = Jh.rowConst(i);
 
-    //   // check that current row has correct col indices
-    //   const int thisRowNNZ = goldNNZPerRow[i];
-    //   const auto goldColInd = goldColIndPerRow[i];
-    //   for (int j=0; j<thisRowNNZ; ++j){
-    // 	if (goldColInd[j] != rowview.colidx(j)){ sentinel = "FAIL"; break; }
-    //   }
+      const auto l = rowview.length;
+      std::cout << "row = " << i << " l = " << l << std::endl;
 
-    //   // check that current row has correct values
-    //   const auto goldVals = goldValPerRow[i];
-    //   for (int j=0; j<thisRowNNZ; ++j)
-    //   {
-    // 	const auto err = std::abs(goldVals[j] - rowview.value(j));
-    // 	std::cout << "gold  = " << goldVals[j] << " "
-    // 		  << "found = " << rowview.value(j) << " "
-    // 		  << "diff = " << err << std::endl;
+      // check correct number of nnz for this row
+      if (l != goldNNZPerRow[i]){ sentinel = "FAIL"; break; }
 
-    // 	if (err > 1e-13){ sentinel = "FAIL"; }
-    //   }
-    // }
+      // check that current row has correct col indices
+      const int thisRowNNZ = goldNNZPerRow[i];
+      const auto goldColInd = goldColIndPerRow[i];
+      for (int j=0; j<thisRowNNZ; ++j){
+	if (goldColInd[j] != rowview.colidx(j)){ sentinel = "FAIL"; break; }
+      }
+
+      // check that current row has correct values
+      const auto goldVals = goldValPerRow[i];
+      for (int j=0; j<thisRowNNZ; ++j)
+      {
+	const auto err = std::abs(goldVals[j] - rowview.value(j));
+	std::cout << "gold  = " << goldVals[j] << " "
+		  << "found = " << rowview.value(j) << " "
+		  << "diff = " << err << std::endl;
+
+	if (err > 1e-13){ sentinel = "FAIL"; }
+      }
+    }
 
     std::puts(sentinel.c_str());
   }
