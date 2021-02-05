@@ -5,7 +5,11 @@
 #include <iostream>
 
 template <
-  typename scalar_t, typename bounds_t, typename int_t, typename gids_list_t, typename coords_t
+  typename scalar_t,
+  typename bounds_t,
+  typename int_t,
+  typename gids_list_t,
+  typename coords_t
   >
 void mapPointSourceToGridPoint(const scalar_t srcAngleDeg,
 			       const scalar_t srcRadiusKm,

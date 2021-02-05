@@ -20,7 +20,7 @@ struct ParserMaterialModel
    * For example, let's say that we have a single layer model, which yields:
    * density_array = [c0, c1, c2] such that rho(depth) = c0 + depth*c1 + c2*depth^2
    * vs_array	   = [d0, d1, d2] such that vs(depth)  = d0 + depth*d1 + d2*depth^2
-   * discon_array  = [0] because the discontinuity here is just the earth surface
+   * discon_array  = [0] because the discontinuity here is just the surface
    *
    * For example, let's say that we have a two-layer model, with the
    * discontinuity located at 660 km of depth, this yields:
@@ -35,9 +35,6 @@ struct ParserMaterialModel
   using discont_depth_t  = std::vector<scalar_t>;
 
 private:
-  static constexpr auto cmbRadiusKm	  = constants<scalar_t>::cmbRadiusKm();
-  static constexpr auto earthSurfRadiusKm = constants<scalar_t>::earthSurfaceRadiusKm();
-
   materialModelKind matModKind_	= materialModelKind::unknown;
 
   profile_params_t density_ = {};
@@ -85,8 +82,8 @@ public:
       	matModKind_ = materialModelKind::prem;
       }
 
-      else if (matKindStr == "ak135f" or matKindStr == "AK135F"){
-      	matModKind_ = materialModelKind::ak135f;
+      else if (matKindStr == "custom"){
+      	matModKind_ = materialModelKind::custom;
       }
 
       else{
@@ -173,6 +170,10 @@ private:
 		<< vs_[1][1] << " "
 		<< vs_[1][2] << "\n";
     }
+
+    if (matModKind_==materialModelKind::prem) std::cout << "Using PREM model" << std::endl;
+
+    if (matModKind_==materialModelKind::custom) std::cout << "Using custom model" << std::endl;
   }
 
   void validateSingleLayer() const

@@ -74,8 +74,13 @@ int main(int argc, char *argv[])
   if (numSnaps1 != numSnaps2)
     throw std::runtime_error("numSnaps1 != numSnaps2");
 
-  for (auto i=0; i<numRows1; ++i){
-    for (auto j=0; j<numSnaps1; ++j){
+  for (auto j=0; j<numSnaps1; ++j)
+  {
+    for (auto i=0; i<numRows1; ++i)
+    {
+      if (std::isnan(A1(i,j)) or std::isnan(A2(i,j)))
+	throw std::runtime_error("Found NaN");
+
       const auto diff = A1(i,j) - A2(i,j);
       if ( std::abs(diff) > tol ){
 	std::cout << i << " "

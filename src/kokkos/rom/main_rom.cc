@@ -6,7 +6,7 @@ template<typename parser_t>
 std::shared_ptr<kokkosapp::RomProblemBase>
 createRomProblem(const parser_t & parser)
 {
-  if(parser.enableForcingBatching()){
+  if(parser.enableMultiForcing()){
     using ret_t = kokkosapp::RomProblemRankTwoForcing;
     return std::make_shared<ret_t>(parser);
   }

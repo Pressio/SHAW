@@ -10,21 +10,24 @@ class UnilayerMaterialModel final : public MaterialModelBase<scalar_t>
   using profile_params_t = typename parser_t::profile_params_t;
   const profile_params_t & densityParams_;
   const profile_params_t & velocityParams_;
+  const scalar_t domainSurfaceRadiusMeters_ = {};
 
 public:
-  UnilayerMaterialModel(const parser_t & parser)
+  template<typename mesh_info_t>
+  UnilayerMaterialModel(const parser_t & parser,
+			const mesh_info_t & meshInfo)
     : densityParams_(parser.viewDensityParametrization()),
-      velocityParams_(parser.viewVelocityParametrization())
+      velocityParams_(parser.viewVelocityParametrization()),
+      domainSurfaceRadiusMeters_(meshInfo.getMaxRadius())
   {}
 
   // evaluate density and shear velocity at target location
-  void computeAt(const scalar_t & radiusFromEarthCenterMeters,
+  void computeAt(const scalar_t & radiusFromCenterMeters,
 		 const scalar_t & angleRadians,
 		 scalar_t & density,
 		 scalar_t & vs) const final
   {
-    constexpr auto esrMeters = constants<scalar_t>::earthSurfaceRadiusMeters();
-    const auto dM = esrMeters - radiusFromEarthCenterMeters;
+    const auto dM = domainSurfaceRadiusMeters_ - radiusFromCenterMeters;
 
     auto & rhoC = densityParams_[0];
     auto & vsC  = velocityParams_[0];

@@ -9,31 +9,58 @@ class PremMaterialModel final : public MaterialModelBase<scalar_t>
 {
   using profile_params_t = typename parser_t::profile_params_t;
 
-  const parser_t & parser_;
+  const scalar_t premEarthCmbKm_     = static_cast<scalar_t>(3480);
+  const scalar_t premEarthCmbMeters_ = static_cast<scalar_t>(3480000);
+  const scalar_t premEarthSurfaceKm_     = static_cast<scalar_t>(6371);
+  const scalar_t premEarthSurfaceMeters_ = static_cast<scalar_t>(6371000);
 
 public:
-  PremMaterialModel(const parser_t & parser) : parser_(parser){}
+  template<typename mesh_info_t>
+  PremMaterialModel(const parser_t & parser,
+		    const mesh_info_t & meshInfo)
+  {
+    // for PREM, we need to make sure the domain loaded from mesh
+    // has specific boundd since PREM is valid for Earth
+    // with r_CMB = 3480 and r_earthSurface = 6371
+    const auto loadedDomainSurfaceRadiusKm = meshInfo.getMaxRadiusKm();
+    const auto loadedDomainMinimumRadiusKm = meshInfo.getMinRadiusKm();
 
-  void computeAt(const scalar_t & radiusFromEarthCenterMeters,
+    const auto diff1 = std::abs(loadedDomainSurfaceRadiusKm - premEarthSurfaceKm_);
+    const auto diff2 = std::abs(loadedDomainMinimumRadiusKm - premEarthCmbKm_);
+    if (diff1 > 1e-13 or diff2 > 1e-13)
+    {
+      throw std::runtime_error
+	("To use the PREM model, your Earth domain must have r_cmb=3480 km \
+and r_surface=6371 km. It seems you are using a domain/mesh that does NOT match this.");
+    }
+  }
+
+  void computeAt(const scalar_t & radiusFromCenterMeters,
 		 const scalar_t & angleRadians,
 		 scalar_t & rho,
 		 scalar_t & vs) const final
   {
-    constexpr auto thousand  = constants<scalar_t>::thousand();
-    constexpr auto esrKm     = constants<scalar_t>::earthSurfaceRadiusKm();
-    constexpr auto esrMeters = constants<scalar_t>::earthSurfaceRadiusMeters();
+    // // cmb stands for core-mantle boundary
+    // constexpr scalar_t cmbRadiusKm(){ return static_cast<scalar_t>(3480); }
+    // constexpr scalar_t cmbDepthKm(){ return earthSurfaceRadiusKm() - cmbRadiusKm(); }
+    // constexpr scalar_t earthSurfaceRadiusKm(){ return  }
+    // constexpr scalar_t earthSurfaceRadiusMeters(){ return  }
 
-    // https://www.cfa.harvard.edu/~lzeng/papers/PREM.pdf
+    // constexpr auto esrKm     = static_cast<scalar_t>(6371);
+    // constexpr auto esrMeters = static_cast<scalar_t>(6371000);
+
 
     // If you use the Preliminary reference Earth model (PREM)
     // for your own research, please refer to
     // Dziewonski, A.M., and D.L. Anderson. 1981. “Preliminary reference Earth model.” Phys. Earth Plan. Int. 25:297-356.
     // IRIS DMC (2011), Data Services Products: EMC, A repository of Earth models, https://doi.org/10.17611/DP/EMC.1.
-
     // in your publication.
 
-    const auto rKm = radiusFromEarthCenterMeters/thousand;
-    const auto x   = rKm/esrKm;
+    // https://www.cfa.harvard.edu/~lzeng/papers/PREM.pdf
+
+    constexpr auto thousand  = constants<scalar_t>::thousand();
+    const auto rKm = radiusFromCenterMeters/thousand;
+    const auto x   = rKm/premEarthSurfaceKm_;
     const auto xSq = x*x;
     const auto xCu = x*x*x;
 
@@ -105,9 +132,9 @@ public:
       vs  = 3.6678  - 4.4475*xSq;
     }
 
-    // convert vs from m/s to km/s
+    // convert vs from km/s to m/s
     vs *= thousand;
-    // convert rho from g/cm^3 to km/m^3
+    // convert rho from g/cm^3 to kg/m^3
     rho *= thousand;
   }
 };

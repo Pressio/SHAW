@@ -66,20 +66,20 @@ Elastic Shear Waves
             **HIGHLIGHTS AND CAPABILITIES:**
 
             * | The current implementation relies on Kokkos, but we are porting the code to other programming models.
-	      | For example, the first porting will be to a distributed memory using, e.g., Tpetra from Trilinos.
 
             * The code implements what we call "rank-1" and "rank-2" formulations:
 
                 * rank-1:
-                    * the discretized state variables and forcing are stored in 1D arrays
+                    * the discrete state and forcing term are stored in 1D arrays
                     * this is used to simulate the case of a *single forcing realization*
 
                 * rank-2:
-                    * the discretized state variables and forcing are stored in rank-2 tensors (i.e. matrices)
+                    * the discrete state and forcing term are stored in rank-2 tensors (i.e. matrices)
                     * this is useful to simultaneously solve the wave dyanmics
 		      for *multiple forcing realizations* (e.g. multiple source locations and/or periods).
 		      This rank-2 formulation has an advantage from a computational
-                      standpoint because it has higher computational intensity.
+                      standpoint because it has higher computational intensity,
+		      thus benefiting efficient ensemble propagation of uncertainties
 
             * We use the velocity-shear formulation in an axi-symmetric domain, leading to a so-called 2.5 dimensional model.
 
@@ -88,8 +88,9 @@ Elastic Shear Waves
               We remark that these are 1D models in the sense that they only depend on the radial distance.
               Given the modularity of the code, one can easily add other material models.
 
-	    * The code can be used to simulate the wave dynamics in another planet:
-	      this involves creating the grid and adding a suitable material model for that planet.
+	    * The modular strucuture of the code makes it easy to simulate
+	      the wave dynamics in another planet/axisymmetric body:
+	      one just has to create a grid suitable for that planet, and a suitable material model.
 
     .. container:: m-row
 

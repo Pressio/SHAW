@@ -29,7 +29,7 @@ public:
   }
   auto getValues(int_t i) const{ return values_[i]; }
   auto getForcingSize() const{ return forcingSize_; };
-  auto enableForcingBatching() const{ return enableRankTwoForcing_; };
+  auto enableMultiForcing() const{ return enableRankTwoForcing_; };
 
 public:
   void parseSampling(const std::string inputFile)

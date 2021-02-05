@@ -2,8 +2,7 @@
 #ifndef UTILS_SUPPORTED_MATERIAL_MODEL_ENUMS_HPP_
 #define UTILS_SUPPORTED_MATERIAL_MODEL_ENUMS_HPP_
 
-
-enum class materialModelKind {unknown, unilayer, bilayer, prem, ak135f};
+enum class materialModelKind {unknown, unilayer, bilayer, prem, custom};
 
 std::string materialModelKindToString(const materialModelKind e){
   switch (e){

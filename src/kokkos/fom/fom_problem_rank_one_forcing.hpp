@@ -17,6 +17,7 @@ public:
   using kokkosapp::commonTypes::sc_t;
   using kokkosapp::commonTypes::int_t;
   using kokkosapp::commonTypes::parser_t;
+  using kokkosapp::commonTypes::mesh_info_t;
   using kokkosapp::commonTypes::klr;
   using kokkosapp::commonTypes::kll;
   using kokkosapp::commonTypes::exe_space;
@@ -24,7 +25,6 @@ public:
   using state_d_t	= Kokkos::View<sc_t*, kll, exe_space>;
   using state_h_t	= typename state_d_t::host_mirror_type;
   using jacobian_d_type = KokkosSparse::CrsMatrix<sc_t, int_t, exe_space>;
-  using mesh_info_t	= MeshInfo<sc_t, int_t>;
   using fom_t		= ShWavePP<sc_t, int_t, mesh_info_t, jacobian_d_type, exe_space>;
   using forcing_t       = RankOneForcing<sc_t, state_d_t, int_t>;
   using obs_t		= StateObserver<int_t, sc_t>;
@@ -35,7 +35,10 @@ private:
   const parser_t & parser_;
 
   // object with info about the mesh
-  const mesh_info_t meshInfo_;
+  const mesh_info_t & meshInfo_;
+
+  // material model object
+  std::shared_ptr<MaterialModelBase<scalar_t>> materialObj_;
 
   // number of velocity DOFs
   const int_t nVp_;
@@ -52,9 +55,12 @@ private:
   obs_t observerObj_;
 
 public:
-  FomProblemRankOneForcing(const parser_t & parser)
+  FomProblemRankOneForcing(const parser_t & parser,
+			   const mesh_info_t & meshInfo,
+			   std::shared_ptr<MaterialModelBase<scalar_t>> materialObj)
     : parser_(parser),
-      meshInfo_(parser.getMeshDir()),
+      meshInfo_(meshInfo),
+      materialObj_(materialObj),
       nVp_(meshInfo_.getNumVpPts()),
       nSp_(meshInfo_.getNumSpPts()),
       appObj_(meshInfo_),
@@ -84,11 +90,11 @@ public:
 private:
   void singleRun()
   {
-    // create material model object
-    auto matObj = createMaterialModel<sc_t>(parser_);
+    // // create material model object
+    // auto matObj = createMaterialModel<sc_t>(parser_, meshInfo_);
 
     // use material model to compute Jacobian matrices
-    appObj_.computeJacobians(*matObj);
+    appObj_.computeJacobians(*materialObj_);
 
     // seismogram: stores the seismogram at locations specified in input file
     seismogram_t seismoObj(parser_, meshInfo_, appObj_);
@@ -120,7 +126,7 @@ private:
   //    * create and store material prop
   //    * only do it once since material does not change
   //   */
-  //   auto matObj = createMaterialModel<sc_t>(parser_);
+  //   auto matObj = createMaterialModel<sc_t>(parser_, meshInfo_);
   //   appObj_.computeJacobiansWithMatProp(*matObj);
 
   //   // seismogram

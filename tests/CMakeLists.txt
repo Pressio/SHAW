@@ -1,4 +1,5 @@
 
+add_subdirectory(meshInfo)
 add_subdirectory(parser)
 add_subdirectory(seismogram)
 add_subdirectory(forcing_rank1)

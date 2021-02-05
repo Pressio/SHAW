@@ -13,6 +13,10 @@
 
 template <typename sc_t>
 struct Complexity
-  : Scal<sc_t>, Spmv<sc_t>, Axpby<sc_t>, Axpy<sc_t>, Mult<sc_t>, Spmm<sc_t>, Gemv<sc_t>, Gemm<sc_t>
+  : Scal<sc_t>,  Spmv<sc_t>,
+    Axpby<sc_t>, Axpy<sc_t>,
+    Mult<sc_t>,  Spmm<sc_t>,
+    Gemv<sc_t>,  Gemm<sc_t>
 {};
+
 #endif

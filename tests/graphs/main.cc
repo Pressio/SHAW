@@ -130,7 +130,7 @@ int main(int argc, char *argv[])
     mesh_info_t meshInfo(parser.getMeshDir());
     app_t appObj(meshInfo);
 
-    auto matObj = createMaterialModel<sc_t>(parser);
+    auto matObj = createMaterialModel<sc_t>(parser, meshInfo);
     appObj.computeJacobians(*matObj);
 
     const std::string sentinelVp = checkVpGraph(appObj);

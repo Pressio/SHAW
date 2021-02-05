@@ -11,16 +11,16 @@ Governing Equations and Discretization
 
 	*We model the axisymmetric evolution of elastic seismic shear waves.*
 
-	First, we set the notation.
-	Assuming the Earth (or another planet) can be approximated as a sphere, the following
-	figure shows our notation of the spherical coordinate system.
+	Assuming the target body/planet (e.g. Earth) can be approximated as a sphere,
+	we adopt a spherical coordinate system as shown in the figure below:
 
 	.. figure:: {static}/img/sc.svg
 		:width: 350 px
 
 
-	In the axisymmetric approximation, one assumes fields/quantities to not vary along :math-info:`\phi`.
-	This means that all the derivatives with respect to :math-info:`\phi` can be dropped.
+        In the axisymmetric approximation, one assumes that fields/quantities
+	do not vary along :math-info:`\phi`, implying that all the derivatives
+	with respect to :math-info:`\phi` can be dropped.
 
 	With this assumption, the set of equations governing the time evolution
 	of elastic waves in the velocity-stress formulation can be written as:
@@ -49,9 +49,14 @@ Governing Equations and Discretization
 
 	   * :math-info:`t` represents time
 
-	   * :math-info:`r \in [0, r_{earth}]` is the radial distance, :math-info:`\theta \in [0, \pi]` is the polar angle
+	   * :math-info:`r \in [0, r_{surface}]` is the radial distance from origin to surface of the body
 
-	   * :math-info:`\rho(r, \theta)` is the density, :math-info:`v(r, \theta, t)` is the velocity,
+	   * :math-info:`\theta \in [0, \pi]` is the polar angle
+
+	   * :math-info:`\rho(r, \theta)` is the density
+
+	   * :math-info:`v(r, \theta, t)` is the velocity (for simplicity we drop the subscript,
+	     but it is intended that this is the :math-info:`v_{\phi}` velocity component)
 
 	   * :math-info:`\sigma_{r\phi}(r, \theta, t)` and
 	     :math-info:`\sigma_{\theta\phi}(r, \theta, t)` are the two components of the stress tensor remaining after the
@@ -73,14 +78,27 @@ Governing Equations and Discretization
 
 	Shear waves cannot propagate in liquids.
 	Therefore, when modeling the Earth, the system of equations above is not
-	applicable to the core region of the Earth, and are thus solved
-	in the region bounded between the core-mantle boundary (CMB) located
-	at :math-info:`r_{cmb} = 3,480` km,
+	applicable to the core region of the Earth, and is solved in the region
+	bounded between the core-mantle boundary (CMB) located at :math-info:`r_{cmb} = 3,480` km
 	and the Earth surface located at :math-info:`r_{earth} = 6,371` km.
 
         The 2D spatial domain is discretized using a staggered grid as shown in the figure below.
 	Staggered grids are typical for seismic modeling and wave problems in general.
 	We use a second-order centered finite-difference method for the spatial operators.
+	Directly at the symmetry axis, i.e., :math-info:`\theta = 0, \pi`, the velocity
+	is set to zero since it undefined here due to the cotangent term in its governing equation.
+	This implies that at the symmetry axis the stress :math-info:`\sigma_{r,\phi}` is also zero.
+	At the core-mantle boundary and earth surface we impose a free surface boundary
+	condition (i.e., waves fully reflect), by setting the zero-stress condition
+	:math-info:`\sigma_{r_{cmb},\phi} = \sigma_{r_{earth},\phi} = 0`.
+	Note that this condition on the stress directly defines the velocity
+	at the core-mantle boundary and earth surface and, therefore,
+	no boundary condition on the velocity itself must be set there.
+	We remark that, differently than [19], we do not rely on ghost
+	points to impose boundary conditions, but account for the boundary
+	conditions directly when assembling the system matrices.
 
 	.. figure:: {static}/img/mesh.png
-		:width: 450 px
+		    :width: 450 px
+
+		    Schematic of the axi-symmetric domain and staggered grid used for its discretization.

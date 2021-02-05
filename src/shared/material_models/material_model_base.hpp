@@ -8,7 +8,7 @@ class MaterialModelBase
 public:
   // evaluate density and shear velocity at target location
   // each subclass implements this in a different way
-  virtual void computeAt(const scalar_t & radiusFromEarthCenterMeters,
+  virtual void computeAt(const scalar_t & radiusFromCenterMeters,
 			 const scalar_t & angleRadians,
 			 scalar_t & density,
 			 scalar_t & vs) const = 0;

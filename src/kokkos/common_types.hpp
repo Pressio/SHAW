@@ -19,6 +19,7 @@ struct commonTypes
   using prs_mx_t	= ParserRomSection<sc_t, int_t>;
   using psas_mx_t	= ParserSamplingSection<sc_t, int_t>;
   using parser_t	= InputParser<pgs_mx_t, pio_mx_t, pmm_mx_t, pss_mx_t, prs_mx_t, psas_mx_t>;
+  using mesh_info_t	= MeshInfo<sc_t, int_t>;
 
   // aliases for layouts and exe space
   using klr		= Kokkos::LayoutRight;

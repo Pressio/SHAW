@@ -17,13 +17,6 @@ struct constants
 {
   static constexpr scalar_t cfl(){ return static_cast<scalar_t>(0.28); }
 
-  // cmb stands for core-mantle boundary
-  static constexpr scalar_t cmbRadiusKm(){ return static_cast<scalar_t>(3480); }
-  static constexpr scalar_t cmbDepthKm(){ return earthSurfaceRadiusKm() - cmbRadiusKm(); }
-
-  static constexpr scalar_t earthSurfaceRadiusKm(){ return static_cast<scalar_t>(6371); }
-  static constexpr scalar_t earthSurfaceRadiusMeters(){ return static_cast<scalar_t>(6371000); }
-
   static constexpr scalar_t negOne(){ return static_cast<scalar_t>(-1); }
   static constexpr scalar_t zero(){ return static_cast<scalar_t>(0); }
   static constexpr scalar_t one(){ return static_cast<scalar_t>(1); }

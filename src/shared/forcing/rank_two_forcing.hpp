@@ -42,7 +42,7 @@ public:
 		 const sc_t angleDeg,
 		 bool scaleByDt = false)
     : f_h_("Fh", parser.getNumSteps(), parser.getForcingSize()),
-      f_d_("Fd", meshInfo.getNumResidualVpPts(), parser.getForcingSize()),
+      f_d_("Fd", meshInfo.getNumVpPts(), parser.getForcingSize()),
       dt_(parser.getTimeStepSize()),
       NSteps_(parser.getNumSteps()),
       scaleByDt_(scaleByDt)
@@ -51,12 +51,13 @@ public:
     const auto coords = appObj.viewCoordsHost(dofId::vp);
 
     // where this forcing is located
-    const sc_t myRadiusKm = constants<sc_t>::earthSurfaceRadiusKm() - depthKm;
+    const auto domainSurfaceRadiusKm = meshInfo.getMaxRadiusKm();
+    const sc_t myRadiusKm = domainSurfaceRadiusKm - depthKm;
 
     // find the vpGid identifying the grid point where the source is mapped to
     mapPointSourceToGridPoint(angleDeg, myRadiusKm, depthKm,
   			      meshInfo.viewDomainBounds(),
-  			      meshInfo.getNumResidualVpPts(), gidsVp, coords,
+  			      meshInfo.getNumVpPts(), gidsVp, coords,
   			      meshInfo.getAngularSpacing(), myVpGid_);
   }
 

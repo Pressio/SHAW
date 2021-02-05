@@ -30,10 +30,8 @@ class MeshInfo<sc_t, int_t, true>
 
   // number of stress points
   int_t numGptSp_ = {};
-  int_t numGptSrp_ = {};
-  int_t numGptStp_ = {};
 
-  // num of points along R/theta, only makes sense for full mesh
+  // num of points along R/theta
   int_t numPtsAlongR_ = {};
   int_t numPtsAlongTh_ = {};
 
@@ -50,23 +48,19 @@ public:
   const sc_t  getAngularSpacingInverse() const{ return dthInv_; }
   const sc_t  getRadialSpacingInverse() const{ return drrInv_; }
 
+  const sc_t  getMinRadius() const{ return domainBounds_[2];}
+  const sc_t  getMinRadiusKm() const{ return domainBounds_[2]/1000.;}
   const sc_t  getMaxRadius() const{ return domainBounds_[3];}
+  const sc_t  getMaxRadiusKm() const{ return domainBounds_[3]/1000.;}
 
   const sc_t  getMaxArc() const{ return dth_ * domainBounds_[3]; }
   const sc_t  getMinArc() const{ return dth_ * domainBounds_[2]; }
   const domain_bounds_t & viewDomainBounds() const{ return domainBounds_; }
 
-  int_t      getNumPtsAlongR() const{ return numPtsAlongR_; }
-  int_t      getNumPtsAlongTheta() const{ return numPtsAlongTh_; }
-
-  int_t      getNumVpPts() const{ return numGptVp_; }
-  int_t      getNumSpPts() const{ return numGptSp_; }
-  int_t      getNumSrpPts() const{ return numGptSrp_; }
-  int_t      getNumStpPts() const{ return numGptStp_; }
-
-  // for a full mesh, the number of points where we evaluate residual
-  // is the same as state points
-  int_t      getNumResidualVpPts() const{ return numGptVp_; }
+  int_t getNumPtsAlongR() const{ return numPtsAlongR_; }
+  int_t getNumPtsAlongTheta() const{ return numPtsAlongTh_; }
+  int_t getNumVpPts() const{ return numGptVp_; }
+  int_t getNumSpPts() const{ return numGptSp_; }
 
 private:
   void readMeshInfoFile()
@@ -119,7 +113,7 @@ private:
         if (colVal == "rCmb"){
           // multiply by 1000 to convert from km to m
           ss >> colVal; domainBounds_[2] = std::stod(colVal)*thousand;
-          std::cout << "CMB radius (km) = "
+          std::cout << "minimum radius (km) = "
 		    << std::setprecision(dblFmt)
 		    << domainBounds_[2]/thousand << std::endl;
         }
@@ -127,7 +121,7 @@ private:
         if (colVal == "rSurf"){
           // multiply by 1000 to convert from km to m
           ss >> colVal; domainBounds_[3] = std::stod(colVal)*thousand;
-          std::cout << "Earth surf radius (km) = "
+          std::cout << "surface radius (km) = "
 		    << std::setprecision(dblFmt)
 		    << domainBounds_[3]/thousand << std::endl;
         }
@@ -156,14 +150,6 @@ private:
         if (colVal == "numPtsSp"){
           ss >> colVal; numGptSp_ = std::stoi(colVal);
           std::cout << "numGptSp = " << numGptSp_ << std::endl;
-        }
-        if (colVal == "numPtsSrp"){
-          ss >> colVal; numGptSrp_ = std::stoi(colVal);
-          std::cout << "numGptSrp = " << numGptSrp_ << std::endl;
-        }
-        if (colVal == "numPtsStp"){
-          ss >> colVal; numGptStp_ = std::stoi(colVal);
-          std::cout << "numGptStp = " << numGptStp_ << std::endl;
         }
 
         if (colVal == "nth"){

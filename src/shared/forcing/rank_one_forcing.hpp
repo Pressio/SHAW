@@ -52,7 +52,7 @@ public:
 		 const sc_t depthKm,
 		 const sc_t angleDeg)
     : f_h_("Fh", parser.getNumSteps()),
-      f_d_("Fd", meshInfo.getNumResidualVpPts()),
+      f_d_("Fd", meshInfo.getNumVpPts()),
       dt_(parser.getTimeStepSize()),
       NSteps_(parser.getNumSteps()),
       maxFreq_(signalObj.getFrequency())
@@ -61,10 +61,11 @@ public:
     const auto coords = appObj.viewCoordsHost(dofId::vp);
 
     // find the vpGid identifying the grid point where the source is mapped to
-    const sc_t myRadiusKm = constants<sc_t>::earthSurfaceRadiusKm() - depthKm;
+    const auto domainSurfaceRadiusKm = meshInfo.getMaxRadiusKm();
+    const sc_t myRadiusKm = domainSurfaceRadiusKm - depthKm;
     mapPointSourceToGridPoint(angleDeg, myRadiusKm, depthKm,
 			      meshInfo.viewDomainBounds(),
-			      meshInfo.getNumResidualVpPts(), gidsVp, coords,
+			      meshInfo.getNumVpPts(), gidsVp, coords,
 			      meshInfo.getAngularSpacing(), myVpGid_);
 
     KokkosBlas::fill(f_h_, constants<sc_t>::zero());

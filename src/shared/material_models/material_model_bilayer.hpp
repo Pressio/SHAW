@@ -9,29 +9,28 @@ class BilayerMaterialModel final : public MaterialModelBase<scalar_t>
 {
   using profile_params_t = typename parser_t::profile_params_t;
   using discont_depth_t  = typename parser_t::discont_depth_t;
-
-  const parser_t & parser_;
   const discont_depth_t  & discontDepthsKm_;
   const profile_params_t & densityParams_;
   const profile_params_t & velocityParams_;
+  const scalar_t domainSurfaceRadiusMeters_ = {};
 
 public:
-  BilayerMaterialModel(const parser_t & parser)
-    : parser_(parser),
-      discontDepthsKm_(parser.viewDiscontinuityDepthsKm()),
+  template<typename mesh_info_t>
+  BilayerMaterialModel(const parser_t & parser,
+		       const mesh_info_t & meshInfo)
+    : discontDepthsKm_(parser.viewDiscontinuityDepthsKm()),
       densityParams_(parser.viewDensityParametrization()),
-      velocityParams_(parser.viewVelocityParametrization())
+      velocityParams_(parser.viewVelocityParametrization()),
+      domainSurfaceRadiusMeters_(meshInfo.getMaxRadius())
   {}
 
-  void computeAt(const scalar_t & radiusFromEarthCenterMeters,
+  void computeAt(const scalar_t & radiusFromCenterMeters,
 		 const scalar_t & angleRadians,
 		 scalar_t & density,
 		 scalar_t & vs) const final
   {
-    constexpr auto esrMeters = constants<scalar_t>::earthSurfaceRadiusMeters();
     constexpr auto thous     = constants<scalar_t>::thousand();
-
-    const auto thisPtDepthM = esrMeters - radiusFromEarthCenterMeters;
+    const auto thisPtDepthM = domainSurfaceRadiusMeters_ - radiusFromCenterMeters;
 
     if ( thisPtDepthM < discontDepthsKm_[1]*thous){
       /* point belongs to layer1 */
@@ -53,6 +52,6 @@ public:
       vs      = vsC[0]  + vsC[1]*dM  + vsC[2]*dM*dM;
     }
   }
-
 };
+
 #endif

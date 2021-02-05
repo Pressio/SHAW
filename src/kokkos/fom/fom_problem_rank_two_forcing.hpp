@@ -16,13 +16,12 @@ class FomProblemRankTwoForcing
   using kokkosapp::commonTypes::sc_t;
   using kokkosapp::commonTypes::int_t;
   using kokkosapp::commonTypes::parser_t;
+  using kokkosapp::commonTypes::mesh_info_t;
   using kokkosapp::commonTypes::klr;
   using kokkosapp::commonTypes::kll;
   using kokkosapp::commonTypes::exe_space;
 
   static constexpr bool usingFullMesh = true;
-  using mesh_info_t	= MeshInfo<sc_t, int_t, usingFullMesh>;
-
   using state_d_t	= Kokkos::View<sc_t**, klr, exe_space>;
   using state_h_t	= typename state_d_t::host_mirror_type;
   using jacobian_d_type = KokkosSparse::CrsMatrix<sc_t, int_t, exe_space>;
@@ -32,9 +31,16 @@ class FomProblemRankTwoForcing
   using forcing_t       = RankTwoForcing<sc_t, state_d_t, int_t>;
 
 private:
+  // parser with inputs
   const parser_t & parser_;
+
+  // object with info about the mesh
+  const mesh_info_t & meshInfo_;
+
+  // material model object
+  std::shared_ptr<MaterialModelBase<scalar_t>> materialObj_;
+
   const int_t fSize_;
-  const mesh_info_t meshInfo_;
   const int_t nVp_;
   const int_t nSp_;
 
@@ -44,10 +50,13 @@ private:
   obs_t observerObj_;
 
 public:
-  FomProblemRankTwoForcing(const parser_t & parser)
+  FomProblemRankTwoForcing(const parser_t & parser,
+			   const mesh_info_t & meshInfo,
+			   std::shared_ptr<MaterialModelBase<scalar_t>> materialObj)
     : parser_(parser),
+      meshInfo_(meshInfo),
+      materialObj_(materialObj),
       fSize_(parser.getForcingSize()),
-      meshInfo_(parser.getMeshDir()),
       nVp_(meshInfo_.getNumVpPts()),
       nSp_(meshInfo_.getNumSpPts()),
       appObj_(meshInfo_),
@@ -71,10 +80,10 @@ private:
        2. the other properties (like location) of the source do not change
     */
 
-    /*create and store material prop
-     * only do it once since material does not change */
-    auto matObj = createMaterialModel<sc_t>(parser_);
-    appObj_.computeJacobians(*matObj);
+    // /*create and store material prop
+    //  * only do it once since material does not change */
+    // auto matObj = createMaterialModel<sc_t>(parser_, meshInfo_);
+    appObj_.computeJacobians(*materialObj_);
 
     // seismogram
     seismogram_t seismoObj(parser_, meshInfo_, appObj_, fSize_);
