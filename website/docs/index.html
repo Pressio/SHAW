@@ -101,7 +101,6 @@ C++ code to simulate elastic shear waves in an axi-symmetric domain.</em></p>
 <ul>
 <li><p>
 The current implementation relies on Kokkos, but we are porting the code to other programming models.<br />
-For example, the first porting will be to a distributed memory using, e.g., Tpetra from Trilinos.<br />
 </p>
 </li>
 <li><p>The code implements what we call “rank-1” and “rank-2” formulations:</p>
@@ -110,7 +109,7 @@ For example, the first porting will be to a distributed memory using, e.g., Tpet
 <li><dl>
 <dt>rank-1:</dt>
 <dd><ul>
-<li>the discretized state variables and forcing are stored in 1D arrays</li>
+<li>the discrete state and forcing term are stored in 1D arrays</li>
 <li>this is used to simulate the case of a <em>single forcing realization</em></li>
 </ul>
 </dd>
@@ -119,11 +118,12 @@ For example, the first porting will be to a distributed memory using, e.g., Tpet
 <li><dl>
 <dt>rank-2:</dt>
 <dd><ul>
-<li>the discretized state variables and forcing are stored in rank-2 tensors (i.e. matrices)</li>
+<li>the discrete state and forcing term are stored in rank-2 tensors (i.e. matrices)</li>
 <li>this is useful to simultaneously solve the wave dyanmics
 for <em>multiple forcing realizations</em> (e.g. multiple source locations and/or periods).
 This rank-2 formulation has an advantage from a computational
-standpoint because it has higher computational intensity.</li>
+standpoint because it has higher computational intensity,
+thus benefiting efficient ensemble propagation of uncertainties</li>
 </ul>
 </dd>
 </dl>
@@ -138,8 +138,9 @@ a bilayer model and the Preliminary Reference Earth Model (PREM).
 We remark that these are 1D models in the sense that they only depend on the radial distance.
 Given the modularity of the code, one can easily add other material models.</p>
 </li>
-<li><p>The code can be used to simulate the wave dynamics in another planet:
-this involves creating the grid and adding a suitable material model for that planet.</p>
+<li><p>The modular strucuture of the code makes it easy to simulate
+the wave dynamics in another planet/axisymmetric body:
+one just has to create a grid suitable for that planet, and a suitable material model.</p>
 </li>
 </ul>
 </div>
