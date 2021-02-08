@@ -2,32 +2,32 @@
 #ifndef SHAXIPP_PARSER_MIXIN_SAMPLING_SECTION_HPP_
 #define SHAXIPP_PARSER_MIXIN_SAMPLING_SECTION_HPP_
 
-template <typename scalar_t, typename int_t>
+template <typename scalar_t>
 struct ParserSamplingSection
 {
 private:
   bool samplingOn_  = false;
-  int_t numSamples_ = {};
-  int_t numParams_  = {};
+  std::size_t numSamples_ = {};
+  std::size_t numParams_  = {};
 
   std::vector<samplable> paramNames_;
   std::vector<std::vector<scalar_t>> values_;
 
   bool enableRankTwoForcing_ = false;
-  int_t forcingSize_ = 1;
+  std::size_t forcingSize_ = 1;
 
 public:
   auto enableSampling() const{ return samplingOn_; };
   auto getNumSamples() const{ return numSamples_; }
   auto getNumParams() const{ return numParams_; }
 
-  auto getNameParamToSample(int_t i) const{
+  auto getNameParamToSample(int i) const{
     if (i >= numParams_)
       throw std::runtime_error("Trying to index non-existing sampling parameter");
 
     return paramNames_[i];
   }
-  auto getValues(int_t i) const{ return values_[i]; }
+  auto getValues(int i) const{ return values_[i]; }
   auto getForcingSize() const{ return forcingSize_; };
   auto enableMultiForcing() const{ return enableRankTwoForcing_; };
 
@@ -74,7 +74,7 @@ public:
       {
 	const auto n = node["forcingSize"];
 	if (n){
-      	  forcingSize_ = n.as<int_t>();
+      	  forcingSize_ = n.as<std::size_t>();
       	  // enable rank2 forcing only if size > 1
       	  enableRankTwoForcing_ = forcingSize_ > 1;
 

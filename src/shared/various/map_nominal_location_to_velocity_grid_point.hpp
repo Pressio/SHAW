@@ -30,10 +30,12 @@ int_t mapNominalLocationToVelocityGridPoint(const scalar_t nominalAngleDeg,
 	    << nominalAngleRad    << std::endl;
 
   // check that source angle is within domain
-  if ((nominalAngleDeg < domainBounds[0]) or (nominalAngleDeg > domainBounds[1]))
+  if ((nominalAngleDeg < domainBounds[0]) or (nominalAngleDeg > domainBounds[1])){
     throw std::runtime_error("Target angle is outside theta axis");
-  if ((nominalRadiusM < domainBounds[2]) or (nominalRadiusM > domainBounds[3]))
+  }
+  if ((nominalRadiusM < domainBounds[2]) or (nominalRadiusM > domainBounds[3])){
     throw std::runtime_error("Target angle is outside radius axis");
+  }
 
   // find the velocity dof grid point that is closest to desired source
   auto trialDistance = std::numeric_limits<scalar_t>::max();

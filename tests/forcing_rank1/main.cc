@@ -1,22 +1,24 @@
 
-#include "./fom/fom_problem_rank_one_forcing.hpp"
+#include "./shared/all.hpp"
+#include "./kokkos/common_types.hpp"
+#include "./kokkos/shwavepp.hpp"
 
 int main(int argc, char *argv[])
 {
   Kokkos::initialize (argc, argv);
   {
-    using sc_t = double;
-    using parser_t = kokkosapp::commonTypes::parser_t;
-    using prob_t = kokkosapp::FomProblemRankOneForcing;
-    using app_t  = typename prob_t::fom_t;
-    using mesh_info_t = typename prob_t::mesh_info_t;
-    using forcing_t = typename prob_t::forcing_t;
+    using types = kokkosapp::rank1Types;
+
+    using sc_t = typename types::scalar_type;
+    using parser_t = typename types::parser_type;
+    using mesh_info_t = typename types::mesh_info_type;
+    using forcing_t = typename types::forcing_type;
 
     parser_t parser(argc, argv);
     mesh_info_t meshInfo(parser.getMeshDir());
-    app_t appObj(meshInfo);
 
     auto matObj = createMaterialModel<sc_t>(parser, meshInfo);
+    kokkosapp::ShWavePP<types> appObj(meshInfo);
     appObj.computeJacobians(*matObj);
 
     forcing_t forcingObj(parser, meshInfo, appObj);

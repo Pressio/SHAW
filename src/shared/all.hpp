@@ -44,7 +44,7 @@
 #include "./checkers/check_cfl.hpp"
 
 #include "./mesh_helpers/read_graph_file.hpp"
-#include "./mesh_helpers/read_mesh_file_info.hpp"
+#include "./mesh_helpers/mesh_info.hpp"
 #include "./mesh_helpers/read_vpcoeff_file.hpp"
 
 #include "./material_models/material_model_unilayer.hpp"

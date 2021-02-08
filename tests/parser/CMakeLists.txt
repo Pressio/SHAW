@@ -1,6 +1,4 @@
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../src/kokkos)
-
 # test for input file with all sections present
 configure_file(input1.yaml input1.yaml COPYONLY)
 set(test_name parser_test_1)

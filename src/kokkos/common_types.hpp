@@ -6,26 +6,47 @@ namespace kokkosapp{
 
 struct commonTypes
 {
-  using scalar_type	= double;
-  using scalar_t	= scalar_type;
-  using sc_t		= scalar_t;
-  // type to use for all indexing, has to be large enough
-  using int_t		= int64_t;
+  using scalar_type = double;
 
-  using pgs_mx_t	= ParserGeneralSection<sc_t, int_t>;
-  using pio_mx_t	= ParserIoSection<sc_t, int_t>;
-  using pmm_mx_t	= ParserMaterialModel<sc_t, int_t>;
-  using pss_mx_t	= ParserForcingSection<sc_t, int_t>;
-  using prs_mx_t	= ParserRomSection<sc_t, int_t>;
-  using psas_mx_t	= ParserSamplingSection<sc_t, int_t>;
-  using parser_t	= InputParser<pgs_mx_t, pio_mx_t, pmm_mx_t, pss_mx_t, prs_mx_t, psas_mx_t>;
-  using mesh_info_t	= MeshInfo<sc_t, int_t>;
+  using p_gs_t  = ParserGeneralSection<scalar_type>;
+  using p_io_t  = ParserIoSection<scalar_type>;
+  using p_mm_t  = ParserMaterialModel<scalar_type>;
+  using p_ss_t  = ParserForcingSection<scalar_type>;
+  using p_sas_t = ParserSamplingSection<scalar_type>;
+  using parser_type  = InputParser<p_gs_t, p_io_t, p_mm_t, p_ss_t, p_sas_t>;
 
-  // aliases for layouts and exe space
-  using klr		= Kokkos::LayoutRight;
-  using kll		= Kokkos::LayoutLeft;
-  using exe_space	= Kokkos::DefaultExecutionSpace;
+  using mesh_info_type = MeshInfo<scalar_type>;
+
+  using exe_space = Kokkos::DefaultExecutionSpace;
+
+  // jacobian is a sparse matrix
+  using jacobian_ord_type = typename mesh_info_type::ordinal_type;
+  using jacobian_d_type = KokkosSparse::CrsMatrix<scalar_type, jacobian_ord_type, exe_space>;
+
+  // observer
+  using observer_type = StateObserver<scalar_type>;
+
+  // seismogram
+  using seismogram_type  = Seismogram<scalar_type>;
 };
 
-}// end namespace eigenapp
+struct rank1Types : commonTypes
+{
+  using typename commonTypes::scalar_type;
+  using typename commonTypes::parser_type;
+  using typename commonTypes::mesh_info_type;
+  using typename commonTypes::jacobian_ord_type;
+  using typename commonTypes::jacobian_d_type;
+  using typename commonTypes::observer_type;
+  using typename commonTypes::seismogram_type;
+
+  // state is a rank-1 view
+  using state_d_type = Kokkos::View<scalar_type*, Kokkos::DefaultExecutionSpace>;
+  using state_h_type = typename state_d_type::host_mirror_type;
+
+  // forcing type
+  using forcing_type = RankOneForcing<scalar_type, state_d_type>;
+};
+
+}// end namespace
 #endif

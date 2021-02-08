@@ -31,7 +31,7 @@ struct CopyState
 };
 
 
-template <typename int_t, typename scalar_t>
+template <typename scalar_t>
 struct StateObserver
 {
   using matrix_t = Kokkos::View<scalar_t***, Kokkos::LayoutLeft, Kokkos::HostSpace>;
@@ -41,26 +41,26 @@ private:
   bool enableSnapMat_ = {};
   std::array<std::string,2> snapFileName_ = {};
 
-  std::array<int_t, 2> numDofs_ = {};
+  std::array<std::size_t, 2> numDofs_ = {};
 
   // to count the snapshots
-  std::array<int_t, 2> count_ = {};
+  std::array<std::size_t, 2> count_ = {};
   // sampling frequency
-  std::array<int_t, 2> snapshotFreq_ = {};
+  std::array<std::size_t, 2> snapshotFreq_ = {};
 
   // snapshot matrices
   matrix_t Avp_;
   matrix_t Asp_;
 
   // runID used when we run many samples to prepend file
-  int_t runID_ = 0;
+  std::size_t runID_ = 0;
 
 public:
   template <typename parser_t>
-  StateObserver(int_t numDof_vp,
-		int_t numDof_sp,
+  StateObserver(std::size_t numDof_vp,
+		std::size_t numDof_sp,
 		const parser_t & parser,
-		int_t fSize = 1)
+		std::size_t fSize = 1)
     : useBinaryIO_(parser.writeSnapshotsBinary()),
       enableSnapMat_{parser.enableSnapshotMatrix()},
       snapFileName_{{parser.getSnapshotFileName(dofId::vp),
@@ -74,8 +74,8 @@ public:
       std::cout << "*** Constructing observer ***" << std::endl;
 
       const auto Nsteps = parser.getNumSteps();
-      int_t numColsVp = 0;
-      int_t numColsSp = 0;
+      std::size_t numColsVp = 0;
+      std::size_t numColsSp = 0;
 
       // make sure number of steps is divisible by sampling frequency
       if ( Nsteps % snapshotFreq_[0] == 0){
@@ -104,7 +104,7 @@ public:
     }
   }
 
-  void prepForNewRun(const int_t & runIdIn)
+  void prepForNewRun(const std::size_t & runIdIn)
   {
     // assumes the new run has same sampling frequncies as before
     count_ = {0,0};
@@ -120,7 +120,7 @@ public:
   }
 
   template<typename state_t>
-  void observe(dofId dof, const int_t & step, const state_t & x)
+  void observe(dofId dof, const std::size_t & step, const state_t & x)
   {
 
     if (enableSnapMat_)

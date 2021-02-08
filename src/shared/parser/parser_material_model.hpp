@@ -2,7 +2,7 @@
 #ifndef SHAXIPP_PARSER_MIXIN_MATERIAL_MODEL_HPP_
 #define SHAXIPP_PARSER_MIXIN_MATERIAL_MODEL_HPP_
 
-template <typename scalar_t, typename int_t>
+template <typename scalar_t>
 struct ParserMaterialModel
 {
   /* we use:

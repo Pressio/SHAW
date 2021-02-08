@@ -2,7 +2,7 @@
 #ifndef SHAXIPP_PARSER_MIXIN_IO_SECTION_HPP_
 #define SHAXIPP_PARSER_MIXIN_IO_SECTION_HPP_
 
-template <typename scalar_t, typename int_t>
+template <typename scalar_t>
 struct ParserIoSection
 {
   using receivers_loc_t = std::vector<scalar_t>;
@@ -21,15 +21,15 @@ private:
   // *** snapshot matrix ***
   bool enableSnapMatrix_      = false;
   writeMode snapWriteMode_    = writeMode::binary;
-  int_t vpSnapFreq_	      = -1;
-  int_t spSnapFreq_	      = -1;
+  std::size_t vpSnapFreq_	      = -1;
+  std::size_t spSnapFreq_	      = -1;
   std::string vpSnapFileName_ = "snaps_vp";
   std::string spSnapFileName_ = "snaps_sp";
 
   // *** seismogram ***
   bool enableSeismo_		  = false;
   writeMode seismoWriteMode_      = writeMode::binary;
-  int_t seismoFreq_		  = -1;
+  std::size_t seismoFreq_		  = -1;
   std::string seismogramFileName_ = "seismogram";
   receivers_loc_t receiversLocs_  = {5,30,60,90,120,150,175};
 
@@ -37,7 +37,7 @@ public:
   auto enableSnapshotMatrix() const{ return enableSnapMatrix_; }
   auto writeSnapshotsBinary()  const{ return snapWriteMode_ == writeMode::binary; }
 
-  int_t getSnapshotFreq(const dofId & dof) const{
+  std::size_t getSnapshotFreq(const dofId & dof) const{
     switch(dof){
     case dofId::vp: return vpSnapFreq_;
     case dofId::sp: return spSnapFreq_;
@@ -102,7 +102,7 @@ private:
     {
       auto entry = "freq";
       if (veloNode[entry]){
-	vpSnapFreq_ = veloNode[entry].as<int_t>();
+	vpSnapFreq_ = veloNode[entry].as<std::size_t>();
       }
       else{
 	throw std::runtime_error("You must set snapshot freq for velocity");
@@ -120,7 +120,7 @@ private:
     {
       auto entry = "freq";
       if (stressNode[entry]){
-	spSnapFreq_ = stressNode[entry].as<int_t>();
+	spSnapFreq_ = stressNode[entry].as<std::size_t>();
       }
       else{
 	throw std::runtime_error("You must set snapshot freq for stress");
@@ -146,7 +146,7 @@ private:
 
     auto entry = "freq";
     if (node[entry]) {
-      seismoFreq_ = node[entry].as<int_t>();
+      seismoFreq_ = node[entry].as<std::size_t>();
     }
     else{
       throw std::runtime_error("You must set freq for seismogram");

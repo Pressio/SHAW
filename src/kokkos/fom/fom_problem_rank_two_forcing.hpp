@@ -2,11 +2,6 @@
 #ifndef FOM_PROBLEM_RANK_TWO_FORCING_HPP_
 #define FOM_PROBLEM_RANK_TWO_FORCING_HPP_
 
-#include "../../shared/all.hpp"
-#include "../shwavepp.hpp"
-#include "../common_types.hpp"
-#include "run_fom.hpp"
-
 namespace kokkosapp{
 
 class FomProblemRankTwoForcing

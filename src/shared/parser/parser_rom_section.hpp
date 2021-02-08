@@ -2,7 +2,7 @@
 #ifndef SHAXIPP_PARSER_MIXIN_ROM_SECTION_HPP_
 #define SHAXIPP_PARSER_MIXIN_ROM_SECTION_HPP_
 
-template <typename scalar_t, typename int_t>
+template <typename scalar_t>
 struct ParserRomSection
 {
 private:
@@ -20,8 +20,8 @@ private:
   // not interested in computing the rom jacobians
   bool disableCompRomJacobians_ = false;
 
-  int_t vpRomSize_		= {};
-  int_t spRomSize_		= {};
+  std::size_t vpRomSize_		= {};
+  std::size_t spRomSize_		= {};
   std::string vpBasisFileName_	= "empty";
   std::string spBasisFileName_	= "empty";
 
@@ -41,7 +41,7 @@ public:
     }
   };
 
-  int_t getRomSize(dofId dof) const{
+  std::size_t getRomSize(dofId dof) const{
     switch(dof){
     case dofId::vp: return vpRomSize_;
     case dofId::sp: return spRomSize_;
@@ -77,7 +77,7 @@ public:
       const auto veloNode = romNode["velocity"];
       if (veloNode){
 	auto entry = "numModes";
-	if (veloNode[entry]) vpRomSize_ = veloNode[entry].as<int_t>();
+	if (veloNode[entry]) vpRomSize_ = veloNode[entry].as<std::size_t>();
 	else throw std::runtime_error("You must set # of modes for velocity");
 
 	entry = "modesFile";
@@ -92,7 +92,7 @@ public:
       const auto stressNode = romNode["stress"];
       if (stressNode){
 	auto entry = "numModes";
-	if (stressNode[entry]) spRomSize_ = stressNode[entry].as<int_t>();
+	if (stressNode[entry]) spRomSize_ = stressNode[entry].as<std::size_t>();
 	else throw std::runtime_error("You must set # of modes for stress");
 
 	entry = "modesFile";

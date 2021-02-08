@@ -7,7 +7,7 @@
 #include <fstream>
 #include <iostream>
 
-template <typename scalar_t, typename int_t>
+template <typename scalar_t>
 struct ParserGeneralSection
 {
 private:
@@ -16,7 +16,7 @@ private:
   bool checkCfl_	   = true;
   scalar_t dt_		   = {};
   scalar_t finalTime_	   = {};
-  int_t NSteps_		   = {};
+  std::size_t NSteps_		   = {};
   bool exploitForcingSparsity_ = true;
 
 public:
@@ -61,7 +61,7 @@ public:
       throw std::runtime_error("General section in yaml input is mandatory!");
     }
 
-    NSteps_ = static_cast<int_t>(finalTime_/dt_);
+    NSteps_ = static_cast<std::size_t>(finalTime_/dt_);
     this->validate();
     this->print();
   }

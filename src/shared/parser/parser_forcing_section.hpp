@@ -5,7 +5,7 @@
 template <typename sc_t>
 class Signal;
 
-template <typename scalar_t, typename int_t>
+template <typename scalar_t>
 class ParserForcingSection
 {
 

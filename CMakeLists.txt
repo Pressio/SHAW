@@ -5,7 +5,7 @@ project(shwave CXX)
 # guard against in-source builds
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
   message(FATAL_ERROR "In-source builds are not allowed.
-Make a separate build directory and run CMake from there. Remove CMakeCache.txt.")
+Remove CMakeCache.txt. Make a separate build directory and run CMake from there.")
 endif()
 
 # default to release if build type is empty

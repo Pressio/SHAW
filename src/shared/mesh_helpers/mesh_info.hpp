@@ -2,20 +2,23 @@
 #ifndef READ_MESH_FILE_INFO_HPP_
 #define READ_MESH_FILE_INFO_HPP_
 
-template <typename sc_t, typename int_t, bool isFullMesh = true>
+template <typename sc_t, bool isFullMesh = true>
 class MeshInfo;
 
 // specialize for when we deal with a full mesh
-template <typename sc_t, typename int_t>
-class MeshInfo<sc_t, int_t, true>
+template <typename sc_t>
+class MeshInfo<sc_t, true>
 {
-  using domain_bounds_t = std::array<sc_t, 4>;
+public:
+  using ordinal_type = std::size_t;
+  using domain_bounds_type = std::array<sc_t, 4>;
 
+private:
   // dir where to find mesh files
   std::string meshDir_ = {};
 
   // domain bounds: theta_left (deg), theta_right (deg), r_cmb (m), r_surf (m)
-  domain_bounds_t domainBounds_ = {};
+  domain_bounds_type domainBounds_ = {};
 
   // spacing in theta (rad) and r (m) direction
   sc_t dth_{};
@@ -26,14 +29,14 @@ class MeshInfo<sc_t, int_t, true>
   sc_t drrInv_{};
 
   // numGptVp = number of points for the velocity (Vp)
-  int_t numGptVp_ = {};
+  ordinal_type numGptVp_ = {};
 
   // number of stress points
-  int_t numGptSp_ = {};
+  ordinal_type numGptSp_ = {};
 
   // num of points along R/theta
-  int_t numPtsAlongR_ = {};
-  int_t numPtsAlongTh_ = {};
+  ordinal_type numPtsAlongR_ = {};
+  ordinal_type numPtsAlongTh_ = {};
 
 public:
   MeshInfo(const std::string & meshDir)
@@ -55,12 +58,12 @@ public:
 
   const sc_t  getMaxArc() const{ return dth_ * domainBounds_[3]; }
   const sc_t  getMinArc() const{ return dth_ * domainBounds_[2]; }
-  const domain_bounds_t & viewDomainBounds() const{ return domainBounds_; }
+  const domain_bounds_type & viewDomainBounds() const{ return domainBounds_; }
 
-  int_t getNumPtsAlongR() const{ return numPtsAlongR_; }
-  int_t getNumPtsAlongTheta() const{ return numPtsAlongTh_; }
-  int_t getNumVpPts() const{ return numGptVp_; }
-  int_t getNumSpPts() const{ return numGptSp_; }
+  ordinal_type getNumPtsAlongR() const{ return numPtsAlongR_; }
+  ordinal_type getNumPtsAlongTheta() const{ return numPtsAlongTh_; }
+  ordinal_type getNumVpPts() const{ return numGptVp_; }
+  ordinal_type getNumSpPts() const{ return numGptSp_; }
 
 private:
   void readMeshInfoFile()

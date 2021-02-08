@@ -6,7 +6,7 @@
 #include "KokkosBlas1_fill.hpp"
 #include "KokkosBlas1_scal.hpp"
 
-template <typename sc_t, typename state_d_t, typename int_t>
+template <typename sc_t, typename state_d_t>
 class RankOneForcing
 {
   static_assert
@@ -37,11 +37,11 @@ class RankOneForcing
 
   // myVpGid_ identifies which velocity point the signal is located at
   // remember that forcing always acts on a velocity point, not a stress point.
-  int_t myVpGid_ = -1;
+  std::size_t myVpGid_ = -1;
 
   sc_t maxFreq_ = {};
   const sc_t dt_ = {};
-  const int_t NSteps_ = {};
+  const std::size_t NSteps_ = {};
 
 public:
   template <typename signal_t, typename parser_t, typename mesh_info_t, typename app_t>
@@ -98,7 +98,7 @@ public:
 public:
   const sc_t & getMaxFreq() const{ return maxFreq_; }
 
-  int_t getVpGid() const{ return myVpGid_; }
+  std::size_t getVpGid() const{ return myVpGid_; }
 
   const sc_t & getForcingValueAtStep(std::size_t step) const{ return f_h_(step-1); }
 
@@ -129,7 +129,7 @@ private:
   {
     // store the full time series of the signal into the host array
     sc_t time = constants<sc_t>::zero();
-    for (int_t iStep = 1; iStep<=NSteps_; ++iStep)
+    for (std::size_t iStep = 1; iStep<=NSteps_; ++iStep)
     {
       signal(time, f_h_(iStep-1));
       time = iStep * dt_;

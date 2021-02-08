@@ -1,11 +1,12 @@
 
-#include "./fom/fom_problem_rank_one_forcing.hpp"
+#include "./shared/all.hpp"
+#include "./kokkos/common_types.hpp"
 
 int main(int argc, char *argv[])
 {
   Kokkos::initialize (argc, argv);
   {
-    using parser_t = kokkosapp::commonTypes::parser_t;
+    using parser_t = kokkosapp::commonTypes::parser_type;
     parser_t parser(argc, argv);
 
     std::vector<bool> vb;

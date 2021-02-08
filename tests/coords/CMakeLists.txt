@@ -1,6 +1,4 @@
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../src/kokkos)
-
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../nonPhysicalFullMesh5x5 DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 configure_file(input.yaml input.yaml COPYONLY)

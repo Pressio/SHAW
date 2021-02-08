@@ -4,41 +4,48 @@
 
 namespace kokkosapp{
 
-template <
-  typename scalar_type,
-  typename int_t,
-  typename mesh_info_t,
-  typename jacobian_d_t,
-  typename exespace
-  >
+template<typename T>
 class ShWavePP
 {
-
 public:
+  using scalar_type	  = typename T::scalar_type;
+  using mesh_info_type	  = typename T::mesh_info_type;
+  using jacobian_d_type   = typename T::jacobian_d_type;
+  using jacobian_ord_type = typename jacobian_d_type::ordinal_type;
+  using mesh_ord_type     = typename mesh_info_type::ordinal_type;
+
   using klr = Kokkos::LayoutRight;
   using kll = Kokkos::LayoutLeft;
+  using exespace = Kokkos::DefaultExecutionSpace;
 
-  using jacobian_ord_type = typename jacobian_d_t::ordinal_type;
+  // coordinates: col0 stores angle, col1 stores 1/radius
+  using coords_h_t = Kokkos::View<scalar_type*[2], klr, Kokkos::HostSpace>;
 
-  using coords_h_t	= Kokkos::View<scalar_type*[2], klr, Kokkos::HostSpace>;
+  // connectivity of velo and stress grid points
+  using graph_vp_d_t = Kokkos::View<mesh_ord_type*[5], klr, exespace>;
+  using graph_vp_h_t = typename graph_vp_d_t::host_mirror_type;
+  using graph_sp_d_t = Kokkos::View<mesh_ord_type*[3], klr, exespace>;
+  using graph_sp_h_t = typename graph_sp_d_t::host_mirror_type;
 
-  using graph_vp_d_t	= Kokkos::View<int_t*[5], klr, exespace>;
-  using graph_vp_h_t	= typename graph_vp_d_t::host_mirror_type;
-  using graph_sp_d_t	= Kokkos::View<int_t*[3], klr, exespace>;
-  using graph_sp_h_t	= typename graph_sp_d_t::host_mirror_type;
+  // stencil coefficients for velocity points
+  using velo_stencil_coeff_h_t = Kokkos::View<scalar_type*[4], klr, Kokkos::HostSpace>;
 
-  using sten_coeff_h_t	= Kokkos::View<scalar_type*[4], klr, Kokkos::HostSpace>;
+  // 1/rho
+  using rho_inv_d_t = Kokkos::View<scalar_type*, exespace>;
+  using rho_inv_h_t = typename rho_inv_d_t::host_mirror_type;
+  using rho_d_t     = Kokkos::View<scalar_type*, exespace>;
+  using rho_h_t     = typename rho_d_t::host_mirror_type;
 
-  using rho_inv_d_t	= Kokkos::View<scalar_type*, exespace>;
-  using rho_inv_h_t	= typename rho_inv_d_t::host_mirror_type;
-  using rho_d_t		= Kokkos::View<scalar_type*, exespace>;
-  using rho_h_t		= typename rho_d_t::host_mirror_type;
-  using shmod_d_t	= Kokkos::View<scalar_type*, exespace>;
-  using shmod_h_t	= typename shmod_d_t::host_mirror_type;
-  using cot_d_t		= Kokkos::View<scalar_type*, exespace>;
-  using cot_h_t		= typename cot_d_t::host_mirror_type;
-  using labels_d_t	= Kokkos::View<int_t*, exespace>;
-  using labels_h_t	= typename labels_d_t::host_mirror_type;
+  // shear modulus
+  using shmod_d_t = Kokkos::View<scalar_type*, exespace>;
+  using shmod_h_t = typename shmod_d_t::host_mirror_type;
+  // cotangent
+  using cot_d_t   = Kokkos::View<scalar_type*, exespace>;
+  using cot_h_t   = typename cot_d_t::host_mirror_type;
+
+  // labels: needed for stresses to identify s_r,phi and s_theta,phi
+  using labels_d_t = Kokkos::View<mesh_ord_type*, exespace>;
+  using labels_h_t = typename labels_d_t::host_mirror_type;
 
   static constexpr auto one	= constants<scalar_type>::one();
   static constexpr auto two	= constants<scalar_type>::two();
@@ -48,14 +55,28 @@ public:
 public:
   ShWavePP() = delete;
 
-  ShWavePP(const mesh_info_t & meshInfo)
+  ShWavePP(const mesh_info_type & meshInfo)
     : meshDir_{meshInfo.getMeshDir()},
       dthInv_{meshInfo.getAngularSpacingInverse()},
       drrInv_{meshInfo.getRadialSpacingInverse()},
       numGptVp_{meshInfo.getNumVpPts()},
       numGptSp_{meshInfo.getNumSpPts()}
   {
-    this->allocateMembers();
+    // we don't need to allocate the jacobians because they
+    // are allocated directly during assemble
+
+    // for velocity
+    Kokkos::resize(coordsVp_h_, numGptVp_);
+    Kokkos::resize(rhoInvVp_d_, numGptVp_);
+    Kokkos::resize(rhoInvVp_h_, numGptVp_);
+    Kokkos::resize(graphVp_h_,  numGptVp_);
+
+    // for stresses
+    Kokkos::resize(coordsSp_h_,  numGptSp_);
+    Kokkos::resize(labelsSp_h_,  numGptSp_);
+    Kokkos::resize(shearModSp_h_,numGptSp_);
+    Kokkos::resize(shearModSp_d_,numGptSp_);
+    Kokkos::resize(graphSp_h_,   numGptSp_);
   }
 
   void computeJacobians(const MaterialModelBase<scalar_type> & matModel)
@@ -63,7 +84,7 @@ public:
     std::cout << std::endl;
     std::cout << "*** Compute FOM Jacobian matrices ***" << std::endl;
 
-    sten_coeff_h_t coeffsVp_h("stenCoeffVp", numGptVp_);
+    velo_stencil_coeff_h_t coeffsVp_h("stenCoeffVp", numGptVp_);
     cot_h_t cotVp_h("cotVph", numGptVp_);
     cot_h_t cotSp_h("cotSph", numGptSp_);
 
@@ -194,7 +215,7 @@ private:
     scalar_type tmpRho, tmpVs;
 
     // set host properties for the vp dofs
-    for (int_t iPt=0; iPt < numGptVp_; ++iPt){
+    for (mesh_ord_type iPt=0; iPt < numGptVp_; ++iPt){
       const auto ptGID        = gidsVp(iPt);
       const auto thisPtTheta  = coordsVp_h_(ptGID, 0);
       const auto thisPtRadius = one/coordsVp_h_(ptGID, 1);
@@ -204,7 +225,7 @@ private:
     Kokkos::deep_copy(rhoInvVp_d_, rhoInvVp_h_);
 
     // set host properties for the stress dofs
-    for (int_t iPt=0; iPt < numGptSp_; ++iPt){
+    for (mesh_ord_type iPt=0; iPt < numGptSp_; ++iPt){
       const auto ptGID	      = gidsSp(iPt);
       const auto thisPtTheta  = coordsSp_h_(ptGID, 0);
       const auto thisPtRadius = one/coordsSp_h_(ptGID, 1);
@@ -226,8 +247,8 @@ private:
 
   auto countVpJacNNZ() const
   {
-    int_t result = 0;
-    for (int_t iPt=0; iPt < numGptVp_; ++iPt)
+    mesh_ord_type result = 0;
+    for (mesh_ord_type iPt=0; iPt < numGptVp_; ++iPt)
     {
       const auto & ptGID      = graphVp_h_(iPt, 0);
       const auto & gid_west   = graphVp_h_(iPt, 1);
@@ -235,7 +256,7 @@ private:
       const auto & gid_east   = graphVp_h_(iPt, 3);
       const auto & gid_south  = graphVp_h_(iPt, 4);
 
-      int_t thisRowNnz = 0;
+      mesh_ord_type thisRowNnz = 0;
       if (gid_north == gid_south){
 	thisRowNnz+=1;
       }
@@ -256,32 +277,32 @@ private:
   }
 
   void fillVpJacobian(const cot_h_t cotVp_h,
-		      const sten_coeff_h_t coeffsVp_h,
+		      const velo_stencil_coeff_h_t coeffsVp_h,
 		      bool includeMatProp = false)
   {
-    const int_t numRows = numGptVp_;
-    const int_t numCols = numGptSp_;
+    const mesh_ord_type numRows = numGptVp_;
+    const mesh_ord_type numCols = numGptSp_;
 
     // count nnz
     const auto nnz = countVpJacNNZ();
 
     // // create data on device that we need to fill to create Jacobian
-    // typename jacobian_d_t::values_type val ("val", nnz);
-    // typename jacobian_d_t::row_map_type::non_const_type ptr ("ptr", numRows+1);
-    // typename jacobian_d_t::index_type::non_const_type ind ("ind", nnz);
+    // typename jacobian_d_type::values_type val ("val", nnz);
+    // typename jacobian_d_type::row_map_type::non_const_type ptr ("ptr", numRows+1);
+    // typename jacobian_d_type::index_type::non_const_type ind ("ind", nnz);
     // // create host mirros of these
     // auto val_h = Kokkos::create_mirror_view (val);
     // auto ptr_h = Kokkos::create_mirror_view (ptr);
     // auto ind_h = Kokkos::create_mirror_view (ind);
 
     Kokkos::View<scalar_type*, Kokkos::HostSpace> val_h("valVp", nnz);
-    Kokkos::View<int_t*, Kokkos::HostSpace> ptr_h("ptrVp", numRows+1);
-    Kokkos::View<int_t*, Kokkos::HostSpace> ind_h("ptrVp", nnz);
+    Kokkos::View<mesh_ord_type*, Kokkos::HostSpace> ptr_h("ptrVp", numRows+1);
+    Kokkos::View<mesh_ord_type*, Kokkos::HostSpace> ind_h("ptrVp", nnz);
 
     ptr_h[0] = 0;
     // set the column index for each non-zero entry of the Jacobian
-    int_t k = -1;
-    for (int_t iPt=0; iPt < numRows; ++iPt)
+    mesh_ord_type k = -1;
+    for (mesh_ord_type iPt=0; iPt < numRows; ++iPt)
       {
 	const auto & ptGID	 = graphVp_h_(iPt, 0);
 	const auto & gid_west	 = graphVp_h_(iPt, 1);
@@ -302,7 +323,7 @@ private:
 	const auto c_east  = (rInv*dthInv_  + rInv*cotVp_h[ptGID])*c2*rhoInv;
 	const auto c_south = (-drrInv_	    + three*oneHalf*rInv )*c3*rhoInv;
 
-	int_t shift = 0;
+	mesh_ord_type shift = 0;
 	if (gid_north == gid_south){
 	  shift+=1;
 	  ind_h[++k] = gid_north;
@@ -333,57 +354,40 @@ private:
 	ptr_h[iPt+1] = ptr_h[iPt] + shift;
       }
 
-    jacobian_d_t J("JacVp", numRows, numCols, nnz,
+    jacobian_d_type J("JacVp", numRows, numCols, nnz,
 		   val_h.data(), ptr_h.data(), ind_h.data());
     JacVp_d_ = J;
-
-    // auto h_e = Kokkos::create_mirror_view(JacVp_d_.graph.entries);
-    // Kokkos::deep_copy(h_e, JacVp_d_.graph.entries);
-    // for (auto i=0; i<h_e.extent(0); ++i)
-    //   std::cout << h_e(i) << std::endl;
-
-    // auto h_r = Kokkos::create_mirror_view(JacVp_d_.graph.row_map);
-    // Kokkos::deep_copy(h_r, JacVp_d_.graph.row_map);
-    // for (auto i=0; i<h_r.extent(0); ++i)
-    //   std::cout << h_r(i) << std::endl;
-
-    // auto h_v = Kokkos::create_mirror_view(JacVp_d_.values);
-    // Kokkos::deep_copy(h_v, JacVp_d_.values);
-    // for (auto i=0; i<h_v.extent(0); ++i)
-    //   std::cout << h_v(i) << std::endl;
   }
 
   void fillSpJacobian(const cot_h_t cotSp_h, bool includeMatProp = false)
   {
-    //auto shearModSp_h = Kokkos::create_mirror_view(shearModSp_d_);
-
-    const int_t nonZerosPerRowJ_ = 2;
-    const int_t numRows = numGptSp_;
-    const int_t numCols = numGptVp_;
-    const int_t numEnt  = numRows * nonZerosPerRowJ_;
+    const mesh_ord_type nonZerosPerRowJ_ = 2;
+    const mesh_ord_type numRows = numGptSp_;
+    const mesh_ord_type numCols = numGptVp_;
+    const mesh_ord_type numEnt  = numRows * nonZerosPerRowJ_;
 
     // // create data on device that we need to fill to create Jacobian
-    // typename jacobian_d_t::row_map_type::non_const_type ptr ("ptr", numRows+1);
-    // typename jacobian_d_t::index_type::non_const_type ind ("ind", numEnt);
-    // typename jacobian_d_t::values_type val ("val", numEnt);
+    // typename jacobian_d_type::row_map_type::non_const_type ptr ("ptr", numRows+1);
+    // typename jacobian_d_type::index_type::non_const_type ind ("ind", numEnt);
+    // typename jacobian_d_type::values_type val ("val", numEnt);
     // // create host mirros of these
-    // typename jacobian_d_t::row_map_type::HostMirror ptr_h = Kokkos::create_mirror_view (ptr);
-    // typename jacobian_d_t::index_type::HostMirror   ind_h = Kokkos::create_mirror_view (ind);
-    // typename jacobian_d_t::values_type::HostMirror  val_h = Kokkos::create_mirror_view (val);
+    // typename jacobian_d_type::row_map_type::HostMirror ptr_h = Kokkos::create_mirror_view (ptr);
+    // typename jacobian_d_type::index_type::HostMirror   ind_h = Kokkos::create_mirror_view (ind);
+    // typename jacobian_d_type::values_type::HostMirror  val_h = Kokkos::create_mirror_view (val);
 
     Kokkos::View<scalar_type*, Kokkos::HostSpace> val_h("valSp", numEnt);
-    Kokkos::View<int_t*, Kokkos::HostSpace> ptr_h("ptrSp", numRows+1);
-    Kokkos::View<int_t*, Kokkos::HostSpace> ind_h("indSp", numEnt);
+    Kokkos::View<mesh_ord_type*, Kokkos::HostSpace> ptr_h("ptrSp", numRows+1);
+    Kokkos::View<mesh_ord_type*, Kokkos::HostSpace> ind_h("indSp", numEnt);
 
     // first, fill in how many elements per row
     ptr_h[0] = 0;
-    for (int_t iRow = 0; iRow < numRows; ++iRow) {
+    for (mesh_ord_type iRow = 0; iRow < numRows; ++iRow) {
       ptr_h[iRow+1] = ptr_h[iRow] + nonZerosPerRowJ_;
     }
 
     // set the column index for each non-zero entry of the Jacobian
-    int_t k = -1;
-    for (int_t iPt=0; iPt < numRows; ++iPt)
+    mesh_ord_type k = -1;
+    for (mesh_ord_type iPt=0; iPt < numRows; ++iPt)
       {
 	const auto & ptGID       = graphSp_h_(iPt, 0);
 	const auto & thisPtTheta = coordsSp_h_(ptGID, 0);
@@ -414,7 +418,7 @@ private:
 	}
       }
 
-    jacobian_d_t J2("JacSp", numRows, numCols, numEnt,
+    jacobian_d_type J2("JacSp", numRows, numCols, numEnt,
 		    val_h.data(), ptr_h.data(), ind_h.data());
     JacSp_d_ = J2;
   }
@@ -430,24 +434,6 @@ private:
 	      << " nnz = " << getJacobianNNZ(dofId::sp)
 	      << " nrows = " << JacSp_d_.numRows()
 	      << " ncols = " << JacSp_d_.numCols() << std::endl;
-  }
-
-  void allocateMembers()
-  {
-    // we don't need to allocate the jacobians because they
-    // are allocated directly during assemble
-
-    // for Vp
-    Kokkos::resize(coordsVp_h_,	numGptVp_);
-    Kokkos::resize(rhoInvVp_d_, numGptVp_);
-    Kokkos::resize(rhoInvVp_h_, numGptVp_);
-    Kokkos::resize(graphVp_h_,  numGptVp_);
-
-    // for sp
-    Kokkos::resize(coordsSp_h_,  numGptSp_);
-    Kokkos::resize(labelsSp_h_,  numGptSp_);
-    Kokkos::resize(shearModSp_d_,numGptSp_);
-    Kokkos::resize(graphSp_h_,   numGptSp_);
   }
 
 private:
@@ -466,7 +452,7 @@ private:
   //***** members for Vp *****
   //**************************
   // numGptVp = number of points for the velocity (Vp)
-  int_t numGptVp_ = {};
+  mesh_ord_type numGptVp_ = {};
 
   // coords for velocity point (we store theta and r) - host only
   // theta in col[0], 1/r in col[1]
@@ -480,13 +466,13 @@ private:
   graph_vp_h_t  graphVp_h_ = {};
 
   // jacobian matrix for Vp
-  jacobian_d_t JacVp_d_ = {};
+  jacobian_d_type JacVp_d_ = {};
 
   //**************************
   //***** members for Sp *****
   //**************************
   // numGptSp_ = number of stress points
-  int_t numGptSp_ = {};
+  mesh_ord_type numGptSp_ = {};
 
   // coords for velocity point (we store theta and r) - host only
   // theta in col[0], 1/r in col[1]
@@ -504,7 +490,7 @@ private:
   graph_sp_h_t  graphSp_h_ = {};
 
   // jacobian matrix for sp
-  jacobian_d_t JacSp_d_ = {};
+  jacobian_d_type JacSp_d_ = {};
 
 };
 

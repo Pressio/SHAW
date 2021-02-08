@@ -1,5 +1,7 @@
 
-#include "./fom/fom_problem_rank_one_forcing.hpp"
+#include "./shared/all.hpp"
+#include "./kokkos/common_types.hpp"
+#include "./kokkos/shwavepp.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -7,18 +9,15 @@ int main(int argc, char *argv[])
   {
     std::string sentinel = "PASS";
 
-    using sc_t = double;
-    using parser_t = kokkosapp::commonTypes::parser_t;
-    using prob_t = kokkosapp::FomProblemRankOneForcing;
-    using app_t  = typename prob_t::fom_t;
-    using mesh_info_t = typename prob_t::mesh_info_t;
-    using forcing_t = typename prob_t::forcing_t;
+    using sc_t = typename kokkosapp::commonTypes::scalar_type;
+    using parser_t = typename kokkosapp::commonTypes::parser_type;
+    using mesh_info_t = typename kokkosapp::commonTypes::mesh_info_type;
 
     parser_t parser(argc, argv);
     mesh_info_t meshInfo(parser.getMeshDir());
-    app_t appObj(meshInfo);
 
     auto matObj = createMaterialModel<sc_t>(parser, meshInfo);
+    kokkosapp::ShWavePP<kokkosapp::commonTypes> appObj(meshInfo);
     appObj.computeJacobians(*matObj);
 
     const auto labels = appObj.viewLabelsHost(dofId::sp);

@@ -2,7 +2,6 @@
 #ifndef LEAP_FROG_RUN_FOM_HPP_
 #define LEAP_FROG_RUN_FOM_HPP_
 
-#include <numeric>
 #include "fom_update_kernels.hpp"
 #include "fom_complexities.hpp"
 

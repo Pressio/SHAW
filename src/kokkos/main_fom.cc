@@ -1,6 +1,10 @@
 
+#include "../shared/all.hpp"
+#include "common_types.hpp"
+#include "shwavepp.hpp"
+#include "./fom/run_fom.hpp"
 #include "./fom/fom_problem_rank_one_forcing.hpp"
-#include "./fom/fom_problem_rank_two_forcing.hpp"
+// #include "./fom/fom_problem_rank_two_forcing.hpp"
 
 template<typename scalar_t>
 struct MyCustomMaterialModel final : public MaterialModelBase<scalar_t>
@@ -29,9 +33,9 @@ int main(int argc, char *argv[])
 {
   Kokkos::initialize (argc, argv);
   {
-    using scalar_t    = kokkosapp::commonTypes::scalar_t;
-    using parser_t    = kokkosapp::commonTypes::parser_t;
-    using mesh_info_t = kokkosapp::commonTypes::mesh_info_t;
+    using scalar_t    = kokkosapp::commonTypes::scalar_type;
+    using parser_t    = kokkosapp::commonTypes::parser_type;
+    using mesh_info_t = kokkosapp::commonTypes::mesh_info_type;
 
     // create parser for yaml file
     parser_t parser(argc, argv);
@@ -49,17 +53,17 @@ int main(int argc, char *argv[])
       materialModel = createMaterialModel<scalar_t>(parser, meshInfo);
     }
 
-    if(parser.enableMultiForcing())
-    {
-      using prob_t = kokkosapp::FomProblemRankTwoForcing;
+    // if(parser.enableMultiForcing())
+    // {
+    //   // using prob_t = kokkosapp::FomProblemRankTwoForcing;
+    //   // prob_t problem(parser, meshInfo, materialModel);
+    //   // problem.execute();
+    // }
+    // else{
+      using prob_t = kokkosapp::FomProblemRankOneForcing<kokkosapp::rank1Types>;
       prob_t problem(parser, meshInfo, materialModel);
       problem.execute();
-    }
-    else{
-      using prob_t = kokkosapp::FomProblemRankOneForcing;
-      prob_t problem(parser, meshInfo, materialModel);
-      problem.execute();
-    }
+    // }
   }
   Kokkos::finalize();
 

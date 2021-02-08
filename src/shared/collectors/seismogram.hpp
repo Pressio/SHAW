@@ -32,14 +32,14 @@ struct CopySeis
 };
 
 
-template <typename int_t, typename scalar_t>
+template <typename scalar_t>
 class Seismogram
 {
   // container type to store the data
   using matrix_t = Kokkos::View<scalar_t***, Kokkos::LayoutLeft, Kokkos::HostSpace>;
 
   // type to store global ids
-  using gids_t = Kokkos::View<int_t*, Kokkos::HostSpace>;
+  using gids_t = Kokkos::View<std::size_t*, Kokkos::HostSpace>;
 
   // flag to enable/disable collection of seismogram data
   bool enable_ = {};
@@ -51,12 +51,12 @@ class Seismogram
   std::string seismoFileName_ = {};
 
   // sampling frequency
-  int_t freq_  = 0;
+  std::size_t freq_  = 0;
 
-  int_t count_ = 0;
+  std::size_t count_ = 0;
 
   // number of receivers
-  int_t numReceivers_ {};
+  std::size_t numReceivers_ {};
 
   // list of velocity gids identifying the elements in the velocity state
   // where we need to sample at
@@ -66,14 +66,14 @@ class Seismogram
   matrix_t MM_;
 
   // runID used when we run many samples to prepend file
-  int_t runID_ = 0;
+  std::size_t runID_ = 0;
 
 public:
   template <typename parser_t, typename mesh_info_t, typename app_t>
   Seismogram(const parser_t & parser,
 	     const mesh_info_t & meshInfo,
 	     const app_t & appObj,
-	     int_t fBatchSize = 1)
+	     std::size_t fBatchSize = 1)
     : enable_{parser.enableSeismogram()},
       useBinaryIO_(parser.writeSeismogramBinary()),
       seismoFileName_{parser.getSeismogramFileName()}
@@ -129,14 +129,14 @@ public:
     return targetGids_;
   }
 
-  void prepForNewRun(const int_t & sampleID){
+  void prepForNewRun(const std::size_t & sampleID){
     // assumes the new run has same sampling frequncies as before
     count_ = {0};
     runID_ = sampleID;
   }
 
   template <typename state_t>
-  void storeVelocitySignalAtReceivers(const int_t & step, const state_t & x)
+  void storeVelocitySignalAtReceivers(const std::size_t & step, const state_t & x)
   {
     if (enable_){
       if ( step % freq_ == 0 and step > 0){

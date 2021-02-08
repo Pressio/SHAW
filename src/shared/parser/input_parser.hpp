@@ -18,7 +18,7 @@ struct InputParser : parts...
     this->parseIo(inputFile);
     this->parseMaterial(inputFile);
     this->parseForcing(inputFile);
-    this->parseRom(inputFile);
+    // this->parseRom(inputFile);
     this->parseSampling(inputFile);
   }
 };
