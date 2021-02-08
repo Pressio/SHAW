@@ -1,11 +1,7 @@
 
-<<<<<<< HEAD
 #include "./shared/all.hpp"
 #include "./kokkos/common_types.hpp"
 #include "./kokkos/shwavepp.hpp"
-=======
-#include "./fom/fom_problem_rank_one_forcing.hpp"
->>>>>>> f5242018c152bf961d1d892935d7516a29e061ac
 
 template <typename T>
 typename std::enable_if<
