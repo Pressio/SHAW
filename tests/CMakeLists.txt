@@ -16,3 +16,8 @@ add_subdirectory(fomNearEarthSurface)
 add_subdirectory(fomNearCmb)
 add_subdirectory(fomSymmetryAxisThetaZero)
 add_subdirectory(fomSymmetryAxisThetaPi)
+
+add_subdirectory(multiDepthsForcingRank1)
+add_subdirectory(multiPeriodsForcingRank1)
+add_subdirectory(multiDepthsAndPeriodsForcingRank1)
+

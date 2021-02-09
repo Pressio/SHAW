@@ -59,23 +59,24 @@ public:
 public:
   void execute()
   {
-    // if (parser_.enableSampling())
-    // {
-    //   const auto param = parser_.getNameParamToSample(0);
-    //   if (param == samplable::signalPeriod)
-    // 	multiRunSamplingForcingPeriod();
-    //   else{
-    // 	const auto msg = "fom:rank1forcing: sampling for param!=signalPeriod not yet supported";
-    // 	throw std::runtime_error(msg);
-    //   }
-    // }
-    // else{
-    singleRun();
-      //}
+    if (parser_.multiForcing())
+    {
+      multiForcingRun();
+      // const auto param = parser_.getNameParamToSample(0);
+      // if (param == samplable::signalPeriod)
+      // 	multiRunSamplingForcingPeriod();
+      // else{
+      // 	const auto msg = "fom:rank1forcing: sampling for param!=signalPeriod not yet supported";
+      // 	throw std::runtime_error(msg);
+      // }
+    }
+    else{
+      singleForcingRun();
+    }
   }
 
 private:
-  void singleRun()
+  void singleForcingRun()
   {
     // use material model to compute Jacobian matrices
     appObj_.computeJacobians(*materialObj_);
@@ -87,7 +88,8 @@ private:
     forcing_type forcing(parser_, meshInfo_, appObj_);
 
     // run checks
-    doChecks(forcing);
+    checkCflCondition();
+    checkDispersion(forcing.getMaxFreq());
 
     // run fom
     runFom(parser_.getNumSteps(), parser_.getTimeStepSize(),
@@ -98,75 +100,75 @@ private:
     processCollectedData(seismoObj);
   }
 
-  // void multiRunSamplingForcingPeriod()
-  // {
-  //   /* here we sample the forcing period,
-  //      which means that:
-  //      1. the material does not change
-  //      2. the other properties (like location) of the source do not change
-  //   */
+  void multiForcingRun()
+  {
+    std::cout << "Doing FOM with sampling" << std::endl;
 
-  //   /*
-  //    * create and store material prop
-  //    * only do it once since material does not change
-  //   */
-  //   auto matObj = createMaterialModel<scalar_type>(parser_, meshInfo_);
-  //   appObj_.computeJacobiansWithMatProp(*matObj);
+    appObj_.computeJacobians(*materialObj_);
 
-  //   // seismogram
-  //   seismogram_type seismoObj(parser_, meshInfo_, appObj_);
+    // seismogram
+    seismogram_type seismoObj(parser_, meshInfo_, appObj_);
 
-  //   // create vector of signals
-  //   const auto periods = parser_.getValues(0);
-  //   using signal_t = Signal<scalar_type>;
-  //   std::vector<signal_t> signals;
-  //   for (auto i=0; i<periods.size(); ++i)
-  //   {
-  //     signals.emplace_back(parser_.getSignal());
-  //     signals.back().resetPeriod(periods[i]);
-  //   }
+    // create vector of signals using target samples
+    const auto & depths  = parser_.viewDepths();
+    const auto & periods = parser_.viewPeriods();
+    const auto & angles  = parser_.viewAngles();
+    const auto & delays  = parser_.viewDelays();
 
-  //   std::cout << "Doing FOM with sampling of forcing period" << std::endl;
-  //   std::cout << "Total number of samples " << signals.size() << std::endl;
+    // need to run checks
+    checkCflCondition();
 
-  //   // create a forcing object with mem allocation
-  //   // (in loop below, only thing that changes is
-  //   // the signal NOT the location of the signal, so it is fine to
-  //   // create the nominal forcing and the in the loop below replace signal)
-  //   forcing_type forcing(parser_, meshInfo_, appObj_);
+    // check dispersion for each period
+    for (const auto & iT : periods){
+      const auto freq = static_cast<scalar_type>(1)/iT;
+      checkDispersion(freq);
+    }
 
-  //   // loop over signals
-  //   for (std::size_t iSample=0; iSample<signals.size(); ++iSample)
-  //   {
-  //     // replace signal (no new allocations happen here)
-  //     forcing.replaceSignal(signals[iSample]);
+    std::size_t iSample=0;
+    for (const auto & iD : depths)
+    {
+      for (const auto & iT : periods)
+      {
+	for (const auto & ia : angles)
+	{
+	  for (const auto & idel : delays)
+	  {
+	    Signal<scalar_type> signal(parser_.getSourceSignalKind(), idel, iT);
 
-  //     // need to recheck that the new signal still meets conditions
-  //     doChecks(forcing);
+	    forcing_type forcing(signal, parser_, meshInfo_, appObj_, iD, ia);
 
-  //     // reset observer and seismogram
-  //     observerObj_.prepForNewRun(iSample);
+	    // reset observer and seismogram
+	    observerObj_.prepForNewRun(iSample);
+	    seismoObj.prepForNewRun(iSample);
 
-  //     // run fom
-  //     runFom(true, parser_.exploitForcingSparsity(),
-  // 	     parser_.getNumSteps(), parser_.getTimeStepSize(),
-  // 	     appObj_, forcing, observerObj_, seismoObj, xVp_d_, xSp_d_);
+	    // run fom
+	    runFom(parser_.getNumSteps(), parser_.getTimeStepSize(),
+		   appObj_, forcing, observerObj_, seismoObj,
+		   xVp_d_, xSp_d_);
 
-  //     processCollectedData(seismoObj, iSample);
-  //   }
+	    processCollectedData(seismoObj, iSample);
+	    ++iSample;
+	  }
+	}
+      }
+    }
 
-  //   // coordinates only need to be written once
-  //   processCoordinates();
-  // }
+    // coordinates only need to be written once
+    processCoordinates();
+  }
 
-  template <typename forcing_t>
-  void doChecks(const forcing_t & forcing){
-    if (parser_.checkDispersion())
-      checkDispersionCriterion(meshInfo_, forcing.getMaxFreq(),
-    			       appObj_.getMinShearWaveVelocity());
+  void checkDispersion(const scalar_type & freq)
+  {
+    if (parser_.checkDispersion()){
+      checkDispersionCriterion(meshInfo_, freq, appObj_.getMinShearWaveVelocity());
+    }
+  }
 
-    if (parser_.checkCfl())
+  void checkCflCondition()
+  {
+    if (parser_.checkCfl()){
       checkCfl(meshInfo_, parser_.getTimeStepSize(), appObj_.getMaxShearWaveVelocity());
+    }
   }
 
   void processCoordinates()

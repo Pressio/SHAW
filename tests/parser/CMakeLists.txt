@@ -38,3 +38,23 @@ set_tests_properties(${test_name}
   PROPERTIES PASS_REGULAR_EXPRESSION "PASS"
   FAIL_REGULAR_EXPRESSION "FAILED"
   )
+
+# test for multiforcing, rank-1, sampling depth
+configure_file(input5.yaml input5.yaml COPYONLY)
+set(test_name parser_test_5)
+add_executable(${test_name} main5.cc)
+add_test(NAME ${test_name} COMMAND ${test_name} input5.yaml)
+set_tests_properties(${test_name}
+  PROPERTIES PASS_REGULAR_EXPRESSION "PASS"
+  FAIL_REGULAR_EXPRESSION "FAILED"
+  )
+
+# test for multiforcing, rank-1, sampling periods
+configure_file(input6.yaml input6.yaml COPYONLY)
+set(test_name parser_test_6)
+add_executable(${test_name} main6.cc)
+add_test(NAME ${test_name} COMMAND ${test_name} input6.yaml)
+set_tests_properties(${test_name}
+  PROPERTIES PASS_REGULAR_EXPRESSION "PASS"
+  FAIL_REGULAR_EXPRESSION "FAILED"
+  )

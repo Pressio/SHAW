@@ -13,6 +13,7 @@ void checkDispersionCriterion(const mesh_info_t & meshInfo,
   const auto ratio	 = minVel/((sc_t) Nlambda * maxfreq);
 
   const auto f0 = minVel / ((sc_t) Nlambda * std::max(drr, maxArc));
+  std::cout << "targetPeriod = " << 1./maxfreq << std::endl;
   std::cout << "centerFreq = " << f0 << std::endl;
   std::cout << "minPeriod  = " << 1./f0 << std::endl;
 

@@ -73,7 +73,7 @@ public:
   Seismogram(const parser_t & parser,
 	     const mesh_info_t & meshInfo,
 	     const app_t & appObj,
-	     std::size_t fBatchSize = 1)
+	     std::size_t fSize = 1)
     : enable_{parser.enableSeismogram()},
       useBinaryIO_(parser.writeSeismogramBinary()),
       seismoFileName_{parser.getSeismogramFileName()}
@@ -112,7 +112,7 @@ public:
       // make sure number of steps is divisible by sampling frequency
       if ( Nsteps % freq_ == 0){
 	const auto numCols = Nsteps/freq_;
-	Kokkos::resize(MM_, numReceivers_, numCols, fBatchSize);
+	Kokkos::resize(MM_, numReceivers_, numCols, fSize);
       }
       else{
 	throw std::runtime_error("Seismogram sampling frequency not a divisor of steps");

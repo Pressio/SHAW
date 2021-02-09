@@ -1,0 +1,20 @@
+
+general:
+  meshDir: fullMeshString
+  dt: 1.5
+  finalTime: 150.
+  checkNumericalDispersion: false
+  checkCfl: false
+
+source:
+  #  Units: depth [km] | angle [deg] | period [sec] | delay [sec]
+  signal:
+    kind: ricker
+    depth: [1100., 343., 1122.]
+    angle: 88.
+    period: 40.
+    delay: 10.0
+
+# -------------
+material:
+  kind: prem

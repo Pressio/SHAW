@@ -4,8 +4,8 @@
 
 namespace kokkosapp{
 
+template<typename T>
 class FomProblemRankTwoForcing
-  : public kokkosapp::commonTypes
 {
   using kokkosapp::commonTypes::scalar_t;
   using kokkosapp::commonTypes::sc_t;

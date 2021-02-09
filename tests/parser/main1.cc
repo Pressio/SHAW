@@ -37,10 +37,10 @@ int main(int argc, char *argv[])
 
     // forcing
     vb.push_back(parser.getSourceSignalKind() == signalKind::sinusoid);
-    vb.push_back(parser.getSourceProperty("depth") == 1111.);
-    vb.push_back(parser.getSourceProperty("angle") == 88.);
-    vb.push_back(parser.getSourceProperty("period") == 43.);
-    vb.push_back(parser.getSourceProperty("delay") == 12.);
+    vb.push_back(parser.viewDepths()[0]== 1111.);
+    vb.push_back(parser.viewAngles()[0]== 88.);
+    vb.push_back(parser.viewPeriods()[0] == 43.);
+    vb.push_back(parser.viewDelays()[0]== 12.);
 
     // // material
     vb.push_back(parser.getMaterialModelKind() == materialModelKind::unilayer);
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
     if (std::none_of(vb.begin(), vb.end(), std::logical_not<bool>()))
       std::puts("PASS");
     else
-      std::puts("FALSE");
+      std::puts("FAIL");
   }
   Kokkos::finalize();
 

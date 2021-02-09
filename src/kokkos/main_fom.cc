@@ -53,17 +53,17 @@ int main(int argc, char *argv[])
       materialModel = createMaterialModel<scalar_t>(parser, meshInfo);
     }
 
-    // if(parser.enableMultiForcing())
-    // {
-    //   // using prob_t = kokkosapp::FomProblemRankTwoForcing;
-    //   // prob_t problem(parser, meshInfo, materialModel);
-    //   // problem.execute();
-    // }
-    // else{
+    if(parser.rank2Enabled())
+    {
+      // using prob_t = kokkosapp::FomProblemRankTwoForcing;
+      // prob_t problem(parser, meshInfo, materialModel);
+      // problem.execute();
+    }
+    else{
       using prob_t = kokkosapp::FomProblemRankOneForcing<kokkosapp::rank1Types>;
       prob_t problem(parser, meshInfo, materialModel);
       problem.execute();
-    // }
+    }
   }
   Kokkos::finalize();
 

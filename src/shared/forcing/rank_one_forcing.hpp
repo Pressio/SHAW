@@ -80,11 +80,11 @@ public:
 		 const mesh_info_t & meshInfo,
 		 const app_t	   & appObj)
     : RankOneForcing(Signal<sc_t>(parser.getSourceSignalKind(),
-				  parser.getSourceProperty("delay"),
-				  parser.getSourceProperty("period")),
+				  parser.viewDelays()[0],
+				  parser.viewPeriods()[0]),
 		     parser, meshInfo, appObj,
-		     parser.getSourceProperty("depth"),
-		     parser.getSourceProperty("angle"))
+		     parser.viewDepths()[0],
+		     parser.viewAngles()[0])
   {}
 
   template <typename signal_t>
