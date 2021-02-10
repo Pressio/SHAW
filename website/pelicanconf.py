@@ -78,7 +78,8 @@ M_LINKS_NAVBAR1 = [('Get Started', '', '',
                    ('Demos', '', '',
                     [
                       ("Single Forcing Run", 'demos/rank1fom', 'demos/rank1fom'),
-                      ("Multi-forcing Run", 'demos/rank2fom', 'demos/rank2fom')
+                      ("Multi-forcing Run with rank-1", 'demos/rank1fomMulti', 'demos/rank1fomMulti'),
+                      ("Multi-forcing Run wirh rank-2", 'demos/rank2fom', 'demos/rank2fom')
                     ]),
 
                    ('Various', '', '', [("License", 'various/license/', 'various/license')])]

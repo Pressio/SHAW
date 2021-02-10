@@ -42,7 +42,8 @@
               <a href="/">Demos</a>
               <ol>
                 <li><a href="/demos/rank1fom">Single Forcing Run</a></li>
-                <li><a href="/demos/rank2fom">Multi-forcing Run</a></li>
+                <li><a href="/demos/rank1fomMulti">Multi-forcing Run with rank-1</a></li>
+                <li><a href="/demos/rank2fom">Multi-forcing Run wirh rank-2</a></li>
               </ol>
             </li>
             <li>
@@ -109,7 +110,7 @@ The current implementation relies on Kokkos, but we are porting the code to othe
 <li><dl>
 <dt>rank-1:</dt>
 <dd><ul>
-<li>the discrete state and forcing term are stored in 1D arrays</li>
+<li>the discrete state and forcing term are stored using 1D arrays</li>
 <li>this is used to simulate the case of a <em>single forcing realization</em></li>
 </ul>
 </dd>
@@ -118,12 +119,12 @@ The current implementation relies on Kokkos, but we are porting the code to othe
 <li><dl>
 <dt>rank-2:</dt>
 <dd><ul>
-<li>the discrete state and forcing term are stored in rank-2 tensors (i.e. matrices)</li>
+<li>the discrete state and forcing term are stored using rank-2 tensors (i.e. matrices)</li>
 <li>this is useful to simultaneously solve the wave dyanmics
 for <em>multiple forcing realizations</em> (e.g. multiple source locations and/or periods).
 This rank-2 formulation has an advantage from a computational
 standpoint because it has higher computational intensity,
-thus benefiting efficient ensemble propagation of uncertainties</li>
+thus benefiting efficient ensemble propagation</li>
 </ul>
 </dd>
 </dl>
@@ -151,17 +152,23 @@ one just has to create a grid suitable for that planet, and a suitable material 
 <ol>
 <li>read about the <a href="/getstarted/goveq/">governing equations, domain and discretization</a></li>
 <li><p>build the code using of the following versions:</p>
-<blockquote>
 <ul>
-<li><a href="/getstarted/build_kokkos_host_serial/">Host serial Kokkos</a>:
-Kokkos-only version with <em>host serial</em> backend.</li>
-<li><a href="/getstarted/build_kokkos_host_omp/">Host OpenMP Kokkos</a>:
-Kokkos-only version with <em>host OpenMP</em> backend.</li>
+<li><a href="/getstarted/build_kokkos_host_serial/">Host serial Kokkos</a>: Kokkos-only version with <em>host serial</em> backend</li>
+<li><a href="/getstarted/build_kokkos_host_omp/">Host OpenMP Kokkos</a>: Kokkos-only version with <em>host OpenMP</em> backend</li>
 </ul>
-</blockquote>
 </li>
-<li>step-by-step demo for <a href="/demos/rank1fom/">single forcing (or rank-1) simulation</a></li>
-<li>step-by-step demo for <a href="/demos/rank2fom/">multi-forcing (or rank-2) simulation</a></li>
+<li><p>Explore the demos:</p>
+<ol>
+<li><a href="/demos/rank1fom/">single forcing</a>: the most basic case involving simulating the dynamic for a single forcing term</li>
+<li><a href="/demos/rank1fommulti/">multi-depth simulation with rank-1 formulation</a>:
+we use the rank-1 formulation to run multiple simulations corresponding to different realizations of the source depth</li>
+<li><a href="/demos/rank2fom/">multi-depth simulation with rank-2 formulation</a>:
+same objective as in the demo-2 above, except that we rely on the
+rank-2 formulation to propagate multiple samples <em>simultaneously</em></li>
+</ol>
+</li>
+</ol>
+<ol start="6">
 <li>learn about the structure of the input file</li>
 </ol>
 </div>

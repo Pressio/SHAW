@@ -54,7 +54,6 @@ public:
 	auto n = node2["kind"];
       	if (n){
 	  kind_ = stringToSignalKind(n.as<std::string>());
-	  std::cout << "1\n";
 	}
       	else{
 	  throw std::runtime_error("You must set the kind of the signal");
@@ -70,7 +69,6 @@ public:
 	  else{
 	    depths_= n1.as<std::vector<scalar_t>>();
 	  }
-	  std::cout << "2\n";
 	}
       	else{
 	  throw std::runtime_error("You must set the depth of the signal");
@@ -85,9 +83,9 @@ public:
 	  else{
 	    angles_ = n2.as<std::vector<scalar_t>>();
 	  }
-	  std::cout << "3\n";
 	}
       	else{
+	  angles_.push_back(0.);
 	  std::cout << "Angle of source not specified, default==0";
 	}
 
@@ -100,7 +98,6 @@ public:
 	  else{
 	    periods_ = n3.as<std::vector<scalar_t>>();
 	  }
-	  std::cout << "4\n";
 	}
       	else{
 	  throw std::runtime_error("You must set the period of the signal");
@@ -115,7 +112,6 @@ public:
 	  else{
 	    delays_ = n4.as<std::vector<scalar_t>>();
 	  }
-	  std::cout << "5\n";
 	}
       	else{
 	  throw std::runtime_error("You must set the delay of the signal");
@@ -127,48 +123,6 @@ public:
 	  forcingSize_ = n5.as<int>();
 	  enableRank2Mode_ = true;
 	}
-
-	// signalKind sKind = {};
-	// scalar_t sDepth = {};
-	// scalar_t sAngle = static_cast<scalar_t>(0);
-	// scalar_t sPeriod = {};
-	// scalar_t sDelay = {};
-
-	// // check if subnode for kind exists
-	// auto n = node2["kind"];
-      	// if (n){
-	//   // note exits, check if it is a vector or just one value
-	//   sKind = stringToSignalKind(n.as<std::string>());
-	// }
-      	// else{
-	//   throw std::runtime_error("You must set the kind of the signal");
-	// }
-
-	// n = node2["depth"];
-       	// if (n){
-	//   // const auto vals = n.as<std::vector<scalar_t>>();
-	//   // if (vals.size() = 1) std::cout << "SINGLE\n";
-	//   sDepth = n.as<scalar_t>();
-	// }
-      	// else{
-	//   throw std::runtime_error("You must set the depth of the signal");
-	// }
-
-       	// if (node2["angle"]) sAngle = node2["angle"].as<scalar_t>();
-      	// else{
-	//   std::cout << "Angle of source not specified, default==0";
-	// }
-
-      	// n = node2["period"];
-       	// if (n) sPeriod = n.as<scalar_t>();
-      	// else throw std::runtime_error("You must set the period of the signal");
-
-      	// n = node2["delay"];
-       	// if (n) sDelay = n.as<scalar_t>();
-      	// else throw std::runtime_error("You must set the delay of the signal");
-
-	// Signal<scalar_t> signal(sKind, sDelay, sPeriod);
-	// source_ = SourceInfo<scalar_t>(sDepth, sAngle, signal);
       }
       else{
       	throw std::runtime_error

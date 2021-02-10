@@ -70,16 +70,16 @@ Elastic Shear Waves
             * The code implements what we call "rank-1" and "rank-2" formulations:
 
                 * rank-1:
-                    * the discrete state and forcing term are stored in 1D arrays
+                    * the discrete state and forcing term are stored using 1D arrays
                     * this is used to simulate the case of a *single forcing realization*
 
                 * rank-2:
-                    * the discrete state and forcing term are stored in rank-2 tensors (i.e. matrices)
+                    * the discrete state and forcing term are stored using rank-2 tensors (i.e. matrices)
                     * this is useful to simultaneously solve the wave dyanmics
 		      for *multiple forcing realizations* (e.g. multiple source locations and/or periods).
 		      This rank-2 formulation has an advantage from a computational
                       standpoint because it has higher computational intensity,
-		      thus benefiting efficient ensemble propagation of uncertainties
+		      thus benefiting efficient ensemble propagation
 
             * We use the velocity-shear formulation in an axi-symmetric domain, leading to a so-called 2.5 dimensional model.
 
@@ -102,17 +102,22 @@ Elastic Shear Waves
 
             2. build the code using of the following versions:
 
-		* `Host serial Kokkos <{filename}/getstarted/build_kokkos_host_serial.rst>`_:
-		  Kokkos-only version with *host serial* backend.
+	       * `Host serial Kokkos <{filename}/getstarted/build_kokkos_host_serial.rst>`_: Kokkos-only version with *host serial* backend
 
-		* `Host OpenMP Kokkos <{filename}/getstarted/build_kokkos_host_omp.rst>`_:
-		  Kokkos-only version with *host OpenMP* backend.
+	       * `Host OpenMP Kokkos <{filename}/getstarted/build_kokkos_host_omp.rst>`_: Kokkos-only version with *host OpenMP* backend
 
-            3. step-by-step demo for `single forcing (or rank-1) simulation <{filename}/demos/rank1fom.rst>`_
+            3. Explore the demos:
 
-	    4. step-by-step demo for `multi-forcing (or rank-2) simulation <{filename}/demos/rank2fom.rst>`_
+	       1. `single forcing <{filename}/demos/rank1fom.rst>`_: the most basic case involving simulating the dynamic for a single forcing term
 
-            5. learn about the structure of the input file
+	       2. `multi-depth simulation with rank-1 formulation <{filename}/demos/rank1fommulti.rst>`_:
+	          we use the rank-1 formulation to run multiple simulations corresponding to different realizations of the source depth
+
+	       3. `multi-depth simulation with rank-2 formulation <{filename}/demos/rank2fom.rst>`_:
+		  same objective as in the demo-2 above, except that we rely on the
+		  rank-2 formulation to propagate multiple samples *simultaneously*
+
+            6. learn about the structure of the input file
 
 
     .. container:: m-row

@@ -62,13 +62,6 @@ public:
     if (parser_.multiForcing())
     {
       multiForcingRun();
-      // const auto param = parser_.getNameParamToSample(0);
-      // if (param == samplable::signalPeriod)
-      // 	multiRunSamplingForcingPeriod();
-      // else{
-      // 	const auto msg = "fom:rank1forcing: sampling for param!=signalPeriod not yet supported";
-      // 	throw std::runtime_error(msg);
-      // }
     }
     else{
       singleForcingRun();

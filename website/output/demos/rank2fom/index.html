@@ -39,7 +39,8 @@
               <a href="/">Demos</a>
               <ol>
                 <li><a href="/demos/rank1fom">Single Forcing Run</a></li>
-                <li><a href="/demos/rank2fom" id="m-navbar-current">Multi-forcing Run</a></li>
+                <li><a href="/demos/rank1fomMulti">Multi-forcing Run with rank-1</a></li>
+                <li><a href="/demos/rank2fom" id="m-navbar-current">Multi-forcing Run wirh rank-2</a></li>
               </ol>
             </li>
             <li>
@@ -68,45 +69,11 @@
 <!-- content -->
 <div>
 <p>This step-by-step demos shows how to run a simulation involving multiple forcings simultaneously.</p>
+<p>This is done using the rank-2 formulation.</p>
 <p>Here we assume you already followed the <a href="/getstarted/build_kokkos_host_serial/">step-by-step guide</a>
 to build the code and used <code>MYWORKDIR</code> as the working directory for that procedure,
 so that <code>${MYWORKDIR}/build</code> contains all the executables.</p>
 </div>
-<section id="prepare-environment">
-<h2><a href="#prepare-environment">1. Prepare environment</a></h2>
-<pre class="m-code"><span class="c1"># ensure this env var points to the build directory</span>
-<span class="nb">export</span> <span class="nv">MYWORKDIR</span><span class="o">=</span>&lt;the-same-work-directory-used-for-building-process&gt;
-
-<span class="nb">export</span> <span class="nv">ESWSRCDIR</span><span class="o">=</span>&lt;path-to-the-source-code-repository&gt;
-<span class="nb">export</span> <span class="nv">MYRUNDIR</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/myFirstRun
-mkdir -p <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span></pre>
-</section>
-<section id="generating-the-mesh">
-<h2><a href="#generating-the-mesh">2. Generating the mesh</a></h2>
-<p>The code has been developed such that the mesh is generated with Python
-and is used by the C++ code. There are two main reasons for this choice:
-first, it allows us to decouple the mesh generation from the actual physics code;
-second, we developed the code with an eye to later on study how to apply sample mesh
-to nonlinear wav problems. This is <strong>not</strong> needed right now
-to solve the current elastic shear wave problem because this is a linear problem,
-but it can be useful if, in the future, we extend the code to support nonlinear problems.</p>
-<p>To specify the grid, one only needs to specify the grid for the velocity points because
-the stress points are defined based on the staggered scheme (see paper).
-For this demo, we use a grid of <code>200</code> x <code>1000</code> velocity points
-along the radial and polar directions, respectively.
-To generate the mesh files proceed as follows:</p>
-<pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/meshing
-python create_single_mesh.py -nr <span class="m">200</span> -nth <span class="m">1000</span> -working-dir <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span></pre>
-<p>This should generate a directory <code>${MYRUNDIR}/mesh200x1000</code> containing:</p>
-<pre class="m-code">-rw-r--r--  <span class="m">1</span> fnrizzi  staff   <span class="m">4</span>.5M Aug <span class="m">30</span> <span class="m">12</span>:20 coeff_vp.dat
--rw-r--r--  <span class="m">1</span> fnrizzi  staff    28M Aug <span class="m">30</span> <span class="m">12</span>:20 graph_sp.dat
--rw-r--r--  <span class="m">1</span> fnrizzi  staff    16M Aug <span class="m">30</span> <span class="m">12</span>:20 graph_vp.dat
--rw-r--r--  <span class="m">1</span> fnrizzi  staff   231B Aug <span class="m">30</span> <span class="m">12</span>:20 mesh_info.dat</pre>
-</section>
-<section id="input-file">
-<h2><a href="#input-file">3. Input file</a></h2>
-<p>todo</p>
-</section>
 <!-- /content -->
       </div>
     </div>

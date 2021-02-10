@@ -43,7 +43,7 @@ void runFom(const step_t & numSteps,
   sc_t timeVp = constants<sc_t>::zero();
   for (auto iStep = 1; iStep<=numSteps; ++iStep)
   {
-    if (iStep % 2000 == 0) std::cout << "FOM-KOKKOS step = " << iStep << std::endl;
+    if (iStep % 2000 == 0) std::cout << "Doing step = " << iStep << std::endl;
 
     // compute forcing for current time
     timer.reset();
