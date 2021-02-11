@@ -4,7 +4,7 @@
 #include "shwavepp.hpp"
 #include "./fom/run_fom.hpp"
 #include "./fom/fom_problem_rank_one_forcing.hpp"
-// #include "./fom/fom_problem_rank_two_forcing.hpp"
+#include "./fom/fom_problem_rank_two_forcing.hpp"
 
 template<typename scalar_t>
 struct MyCustomMaterialModel final : public MaterialModelBase<scalar_t>
@@ -55,9 +55,9 @@ int main(int argc, char *argv[])
 
     if(parser.rank2Enabled())
     {
-      // using prob_t = kokkosapp::FomProblemRankTwoForcing;
-      // prob_t problem(parser, meshInfo, materialModel);
-      // problem.execute();
+      using prob_t = kokkosapp::FomProblemRankTwoForcing<kokkosapp::rank2Types>;
+      prob_t problem(parser, meshInfo, materialModel);
+      problem.execute();
     }
     else{
       using prob_t = kokkosapp::FomProblemRankOneForcing<kokkosapp::rank1Types>;

@@ -25,11 +25,15 @@ complexityFom(const state_d_t xVp,
   std::array<double, 3> memMB = {};
   std::array<double, 3> flops = {};
 
+  // //account for forcing complexity
+  // forcingObj.complexityOfEvaluateMethod(memMB[0], flops[0]);
+
   // spmv: xVp = xVp + dt * Jvp * xSp
   const auto nnz_j_vp = fomObj.getJacobianNNZ(dofId::vp);
   comp_t::template spmv<ord_t>(nnz_j_vp, nVp, memMB[0], flops[0]);
 
-  // mult: xVp = xVp + dt * rhoInv * f   (note that beta=1)
+  // mult: xVp = xVp + dt * rhoInv * f
+  // (note that we specify beta=1 case
   comp_t::mult_beta_one(nVp, memMB[1], flops[1]);
 
   // spmv: xSp = xSp + dt * Jsp * xVp
@@ -71,8 +75,8 @@ complexityFom(const state_d_t xVp,
   const auto nnz_j_vp = fomObj.getJacobianNNZ(dofId::vp);
   comp_t::template spmm<ord_t>(nnz_j_vp, nVp, fSize, memMB[0], flops[0]);
 
-  memMB[1] = 4.*fSize*sizeof(sc_t);
-  flops[1] = 3.*fSize;
+  // memMB[1] = 4.*fSize*sizeof(sc_t);
+  // flops[1] = 3.*fSize;
 
   // spmm: xSp = xSp + dt * Jsp * xVp
   const auto nnz_j_sp = fomObj.getJacobianNNZ(dofId::sp);

@@ -14,8 +14,6 @@ class RankOneForcing
    "Rank-1 forcing needs a rank-1 kokkos view state");
 
   /*
-    For now, we only consider a single source.
-
     We do the following:
 
     * on host, we precompute and store the full time signal
@@ -39,6 +37,7 @@ class RankOneForcing
   // remember that forcing always acts on a velocity point, not a stress point.
   std::size_t myVpGid_ = -1;
 
+  // max freq of all sources
   sc_t maxFreq_ = {};
   const sc_t dt_ = {};
   const std::size_t NSteps_ = {};
@@ -87,35 +86,27 @@ public:
 		     parser.viewAngles()[0])
   {}
 
-  template <typename signal_t>
-  void replaceSignal(const signal_t & newSignal)
-  {
-    maxFreq_ = newSignal.getFrequency();
-    KokkosBlas::fill(f_h_, constants<sc_t>::zero());
-    storeSignalTimeSeries(newSignal);
-  }
-
 public:
   const sc_t & getMaxFreq() const{ return maxFreq_; }
 
   std::size_t getVpGid() const{ return myVpGid_; }
 
-  const sc_t & getForcingValueAtStep(std::size_t step) const{ return f_h_(step-1); }
+  const sc_t & getForcingValueAtStep(const std::size_t & step) const{ return f_h_(step-1); }
 
   state_d_t viewForcingDevice() const{ return f_d_; }
 
   void evaluate(const sc_t & time, const std::size_t & step)
   {
-    KokkosBlas::fill(f_d_, constants<sc_t>::zero());
+    //KokkosBlas::fill(f_d_, constants<sc_t>::zero());
     const auto src = Kokkos::subview(f_h_, step-1);
     const auto des = Kokkos::subview(f_d_, myVpGid_);
     Kokkos::deep_copy(des, src);
   }
 
-  void complexityOfEvaluateMethod(double & memCostMB, double flopsCost) const
+  void complexityOfEvaluateMethod(double & memCostMB, double & flopsCost) const
   {
-    // no operation is done during evaluate, just copying, see above
-    const double memMBCostFill = 1.*( f_d_.extent(0)*sizeof(sc_t) )/1024./1024.;
+    // // no operation is done during evaluate, just copying, see above
+    const double memMBCostFill = 0.; //1.*( f_d_.extent(0)*sizeof(sc_t) )/1024./1024.;
     // for copy we have one read + one write
     const double memMBCostCopy = 1.*( 2*sizeof(sc_t) )/1024./1024.;
 
@@ -125,7 +116,7 @@ public:
 
 private:
   template <typename signal_t>
-  void storeSignalTimeSeries(const signal_t signal)
+  void storeSignalTimeSeries(const signal_t & signal)
   {
     // store the full time series of the signal into the host array
     sc_t time = constants<sc_t>::zero();

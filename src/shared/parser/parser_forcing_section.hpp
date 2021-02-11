@@ -25,6 +25,10 @@ public:
     return enableRank2Mode_;
   }
 
+  int getForcingSize() const {
+    return forcingSize_;
+  }
+
   bool multiForcing() const {
     return multiForcing_;
   }

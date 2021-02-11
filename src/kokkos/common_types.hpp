@@ -12,8 +12,7 @@ struct commonTypes
   using p_io_t  = ParserIoSection<scalar_type>;
   using p_mm_t  = ParserMaterialModel<scalar_type>;
   using p_ss_t  = ParserForcingSection<scalar_type>;
-  using p_sas_t = ParserSamplingSection<scalar_type>;
-  using parser_type  = InputParser<p_gs_t, p_io_t, p_mm_t, p_ss_t, p_sas_t>;
+  using parser_type  = InputParser<p_gs_t, p_io_t, p_mm_t, p_ss_t>;
 
   using mesh_info_type = MeshInfo<scalar_type>;
 
@@ -46,6 +45,26 @@ struct rank1Types : commonTypes
 
   // forcing type
   using forcing_type = RankOneForcing<scalar_type, state_d_type>;
+};
+
+struct rank2Types : commonTypes
+{
+  using typename commonTypes::scalar_type;
+  using typename commonTypes::parser_type;
+  using typename commonTypes::mesh_info_type;
+  using typename commonTypes::jacobian_ord_type;
+  using typename commonTypes::jacobian_d_type;
+  using typename commonTypes::observer_type;
+  using typename commonTypes::seismogram_type;
+
+  // state is a rank-2 view
+  using state_d_type = Kokkos::View<scalar_type**, Kokkos::LayoutRight, Kokkos::DefaultExecutionSpace>;
+  using state_h_type = typename state_d_type::host_mirror_type;
+
+  // forcing type
+  using signal_type = Signal<scalar_type>;
+  using signal_instances_h_type = Kokkos::View<signal_type*, Kokkos::HostSpace>;
+  using forcing_type = RankTwoForcing<scalar_type, signal_instances_h_type>;
 };
 
 }// end namespace

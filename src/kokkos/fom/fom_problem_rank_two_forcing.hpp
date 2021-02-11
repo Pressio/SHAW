@@ -7,47 +7,46 @@ namespace kokkosapp{
 template<typename T>
 class FomProblemRankTwoForcing
 {
-  using kokkosapp::commonTypes::scalar_t;
-  using kokkosapp::commonTypes::sc_t;
-  using kokkosapp::commonTypes::int_t;
-  using kokkosapp::commonTypes::parser_t;
-  using kokkosapp::commonTypes::mesh_info_t;
-  using kokkosapp::commonTypes::klr;
-  using kokkosapp::commonTypes::kll;
-  using kokkosapp::commonTypes::exe_space;
-
-  static constexpr bool usingFullMesh = true;
-  using state_d_t	= Kokkos::View<sc_t**, klr, exe_space>;
-  using state_h_t	= typename state_d_t::host_mirror_type;
-  using jacobian_d_type = KokkosSparse::CrsMatrix<sc_t, int_t, exe_space>;
-  using fom_t		= ShWavePP<sc_t, int_t, mesh_info_t, jacobian_d_type, exe_space>;
-  using obs_t		= StateObserver<int_t, sc_t>;
-  using seismogram_t	= Seismogram<int_t, sc_t>;
-  using forcing_t       = RankTwoForcing<sc_t, state_d_t, int_t>;
+  using scalar_type     = typename T::scalar_type;
+  using parser_type     = typename T::parser_type;
+  using mesh_info_type  = typename T::mesh_info_type;
+  using state_d_type    = typename T::state_d_type;
+  using forcing_type    = typename T::forcing_type;
+  using observer_type   = typename T::observer_type;
+  using seismogram_type = typename T::seismogram_type;
+  using signals_h_type  = typename T::signal_instances_h_type;
+  using mesh_ord_type	= typename mesh_info_type::ordinal_type;
 
 private:
   // parser with inputs
-  const parser_t & parser_;
+  const parser_type & parser_;
 
   // object with info about the mesh
-  const mesh_info_t & meshInfo_;
+  const mesh_info_type & meshInfo_;
 
   // material model object
-  std::shared_ptr<MaterialModelBase<scalar_t>> materialObj_;
+  std::shared_ptr<MaterialModelBase<scalar_type>> materialObj_;
 
-  const int_t fSize_;
-  const int_t nVp_;
-  const int_t nSp_;
+  const int fSize_;
 
-  fom_t appObj_;
-  state_d_t xVp_d_;
-  state_d_t xSp_d_;
-  obs_t observerObj_;
+  // number of velocity DOFs
+  const mesh_ord_type nVp_;
+  // number of stresses DOFs
+  const mesh_ord_type nSp_;
+
+  // system object to construct operators
+  ShWavePP<T> appObj_;
+  // state vector for the velocity DOFs
+  state_d_type xVp_d_;
+  // state vector for the stress DOFs
+  state_d_type xSp_d_;
+  // observer object to monitor the time evolution
+  observer_type observerObj_;
 
 public:
-  FomProblemRankTwoForcing(const parser_t & parser,
-			   const mesh_info_t & meshInfo,
-			   std::shared_ptr<MaterialModelBase<scalar_t>> materialObj)
+  FomProblemRankTwoForcing(const parser_type & parser,
+			   const mesh_info_type & meshInfo,
+			   std::shared_ptr<MaterialModelBase<scalar_type>> materialObj)
     : parser_(parser),
       meshInfo_(meshInfo),
       materialObj_(materialObj),
@@ -63,50 +62,76 @@ public:
 public:
   void execute()
   {
-    multiRunSamplingForcingPeriod();
-  }
-
-private:
-  void multiRunSamplingForcingPeriod()
-  {
-    /* here we sample the forcing period,
-       which means that:
-       1. the material does not change
-       2. the other properties (like location) of the source do not change
-    */
-
     appObj_.computeJacobians(*materialObj_);
 
     // seismogram
-    seismogram_t seismoObj(parser_, meshInfo_, appObj_, fSize_);
+    seismogram_type seismoObj(parser_, meshInfo_, appObj_, fSize_);
 
-    // create vector of signals
-    const auto periods = parser_.getValues(0);
-    std::vector<Signal<sc_t>> signals;
-    for (auto i=0; i<periods.size(); ++i){
-      // use the signal that was set from input file
-      // so everything remains the same except for the
-      signals.emplace_back(parser_.getSignal());
-      signals.back().resetPeriod(periods[i]);
+    // create vector of signals using target samples
+    const auto & depths   = parser_.viewDepths();
+    const auto nDepths  = depths.size();
+    const auto & periods  = parser_.viewPeriods();
+    const auto nPeriods = periods.size();
+    const auto & angles   = parser_.viewAngles();
+    const auto nAngles  = angles.size();
+    const auto & delays   = parser_.viewDelays();
+    const auto nDelays  = delays.size();
+
+    // need to run checks
+    checkCflCondition();
+
+    // check dispersion for each period
+    for (const auto & iT : periods){
+      const auto freq = static_cast<scalar_type>(1)/iT;
+      checkDispersion(freq);
     }
 
-    std::cout << "Doing FOM with sampling of forcing period" << std::endl;
-    std::cout << "Total number of samples " << signals.size() << std::endl;
+    // how many total forcing realizations to do
+    const std::size_t totFRealizations = nDepths*nPeriods*nAngles*nDelays;
+    // for now, only support totFRealizations % fSize == 0
+    if (totFRealizations % fSize_ != 0){
+      throw std::runtime_error
+	("totFRealizations & fSize != 0: tot num of forcing realizations \
+must be divisible by fSize");
+    }
 
-    // create a forcing object, this does mem allocation
-    // (in loop below, only thing that changes is the signal NOT the location,
-    // so it is fine to create the nominal forcing and the in the loop replace signal)
-    forcing_t forcing(parser_, meshInfo_, appObj_);
+    signals_h_type signalsForRun("s1",totFRealizations);
+    Kokkos::View<scalar_type*, Kokkos::HostSpace> depthsForRun("d1",totFRealizations);
+    Kokkos::View<scalar_type*, Kokkos::HostSpace> anglesForRun("a1",totFRealizations);
 
-    const std::size_t numSets = signals.size()/fSize_;
+    std::size_t i=0;
+    for (const auto & itDepth : depths)
+    {
+      for (const auto & itPeriod : periods)
+      {
+	for (const auto & itAngle : angles)
+	{
+	  for (const auto & itDelay : delays)
+	  {
+	    Signal<scalar_type> signal(parser_.getSourceSignalKind(), itDelay, itPeriod);
+	    signalsForRun(i) = signal;
+	    depthsForRun(i) = itDepth;
+	    anglesForRun(i) = itAngle;
+	    ++i;
+	  }
+	}
+      }
+    }
+
+    const std::size_t numSets = signalsForRun.size()/fSize_;
+    std::cout << "Doing rank-2 FOM" << std::endl;
+    std::cout << "Total number of samples " << totFRealizations << std::endl;
+    std::cout << "Total number of set " << numSets << std::endl;
+
     for (std::size_t i=0; i<numSets; ++i)
     {
-      // each loop iteration handles fSize_ signals
-      // so replace signals starting from i*fSize_
-      forcing.replaceSignals(signals, i*fSize_);
+      const std::size_t sInd = i*fSize_;
+      const std::size_t eInd = sInd+fSize_;
+      auto currSignals = Kokkos::subview(signalsForRun, std::make_pair(sInd, eInd));
+      auto currDepths  = Kokkos::subview(depthsForRun,  std::make_pair(sInd, eInd));
+      auto currAngles  = Kokkos::subview(anglesForRun,  std::make_pair(sInd, eInd));
 
-      // need to recheck that the new signal still meets conditions
-      doChecks(forcing);
+      forcing_type forcing(currSignals, parser_,meshInfo_, appObj_,currDepths, currAngles);
 
       // reset observer and seismogram
       observerObj_.prepForNewRun(i);
@@ -114,7 +139,8 @@ private:
 
       // run fom
       runFom(parser_.getNumSteps(), parser_.getTimeStepSize(),
-      	     appObj_, forcing, observerObj_, seismoObj, xVp_d_, xSp_d_);
+	     appObj_, forcing, observerObj_, seismoObj,
+	     xVp_d_, xSp_d_);
 
       processCollectedData(seismoObj);
     }
@@ -123,14 +149,18 @@ private:
     processCoordinates();
   }
 
-  template <typename forcing_t>
-  void doChecks(const forcing_t & forcing){
-    if (parser_.checkDispersion())
-      checkDispersionCriterion(meshInfo_, forcing.getMaxFreq(),
-    			       appObj_.getMinShearWaveVelocity());
+  void checkDispersion(const scalar_type & freq)
+  {
+    if (parser_.checkDispersion()){
+      checkDispersionCriterion(meshInfo_, freq, appObj_.getMinShearWaveVelocity());
+    }
+  }
 
-    if (parser_.checkCfl())
+  void checkCflCondition()
+  {
+    if (parser_.checkCfl()){
       checkCfl(meshInfo_, parser_.getTimeStepSize(), appObj_.getMaxShearWaveVelocity());
+    }
   }
 
   void processCoordinates()
