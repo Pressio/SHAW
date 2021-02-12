@@ -63,7 +63,11 @@ void runFom(const step_t & numSteps,
     const double ct2 = timer.seconds();
     timer.reset();
     if (snapshotsCollectionEnabled or seismogramEnabled){
+      // deep copy already fences so no need to explicitly fence
       Kokkos::deep_copy(xVp_h, xVp_d);
+    }
+    else{
+      Kokkos::fence();
     }
     observerObj.observe(dofId::vp, iStep, xVp_h);
     seismoObj.storeVelocitySignalAtReceivers(iStep, xVp_h);
@@ -80,6 +84,9 @@ void runFom(const step_t & numSteps,
     timer.reset();
     if (snapshotsCollectionEnabled){
       Kokkos::deep_copy(xSp_h, xSp_d);
+    }
+    else{
+      Kokkos::fence();
     }
     observerObj.observe(dofId::sp, iStep, xSp_h);
     dataCollectionTime += timer.seconds();

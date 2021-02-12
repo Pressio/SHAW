@@ -40,7 +40,6 @@ updateVelocity(const sc_t & dt,
   // for a single forcing, if pointwise, we only change a single element
   auto f_d = fObj.viewForcingDevice();
   KokkosBlas::mult(one, xVp_d, dt, rhoInvVp_d, f_d);
-  Kokkos::fence();
 }
 
 // rank-1 specialize
@@ -55,7 +54,6 @@ updateStress(const sc_t & dt,
 
   constexpr auto one  = constants<sc_t>::one();
   KokkosSparse::spmv(KokkosSparse::NoTranspose, dt, jacSp_d, xVp_d, one, xSp_d);
-  Kokkos::fence();
 }
 
 template <class sc_t, class state_t, class gids_t, class f_t, class rho_inv_t>
@@ -119,8 +117,6 @@ updateVelocity(const sc_t & dt,
   using functor_t = AddForcingRank2<sc_t, state_d_t, gids_t, f_d_t, rho_inv_d_t>;
   functor_t fnc(dt, xVp_d, vpGids_d, f_d, rhoInvVp_d);
   Kokkos::parallel_for(vpGids_d.extent(0), fnc);
-
-  Kokkos::fence();
 
 
   //constexpr auto one  = constants<sc_t>::one();
