@@ -288,9 +288,9 @@ private:
     // auto ptr_h = Kokkos::create_mirror_view (ptr);
     // auto ind_h = Kokkos::create_mirror_view (ind);
 
-    Kokkos::View<scalar_type*, Kokkos::HostSpace> val_h("valVp", nnz);
-    Kokkos::View<mesh_ord_type*, Kokkos::HostSpace> ptr_h("ptrVp", numRows+1);
-    Kokkos::View<mesh_ord_type*, Kokkos::HostSpace> ind_h("ptrVp", nnz);
+    Kokkos::View<scalar_type*, Kokkos::HostSpace> val_h("valJVp", nnz);
+    Kokkos::View<mesh_ord_type*, Kokkos::HostSpace> ptr_h("ptrJVp", numRows+1);
+    Kokkos::View<mesh_ord_type*, Kokkos::HostSpace> ind_h("indJVp", nnz);
 
     ptr_h[0] = 0;
     // set the column index for each non-zero entry of the Jacobian
@@ -368,9 +368,9 @@ private:
     // typename jacobian_d_type::index_type::HostMirror   ind_h = Kokkos::create_mirror_view (ind);
     // typename jacobian_d_type::values_type::HostMirror  val_h = Kokkos::create_mirror_view (val);
 
-    Kokkos::View<scalar_type*, Kokkos::HostSpace> val_h("valSp", numEnt);
-    Kokkos::View<mesh_ord_type*, Kokkos::HostSpace> ptr_h("ptrSp", numRows+1);
-    Kokkos::View<mesh_ord_type*, Kokkos::HostSpace> ind_h("indSp", numEnt);
+    Kokkos::View<scalar_type*, Kokkos::HostSpace> val_h("valJSp", numEnt);
+    Kokkos::View<mesh_ord_type*, Kokkos::HostSpace> ptr_h("ptrJSp", numRows+1);
+    Kokkos::View<mesh_ord_type*, Kokkos::HostSpace> ind_h("indJSp", numEnt);
 
     // first, fill in how many elements per row
     ptr_h[0] = 0;
