@@ -21,15 +21,15 @@ private:
   // *** snapshot matrix ***
   bool enableSnapMatrix_      = false;
   writeMode snapWriteMode_    = writeMode::binary;
-  std::size_t vpSnapFreq_	      = -1;
-  std::size_t spSnapFreq_	      = -1;
+  std::size_t vpSnapFreq_     = 0;
+  std::size_t spSnapFreq_     = 0;
   std::string vpSnapFileName_ = "snaps_vp";
   std::string spSnapFileName_ = "snaps_sp";
 
   // *** seismogram ***
   bool enableSeismo_		  = false;
   writeMode seismoWriteMode_      = writeMode::binary;
-  std::size_t seismoFreq_		  = -1;
+  std::size_t seismoFreq_	  = 0;
   std::string seismogramFileName_ = "seismogram";
   receivers_loc_t receiversLocs_  = {5,30,60,90,120,150,175};
 

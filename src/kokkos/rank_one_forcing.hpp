@@ -34,7 +34,7 @@ class RankOneForcing
 
   // myVpGid_ identifies which velocity point the signal is located at
   // remember that forcing always acts on a velocity point, not a stress point.
-  std::size_t myVpGid_ = -1;
+  std::size_t myVpGid_ = 0;
 
   // max freq of all sources
   sc_t maxFreq_ = {};

@@ -19,15 +19,15 @@ int main(int argc, char *argv[])
     // these are the default settings for i/o
     vb.push_back(parser.enableSnapshotMatrix() == false);
     vb.push_back(parser.writeSnapshotsBinary() == true);
-    vb.push_back(parser.getSnapshotFreq(dofId::vp) == -1);
-    vb.push_back(parser.getSnapshotFreq(dofId::sp) == -1);
+    vb.push_back(parser.getSnapshotFreq(dofId::vp) == 0);
+    vb.push_back(parser.getSnapshotFreq(dofId::sp) == 0);
     vb.push_back(parser.getSnapshotFileName(dofId::vp) == "snaps_vp");
     vb.push_back(parser.getSnapshotFileName(dofId::sp) == "snaps_sp");
 
     vb.push_back(parser.enableSeismogram() == false);
     vb.push_back(parser.writeSeismogramBinary() == true);
     vb.push_back(parser.getSeismogramFileName() == "seismogram");
-    vb.push_back(parser.getSeismoFreq() == -1);
+    vb.push_back(parser.getSeismoFreq() == 0);
 
     using ang_t = typename parser_t::receivers_loc_t;
     ang_t goldAngles = {5,30,60,90,120,150,175};

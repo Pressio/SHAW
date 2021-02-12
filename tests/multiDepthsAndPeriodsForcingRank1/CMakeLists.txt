@@ -23,7 +23,7 @@ configure_file(snaps_sp_gold_8 snaps_sp_gold_8 COPYONLY)
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../fullMesh21x51 DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-add_test(NAME multiPeriodsForcingRank1
+add_test(NAME multiDepthsAndPeriodsForcingRank1
   COMMAND ${CMAKE_COMMAND}
   -DCMD_FOM=$<TARGET_FILE:shwave_fom>
   -DCMD_COMPARE=$<TARGET_FILE:compareSnaps>

@@ -141,6 +141,7 @@ int main(int argc, char *argv[])
       if ( std::abs(diff) > tol ){
 	std::cout << i << " "
 		  << j << " "
+		  << std::setprecision(15)
 		  << A1(i,j) << " "
 		  << A2(i,j) << std::endl;
   	throw std::runtime_error("Wrong matching A1(i,j) != A2(i,j)");

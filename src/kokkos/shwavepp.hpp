@@ -294,7 +294,7 @@ private:
 
     ptr_h[0] = 0;
     // set the column index for each non-zero entry of the Jacobian
-    mesh_ord_type k = -1;
+    mesh_ord_type k = 0;
     for (mesh_ord_type iPt=0; iPt < numRows; ++iPt)
       {
 	const auto & ptGID	 = graphVp_h_(iPt, 0);
@@ -319,30 +319,30 @@ private:
 	mesh_ord_type shift = 0;
 	if (gid_north == gid_south){
 	  shift+=1;
-	  ind_h[++k] = gid_north;
-	  val_h(k) = c_north+c_south;
+	  ind_h[k] = gid_north;
+	  val_h(k++) = c_north+c_south;
 	}
 	else{
 	  shift+=2;
-	  ind_h[++k] = gid_north;
-	  val_h(k) = c_north;
+	  ind_h[k] = gid_north;
+	  val_h(k++) = c_north;
 
-	  ind_h[++k] = gid_south;
-	  val_h(k) = c_south;
+	  ind_h[k] = gid_south;
+	  val_h(k++) = c_south;
 	}
 
 	if (gid_west == gid_east){
 	  shift+=1;
-	  ind_h[++k] = gid_west;
-	  val_h(k) = c_west+c_east;
+	  ind_h[k] = gid_west;
+	  val_h(k++) = c_west+c_east;
 	}
 	else{
 	  shift+=2;
-	  ind_h[++k] = gid_west;
-	  val_h(k) = c_west;
+	  ind_h[k] = gid_west;
+	  val_h(k++) = c_west;
 
-	  ind_h[++k] = gid_east;
-	  val_h(k) = c_east;
+	  ind_h[k] = gid_east;
+	  val_h(k++) = c_east;
 	}
 	ptr_h[iPt+1] = ptr_h[iPt] + shift;
       }
@@ -379,7 +379,7 @@ private:
     }
 
     // set the column index for each non-zero entry of the Jacobian
-    mesh_ord_type k = -1;
+    mesh_ord_type k = 0;
     for (mesh_ord_type iPt=0; iPt < numRows; ++iPt)
       {
 	const auto & ptGID       = graphSp_h_(iPt, 0);
@@ -393,10 +393,11 @@ private:
 	  const auto gid_south     = graphSp_h_(iPt, 2);
 	  const auto c_north	   = (drrInv_ - rInv*oneHalf)*shearMod;
 	  const auto c_south	   = (-drrInv_ - rInv*oneHalf)*shearMod;
-	  ind_h[++k] = gid_north;
-	  val_h[k]   = c_north;
-	  ind_h[++k] = gid_south;
-	  val_h[k]   = c_south;
+	  ind_h[k] = gid_north;
+	  val_h[k++]   = c_north;
+
+	  ind_h[k] = gid_south;
+	  val_h[k++]   = c_south;
 	}
 
 	if(myLabel==2){ //stp
@@ -404,10 +405,11 @@ private:
     	  const auto gid_east = graphSp_h_(iPt, 2);
     	  const auto c_west   = (-dthInv_ - oneHalf*cotSp_h[ptGID])*rInv*shearMod;
     	  const auto c_east   = (dthInv_ - oneHalf*cotSp_h[ptGID])*rInv*shearMod;
-    	  ind_h[++k] = gid_west;
-    	  val_h[k]   = c_west;
-    	  ind_h[++k] = gid_east;
-    	  val_h[k]   = c_east;
+    	  ind_h[k] = gid_west;
+    	  val_h[k++]   = c_west;
+
+    	  ind_h[k] = gid_east;
+    	  val_h[k++]   = c_east;
 	}
       }
 
