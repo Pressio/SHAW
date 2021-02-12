@@ -78,7 +78,7 @@ complexityFom(const state_d_t xVp,
   // for rank-2 we do a parallel for over number of forcing realizations
   // each thread read/writes about 4 words and performs 3 flops
   // this is a rough approximation
-  memMB[1] = 4.*fSize*sizeof(sc_t);
+  memMB[1] = 4.*fSize*sizeof(sc_t)/1024./1024.;
   flops[1] = 3.*fSize;
 
   // spmm: xSp = xSp + dt * Jsp * xVp

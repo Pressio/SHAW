@@ -1,24 +1,16 @@
 
-configure_file(input1.yaml input1.yaml COPYONLY)
-configure_file(input2.yaml input2.yaml COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../compare.py compare.py COPYONLY)
 
-configure_file(snaps_vp_gold.txt snaps_vp_gold.txt COPYONLY)
+configure_file(input.yaml input.yaml COPYONLY)
+
+configure_file(snaps_vp_0_gold snaps_vp_0_gold COPYONLY)
+configure_file(snaps_sp_0_gold snaps_sp_0_gold COPYONLY)
+
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../fullMesh21x51 DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-if(HAVE_KOKKOS)
-add_test(NAME fomSymmetryAxisThetaZeroKokkos1
+add_test(NAME fomSymmetryAxisThetaZero
   COMMAND ${CMAKE_COMMAND}
   -DCMD_FOM=$<TARGET_FILE:shwave_fom>
-  -DCMD_COMPARE=$<TARGET_FILE:compareSnaps>
-  -DINPUT_FNAME=input1.yaml
-  -P ${CMAKE_CURRENT_SOURCE_DIR}/../testwrapper_fom.cmake
+  -DINPUT_FNAME=input.yaml
+  -P ${CMAKE_CURRENT_SOURCE_DIR}/test.cmake
   )
-
-add_test(NAME fomSymmetryAxisThetaZeroKokkos2
-  COMMAND ${CMAKE_COMMAND}
-  -DCMD_FOM=$<TARGET_FILE:shwave_fom>
-  -DCMD_COMPARE=$<TARGET_FILE:compareSnaps>
-  -DINPUT_FNAME=input2.yaml
-  -P ${CMAKE_CURRENT_SOURCE_DIR}/../testwrapper_fom.cmake
-  )
-endif()

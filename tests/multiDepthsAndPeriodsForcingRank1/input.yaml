@@ -16,7 +16,7 @@ io:
  seismogram:
    binary: false
    freq: 10
-   receivers: [25, 50, 120, 160]
+   receivers: [2, 8, 10, 12]
 
 # -------------
 source:

@@ -1,32 +1,20 @@
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../compare.py compare.py COPYONLY)
+
 configure_file(input.yaml input.yaml COPYONLY)
 
-configure_file(snaps_vp_gold_0 snaps_vp_gold_0 COPYONLY)
-configure_file(snaps_vp_gold_1 snaps_vp_gold_1 COPYONLY)
-configure_file(snaps_vp_gold_2 snaps_vp_gold_2 COPYONLY)
-configure_file(snaps_vp_gold_3 snaps_vp_gold_3 COPYONLY)
-configure_file(snaps_vp_gold_4 snaps_vp_gold_4 COPYONLY)
-configure_file(snaps_vp_gold_5 snaps_vp_gold_5 COPYONLY)
-configure_file(snaps_vp_gold_6 snaps_vp_gold_6 COPYONLY)
-configure_file(snaps_vp_gold_7 snaps_vp_gold_7 COPYONLY)
-configure_file(snaps_vp_gold_8 snaps_vp_gold_8 COPYONLY)
-
-configure_file(snaps_sp_gold_0 snaps_sp_gold_0 COPYONLY)
-configure_file(snaps_sp_gold_1 snaps_sp_gold_1 COPYONLY)
-configure_file(snaps_sp_gold_2 snaps_sp_gold_2 COPYONLY)
-configure_file(snaps_sp_gold_3 snaps_sp_gold_3 COPYONLY)
-configure_file(snaps_sp_gold_4 snaps_sp_gold_4 COPYONLY)
-configure_file(snaps_sp_gold_5 snaps_sp_gold_5 COPYONLY)
-configure_file(snaps_sp_gold_6 snaps_sp_gold_6 COPYONLY)
-configure_file(snaps_sp_gold_7 snaps_sp_gold_7 COPYONLY)
-configure_file(snaps_sp_gold_8 snaps_sp_gold_8 COPYONLY)
+set(IDS 0 1 2 3 4 5 6 7 8)
+foreach(ID IN LISTS IDS)
+	configure_file(seismogram_${ID}_gold seismogram_${ID}_gold COPYONLY)
+	configure_file(snaps_vp_${ID}_gold snaps_vp_${ID}_gold COPYONLY)
+	configure_file(snaps_sp_${ID}_gold snaps_sp_${ID}_gold COPYONLY)
+endforeach()
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../fullMesh21x51 DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 add_test(NAME multiDepthsAndPeriodsForcingRank1
   COMMAND ${CMAKE_COMMAND}
   -DCMD_FOM=$<TARGET_FILE:shwave_fom>
-  -DCMD_COMPARE=$<TARGET_FILE:compareSnaps>
   -DINPUT_FNAME=input.yaml
   -P ${CMAKE_CURRENT_SOURCE_DIR}/test.cmake
   )

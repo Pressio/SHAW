@@ -20,7 +20,6 @@ add_subdirectory(fomSymmetryAxisThetaPi)
 add_subdirectory(multiDepthsForcingRank1)
 add_subdirectory(multiPeriodsForcingRank1)
 add_subdirectory(multiDepthsAndPeriodsForcingRank1)
-
-#add_subdirectory(multiDepthsForcingRank2)
-#add_subdirectory(multiPeriodsForcingRank2)
-
+add_subdirectory(multiDepthsForcingRank2)
+add_subdirectory(multiPeriodsForcingRank2)
+add_subdirectory(multiDepthsAndPeriodsForcingRank2)
