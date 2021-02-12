@@ -121,25 +121,33 @@ After running the demo, you should have inside ``${MYRUNDIR}`` the following fil
 
    coords_sp.txt : coordinates of the velocity grid points
    coords_vp.txt : coordinates of the stresses grid points
-   seismogram_i  : seismogram generated for i-th depth realization
-   snaps_vp_i    : snapshot matrix for the velocity for i-th depth realization
-   snaps_sp_i    : snapshot matrix for the stresses for i-th depth realization
+
+   seismogram_0  : seismogram for depth = 240
+   seismogram_1  : seismogram for depth = 440
+   seismogram_2  : seismogram for depth = 540
+   seismogram_3  : seismogram for depth = 740
+
+   snaps_vp_0    : velocity snapshots for depth = 240
+   snaps_vp_1    : velocity snapshots for depth = 440
+   snaps_vp_2    : velocity snapshots for depth = 540
+   snaps_vp_3    : velocity snapshots for depth = 740
+
+   snaps_sp_0    : stresses snapshots for depth = 240
+   snaps_sp_1    : stresses snapshots for depth = 440
+   snaps_sp_2    : stresses snapshots for depth = 540
+   snaps_sp_3    : stresses snapshots for depth = 740
+
 
 `4. Post-process data`_
 =======================
 
-To post-process the data, you can use the Python scripts created for this demo:
-
-.. code:: bash
-
-   cp ${ESWSRCDIR}/demos/fom_rank1_sample_depth/*.py ${MYRUNDIR}
-
-
-You can visualize the seismogram by doing:
+To post-process the data, get the Python scripts created
+for this demo and visualize the seismogram:
 
 .. code:: bash
 
    cd ${MYRUNDIR}
+   cp ${ESWSRCDIR}/demos/fom_rank1_sample_depth/plotSeismogram.py .
    python plotSeismogram.py
 
 

@@ -1,6 +1,6 @@
 
 #include "./shared/all.hpp"
-#include "./kokkos/common_types.hpp"
+#include "./kokkos/types.hpp"
 #include "./kokkos/shwavepp.hpp"
 
 template<class T>
@@ -128,8 +128,7 @@ int main(int argc, char *argv[])
     parser_t parser(argc, argv);
     mesh_info_t meshInfo(parser.getMeshDir());
     auto matObj = createMaterialModel<sc_t>(parser, meshInfo);
-    kokkosapp::ShWavePP<kokkosapp::commonTypes> appObj(meshInfo);
-    appObj.computeJacobians(*matObj);
+    kokkosapp::ShWavePP<kokkosapp::commonTypes> appObj(meshInfo, *matObj);
 
     const std::string sentinelVp = checkVpGraph(appObj);
     const std::string sentinelSp = checkSpGraph(appObj);

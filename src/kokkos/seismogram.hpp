@@ -36,6 +36,7 @@ template <typename scalar_t>
 class Seismogram
 {
   // container type to store the data
+  // here we have to specify the layout because of how we write to file
   using matrix_t = Kokkos::View<scalar_t***, Kokkos::LayoutLeft, Kokkos::HostSpace>;
 
   // type to store global ids
@@ -98,12 +99,13 @@ public:
       for (auto i=0; i<numReceivers_; ++i)
       {
 	const auto thisAngle = nominalAngles[i];
-	targetGids_(i) = mapNominalLocationToVelocityGridPoint(thisAngle,
-							       receiverRadM,
-							       meshInfo.viewDomainBounds(),
-							       meshInfo.getNumVpPts(),
-							       appObj.viewGidListHost(dofId::vp),
-							       appObj.viewCoordsHost(dofId::vp));
+	targetGids_(i) = mapNominalLocationToVelocityGridPoint
+	  (thisAngle,
+	   receiverRadM,
+	   meshInfo.viewDomainBounds(),
+	   meshInfo.getNumVpPts(),
+	   appObj.viewGidListHost(dofId::vp),
+	   appObj.viewCoordsHost(dofId::vp));
       }
       std::cout << "Done Mapping receivers to grid " << std::endl;
 
@@ -125,6 +127,11 @@ public:
     }
   }
 
+  bool enabled() const
+  {
+    return enable_;
+  }
+
   const gids_t & viewMappedGids() const{
     return targetGids_;
   }
@@ -136,20 +143,23 @@ public:
   }
 
   template <typename state_t>
-  void storeVelocitySignalAtReceivers(const std::size_t & step, const state_t & x)
+  void storeVelocitySignalAtReceivers(std::size_t step,
+				      const state_t & xhv)
   {
-    if (enable_){
-      if ( step % freq_ == 0 and step > 0){
-	auto xhv = Kokkos::create_mirror_view(x);
-	Kokkos::deep_copy(xhv, x);
+    static_assert
+      (std::is_same<typename state_t::memory_space, Kokkos::HostSpace>::value,
+       "View not accessible on host");
 
-	using state_h_mirr_t = typename state_t::HostMirror;
-	using functor_t = CopySeis<gids_t, state_h_mirr_t, matrix_t>;
+    if (enable_)
+    {
+      if ( step % freq_ == 0 and step > 0){
+	using functor_t = CopySeis<gids_t, state_t, matrix_t>;
 	functor_t fnc(count_, targetGids_, xhv, MM_);
 
 	// must specify an host exespace here otherwise it picks the default
 	// which might be a device one
-	Kokkos::RangePolicy<Kokkos::Serial> policy(0, targetGids_.extent(0));
+	using copy_exespace = Kokkos::DefaultHostExecutionSpace;
+	Kokkos::RangePolicy<copy_exespace> policy(0, targetGids_.extent(0));
 	Kokkos::parallel_for(policy, fnc);
 	count_++;
       }
@@ -163,10 +173,10 @@ public:
       auto fN2 = seismoFileName_ + "_" + std::to_string(runID_);
       if (MM_.extent(2) == 1){
 	const auto Mv = Kokkos::subview(MM_, Kokkos::ALL(), Kokkos::ALL(), 0);
-	writeToFile(fN2, Mv, useBinaryIO_, false); //don't print size
+	writeToFile(fN2, Mv, useBinaryIO_, false); //false to not print size
       }
       else{
-	writeToFile(fN2, MM_, useBinaryIO_, false); //don't print size
+	writeToFile(fN2, MM_, useBinaryIO_, false); //false to not print size
       }
       std::cout << "... Done" << std::endl;
     }

@@ -33,6 +33,12 @@ void runFom(const step_t & numSteps,
   const auto jacSp_d     = fomObj.viewJacobianDevice(dofId::sp);
   const auto rhoInvVp_d  = fomObj.viewInvDensityDevice(dofId::vp);
 
+  // create mirrors of states if we need to collect data
+  auto xVp_h = Kokkos::create_mirror_view(xVp_d);
+  auto xSp_h = Kokkos::create_mirror_view(xSp_d);
+  const auto snapshotsCollectionEnabled = observerObj.enabled();
+  const auto seismogramEnabled = seismoObj.enabled();
+
   // to collec timings
   Kokkos::Timer timer;
   double dataCollectionTime = {};
@@ -56,8 +62,11 @@ void runFom(const step_t & numSteps,
     updateVelocity(dt, xVp_d, xSp_d, jacVp_d, rhoInvVp_d, forcingObj);
     const double ct2 = timer.seconds();
     timer.reset();
-    observerObj.observe(dofId::vp, iStep, xVp_d);
-    seismoObj.storeVelocitySignalAtReceivers(iStep, xVp_d);
+    if (snapshotsCollectionEnabled or seismogramEnabled){
+      Kokkos::deep_copy(xVp_h, xVp_d);
+    }
+    observerObj.observe(dofId::vp, iStep, xVp_h);
+    seismoObj.storeVelocitySignalAtReceivers(iStep, xVp_h);
     dataCollectionTime += timer.seconds();
 
     // update time
@@ -69,7 +78,10 @@ void runFom(const step_t & numSteps,
     updateStress(dt, xSp_d, xVp_d, jacSp_d);
     const double ct3 = timer.seconds();
     timer.reset();
-    observerObj.observe(dofId::sp, iStep, xSp_d);
+    if (snapshotsCollectionEnabled){
+      Kokkos::deep_copy(xSp_h, xSp_d);
+    }
+    observerObj.observe(dofId::sp, iStep, xSp_h);
     dataCollectionTime += timer.seconds();
 
     // ----------------

@@ -1,6 +1,6 @@
 
 #include "./shared/all.hpp"
-#include "./kokkos/common_types.hpp"
+#include "./kokkos/types.hpp"
 #include "./kokkos/shwavepp.hpp"
 
 int main(int argc, char *argv[])
@@ -18,9 +18,7 @@ int main(int argc, char *argv[])
     mesh_info_t meshInfo(parser.getMeshDir());
 
     auto matObj = createMaterialModel<sc_t>(parser, meshInfo);
-    kokkosapp::ShWavePP<types> appObj(meshInfo);
-    appObj.computeJacobians(*matObj);
-
+    kokkosapp::ShWavePP<types> appObj(meshInfo, *matObj);
     forcing_t forcingObj(parser, meshInfo, appObj);
 
     if (forcingObj.getMaxFreq() != 0.04){ std::puts("FAIL"); return 0; }

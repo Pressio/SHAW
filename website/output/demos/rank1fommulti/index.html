@@ -151,16 +151,28 @@ ln -s <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si
 <p>After running the demo, you should have inside <code>${MYRUNDIR}</code> the following files:</p>
 <pre class="m-code">coords_sp.txt : coordinates of the velocity grid points
 coords_vp.txt : coordinates of the stresses grid points
-seismogram_i  : seismogram generated <span class="k">for</span> i-th depth realization
-snaps_vp_i    : snapshot matrix <span class="k">for</span> the velocity <span class="k">for</span> i-th depth realization
-snaps_sp_i    : snapshot matrix <span class="k">for</span> the stresses <span class="k">for</span> i-th depth realization</pre>
+
+seismogram_0  : seismogram <span class="k">for</span> <span class="nv">depth</span> <span class="o">=</span> <span class="m">240</span>
+seismogram_1  : seismogram <span class="k">for</span> <span class="nv">depth</span> <span class="o">=</span> <span class="m">440</span>
+seismogram_2  : seismogram <span class="k">for</span> <span class="nv">depth</span> <span class="o">=</span> <span class="m">540</span>
+seismogram_3  : seismogram <span class="k">for</span> <span class="nv">depth</span> <span class="o">=</span> <span class="m">740</span>
+
+snaps_vp_0    : velocity snapshots <span class="k">for</span> <span class="nv">depth</span> <span class="o">=</span> <span class="m">240</span>
+snaps_vp_1    : velocity snapshots <span class="k">for</span> <span class="nv">depth</span> <span class="o">=</span> <span class="m">440</span>
+snaps_vp_2    : velocity snapshots <span class="k">for</span> <span class="nv">depth</span> <span class="o">=</span> <span class="m">540</span>
+snaps_vp_3    : velocity snapshots <span class="k">for</span> <span class="nv">depth</span> <span class="o">=</span> <span class="m">740</span>
+
+snaps_sp_0    : stresses snapshots <span class="k">for</span> <span class="nv">depth</span> <span class="o">=</span> <span class="m">240</span>
+snaps_sp_1    : stresses snapshots <span class="k">for</span> <span class="nv">depth</span> <span class="o">=</span> <span class="m">440</span>
+snaps_sp_2    : stresses snapshots <span class="k">for</span> <span class="nv">depth</span> <span class="o">=</span> <span class="m">540</span>
+snaps_sp_3    : stresses snapshots <span class="k">for</span> <span class="nv">depth</span> <span class="o">=</span> <span class="m">740</span></pre>
 </section>
 <section id="post-process-data">
 <h2><a href="#post-process-data">4. Post-process data</a></h2>
-<p>To post-process the data, you can use the Python scripts created for this demo:</p>
-<pre class="m-code">cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/demos/fom_rank1_sample_depth/*.py <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span></pre>
-<p>You can visualize the seismogram by doing:</p>
+<p>To post-process the data, get the Python scripts created
+for this demo and visualize the seismogram:</p>
 <pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
+cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/demos/fom_rank1_sample_depth/plotSeismogram.py .
 python plotSeismogram.py</pre>
 <figure class="m-figure">
 <img src="/static/img/demo2_f1.png" />

@@ -24,9 +24,6 @@ private:
   // object with info about the mesh
   const mesh_info_type & meshInfo_;
 
-  // material model object
-  std::shared_ptr<MaterialModelBase<scalar_type>> materialObj_;
-
   // number of velocity DOFs
   const mesh_ord_type nVp_;
   // number of stresses DOFs
@@ -44,13 +41,12 @@ private:
 public:
   FomProblemRankOneForcing(const parser_type & parser,
 			   const mesh_info_type & meshInfo,
-			   std::shared_ptr<MaterialModelBase<scalar_type>> materialObj)
+			   const MaterialModelBase<scalar_type> & materialObj)
     : parser_(parser),
       meshInfo_(meshInfo),
-      materialObj_(materialObj),
       nVp_(meshInfo_.getNumVpPts()),
       nSp_(meshInfo_.getNumSpPts()),
-      appObj_(meshInfo_),
+      appObj_(meshInfo_, materialObj),
       xVp_d_("xVp_d", nVp_),
       xSp_d_("xSp_d", nSp_),
       observerObj_(nVp_, nSp_, parser)
@@ -71,9 +67,6 @@ public:
 private:
   void singleForcingRun()
   {
-    // use material model to compute Jacobian matrices
-    appObj_.computeJacobians(*materialObj_);
-
     // seismogram: stores the seismogram at locations specified in input file
     seismogram_type seismoObj(parser_, meshInfo_, appObj_);
 
@@ -96,8 +89,6 @@ private:
   void multiForcingRun()
   {
     std::cout << "Doing FOM with sampling" << std::endl;
-
-    appObj_.computeJacobians(*materialObj_);
 
     // seismogram
     seismogram_type seismoObj(parser_, meshInfo_, appObj_);

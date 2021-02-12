@@ -2,7 +2,6 @@
 #ifndef RANK_ONE_FORCING_HPP_
 #define RANK_ONE_FORCING_HPP_
 
-#include "map_point_source_to_velocity_grid_point.hpp"
 #include "KokkosBlas1_fill.hpp"
 #include "KokkosBlas1_scal.hpp"
 

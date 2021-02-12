@@ -1,6 +1,7 @@
 
+// include order below matters
 #include "../shared/all.hpp"
-#include "common_types.hpp"
+#include "types.hpp"
 #include "shwavepp.hpp"
 #include "./fom/run_fom.hpp"
 #include "./fom/fom_problem_rank_one_forcing.hpp"
@@ -16,7 +17,7 @@ struct MyCustomMaterialModel final : public MaterialModelBase<scalar_t>
     // constuct how you want
   }
 
-  void computeAt(const scalar_t & radiusFromCenterMeters,
+  void computeAt(const scalar_t & radiusFromCenterInMeters,
 		 const scalar_t & angleRadians,
 		 scalar_t & density,
 		 scalar_t & vs) const final
@@ -37,7 +38,7 @@ int main(int argc, char *argv[])
     using parser_t    = kokkosapp::commonTypes::parser_type;
     using mesh_info_t = kokkosapp::commonTypes::mesh_info_type;
 
-    // create parser for yaml file
+    // create parser for input file
     parser_t parser(argc, argv);
 
     // create object with mesh info
@@ -56,12 +57,12 @@ int main(int argc, char *argv[])
     if(parser.rank2Enabled())
     {
       using prob_t = kokkosapp::FomProblemRankTwoForcing<kokkosapp::rank2Types>;
-      prob_t problem(parser, meshInfo, materialModel);
+      prob_t problem(parser, meshInfo, *materialModel);
       problem.execute();
     }
     else{
       using prob_t = kokkosapp::FomProblemRankOneForcing<kokkosapp::rank1Types>;
-      prob_t problem(parser, meshInfo, materialModel);
+      prob_t problem(parser, meshInfo, *materialModel);
       problem.execute();
     }
   }

@@ -24,9 +24,7 @@ private:
   // object with info about the mesh
   const mesh_info_type & meshInfo_;
 
-  // material model object
-  std::shared_ptr<MaterialModelBase<scalar_type>> materialObj_;
-
+  // how many forcing realization to handle simultaneously
   const int fSize_;
 
   // number of velocity DOFs
@@ -46,14 +44,13 @@ private:
 public:
   FomProblemRankTwoForcing(const parser_type & parser,
 			   const mesh_info_type & meshInfo,
-			   std::shared_ptr<MaterialModelBase<scalar_type>> materialObj)
+			   const MaterialModelBase<scalar_type> & materialObj)
     : parser_(parser),
       meshInfo_(meshInfo),
-      materialObj_(materialObj),
       fSize_(parser.getForcingSize()),
       nVp_(meshInfo_.getNumVpPts()),
       nSp_(meshInfo_.getNumSpPts()),
-      appObj_(meshInfo_),
+      appObj_(meshInfo_, materialObj),
       xVp_d_("xVp_d", nVp_, fSize_),
       xSp_d_("xSp_d", nSp_, fSize_),
       observerObj_(nVp_, nSp_, parser, fSize_)
@@ -62,8 +59,6 @@ public:
 public:
   void execute()
   {
-    appObj_.computeJacobians(*materialObj_);
-
     // seismogram
     seismogram_type seismoObj(parser_, meshInfo_, appObj_, fSize_);
 

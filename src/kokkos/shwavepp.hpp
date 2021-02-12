@@ -10,41 +10,36 @@ class ShWavePP
 public:
   using scalar_type	  = typename T::scalar_type;
   using mesh_info_type	  = typename T::mesh_info_type;
+  using device_mem_space  = typename T::device_mem_space;
   using jacobian_d_type   = typename T::jacobian_d_type;
   using jacobian_ord_type = typename jacobian_d_type::ordinal_type;
   using mesh_ord_type     = typename mesh_info_type::ordinal_type;
 
-  using klr = Kokkos::LayoutRight;
-  using kll = Kokkos::LayoutLeft;
-  using exespace = Kokkos::DefaultExecutionSpace;
-
   // coordinates: col0 stores angle, col1 stores 1/radius
-  using coords_h_t = Kokkos::View<scalar_type*[2], klr, Kokkos::HostSpace>;
+  using coords_h_t = Kokkos::View<scalar_type*[2], Kokkos::HostSpace>;
 
-  // connectivity of velo and stress grid points
-  using graph_vp_d_t = Kokkos::View<mesh_ord_type*[5], klr, exespace>;
-  using graph_vp_h_t = typename graph_vp_d_t::host_mirror_type;
-  using graph_sp_d_t = Kokkos::View<mesh_ord_type*[3], klr, exespace>;
-  using graph_sp_h_t = typename graph_sp_d_t::host_mirror_type;
+  // connectivity of velo and stresses grid points
+  using graph_vp_h_t = Kokkos::View<mesh_ord_type*[5], Kokkos::HostSpace>;
+  using graph_sp_h_t = Kokkos::View<mesh_ord_type*[3], Kokkos::HostSpace>;
 
   // stencil coefficients for velocity points
-  using velo_stencil_coeff_h_t = Kokkos::View<scalar_type*[4], klr, Kokkos::HostSpace>;
+  using velo_stencil_coeff_h_t = Kokkos::View<scalar_type*[4], Kokkos::HostSpace>;
 
   // 1/rho
-  using rho_inv_d_t = Kokkos::View<scalar_type*, exespace>;
+  using rho_inv_d_t = Kokkos::View<scalar_type*, device_mem_space>;
   using rho_inv_h_t = typename rho_inv_d_t::host_mirror_type;
-  using rho_d_t     = Kokkos::View<scalar_type*, exespace>;
+  using rho_d_t     = Kokkos::View<scalar_type*, device_mem_space>;
   using rho_h_t     = typename rho_d_t::host_mirror_type;
 
   // shear modulus
-  using shmod_d_t = Kokkos::View<scalar_type*, exespace>;
+  using shmod_d_t = Kokkos::View<scalar_type*, device_mem_space>;
   using shmod_h_t = typename shmod_d_t::host_mirror_type;
   // cotangent
-  using cot_d_t   = Kokkos::View<scalar_type*, exespace>;
+  using cot_d_t   = Kokkos::View<scalar_type*, device_mem_space>;
   using cot_h_t   = typename cot_d_t::host_mirror_type;
 
   // labels: needed for stresses to identify s_r,phi and s_theta,phi
-  using labels_d_t = Kokkos::View<mesh_ord_type*, exespace>;
+  using labels_d_t = Kokkos::View<mesh_ord_type*, device_mem_space>;
   using labels_h_t = typename labels_d_t::host_mirror_type;
 
   static constexpr auto one	= constants<scalar_type>::one();
@@ -55,7 +50,8 @@ public:
 public:
   ShWavePP() = delete;
 
-  ShWavePP(const mesh_info_type & meshInfo)
+  ShWavePP(const mesh_info_type & meshInfo,
+	   const MaterialModelBase<scalar_type> & materialObj)
     : meshDir_{meshInfo.getMeshDir()},
       dthInv_{meshInfo.getAngularSpacingInverse()},
       drrInv_{meshInfo.getRadialSpacingInverse()},
@@ -77,10 +73,7 @@ public:
     Kokkos::resize(shearModSp_h_,numGptSp_);
     Kokkos::resize(shearModSp_d_,numGptSp_);
     Kokkos::resize(graphSp_h_,   numGptSp_);
-  }
 
-  void computeJacobians(const MaterialModelBase<scalar_type> & matModel)
-  {
     std::cout << std::endl;
     std::cout << "*** Compute FOM Jacobian matrices ***" << std::endl;
 
@@ -99,7 +92,7 @@ public:
 				       cotSp_h, labelsSp_h_);
 
     // store material properties since are needed to fill jacobians
-    this->setMaterialProperties(matModel);
+    this->setMaterialProperties(materialObj);
 
     fillVpJacobian(cotVp_h, coeffsVp_h, true);
     fillSpJacobian(cotSp_h, true);

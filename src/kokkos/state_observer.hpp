@@ -1,6 +1,6 @@
 
-#ifndef SHAXIPP_OBSERVER_HPP_
-#define SHAXIPP_OBSERVER_HPP_
+#ifndef SHWAVEPP_OBSERVER_HPP_
+#define SHWAVEPP_OBSERVER_HPP_
 
 template <typename state_t, typename dest_t>
 struct CopyState
@@ -34,6 +34,7 @@ struct CopyState
 template <typename scalar_t>
 struct StateObserver
 {
+  // here we have to specify the layout because of how we write to file
   using matrix_t = Kokkos::View<scalar_t***, Kokkos::LayoutLeft, Kokkos::HostSpace>;
 
 private:
@@ -69,7 +70,8 @@ public:
       snapshotFreq_{{parser.getSnapshotFreq(dofId::vp),
 		     parser.getSnapshotFreq(dofId::sp)}}
   {
-    if (enableSnapMat_){
+    if (enableSnapMat_)
+    {
       std::cout << "\n";
       std::cout << "*** Constructing observer ***" << std::endl;
 
@@ -104,6 +106,11 @@ public:
     }
   }
 
+  bool enabled() const
+  {
+    return enableSnapMat_;
+  }
+
   void prepForNewRun(const std::size_t & runIdIn)
   {
     // assumes the new run has same sampling frequncies as before
@@ -120,8 +127,13 @@ public:
   }
 
   template<typename state_t>
-  void observe(dofId dof, const std::size_t & step, const state_t & x)
+  void observe(dofId dof,
+	       std::size_t step,
+	       const state_t & xhv)
   {
+    static_assert
+      (std::is_same<typename state_t::memory_space, Kokkos::HostSpace>::value,
+       "View not accessible on host");
 
     if (enableSnapMat_)
     {
@@ -131,20 +143,13 @@ public:
 
       if ( step % freq == 0 and step > 0)
       {
-  	auto xhv = Kokkos::create_mirror_view(x);
-	Kokkos::deep_copy(xhv, x);
-
-	using state_h_mirr_t = typename state_t::HostMirror;
-	using functor_t = CopyState<state_h_mirr_t, matrix_t>;
+	using functor_t = CopyState<state_t, matrix_t>;
 	functor_t fnc(count, xhv, A);
 
 	// must specify an host exespace here otherwise it picks the default
 	// which might be a device one
-#ifdef Kokkos_ENABLE_OPENMP
-	Kokkos::RangePolicy<Kokkos::OpenMP> policy(0, xhv.extent(0));
-#else
-	Kokkos::RangePolicy<Kokkos::Serial> policy(0, xhv.extent(0));
-#endif
+	using copy_exespace = Kokkos::DefaultHostExecutionSpace;
+	Kokkos::RangePolicy<copy_exespace> policy(0, xhv.extent(0));
 	Kokkos::parallel_for(policy, fnc);
 
   	count++;

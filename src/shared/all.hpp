@@ -50,12 +50,8 @@
 #include "./material_models/material_model_prem.hpp"
 #include "./material_models/material_model_create.hpp"
 
-#include "./forcing/signal.hpp"
-#include "./forcing/rank_one_forcing.hpp"
-#include "./forcing/rank_two_forcing.hpp"
-
-#include "./various/map_nominal_location_to_velocity_grid_point.hpp"
-#include "./collectors/state_observer.hpp"
-#include "./collectors/seismogram.hpp"
+#include "./various/signal.hpp"
+#include "./nominal_to_grid_mappers/map_point_source_to_velocity_grid_point.hpp"
+#include "./nominal_to_grid_mappers/map_nominal_location_to_velocity_grid_point.hpp"
 
 #endif

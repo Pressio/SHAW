@@ -1,6 +1,6 @@
 
 #include "./shared/all.hpp"
-#include "./kokkos/common_types.hpp"
+#include "./kokkos/types.hpp"
 
 int main(int argc, char *argv[])
 {
