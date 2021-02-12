@@ -112,16 +112,16 @@ public:
     // // }
   }
 
-  void complexityOfEvaluateMethod(double & memCostMB, double & flopsCost) const
-  {
-    // no operation is done during evaluate, just copying, see above
-    const double memMBCostFill=0.;
-    //1.*( f_d_.extent(0)*f_d_.extent(1)*sizeof(sc_t) )/1024./1024.;
-    const double memMBCostCopy=0.;
-    //.1.*( f_d_.extent(1)*sizeof(sc_t) )/1024./1024.;
-    memCostMB = memMBCostFill + memMBCostCopy;
-    flopsCost = 0.;
-  }
+  // void complexityOfEvaluateMethod(double & memCostMB, double & flopsCost) const
+  // {
+  //   // no operation is done during evaluate, just copying, see above
+  //   const double memMBCostFill=0.;
+  //   //1.*( f_d_.extent(0)*f_d_.extent(1)*sizeof(sc_t) )/1024./1024.;
+  //   const double memMBCostCopy=0.;
+  //   //.1.*( f_d_.extent(1)*sizeof(sc_t) )/1024./1024.;
+  //   memCostMB = memMBCostFill + memMBCostCopy;
+  //   flopsCost = 0.;
+  // }
 
 private:
   template<class signals_t>

@@ -25,7 +25,7 @@ complexityFom(const state_d_t xVp,
   std::array<double, 3> memMB = {};
   std::array<double, 3> flops = {};
 
-  // //account for forcing complexity
+  // // for now leave out forcing complexity
   // forcingObj.complexityOfEvaluateMethod(memMB[0], flops[0]);
 
   // spmv: xVp = xVp + dt * Jvp * xSp
@@ -40,7 +40,7 @@ complexityFom(const state_d_t xVp,
   const auto nnz_j_sp = fomObj.getJacobianNNZ(dofId::sp);
   comp_t::template spmv<ord_t>(nnz_j_sp, nSp, memMB[2], flops[2]);
 
-  memCostMB   = std::accumulate(memMB.begin(),   memMB.end(),   0.);
+  memCostMB = std::accumulate(memMB.begin(), memMB.end(), 0.);
   flopsCost = std::accumulate(flops.begin(), flops.end(), 0.);
 }
 
@@ -68,15 +68,18 @@ complexityFom(const state_d_t xVp,
   std::array<double, 3> memMB = {};
   std::array<double, 3> flops = {};
 
-  // //account for forcing complexity
+  // // for now leave out forcing complexity
   // forcingObj.complexityOfEvaluateMethod(memMB[0], flops[0]);
 
   // xVp = xVp + dt * Jvp * xSp
   const auto nnz_j_vp = fomObj.getJacobianNNZ(dofId::vp);
   comp_t::template spmm<ord_t>(nnz_j_vp, nVp, fSize, memMB[0], flops[0]);
 
-  // memMB[1] = 4.*fSize*sizeof(sc_t);
-  // flops[1] = 3.*fSize;
+  // for rank-2 we do a parallel for over number of forcing realizations
+  // each thread read/writes about 4 words and performs 3 flops
+  // this is a rough approximation
+  memMB[1] = 4.*fSize*sizeof(sc_t);
+  flops[1] = 3.*fSize;
 
   // spmm: xSp = xSp + dt * Jsp * xVp
   const auto nnz_j_sp = fomObj.getJacobianNNZ(dofId::sp);

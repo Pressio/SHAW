@@ -96,22 +96,20 @@ public:
 
   void evaluate(const sc_t & time, const std::size_t & step)
   {
-    //KokkosBlas::fill(f_d_, constants<sc_t>::zero());
     const auto src = Kokkos::subview(f_h_, step-1);
     const auto des = Kokkos::subview(f_d_, myVpGid_);
     Kokkos::deep_copy(des, src);
   }
 
-  void complexityOfEvaluateMethod(double & memCostMB, double & flopsCost) const
-  {
-    // // no operation is done during evaluate, just copying, see above
-    const double memMBCostFill = 0.; //1.*( f_d_.extent(0)*sizeof(sc_t) )/1024./1024.;
-    // for copy we have one read + one write
-    const double memMBCostCopy = 1.*( 2*sizeof(sc_t) )/1024./1024.;
-
-    memCostMB = memMBCostFill + memMBCostCopy;
-    flopsCost = 0.;
-  }
+  // void complexityOfEvaluateMethod(double & memCostMB, double & flopsCost) const
+  // {
+  //   // // no operation is done during evaluate, just copying, see above
+  //   const double memMBCostFill = 0.; //1.*( f_d_.extent(0)*sizeof(sc_t) )/1024./1024.;
+  //   // for copy we have one read + one write
+  //   const double memMBCostCopy = 1.*( 2*sizeof(sc_t) )/1024./1024.;
+  //   memCostMB = memMBCostFill + memMBCostCopy;
+  //   flopsCost = 0.;
+  // }
 
 private:
   template <typename signal_t>

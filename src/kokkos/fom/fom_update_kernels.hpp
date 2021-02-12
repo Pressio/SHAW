@@ -35,6 +35,9 @@ updateVelocity(const sc_t & dt,
 
   constexpr auto one  = constants<sc_t>::one();
   KokkosSparse::spmv(KokkosSparse::NoTranspose, dt, jacVp_d, xSp_d, one, xVp_d);
+
+  // maybe we should do the following on host directly since
+  // for a single forcing, if pointwise, we only change a single element
   auto f_d = fObj.viewForcingDevice();
   KokkosBlas::mult(one, xVp_d, dt, rhoInvVp_d, f_d);
   Kokkos::fence();
@@ -56,7 +59,7 @@ updateStress(const sc_t & dt,
 }
 
 template <class sc_t, class state_t, class gids_t, class f_t, class rho_inv_t>
-struct AddForcing
+struct AddForcingRank2
 {
   sc_t dt_;
   state_t x_;
@@ -64,18 +67,19 @@ struct AddForcing
   f_t f_;
   rho_inv_t rhoInv_;
 
-  AddForcing(const sc_t & dt,
-	     state_t x,
-	     gids_t gids,
-	     f_t f,
-	     rho_inv_t rhoInv)
+  AddForcingRank2(const sc_t & dt,
+		  state_t x,
+		  gids_t gids,
+		  f_t f,
+		  rho_inv_t rhoInv)
     : dt_(dt), x_(x), gids_(gids), f_(f), rhoInv_(rhoInv){}
 
   KOKKOS_INLINE_FUNCTION
-  void operator() (const std::size_t & i) const
+  void operator() (std::size_t i) const
   {
-    const auto & rhoInv = rhoInv_(gids_(i));
-    x_(gids_(i), i) += rhoInv*f_(i)*dt_;
+    const auto gidValue = gids_(i);
+    const auto & rhoInv = rhoInv_(gidValue);
+    x_(gidValue, i) += rhoInv*f_(i)*dt_;
   }
 };
 
@@ -112,7 +116,7 @@ updateVelocity(const sc_t & dt,
   auto f_d = fObj.viewForcingDevice();
   using gids_t = decltype(vpGids_d);
   using f_d_t  = decltype(f_d);
-  using functor_t = AddForcing<sc_t, state_d_t, gids_t, f_d_t, rho_inv_d_t>;
+  using functor_t = AddForcingRank2<sc_t, state_d_t, gids_t, f_d_t, rho_inv_d_t>;
   functor_t fnc(dt, xVp_d, vpGids_d, f_d, rhoInvVp_d);
   Kokkos::parallel_for(vpGids_d.extent(0), fnc);
 
