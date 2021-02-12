@@ -117,25 +117,6 @@ updateVelocity(const sc_t & dt,
   using functor_t = AddForcingRank2<sc_t, state_d_t, gids_t, f_d_t, rho_inv_d_t>;
   functor_t fnc(dt, xVp_d, vpGids_d, f_d, rhoInvVp_d);
   Kokkos::parallel_for(vpGids_d.extent(0), fnc);
-
-
-  //constexpr auto one  = constants<sc_t>::one();
-  // if (exploitForcingSparsity){
-  //   // xVp = xVp + dt * Jvp * xSp
-  //   KokkosSparse::spmv(KokkosSparse::NoTranspose, dt, jacVp_d, xSp_d, one, xVp_d);
-
-  //   const auto vpGid   = fObj.getVpGid();
-  //   auto f_v = fObj.getForcingAtStep(step);
-  //   for (std::size_t j=0; j<xVp_d.extent(1); ++j)
-  //     xVp_d(vpGid, j) += rhoInvVp_d(vpGid)*f_v(j)*dt;
-
-  //   //auto alpha = rhoInvVp_d(vpGid)*dt;
-  //   // auto x_v = Kokkos::subview(xVp_d, vpGid, Kokkos::ALL());
-  //   // KokkosBlas::axpy(alpha, f_v, x_v);
-  // }
-  // else{
-  //throw std::runtime_error("FOM velo update for rank-2 not implemented yet");
-  //}
 }
 
 // rank-2 specialize

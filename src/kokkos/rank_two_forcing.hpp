@@ -71,16 +71,6 @@ public:
     }
     Kokkos::deep_copy(myVpGids_d_, myVpGids_h_);
     computeMaxFrequency(signals);
-
-    // for (std::size_t i=0; i<signals.extent(0); ++i)
-    // {
-    //   const auto & signalIt = signals(i);
-    //   auto time = constants<sc_t>::zero();
-    //   for (std::size_t iStep = 1; iStep<=f_h_.extent(0); ++iStep){
-    // 	signalIt(time, f_h_(iStep-1, i));
-    // 	time = iStep * dt_;
-    //   }
-    // }
   }
 
   // for single source, max frquency is the frequency of the source signal
@@ -103,13 +93,6 @@ public:
       signalIt(time, f_h_(i));
     }
     Kokkos::deep_copy(f_d_, f_h_);
-
-    // // KokkosBlas::fill(f_d_, constants<sc_t>::zero());
-    // // for (std::size_t j=0; j<f_h_.extent(1); ++j){
-    // const auto src = Kokkos::subview(f_h_, step-1, Kokkos::ALL());
-    // //const auto des = Kokkos::subview(f_d_, myVpGids_(j), j);
-    // Kokkos::deep_copy(f_d_, src);
-    // // }
   }
 
   // void complexityOfEvaluateMethod(double & memCostMB, double & flopsCost) const
