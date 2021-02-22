@@ -5,7 +5,7 @@ Elastic Shear Waves
 :cover: {static}/img/top5.jpg
 :description: Performance-portable simulator for elastic shear waves.
 :summary: Performance-portable simulator for elastic shear waves.
-:hide_navbar_brand: True
+:hide_navbar_brand: False
 :landing:
     .. container:: m-row
 
@@ -62,68 +62,75 @@ Elastic Shear Waves
 
         .. container:: m-col-l-11 m-push-l-1
 
-            **HIGHLIGHTS AND CAPABILITIES:**
+            .. note-info:: HIGHLIGHTS AND CAPABILITIES
 
-            * We use the velocity-shear formulation in an axi-symmetric domain, leading to a so-called 2.5 dimensional model.
+	    *  We use the velocity-shear formulation in an axi-symmetric domain, leading to a so-called 2.5 dimensional model.
 
-            * The code currently supports the following radial material models: a single layer,
-              a bilayer model and the Preliminary Reference Earth Model (PREM).
-              We remark that these are 1D models in the sense that they only depend on the radial distance.
-              Given the modularity of the code, one can easily add other material models.
+	    *  The code currently supports the following radial material models: a single layer,
+	       a bilayer model and the Preliminary Reference Earth Model (PREM).
+	       We remark that these are 1D models in the sense that they only depend on the radial distance.
+	       Given the modularity of the code, one can easily add other material models.
 
-	    * The modular strucuture of the code makes it easy to simulate
-	      the wave dynamics in another planet/axisymmetric body:
-	      one just has to create a grid suitable for that planet, and a suitable material model.
+	    *  The modular strucuture of the code makes it easy to simulate
+	       the wave dynamics in another planet/axisymmetric body:
+	       one just has to create a grid suitable for that planet, and a suitable material model.
 
-            * The current implementation relies on Kokkos, but we are porting the code to other programming models.
+	    *  The current implementation relies on Kokkos, but we are porting the code to other programming models.
 
-            * The code implements what we call "rank-1" and "rank-2" formulations:
+	    *  The code implements what we refer to as "rank-1" and "rank-2" formulations:
 
-                * rank-1:
-                    * the discrete state and forcing term are stored using 1D arrays
-                    * this is used to simulate the case of a *single forcing term*
+	       *  *rank-1*:
 
-                * rank-2:
-                    * the discrete state and forcing term are stored using rank-2 tensors (i.e. matrices)
-                    * this is useful to simultaneously solve the wave problem
-		      for *multiple forcing realizations* (e.g. multiple source locations and/or periods).
-		      This rank-2 formulation has an advantage from a computational
-                      standpoint because it has higher computational intensity,
-		      thus benefiting efficient ensemble propagation
+		 * the discrete state and forcing term are stored using 1D arrays
+
+		 * this is used to simulate the case of a *single forcing term*
+
+	       *  *rank-2*:
+
+		 * the discrete state and forcing term are stored using rank-2 tensors (i.e. matrices)
+		 * this is useful to simultaneously solve the wave problem
+		   for *multiple forcing realizations* (e.g. multiple source locations and/or periods).
+		   This rank-2 formulation has an advantage from a computational
+		   standpoint because it has higher computational intensity,
+		   thus benefiting efficient ensemble propagation
+
 
     .. container:: m-row
 
-        .. container:: m-col-l-9 m-push-l-1
+        .. container:: m-col-l-11 m-push-l-1
 
-	    **GET STARTED:**
+            .. note-success:: GET STARTED
 
-            1. read about the `governing equations, domain and discretization <{filename}/getstarted/goveq.rst>`_
+	    -  build the code choosing one of the following versions:
 
-            2. build the code in one of the following versions:
+	         -  `Host serial Kokkos <{filename}/build/kokkos_host_serial.rst>`_: Kokkos-only version with *host serial* backend
 
-	       * `Host serial Kokkos <{filename}/build/kokkos_host_serial.rst>`_: Kokkos-only version with *host serial* backend
+	         -  `Host OpenMP Kokkos <{filename}/build/kokkos_host_omp.rst>`_: Kokkos-only version with *host OpenMP* backend
 
-	       * `Host OpenMP Kokkos <{filename}/build/kokkos_host_omp.rst>`_: Kokkos-only version with *host OpenMP* backend
+	    -  read about the `governing equations, domain and discretization <{filename}/getstarted/goveq.rst>`_
 
-            3. Explore the demos:
+	    -  learn about how the `input file <{filename}/getstarted/inputfile.rst>`_
 
-	       1. `single forcing <{filename}/demos/rank1fom.rst>`_: the most basic case involving a single forcing term
+	    -  learn about how the `material models supported <{filename}/getstarted/materialmodels.rst>`_
 
-	       2. `rank-1 simulation to solve for multiple-depths <{filename}/demos/rank1fommulti.rst>`_:
-	          we use the rank-1 formulation to run multiple simulations corresponding to different realizations of the source depth
+	    -  Explore the demos:
 
-	       3. `rank-2 simulation to solve for multiple-depths <{filename}/demos/rank2fom.rst>`_:
-		  same objective as in the demo above, except that we rely on the
-		  rank-2 formulation to propagate multiple samples *simultaneously*
+	       `single forcing <{filename}/demos/rank1fom.rst>`_:
+	           the most basic case involving a single forcing term
 
-	    4. learn about how the `input file <{filename}/getstarted/inputfile.rst>`_
+	       `rank-1 simulation to solve for multiple-depths <{filename}/demos/rank1fommulti.rst>`_:
+	           we use the rank-1 formulation to run multiple simulations corresponding to different realizations of the source depth
 
-	    5. learn about how the `material models supported <{filename}/getstarted/materialmodels.rst>`_
+	       `rank-2 simulation to solve for multiple-depths <{filename}/demos/rank2fom.rst>`_:
+	           same objective as demo above, but we use the rank-2 formulation to propagate multiple samples *simultaneously*
+
 
 
     .. container:: m-row
 
         .. container:: m-col-l-10 m-push-l-1
 
-            If you use the code, please cite:
-            *A compute-bound formulation of Galerkin model reduction for linear time-invariant dynamical systems*, by F.Rizzi, E.J.Parish, P.J.Blonigan, J.Tencer (https://arxiv.org/abs/2009.11742).
+
+	    .. block-danger:: If you use this code, please cite:
+
+			    *A compute-bound formulation of Galerkin model reduction for linear time-invariant dynamical systems*, by F.Rizzi, E.J.Parish, P.J.Blonigan, J.Tencer (https://arxiv.org/abs/2009.11742).
