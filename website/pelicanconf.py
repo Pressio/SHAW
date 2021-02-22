@@ -39,9 +39,9 @@ PAGE_SAVE_AS = '{slug}/index.html'
 # DRAFT_SAVE_AS = 'blog/{slug}/index.html'
 # AUTHOR_URL = 'blog/author/{slug}/'
 # AUTHOR_SAVE_AS = 'blog/author/{slug}/index.html'
-# CATEGORY_URL = 'blog/{slug}/'
-# CATEGORY_SAVE_AS = 'blog/{slug}/index.html'
-# TAG_URL = 'blog/tag/{slug}/'
+CATEGORY_URL = '{slug}/'
+# CATEGORY_SAVE_AS = '{slug}/index.html'
+# TAG_URL = 'tag/{slug}/'
 # TAG_SAVE_AS = 'blog/tag/{slug}/index.html'
 
 AUTHORS_SAVE_AS = None # Not used
@@ -68,11 +68,17 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
-M_LINKS_NAVBAR1 = [('Get Started', '', '',
+M_LINKS_NAVBAR1 = [('Build', '', '',
+                    [
+                      ("Host Serial Kokkos Build", 'build/kokkos_host_serial', ''),
+                      ("Host OpenMP Kokkos Build", 'build/kokkos_host_omp',    '')
+                    ]),
+
+                    ('Get Started', '', '',
                     [
                       ("Equations and discretization", 'getstarted/goveq', 'getstarted/goveq'),
-                      ("Host Serial Kokkos Build", 'getstarted/build_kokkos_host_serial', 'getstarted/build_kokkos_host_serial'),
-                      ("Host OpenMP Kokkos Build", 'getstarted/build_kokkos_host_omp', 'getstarted/build_kokkos_host_omp')
+                      ('Input File', 'getstarted/inputfile', 'getstarted/inputfile'),
+                      ('Material Models', 'getstarted/materialmodels', 'getstarted/materialmodels'),
                     ]),
 
                    ('Demos', '', '',
@@ -82,7 +88,7 @@ M_LINKS_NAVBAR1 = [('Get Started', '', '',
                       ("Multi-forcing Run wirh rank-2", 'demos/rank2fom', 'demos/rank2fom')
                     ]),
 
-                   ('Various', '', '', [("License", 'various/license/', 'various/license')])]
+                   ('Various', '', '', [("License", 'license', 'license')])]
 M_LINKS_NAVBAR2 = []
 M_LINKS_FOOTER1 = []
 M_LINKS_FOOTER2 = []
@@ -148,11 +154,12 @@ if not shutil.which('latex'):
     logging.warning("LaTeX not found, fallback to rendering math as code")
     M_MATH_RENDER_AS_CODE = True
 
-DIRECT_TEMPLATES = ['archives']
-PAGINATED_TEMPLATES = {'archives': None, 'tag': None, 'category': None, 'author': None}
+# DIRECT_TEMPLATES = ['archives']
+# PAGINATED_TEMPLATES = {'archives': None, 'tag': None, 'category': None, 'author': None}
 
 SLUGIFY_SOURCE = 'basename'
-PATH_METADATA = '(blog/)?(?P<slug>.+).rst'
+# PATH_METADATA = '(blog/)?(?P<slug>.+).rst'
+PATH_METADATA = '(?P<slug>.*)\..*'
 SLUG_REGEX_SUBSTITUTIONS = [
         (r'[^\w\s-]', ''),  # remove non-alphabetical/whitespace/'-' chars
         (r'(?u)\A\s*', ''),  # strip leading whitespace

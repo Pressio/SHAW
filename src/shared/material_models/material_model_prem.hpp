@@ -40,16 +40,6 @@ and r_surface=6371 km. It seems you are using a domain/mesh that does NOT match 
 		 scalar_t & rho,
 		 scalar_t & vs) const final
   {
-    // // cmb stands for core-mantle boundary
-    // constexpr scalar_t cmbRadiusKm(){ return static_cast<scalar_t>(3480); }
-    // constexpr scalar_t cmbDepthKm(){ return earthSurfaceRadiusKm() - cmbRadiusKm(); }
-    // constexpr scalar_t earthSurfaceRadiusKm(){ return  }
-    // constexpr scalar_t earthSurfaceRadiusMeters(){ return  }
-
-    // constexpr auto esrKm     = static_cast<scalar_t>(6371);
-    // constexpr auto esrMeters = static_cast<scalar_t>(6371000);
-
-
     // If you use the Preliminary reference Earth model (PREM)
     // for your own research, please refer to
     // Dziewonski, A.M., and D.L. Anderson. 1981. “Preliminary reference Earth model.” Phys. Earth Plan. Int. 25:297-356.

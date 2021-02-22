@@ -3,12 +3,13 @@ Single Forcing Run
 
 :breadcrumb: {filename}/rank1fom.rst
 :summary: Single Forcing FOM
+:date: 2021-02-12 11:00
 
 .. container::
 
    This demo shows step-by-step how to create and run a simulation for a single forcing.
 
-   Here we assume you already followed the `step-by-step guide <{filename}/getstarted/build_kokkos_host_serial.rst>`_
+   Here we assume you already followed the `step-by-step guide <{filename}/build/kokkos_host_serial.rst>`_
    to build the code and used ``MYWORKDIR`` as the working directory for that procedure,
    so that ``${MYWORKDIR}/build`` contains all the executables.
 

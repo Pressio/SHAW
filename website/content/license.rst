@@ -2,6 +2,7 @@ License
 #################
 
 :summary: Legal info
+:date: 2021-02-12 11:00
 
 .. code:: c++
 

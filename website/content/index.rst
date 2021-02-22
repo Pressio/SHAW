@@ -3,7 +3,6 @@ Elastic Shear Waves
 
 :save_as: index.html
 :cover: {static}/img/top5.jpg
-:url:
 :description: Performance-portable simulator for elastic shear waves.
 :summary: Performance-portable simulator for elastic shear waves.
 :hide_navbar_brand: True
@@ -65,22 +64,6 @@ Elastic Shear Waves
 
             **HIGHLIGHTS AND CAPABILITIES:**
 
-            * | The current implementation relies on Kokkos, but we are porting the code to other programming models.
-
-            * The code implements what we call "rank-1" and "rank-2" formulations:
-
-                * rank-1:
-                    * the discrete state and forcing term are stored using 1D arrays
-                    * this is used to simulate the case of a *single forcing realization*
-
-                * rank-2:
-                    * the discrete state and forcing term are stored using rank-2 tensors (i.e. matrices)
-                    * this is useful to simultaneously solve the wave dyanmics
-		      for *multiple forcing realizations* (e.g. multiple source locations and/or periods).
-		      This rank-2 formulation has an advantage from a computational
-                      standpoint because it has higher computational intensity,
-		      thus benefiting efficient ensemble propagation
-
             * We use the velocity-shear formulation in an axi-symmetric domain, leading to a so-called 2.5 dimensional model.
 
             * The code currently supports the following radial material models: a single layer,
@@ -92,6 +75,22 @@ Elastic Shear Waves
 	      the wave dynamics in another planet/axisymmetric body:
 	      one just has to create a grid suitable for that planet, and a suitable material model.
 
+            * The current implementation relies on Kokkos, but we are porting the code to other programming models.
+
+            * The code implements what we call "rank-1" and "rank-2" formulations:
+
+                * rank-1:
+                    * the discrete state and forcing term are stored using 1D arrays
+                    * this is used to simulate the case of a *single forcing term*
+
+                * rank-2:
+                    * the discrete state and forcing term are stored using rank-2 tensors (i.e. matrices)
+                    * this is useful to simultaneously solve the wave problem
+		      for *multiple forcing realizations* (e.g. multiple source locations and/or periods).
+		      This rank-2 formulation has an advantage from a computational
+                      standpoint because it has higher computational intensity,
+		      thus benefiting efficient ensemble propagation
+
     .. container:: m-row
 
         .. container:: m-col-l-9 m-push-l-1
@@ -100,24 +99,26 @@ Elastic Shear Waves
 
             1. read about the `governing equations, domain and discretization <{filename}/getstarted/goveq.rst>`_
 
-            2. build the code using of the following versions:
+            2. build the code in one of the following versions:
 
-	       * `Host serial Kokkos <{filename}/getstarted/build_kokkos_host_serial.rst>`_: Kokkos-only version with *host serial* backend
+	       * `Host serial Kokkos <{filename}/build/kokkos_host_serial.rst>`_: Kokkos-only version with *host serial* backend
 
-	       * `Host OpenMP Kokkos <{filename}/getstarted/build_kokkos_host_omp.rst>`_: Kokkos-only version with *host OpenMP* backend
+	       * `Host OpenMP Kokkos <{filename}/build/kokkos_host_omp.rst>`_: Kokkos-only version with *host OpenMP* backend
 
             3. Explore the demos:
 
-	       1. `single forcing <{filename}/demos/rank1fom.rst>`_: the most basic case involving simulating the dynamic for a single forcing term
+	       1. `single forcing <{filename}/demos/rank1fom.rst>`_: the most basic case involving a single forcing term
 
-	       2. `multi-depth simulation with rank-1 formulation <{filename}/demos/rank1fommulti.rst>`_:
+	       2. `rank-1 simulation to solve for multiple-depths <{filename}/demos/rank1fommulti.rst>`_:
 	          we use the rank-1 formulation to run multiple simulations corresponding to different realizations of the source depth
 
-	       3. `multi-depth simulation with rank-2 formulation <{filename}/demos/rank2fom.rst>`_:
-		  same objective as in the demo-2 above, except that we rely on the
+	       3. `rank-2 simulation to solve for multiple-depths <{filename}/demos/rank2fom.rst>`_:
+		  same objective as in the demo above, except that we rely on the
 		  rank-2 formulation to propagate multiple samples *simultaneously*
 
-            6. learn about the structure of the input file
+	    4. learn about how the `input file <{filename}/getstarted/inputfile.rst>`_
+
+	    5. learn about how the `material models supported <{filename}/getstarted/materialmodels.rst>`_
 
 
     .. container:: m-row

@@ -3,13 +3,14 @@ Multi-forcing Run with rank-1
 
 :breadcrumb: {filename}/rank1fommulti.rst
 :summary: Multi-forcing with rank-1
+:date: 2021-02-12 11:00
 
 .. container::
 
    This demo shows step-by-step how to create and run a simulation for multiple forcings using the rank-1 version.
    We demonstrate how one can edit the input file to
 
-   Here we assume you already followed the `step-by-step guide <{filename}/getstarted/build_kokkos_host_serial.rst>`_
+   Here we assume you already followed the `step-by-step guide <{filename}/build/kokkos_host_serial.rst>`_
    to build the code and used ``MYWORKDIR`` as the working directory for that procedure,
    so that ``${MYWORKDIR}/build`` contains all the executables.
 

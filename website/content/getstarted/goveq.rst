@@ -3,6 +3,7 @@ Governing Equations and Discretization
 
 :breadcrumb: {filename}/goveq.rst
 :summary: Equations and Discretization
+:date: 2021-02-22 11:00
 
 .. role:: math-info(math)
     :class: m-default
