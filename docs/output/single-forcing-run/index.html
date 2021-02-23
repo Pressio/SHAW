@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <title> &raquo; Single Forcing Run | SHAW</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,600%7CSource+Sans+Pro:400,400i,600,600i&amp;subset=latin-ext" />
-  <link rel="stylesheet" href="http://francescorizzi.net/shaw/output/static/m-dark.css" />
-  <link rel="canonical" href="http://francescorizzi.net/shaw/output/single-forcing-run/" />
+  <link rel="stylesheet" href="http://francescorizzi.net/shaw/static/m-dark.css" />
+  <link rel="canonical" href="http://francescorizzi.net/shaw/single-forcing-run/" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#22272e" />
   <meta property="og:site_name" content="SHAW" />
   <meta property="og:title" content="Single Forcing Run" />
   <meta name="twitter:title" content="Single Forcing Run" />
-  <meta property="og:url" content="http://francescorizzi.net/shaw/output/single-forcing-run/" />
+  <meta property="og:url" content="http://francescorizzi.net/shaw/single-forcing-run/" />
   <meta property="og:description" content="This demo shows step-by-step how to create and run a simulation for a single forcing." />
   <meta name="twitter:description" content="This demo shows step-by-step how to create and run a simulation for a single forcing." />
   <meta name="twitter:card" content="summary" />
@@ -21,36 +21,36 @@
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a href="http://francescorizzi.net/shaw/output/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHAW</a>
+      <a href="http://francescorizzi.net/shaw/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHAW</a>
       <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
         <div class="m-row">
           <ol class="m-col-t-12 m-col-m-none">
             <li>
-              <a href="http://francescorizzi.net/shaw/output/">Build</a>
+              <a href="http://francescorizzi.net/shaw/">Build</a>
               <ol>
-                <li><a href="http://francescorizzi.net/shaw/output/host-serial-kokkod-build/">Host Serial Kokkos Build</a></li>
-                <li><a href="http://francescorizzi.net/shaw/output/host-openmp-kokkos-build/">Host OpenMP Kokkos Build</a></li>
+                <li><a href="http://francescorizzi.net/shaw/host-serial-kokkod-build/">Host Serial Kokkos Build</a></li>
+                <li><a href="http://francescorizzi.net/shaw/host-openmp-kokkos-build/">Host OpenMP Kokkos Build</a></li>
               </ol>
             </li>
             <li>
-              <a href="http://francescorizzi.net/shaw/output/">Get Started</a>
+              <a href="http://francescorizzi.net/shaw/">Get Started</a>
               <ol>
-                <li><a href="http://francescorizzi.net/shaw/output/governing-equations-and-discretization/">Equations and discretization</a></li>
-                <li><a href="http://francescorizzi.net/shaw/output/input-file/">Input File</a></li>
-                <li><a href="http://francescorizzi.net/shaw/output/material-models/">Material Models</a></li>
+                <li><a href="http://francescorizzi.net/shaw/governing-equations-and-discretization/">Equations and discretization</a></li>
+                <li><a href="http://francescorizzi.net/shaw/input-file/">Input File</a></li>
+                <li><a href="http://francescorizzi.net/shaw/material-models/">Material Models</a></li>
               </ol>
             </li>
             <li>
-              <a href="http://francescorizzi.net/shaw/output/">Demos</a>
+              <a href="http://francescorizzi.net/shaw/">Demos</a>
               <ol>
-                <li><a href="http://francescorizzi.net/shaw/output/single-forcing-run/">Single Forcing Run</a></li>
-                <li><a href="http://francescorizzi.net/shaw/output/multi-forcing-run-with-rank-1/">Multi-forcing Run with rank-1</a></li>
-                <li><a href="http://francescorizzi.net/shaw/output/multi-forcing-run-with-rank-2/">Multi-forcing Run wirh rank-2</a></li>
+                <li><a href="http://francescorizzi.net/shaw/single-forcing-run/">Single Forcing Run</a></li>
+                <li><a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1/">Multi-forcing Run with rank-1</a></li>
+                <li><a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-2/">Multi-forcing Run wirh rank-2</a></li>
               </ol>
             </li>
-            <li><a href="http://francescorizzi.net/shaw/output/license">License</a></li>
+            <li><a href="http://francescorizzi.net/shaw/license">License</a></li>
           </ol>
         </div>
       </div>
@@ -64,7 +64,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb">
-            <a href="http://francescorizzi.net/shaw/output/single-forcing-run/"></a> &raquo;
+            <a href="http://francescorizzi.net/shaw/single-forcing-run/"></a> &raquo;
           </span>
           Single Forcing Run
         </h1>
@@ -170,7 +170,7 @@ snaps_sp_0    <span class="c1">#: snapshot matrix for the stresses</span></pre>
 <pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
 python plotSeismogram.py</pre>
 <figure class="m-figure">
-<img src="http://francescorizzi.net/shaw/output/static/img/demo1_f1.png" />
+<img src="http://francescorizzi.net/shaw/static/img/demo1_f1.png" />
 </figure>
 <p>Then, we can extract and visualize the full wavefield at <code>t=250, 1000, 2000</code> (seconds):</p>
 <pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
@@ -183,17 +183,17 @@ python plotWavefield.py</pre>
 <div class="m-imagegrid m-container-inflate">
 <div>
 <figure style="width: 34.273%">
-<a href="http://francescorizzi.net/shaw/output/static/img/demo1_f2.png"><img src="http://francescorizzi.net/shaw/output/static/img/demo1_f2.png" /><div>
+<a href="http://francescorizzi.net/shaw/static/img/demo1_f2.png"><img src="http://francescorizzi.net/shaw/static/img/demo1_f2.png" /><div>
 </div>
 </a>
 </figure>
 <figure style="width: 31.753%">
-<a href="http://francescorizzi.net/shaw/output/static/img/demo1_f3.png"><img src="http://francescorizzi.net/shaw/output/static/img/demo1_f3.png" /><div>
+<a href="http://francescorizzi.net/shaw/static/img/demo1_f3.png"><img src="http://francescorizzi.net/shaw/static/img/demo1_f3.png" /><div>
 </div>
 </a>
 </figure>
 <figure style="width: 33.974%">
-<a href="http://francescorizzi.net/shaw/output/static/img/demo1_f4.png"><img src="http://francescorizzi.net/shaw/output/static/img/demo1_f4.png" /><div>
+<a href="http://francescorizzi.net/shaw/static/img/demo1_f4.png"><img src="http://francescorizzi.net/shaw/static/img/demo1_f4.png" /><div>
 </div>
 </a>
 </figure>
