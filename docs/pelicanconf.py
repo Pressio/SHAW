@@ -39,10 +39,10 @@ PAGE_SAVE_AS = '{slug}/index.html'
 # DRAFT_SAVE_AS = 'blog/{slug}/index.html'
 # AUTHOR_URL = 'blog/author/{slug}/'
 # AUTHOR_SAVE_AS = 'blog/author/{slug}/index.html'
-CATEGORY_URL = '{slug}/'
-CATEGORY_SAVE_AS = '' #'{slug}/index.html'
-TAG_URL = 'tag/{slug}/'
-TAG_SAVE_AS = '' #'blog/tag/{slug}/index.html'
+# CATEGORY_URL = '{slug}/'
+# CATEGORY_SAVE_AS = '' #'{slug}/index.html'
+# TAG_URL = 'tag/{slug}/'
+# TAG_SAVE_AS = '' #'blog/tag/{slug}/index.html'
 
 AUTHORS_SAVE_AS = None # Not used
 CATEGORIES_SAVE_AS = None # Not used
@@ -142,29 +142,29 @@ M_THEME_COLOR = '#22272e'
 M_HTMLSANITY_SMART_QUOTES = True
 M_HTMLSANITY_HYPHENATION = True
 
-# _magnum_colors_src = re.compile(r"""<span class="mh">0x(?P<hex>[0-9a-f]{6})(?P<alpha>[0-9a-f]{2})?(?P<literal>_s?rgba?f?)</span>""")
-# _magnum_colors_dst = r"""<span class="mh">0x\g<hex>\g<alpha>\g<literal><span class="m-code-color" style="background-color: #\g<hex>;"></span></span>"""
+_magnum_colors_src = re.compile(r"""<span class="mh">0x(?P<hex>[0-9a-f]{6})(?P<alpha>[0-9a-f]{2})?(?P<literal>_s?rgba?f?)</span>""")
+_magnum_colors_dst = r"""<span class="mh">0x\g<hex>\g<alpha>\g<literal><span class="m-code-color" style="background-color: #\g<hex>;"></span></span>"""
 # #_zwnj_in_console_colors_src = re.compile(
 
-# M_CODE_FILTERS_POST = {
-#     'C++': lambda str: _magnum_colors_src.sub(_magnum_colors_dst, str)
-# }
+M_CODE_FILTERS_POST = {
+    'C++': lambda str: _magnum_colors_src.sub(_magnum_colors_dst, str)
+}
 
-# if not shutil.which('latex'):
-#     logging.warning("LaTeX not found, fallback to rendering math as code")
-#     M_MATH_RENDER_AS_CODE = True
+if not shutil.which('latex'):
+    logging.warning("LaTeX not found, fallback to rendering math as code")
+    M_MATH_RENDER_AS_CODE = True
 
-# DIRECT_TEMPLATES = ['archives']
-# PAGINATED_TEMPLATES = {'archives': None, 'tag': None, 'category': None, 'author': None}
+DIRECT_TEMPLATES = ['archives']
+PAGINATED_TEMPLATES = {'archives': None, 'tag': None, 'category': None, 'author': None}
 
-# SLUGIFY_SOURCE = 'basename'
+SLUGIFY_SOURCE = 'basename'
 # PATH_METADATA = '(?P<slug>.+).rst'
-# PATH_METADATA = '(blog/)?(?P<slug>.+).rst'
+PATH_METADATA = '(blog/)?(?P<slug>.+).rst'
 # PATH_METADATA = '(?P<slug>.*)\..*'
-# SLUG_REGEX_SUBSTITUTIONS = [
-#         (r'[^\w\s-]', ''),  # remove non-alphabetical/whitespace/'-' chars
-#         (r'(?u)\A\s*', ''),  # strip leading whitespace
-#         (r'(?u)\s*\Z', ''),  # strip trailing whitespace
-#         (r'[-\s]+', '-'),  # reduce multiple whitespace or '-' to single '-'
-#         (r'C\+\+', 'cpp'),
-#     ]
+SLUG_REGEX_SUBSTITUTIONS = [
+        (r'[^\w\s-]', ''),  # remove non-alphabetical/whitespace/'-' chars
+        (r'(?u)\A\s*', ''),  # strip leading whitespace
+        (r'(?u)\s*\Z', ''),  # strip trailing whitespace
+        (r'[-\s]+', '-'),  # reduce multiple whitespace or '-' to single '-'
+        (r'C\+\+', 'cpp'),
+    ]
