@@ -9,7 +9,7 @@ M_SITE_LOGO_TEXT = 'SHWAV'
 
 SITENAME = 'ShWav'
 SITESUBTITLE = 'Elastic Shear Waves'
-SITEURL = '.' 
+SITEURL = '' 
 # https://github.com/fnrizzi/SHAW/docs/output'
 
 # M_BLOG_NAME = ''
