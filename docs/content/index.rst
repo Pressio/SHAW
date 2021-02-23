@@ -64,10 +64,10 @@ Shear Waves Simulator
 
             .. note-info:: HIGHLIGHTS AND CAPABILITIES
 
-	    *  We use the `velocity-shear formulation in an axi-symmetric domain <{filename}/getstarted/goveq.rst>`_,
+	    *  We use the `velocity-shear formulation in an axi-symmetric domain <{filename}/goveq.rst>`_,
 	       leading to a so-called 2.5 dimensional model;
 
-	    *  The code currently supports the following `radial material models <{filename}/getstarted/materialmodels.rst>`_:
+	    *  The code currently supports the following `radial material models <{filename}/materialmodels.rst>`_:
 	       a single layer, a bilayer model, the Preliminary Reference Earth Model (PREM) and custom.
 	       These are 1D models in the sense that they only depend on the radial distance.
 	       Given the modularity of the code, one can easily add other material models;
@@ -104,25 +104,25 @@ Shear Waves Simulator
 
 	    -  Build the code choosing one of the following versions:
 
-	         -  `Host serial Kokkos <{filename}/building/kokkos_host_serial.rst>`_: Kokkos-only version with *host serial* backend
+	         -  `Host serial Kokkos <{filename}/kokkos_host_serial.rst>`_: Kokkos-only version with *host serial* backend
 
-	         -  `Host OpenMP Kokkos <{filename}/building/kokkos_host_omp.rst>`_: Kokkos-only version with *host OpenMP* backend
+	         -  `Host OpenMP Kokkos <{filename}/kokkos_host_omp.rst>`_: Kokkos-only version with *host OpenMP* backend
 
-	    -  Read about the `governing equations, domain and discretization <{filename}/getstarted/goveq.rst>`_;
+	    -  Read about the `governing equations, domain and discretization <{filename}/goveq.rst>`_;
 
-	    -  Learn about how the `input file <{filename}/getstarted/inputfile.rst>`_;
+	    -  Learn about how the `input file <{filename}/inputfile.rst>`_;
 
-	    -  Learn about how the `material models supported <{filename}/getstarted/materialmodels.rst>`_;
+	    -  Learn about how the `material models supported <{filename}/materialmodels.rst>`_;
 
 	    -  Explore the demos:
 
-	       `single forcing <{filename}/demos/rank1fom.rst>`_:
+	       `single forcing <{filename}/rank1fom.rst>`_:
 	           the most basic case involving a single forcing term
 
-	       `rank-1 simulation to solve for multiple-depths <{filename}/demos/rank1fommulti.rst>`_:
+	       `rank-1 simulation to solve for multiple-depths <{filename}/rank1fommulti.rst>`_:
 	           we use the rank-1 formulation to sequentially solve the dynamics for different realizations of the source depth
 
-	       `rank-2 simulation to solve for multiple-depths <{filename}/demos/rank2fom.rst>`_:
+	       `rank-2 simulation to solve for multiple-depths <{filename}/rank2fom.rst>`_:
 	           same objective as demo above, but we use the rank-2 formulation to propagate multiple samples *simultaneously*
 
 

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8" />
+  <title>Shear Waves Simulator | SHAW</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,600%7CSource+Sans+Pro:400,400i,600,600i&amp;subset=latin-ext" />
+  <link rel="stylesheet" href="https://fnrizzi.github.io/SHAW/docs/static/m-dark.css" />
+  <link rel="canonical" href="https://fnrizzi.github.io/SHAW/docs/shear-waves-simulator/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+  <meta name="description" content="Performance-portable simulator for (elastic) shear waves." />
+  <meta property="og:site_name" content="SHAW" />
+  <meta property="og:title" content="Shear Waves Simulator" />
+  <meta name="twitter:title" content="Shear Waves Simulator" />
+  <meta property="og:url" content="https://fnrizzi.github.io/SHAW/docs/shear-waves-simulator/" />
+  <meta property="og:description" content="Performance-portable simulator for (elastic) shear waves." />
+  <meta name="twitter:description" content="Performance-portable simulator for (elastic) shear waves." />
+  <meta property="og:image" content="https://fnrizzi.github.io/SHAW/docs/static/img/top5.jpg" />
+  <meta name="twitter:image" content="https://fnrizzi.github.io/SHAW/docs/static/img/top5.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:type" content="page" />
+</head>
+<body>
+<header><nav id="navigation" class="m-navbar-landing">
+  <div class="m-container">
+    <div class="m-row">
+      <a href="https://fnrizzi.github.io/SHAW/docs/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHAW</a>
+      <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-12 m-col-m-none">
+            <li>
+              <a href="https://fnrizzi.github.io/SHAW/docs/">Build</a>
+              <ol>
+                <li><a href="https://fnrizzi.github.io/SHAW/docs/host-serial-kokkod-build/">Host Serial Kokkos Build</a></li>
+                <li><a href="https://fnrizzi.github.io/SHAW/docs/host-openmp-kokkos-build/">Host OpenMP Kokkos Build</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="https://fnrizzi.github.io/SHAW/docs/">Get Started</a>
+              <ol>
+                <li><a href="https://fnrizzi.github.io/SHAW/docs/governing-equations-and-discretization/">Equations and discretization</a></li>
+                <li><a href="https://fnrizzi.github.io/SHAW/docs/input-file/">Input File</a></li>
+                <li><a href="https://fnrizzi.github.io/SHAW/docs/material-models/">Material Models</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="https://fnrizzi.github.io/SHAW/docs/">Demos</a>
+              <ol>
+                <li><a href="https://fnrizzi.github.io/SHAW/docs/single-forcing-run/">Single Forcing Run</a></li>
+                <li><a href="https://fnrizzi.github.io/SHAW/docs/multi-forcing-run-with-rank-1/">Multi-forcing Run with rank-1</a></li>
+                <li><a href="https://fnrizzi.github.io/SHAW/docs/multi-forcing-run-with-rank-2/">Multi-forcing Run wirh rank-2</a></li>
+              </ol>
+            </li>
+            <li><a href="https://fnrizzi.github.io/SHAW/docs/license">License</a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main>
+<article>
+  <div id="m-landing-image" style="background-image: url('https://fnrizzi.github.io/SHAW/docs/static/img/top5.jpg');">
+    <div id="m-landing-cover">
+      <div class="m-container">
+<!-- landing -->
+<div class="m-row">
+<div class="m-col-l-9 m-push-l-1 m-nopadb">
+<h1 style="text-transform:capitalize">SHeAr Waves (SHAW) Simulator</h1></div>
+</div>
+<div class="m-row">
+<div class="m-col-l-8 m-push-l-1">
+<p>Seismic modeling and simulation is an active field of research
+because of its critical importance to understand the generation,
+propagation and effects of earthquakes and artificial explosions.</p>
+<p>One can distinguish between two main types of seismic waves: shear and pressure.
+Shear waves are also called S-waves (or secondary) because they come
+after P-waves (or primary). The main difference between them is that S-waves
+are <em>transversal</em> (particles oscillate perpendicularly to the direction
+of wave propagation), while P-waves are <em>longitudinal</em> (particles oscillate
+in the same direction as the wave). Both P- and S-waves
+are body waves, because they travel through the interior of the Earth
+(or some other planet), and their evolution is affected
+by the generating source as well as the material properties of the medium,
+namely density, stiffness, composition, etc.</p>
+<p>Modeling and simulating these systems is challenging because (a) physical models
+contain a large number of parameters (e.g., anisotropic material properties,
+signal forms and parametrizations); and (b) simulating these systems at global scale
+with high-accuracy requires a large computational cost.</p>
+<p><em>This project contributes to the field by providing an open-source
+C++ code to simulate the generation and propagation of (elastic) shear waves in an axi-symmetric domain.</em></p>
+</div>
+<div class="m-col-l-3 m-push-l-1">
+<figure class="m-figure">
+<img src="https://fnrizzi.github.io/SHAW/docs/static/img/logo1.png" style="width: 351px" />
+</figure>
+</div>
+</div>
+<div class="m-row">
+<div class="m-col-l-11 m-push-l-1">
+<aside class="m-note m-info">
+<h3>HIGHLIGHTS AND CAPABILITIES</h3>
+</aside>
+<ul>
+<li><p>We use the <a href="https://fnrizzi.github.io/SHAW/docs/governing-equations-and-discretization/">velocity-shear formulation in an axi-symmetric domain</a>,
+leading to a so-called 2.5 dimensional model;</p>
+</li>
+<li><p>The code currently supports the following <a href="https://fnrizzi.github.io/SHAW/docs/material-models/">radial material models</a>:
+a single layer, a bilayer model, the Preliminary Reference Earth Model (PREM) and custom.
+These are 1D models in the sense that they only depend on the radial distance.
+Given the modularity of the code, one can easily add other material models;</p>
+</li>
+<li><p>The modular strucuture of the code makes it easy to simulate
+the wave dynamics in another planet/axisymmetric body:
+one just has to create a grid suitable for that planet, and a suitable material model;</p>
+</li>
+<li><p>The current implementation relies on Kokkos, but we are porting the code to other programming models;</p>
+</li>
+<li><p>The code implements what we refer to as “rank-1” and “rank-2” formulations:</p>
+<ul>
+<li><em>rank-1</em>:</li>
+</ul>
+<blockquote>
+<ul>
+<li>the discrete state and forcing term are stored using 1D arrays</li>
+<li>this is used to simulate the wave dynamics due to a <em>single forcing term</em></li>
+</ul>
+</blockquote>
+<ul>
+<li><em>rank-2</em>:</li>
+</ul>
+<blockquote>
+<ul>
+<li>the discrete state and forcing term are stored using rank-2 tensors (i.e. matrices)</li>
+<li>this is useful to <em>simultaneously</em> solve the wave dynamics
+for <em>multiple forcing realizations</em> (e.g. multiple source locations and/or periods).
+This rank-2 formulation has an advantage from a computational
+standpoint because it has higher computational intensity,
+thus benefiting efficient ensemble propagation</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+</div>
+</div>
+<div class="m-row">
+<div class="m-col-l-11 m-push-l-1">
+<aside class="m-note m-success">
+<h3>GET STARTED</h3>
+</aside>
+<ul>
+<li><p>Build the code choosing one of the following versions:</p>
+<blockquote>
+<ul>
+<li><a href="https://fnrizzi.github.io/SHAW/docs/host-serial-kokkod-build/">Host serial Kokkos</a>: Kokkos-only version with <em>host serial</em> backend</li>
+<li><a href="https://fnrizzi.github.io/SHAW/docs/host-openmp-kokkos-build/">Host OpenMP Kokkos</a>: Kokkos-only version with <em>host OpenMP</em> backend</li>
+</ul>
+</blockquote>
+</li>
+<li><p>Read about the <a href="https://fnrizzi.github.io/SHAW/docs/governing-equations-and-discretization/">governing equations, domain and discretization</a>;</p>
+</li>
+<li><p>Learn about how the <a href="https://fnrizzi.github.io/SHAW/docs/input-file/">input file</a>;</p>
+</li>
+<li><p>Learn about how the <a href="https://fnrizzi.github.io/SHAW/docs/material-models/">material models supported</a>;</p>
+</li>
+<li><p>Explore the demos:</p>
+<dl>
+<dt><a href="https://fnrizzi.github.io/SHAW/docs/single-forcing-run/">single forcing</a>:</dt>
+<dd><p>the most basic case involving a single forcing term</p>
+</dd>
+<dt><a href="https://fnrizzi.github.io/SHAW/docs/multi-forcing-run-with-rank-1/">rank-1 simulation to solve for multiple-depths</a>:</dt>
+<dd><p>we use the rank-1 formulation to sequentially solve the dynamics for different realizations of the source depth</p>
+</dd>
+<dt><a href="https://fnrizzi.github.io/SHAW/docs/multi-forcing-run-with-rank-2/">rank-2 simulation to solve for multiple-depths</a>:</dt>
+<dd><p>same objective as demo above, but we use the rank-2 formulation to propagate multiple samples <em>simultaneously</em></p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+<div class="m-row">
+<div class="m-col-l-10 m-push-l-1">
+<aside class="m-block m-danger">
+<h3>If you use this code, please cite:</h3>
+<p><em>A compute-bound formulation of Galerkin model reduction for linear time-invariant dynamical systems</em> — by F.Rizzi, E.J.Parish, P.J.Blonigan, J.Tencer (<a class="m-link-wrap" href="https://arxiv.org/abs/2009.11742">https://arxiv.org/abs/2009.11742</a>).</p>
+</aside>
+</div>
+</div>
+<!-- /landing -->
+      </div>
+    </div>
+  </div>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+      </div>
+    </div>
+  </div>
+</article>
+</main>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <p>
+        Site created by Francesco Rizzi. Powered by <a href="https://getpelican.com">Pelican</a>
+        and <a href="https://mcss.mosra.cz">m.css</a>, using a theme adapted from <a href="https://magnum.graphics/">magnum</a>.<br />
+        This site content is <a href="https://github.com/fnrizzi/SHAW">available on GitHub</a>.<br />
+        </p>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>

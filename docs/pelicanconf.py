@@ -9,7 +9,9 @@ M_SITE_LOGO_TEXT = 'SHAW'
 
 SITENAME = 'SHAW'
 SITESUBTITLE = 'Elastic Shear Waves'
-SITEURL = ''
+# SITEURL = 'http://francescorizzi.net/shaw/output'
+SITEURL = 'https://fnrizzi.github.io/SHAW/docs'
+# SITEURL = ''
 
 # M_BLOG_NAME = ''
 # M_BLOG_URL = 'blog/'
@@ -71,22 +73,22 @@ AUTHOR_FEED_RSS = None
 
 M_LINKS_NAVBAR1 = [('Build', '', '',
                     [
-                      ("Host Serial Kokkos Build", 'building/kokkos_host_serial/', ''),
-                      ("Host OpenMP Kokkos Build", 'building/kokkos_host_omp/',    '')
+                      ("Host Serial Kokkos Build", 'host-serial-kokkod-build/', ''),
+                      ("Host OpenMP Kokkos Build", 'host-openmp-kokkos-build/', '')
                     ]),
                   
                     ('Get Started', '', '',
                     [
-                      ("Equations and discretization", 'getstarted/goveq/',         ''),
-                      ('Input File',                   'getstarted/inputfile/',     ''),
-                      ('Material Models',              'getstarted/materialmodels/',''),
+                      ("Equations and discretization", 'governing-equations-and-discretization/',         ''),
+                      ('Input File',                   'input-file/',     ''),
+                      ('Material Models',              'material-models/',''),
                     ]),
 
                    ('Demos', '', '',
                     [
-                      ("Single Forcing Run",            'demos/rank1fom/',      ''),
-                      ("Multi-forcing Run with rank-1", 'demos/rank1fommulti/', ''),
-                      ("Multi-forcing Run wirh rank-2", 'demos/rank2fom/',      '')
+                      ("Single Forcing Run",            'single-forcing-run/', ''),
+                      ("Multi-forcing Run with rank-1", 'multi-forcing-run-with-rank-1/', ''),
+                      ("Multi-forcing Run wirh rank-2", 'multi-forcing-run-with-rank-2/', '')
                     ]),
 
                    ("License", 'license', 'license', [])
@@ -156,17 +158,17 @@ M_HTMLSANITY_HYPHENATION = True
 #     logging.warning("LaTeX not found, fallback to rendering math as code")
 #     M_MATH_RENDER_AS_CODE = True
 
-DIRECT_TEMPLATES = ['archives']
-PAGINATED_TEMPLATES = {'archives': None, 'tag': None, 'category': None, 'author': None}
+# DIRECT_TEMPLATES = ['archives']
+# PAGINATED_TEMPLATES = {'archives': None, 'tag': None, 'category': None, 'author': None}
 
-SLUGIFY_SOURCE = 'basename'
-PATH_METADATA = '(?P<slug>.+).rst'
-# PATH_METADATA = '(blog/)?(?P<slug>.+).rst'
-# PATH_METADATA = '(?P<slug>.*)\..*'
-SLUG_REGEX_SUBSTITUTIONS = [
-        (r'[^\w\s-]', ''),  # remove non-alphabetical/whitespace/'-' chars
-        (r'(?u)\A\s*', ''),  # strip leading whitespace
-        (r'(?u)\s*\Z', ''),  # strip trailing whitespace
-        (r'[-\s]+', '-'),  # reduce multiple whitespace or '-' to single '-'
-        (r'C\+\+', 'cpp'),
-    ]
+# SLUGIFY_SOURCE = 'basename'
+# PATH_METADATA = '(?P<slug>.+).rst'
+# # PATH_METADATA = '(blog/)?(?P<slug>.+).rst'
+# # PATH_METADATA = '(?P<slug>.*)\..*'
+# SLUG_REGEX_SUBSTITUTIONS = [
+#         (r'[^\w\s-]', ''),  # remove non-alphabetical/whitespace/'-' chars
+#         (r'(?u)\A\s*', ''),  # strip leading whitespace
+#         (r'(?u)\s*\Z', ''),  # strip trailing whitespace
+#         (r'[-\s]+', '-'),  # reduce multiple whitespace or '-' to single '-'
+#         (r'C\+\+', 'cpp'),
+#     ]
