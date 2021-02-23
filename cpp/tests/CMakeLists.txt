@@ -1,6 +1,0 @@
-
-add_subdirectory(fomInnerDomain)
-add_subdirectory(fomNearEarthSurface)
-add_subdirectory(fomNearCmb)
-add_subdirectory(fomSymmetryAxisThetaZero)
-add_subdirectory(fomSymmetryAxisThetaPi)

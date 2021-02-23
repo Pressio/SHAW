@@ -1,0 +1,91 @@
+
+# ----------------------------------------
+# general section is mandatory
+# ----------------------------------------
+general:
+  meshDir: # full path to mesh directory
+  dt: 1.   # time step size in seconds
+  finalTime: 150.  # final simulation time in seconds
+  checkNumericalDispersion: false   # enable/disable check for numerical dispersion
+  checkCfl: false                   # enable/disable CFL check
+
+# ----------------------------------------
+# io section and subnodes are optional
+# ----------------------------------------
+io:
+  # if the io section is missing, no output/data is generated
+  # if you only have the snapshotMatrix section, no seismogram is collected
+  # if you only have the seismogram section, no snapshots are collected
+ snapshotMatrix:
+   binary: true         # set false if you want to print ascii, true for binary
+   velocity:
+     freq: 1            # every how many time steps to sample velocity field
+     fileName: snaps_vp # filename to save snapshots to
+   stress:
+     freq: 1            # every how many time steps to sample stresses
+     fileName: snaps_sp # filename to save snapshots to
+
+ seismogram:
+   binary: false        # set false if you want to print ascii, true for binary
+   freq: 10             # every how many time steps to sample stresses
+   receivers: [25, 50, 120, 160]  # degrees of all receiver locations
+                                  # on surface where to collect seismograms
+
+# ----------------------------------------
+# source section is mandatory
+# ----------------------------------------
+source:
+  # the source section can be set up to cover three scenarios:
+  # 1. single forcing term
+  # 2. multi-forcing simulation solved by running sequential rank-1 solves
+  # 3. multi-forcing simulation solved by running sequential rank-2 solves
+
+  # Scenario 1.
+  #  Units: depth [km] | period [sec] | delay [sec]
+  signal: {kind: sinusoid, depth: 1100.0, period: 40., delay: 10.0}
+
+  # Scenario 2. - for example targeting multiple depths
+  signal: {kind: sinusoid, depth: [1100.0, 550, ...], period: 40., delay: 10.0}
+  # Scenario 2. - for example targeting multiple periods
+  signal: {kind: sinusoid, depth: 1100.0, period: [40., 45, 50., ...], delay: 10.0}
+
+  # Scenario 3.
+  # we target multiple depths in batches of 8 which means that
+  # the state/forcing have 8 columns, allowing us to simultaneously
+  # advance 8 solutions until all samples are complete
+  signal:
+    kind: sinusoid
+    depth: [1100.0, 550, ...]
+    period: 40.,
+    delay: 10.0
+    forcingSize: 8  # forcingSize>=2 enables rank-2 solution
+
+# ----------------------------------------
+# material section is mandatory
+# ----------------------------------------
+material:
+  # currently supports these choices:
+  # 1. a single layer
+  # 2. two layers
+  # 3. the prem model
+  # 4. custom model
+
+  # 1. unilayer: means a single material with no discontinuities)
+  kind: unilayer
+  # accepts coefficients parametrizing the density and shear velocity profile
+  layer: {density: [2000., 0., 0.], velocity: [5000., 0., 0.]}
+
+  # 3. bilayer (two layers with different materials separated by discontinuity)
+  # layer1 is the one right below the surface
+  # layer2 is the one starting at "depth" and down to cmb
+  kind: bilayer
+  layer1: {density: [2000., 0., 50.], velocity: [5000., 10., 44.]}
+  layer2: {depth: 556, density: [100., 0.5, 23.], velocity: [5000., 0., 0.]}
+
+  # 3. preliminary reference model
+  # this only makes sense if you model the earth
+  kind: prem
+
+  # 4. custom
+  # for this, fill the code at top of "main_fom.cc" to setup your custom material model
+  kind: custom

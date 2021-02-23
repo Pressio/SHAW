@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8" />
+  <title> &raquo; Host Serial Kokkos Build | ShWav</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,600%7CSource+Sans+Pro:400,400i,600,600i&amp;subset=latin-ext" />
+  <link rel="stylesheet" href="/static/m-dark.css" />
+  <link rel="canonical" href="/getstarted/build_kokkos_host_serial/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+  <meta property="og:site_name" content="ShWav" />
+  <meta property="og:title" content="Host Serial Kokkos Build" />
+  <meta name="twitter:title" content="Host Serial Kokkos Build" />
+  <meta property="og:url" content="/getstarted/build_kokkos_host_serial/" />
+  <meta property="og:description" content="Building with Host Serial Kokkos" />
+  <meta name="twitter:description" content="Building with Host Serial Kokkos" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:type" content="page" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHWAV</a>
+      <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-12 m-col-m-none">
+            <li>
+              <a href="/">Get Started</a>
+              <ol>
+                <li><a href="/getstarted/goveq">Equations and discretization</a></li>
+                <li><a href="/getstarted/build_kokkos_host_serial" id="m-navbar-current">Host Serial Kokkos Build</a></li>
+                <li><a href="/getstarted/build_kokkos_host_omp">Host OpenMP Kokkos Build</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/">Demos</a>
+              <ol>
+                <li><a href="/demos/rank1fom">Single Forcing Run</a></li>
+                <li><a href="/demos/rank2fom">Multi-forcing Run</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/">Various</a>
+              <ol>
+                <li><a href="/various/license/">License</a></li>
+              </ol>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main>
+<article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          <span class="m-breadcrumb">
+            <a href="{filename}/build_kokkos_host_serial.rst"></a> &raquo;
+          </span>
+          Host Serial Kokkos Build
+        </h1>
+<!-- content -->
+<section id="prerequisites">
+<h2><a href="#prerequisites">1. Prerequisites</a></h2>
+<ul>
+<li>CMake&gt;=3.13.0</li>
+<li>C, C++ (with support for c++14) compilers: we have tested this with GCC 8.3.1 and GCC 8.4.0</li>
+<li>BLAS/LAPACK: if you don’t have them, we provide a script to build them for you</li>
+</ul>
+</section>
+<section id="prepare-environment">
+<h2><a href="#prepare-environment">2. Prepare environment</a></h2>
+<pre class="m-code"><span class="nb">export</span> <span class="nv">CC</span><span class="o">=</span>&lt;path-to-your-C-compiler&gt;
+<span class="nb">export</span> <span class="nv">CXX</span><span class="o">=</span>&lt;path-to-your-C++-compiler&gt;
+
+<span class="nb">export</span> <span class="nv">ESWSRCDIR</span><span class="o">=</span>&lt;path-to-where-you-cloned-the-repository&gt;
+
+<span class="nb">export</span> <span class="nv">MYWORKDIR</span><span class="o">=</span>&lt;path-to-where-you-want-to-work-in&gt; <span class="c1">#e.g. ${HOME}/myWaveTest</span>
+mkdir -p <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span></pre>
+</section>
+<section id="blas-lapack">
+<h2><a href="#blas-lapack">3. BLAS/LAPACK</a></h2>
+<p>To handle BLAS/LAPACK, we envision the following three scenarios.</p>
+<section id="a-you-want-to-let-cmake-figure-it-out">
+<h3><a href="#a-you-want-to-let-cmake-figure-it-out">a. You want to let CMake figure it out</a></h3>
+<p>Just unset (to be safe) the following env vars, and then move to section 4.</p>
+<pre class="m-code"><span class="nb">unset</span> BLAS_ROOT
+<span class="nb">unset</span> LAPACK_ROOT
+<span class="nb">unset</span> BLASLIBNAME
+<span class="nb">unset</span> LAPACKLIBNAME</pre>
+</section>
+<section id="b-you-have-and-want-to-use-a-specific-blas-lapack">
+<h3><a href="#b-you-have-and-want-to-use-a-specific-blas-lapack">b. You have and want to use a specific BLAS/LAPACK</a></h3>
+<p>If you want a specific BLAS/LAPACK, set the following and then move to section 4.</p>
+<pre class="m-code"><span class="nb">export</span> <span class="nv">BLAS_ROOT</span><span class="o">=</span>&lt;path-to-blas-install-dir&gt;
+<span class="nb">export</span> <span class="nv">LAPACK_ROOT</span><span class="o">=</span>&lt;path-to-lapack-install-dir&gt;
+<span class="nb">export</span> <span class="nv">BLASLIBNAME</span><span class="o">=</span>&lt;blas-lib-name-without-extension&gt;     <span class="c1">#e.g. openblas</span>
+<span class="nb">export</span> <span class="nv">LAPACKLIBNAME</span><span class="o">=</span>&lt;lapack-lib-name-without-extension&gt; <span class="c1">#e.g. lapack</span></pre>
+</section>
+<section id="c-you-want-to-install-them">
+<h3><a href="#c-you-want-to-install-them">c. You want to install them</a></h3>
+<p>You can install BLAS/LAPACK yourself or you can follow the steps below
+to install OpenBLAS. We chose OpenBLAS for simplicity
+since it contains both BLAS and LAPACK and it is fairly easy to build.</p>
+<pre class="m-code"><span class="nb">export</span> <span class="nv">FC</span><span class="o">=</span>&lt;path-to-your-Fortran-compiler&gt;
+<span class="nb">cd</span> <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>
+mkdir tpls <span class="o">&amp;&amp;</span> <span class="nb">cd</span> tpls
+cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/bash/build_openblas.sh .
+bash build_openblas.sh</pre>
+<p>If this succeeds, inside <code>${MYWORKDIR}/tpls/openblas/install/lib</code>
+you see something as:</p>
+<pre class="m-code">drwxr-xr-x  <span class="m">3</span> fnrizzi  staff    96B Aug <span class="m">30</span> <span class="m">09</span>:40 cmake
+lrwxr-xr-x  <span class="m">1</span> fnrizzi  staff    34B Aug <span class="m">30</span> <span class="m">09</span>:40 libopenblas.0.dylib
+lrwxr-xr-x  <span class="m">1</span> fnrizzi  staff    30B Aug <span class="m">30</span> <span class="m">09</span>:40 libopenblas.a
+lrwxr-xr-x  <span class="m">1</span> fnrizzi  staff    34B Aug <span class="m">30</span> <span class="m">09</span>:40 libopenblas.dylib
+drwxr-xr-x  <span class="m">3</span> fnrizzi  staff    96B Aug <span class="m">30</span> <span class="m">09</span>:40 pkgconfig</pre>
+<p>And then do:</p>
+<pre class="m-code"><span class="nb">export</span> <span class="nv">BLAS_ROOT</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/tpls/openblas/install
+<span class="nb">export</span> <span class="nv">LAPACK_ROOT</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/tpls/openblas/install
+<span class="nb">export</span> <span class="nv">BLASLIBNAME</span><span class="o">=</span>openblas
+<span class="nb">export</span> <span class="nv">LAPACKLIBNAME</span><span class="o">=</span>openblas</pre>
+</section>
+</section>
+<section id="build-kokkos-and-kernels">
+<h2><a href="#build-kokkos-and-kernels">4. Build Kokkos and Kernels</a></h2>
+<p>Now that you BLAS/LAPACK is ready, we build Kokkos core and kernels as follows:</p>
+<pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>
+<span class="o">[[</span> ! -d tpls <span class="o">]]</span> <span class="o">&amp;&amp;</span> mkdir tpls
+<span class="nb">cd</span> tpls
+cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/bash_scripts/build_kokkos_and_kernels.sh .
+<span class="nb">export</span> <span class="nv">KOKKOSPFX</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/tpls/kokkos/kokkos_install
+<span class="nb">export</span> <span class="nv">KOKKOSKERPFX</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/tpls/kokkos/kokkos_kernels_install
+bash build_kokkos_and_kernels.sh serial</pre>
+<p><strong>Remarks</strong>:</p>
+<ul>
+<li>the script above does a simple <em>serial build</em> to get you started quickly on any system.</li>
+<li>If you want to enable arch-specific optimizations following
+the <a href="https://github.com/kokkos/kokkos">Kokkos userguide</a>
+and <a href="https://github.com/kokkos/kokkos-kernels/wiki/Building">here</a>,
+you need to modify the flags passed to
+<a href="https://github.com/fnrizzi/ElasticShearWaves/tree/master/bash_scripts/build_kokkos_and_kernels.sh">build_kokkos_and_kernels.sh</a>
+and rerun it.</li>
+</ul>
+</section>
+<section id="build-the-shear-wave-code-and-run-tests">
+<h2><a href="#build-the-shear-wave-code-and-run-tests">5. Build the Shear Wave Code and Run Tests</a></h2>
+<pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/bash_scripts
+./do_build.sh --working-dir<span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span> --kokkos-pfx<span class="o">=</span><span class="si">${</span><span class="nv">KOKKOSPFX</span><span class="si">}</span> --kokkos-ker-pfx<span class="o">=</span><span class="si">${</span><span class="nv">KOKKOSKERPFX</span><span class="si">}</span>
+<span class="nb">cd</span> <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/build
+ctest</pre>
+<p>which should display (at the time of this writing we have these tests):</p>
+<pre class="m-code">Start  <span class="m">1</span>: parser_test_1
+<span class="m">1</span>/21 Test  <span class="c1">#1: parser_test_1 .....................   Passed    0.32 sec</span>
+Start  <span class="m">2</span>: parser_test_2
+<span class="m">2</span>/21 Test  <span class="c1">#2: parser_test_2 .....................   Passed    0.19 sec</span>
+Start  <span class="m">3</span>: parser_test_3
+<span class="m">3</span>/21 Test  <span class="c1">#3: parser_test_3 .....................   Passed    0.22 sec</span>
+Start  <span class="m">4</span>: parser_test_4
+<span class="m">4</span>/21 Test  <span class="c1">#4: parser_test_4 .....................   Passed    0.19 sec</span>
+Start  <span class="m">5</span>: seismogram_test
+<span class="m">5</span>/21 Test  <span class="c1">#5: seismogram_test ...................   Passed    0.20 sec</span>
+Start  <span class="m">6</span>: forcing_rank1
+<span class="m">6</span>/21 Test  <span class="c1">#6: forcing_rank1 .....................   Passed    0.20 sec</span>
+Start  <span class="m">7</span>: graphs
+<span class="m">7</span>/21 Test  <span class="c1">#7: graphs ............................   Passed    0.19 sec</span>
+Start  <span class="m">8</span>: coords
+<span class="m">8</span>/21 Test  <span class="c1">#8: coords ............................   Passed    0.20 sec</span>
+Start  <span class="m">9</span>: jacobian_vp
+<span class="m">9</span>/21 Test  <span class="c1">#9: jacobian_vp .......................   Passed    0.20 sec</span>
+Start <span class="m">10</span>: jacobian_sp
+<span class="m">10</span>/21 Test <span class="c1">#10: jacobian_sp .......................   Passed    0.20 sec</span>
+Start <span class="m">11</span>: stress_labels
+<span class="m">11</span>/21 Test <span class="c1">#11: stress_labels .....................   Passed    0.20 sec</span>
+Start <span class="m">12</span>: fomInnerDomainKokkos1
+<span class="m">12</span>/21 Test <span class="c1">#12: fomInnerDomainKokkos1 .............   Passed    0.67 sec</span>
+Start <span class="m">13</span>: fomInnerDomainKokkos2
+<span class="m">13</span>/21 Test <span class="c1">#13: fomInnerDomainKokkos2 .............   Passed    0.47 sec</span>
+Start <span class="m">14</span>: fomNearSurfaceKokkos1
+<span class="m">14</span>/21 Test <span class="c1">#14: fomNearSurfaceKokkos1 .............   Passed    0.50 sec</span>
+Start <span class="m">15</span>: fomNearSurfaceKokkos2
+<span class="m">15</span>/21 Test <span class="c1">#15: fomNearSurfaceKokkos2 .............   Passed    0.47 sec</span>
+Start <span class="m">16</span>: fomNearCmbKokkos1
+<span class="m">16</span>/21 Test <span class="c1">#16: fomNearCmbKokkos1 .................   Passed    0.64 sec</span>
+Start <span class="m">17</span>: fomNearCmbKokkos2
+<span class="m">17</span>/21 Test <span class="c1">#17: fomNearCmbKokkos2 .................   Passed    0.64 sec</span>
+Start <span class="m">18</span>: fomSymmetryAxisThetaZeroKokkos1
+<span class="m">18</span>/21 Test <span class="c1">#18: fomSymmetryAxisThetaZeroKokkos1 ...   Passed    0.86 sec</span>
+Start <span class="m">19</span>: fomSymmetryAxisThetaZeroKokkos2
+<span class="m">19</span>/21 Test <span class="c1">#19: fomSymmetryAxisThetaZeroKokkos2 ...   Passed    0.85 sec</span>
+Start <span class="m">20</span>: fomSymmetryAxisThetaPiKokkos1
+<span class="m">20</span>/21 Test <span class="c1">#20: fomSymmetryAxisThetaPiKokkos1 .....   Passed    0.84 sec</span>
+Start <span class="m">21</span>: fomSymmetryAxisThetaPiKokkos2
+<span class="m">21</span>/21 Test <span class="c1">#21: fomSymmetryAxisThetaPiKokkos2 .....   Passed    0.85 sec</span>
+
+<span class="m">100</span>% tests passed, <span class="m">0</span> tests failed out of <span class="m">21</span></pre>
+</section>
+<!-- /content -->
+      </div>
+    </div>
+  </div>
+</article>
+</main>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <p>
+        Site created by Francesco Rizzi. Powered by <a href="https://getpelican.com">Pelican</a>
+        and <a href="https://mcss.mosra.cz">m.css</a>, using a theme adapted from <a href="https://magnum.graphics/">magnum</a>.<br />
+        This site content is <a href="https://github.com/fnrizzi/ElasticShearWaves">available on GitHub</a>.<br />
+        </p>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>

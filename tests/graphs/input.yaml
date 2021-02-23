@@ -1,0 +1,24 @@
+
+general:
+  meshDir: fullMesh4x5
+  dt: 1.
+  finalTime: 150.
+  checkNumericalDispersion: false
+  checkCfl: false
+
+io:
+ seismogram:
+   binary: true
+   freq: 10
+   receivers: [25, 50, 120, 160]
+   fileName: myfileName
+
+# -------------
+source:
+  #  Units: depth [km] | angle [deg] | period [sec] | delay [sec]
+  signal: {kind: sinusoid, depth: 1111.0, angle: 88., period: 25., delay: 12.0}
+
+# -------------
+material:
+  kind: unilayer
+  layer: {density: [1., 0.], velocity: [1., 0.]}
