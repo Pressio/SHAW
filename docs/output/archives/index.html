@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <title>ShWav</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,600%7CSource+Sans+Pro:400,400i,600,600i&amp;subset=latin-ext" />
-  <link rel="stylesheet" href="https://github.com/fnrizzi/SHAW/docs/output/static/m-dark.css" />
+  <link rel="stylesheet" href="static/m-dark.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#22272e" />
   <meta property="og:site_name" content="ShWav" />
   <meta property="og:title" content="ShWav" />
   <meta name="twitter:title" content="ShWav" />
-  <meta property="og:url" content="https://github.com/fnrizzi/SHAW/docs/output/" />
+  <meta property="og:url" content="./" />
   <meta name="twitter:card" content="summary" />
   <meta property="og:type" content="website" />
 </head>
@@ -18,39 +18,39 @@
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a href="https://github.com/fnrizzi/SHAW/docs/output/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHWAV</a>
+      <a href="./" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHWAV</a>
       <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
         <div class="m-row">
           <ol class="m-col-t-12 m-col-m-none">
             <li>
-              <a href="https://github.com/fnrizzi/SHAW/docs/output/">Build</a>
+              <a href="./">Build</a>
               <ol>
-                <li><a href="https://github.com/fnrizzi/SHAW/docs/output/build/kokkos_host_serial">Host Serial Kokkos Build</a></li>
-                <li><a href="https://github.com/fnrizzi/SHAW/docs/output/build/kokkos_host_omp">Host OpenMP Kokkos Build</a></li>
+                <li><a href="build/kokkos_host_serial">Host Serial Kokkos Build</a></li>
+                <li><a href="build/kokkos_host_omp">Host OpenMP Kokkos Build</a></li>
               </ol>
             </li>
             <li>
-              <a href="https://github.com/fnrizzi/SHAW/docs/output/">Get Started</a>
+              <a href="./">Get Started</a>
               <ol>
-                <li><a href="https://github.com/fnrizzi/SHAW/docs/output/getstarted/goveq">Equations and discretization</a></li>
-                <li><a href="https://github.com/fnrizzi/SHAW/docs/output/getstarted/inputfile">Input File</a></li>
-                <li><a href="https://github.com/fnrizzi/SHAW/docs/output/getstarted/materialmodels">Material Models</a></li>
+                <li><a href="getstarted/goveq">Equations and discretization</a></li>
+                <li><a href="getstarted/inputfile">Input File</a></li>
+                <li><a href="getstarted/materialmodels">Material Models</a></li>
               </ol>
             </li>
             <li>
-              <a href="https://github.com/fnrizzi/SHAW/docs/output/">Demos</a>
+              <a href="./">Demos</a>
               <ol>
-                <li><a href="https://github.com/fnrizzi/SHAW/docs/output/demos/rank1fom">Single Forcing Run</a></li>
-                <li><a href="https://github.com/fnrizzi/SHAW/docs/output/demos/rank1fomMulti">Multi-forcing Run with rank-1</a></li>
-                <li><a href="https://github.com/fnrizzi/SHAW/docs/output/demos/rank2fom">Multi-forcing Run wirh rank-2</a></li>
+                <li><a href="demos/rank1fom">Single Forcing Run</a></li>
+                <li><a href="demos/rank1fomMulti">Multi-forcing Run with rank-1</a></li>
+                <li><a href="demos/rank2fom">Multi-forcing Run wirh rank-2</a></li>
               </ol>
             </li>
             <li>
-              <a href="https://github.com/fnrizzi/SHAW/docs/output/">Various</a>
+              <a href="./">Various</a>
               <ol>
-                <li><a href="https://github.com/fnrizzi/SHAW/docs/output/license">License</a></li>
+                <li><a href="license">License</a></li>
               </ol>
             </li>
           </ol>
@@ -65,7 +65,7 @@
     <div class="m-col-m-10">
       <article>
         <header>
-          <h1><a href="https://github.com/fnrizzi/SHAW/docs/output/getstarted/goveq.html" rel="bookmark" title="Permalink to Governing Equations and Discretization">
+          <h1><a href="getstarted/goveq.html" rel="bookmark" title="Permalink to Governing Equations and Discretization">
             <time class="m-date" datetime="2021-02-22T11:00:00+01:00">
               Feb <span class="m-date-day">22</span> 2021
             </time>
@@ -80,7 +80,7 @@
 <p>Assuming the target body/planet (e.g. Earth) can be approximated as a sphere,
 we adopt a spherical coordinate system as shown in the figure below:</p>
 <figure class="m-figure">
-<img src="https://github.com/fnrizzi/SHAW/docs/output/static/img/sc.svg" style="width: 350px" />
+<img src="static/img/sc.svg" style="width: 350px" />
 </figure>
 <p>In the axisymmetric approximation, one assumes that fields/quantities
 do not vary along <svg class="m-math m-default" style="width: 0.722em; height: 1.107em;" viewBox="0 -8.302191 6.928102 10.626798">
@@ -824,18 +824,18 @@ We remark that, differently than [19], we do not rely on ghost
 points to impose boundary conditions, but account for the boundary
 conditions directly when assembling the system matrices.</p>
 <figure class="m-figure">
-<img src="https://github.com/fnrizzi/SHAW/docs/output/static/img/mesh.png" style="width: 450px" />
+<img src="static/img/mesh.png" style="width: 450px" />
 <figcaption>Schematic of the axi-symmetric domain and staggered grid used for its discretization.</figcaption>
 </figure>
 </div>
 <!-- /content -->
         <footer>
-          <p>Posted by <a href="https://github.com/fnrizzi/SHAW/docs/output/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-22T11:00:00+01:00">Feb 22, 2021</time> in <a href="https://github.com/fnrizzi/SHAW/docs/output/category/getstarted.html">getstarted</a>.</p>
+          <p>Posted by <a href="author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-22T11:00:00+01:00">Feb 22, 2021</time> in <a href="category/getstarted.html">getstarted</a>.</p>
         </footer>
       </article>
       <article>
         <header>
-          <h1><a href="https://github.com/fnrizzi/SHAW/docs/output/getstarted/inputfile.html" rel="bookmark" title="Permalink to Input File">
+          <h1><a href="getstarted/inputfile.html" rel="bookmark" title="Permalink to Input File">
             <time class="m-date" datetime="2021-02-22T11:00:00+01:00">
               Feb <span class="m-date-day">22</span> 2021
             </time>
@@ -844,13 +844,13 @@ conditions directly when assembling the system matrices.</p>
           <p>Input File</p>
         </header>
         <footer>
-          <p>Posted by <a href="https://github.com/fnrizzi/SHAW/docs/output/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-22T11:00:00+01:00">Feb 22, 2021</time> in <a href="https://github.com/fnrizzi/SHAW/docs/output/category/getstarted.html">getstarted</a>.</p>
+          <p>Posted by <a href="author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-22T11:00:00+01:00">Feb 22, 2021</time> in <a href="category/getstarted.html">getstarted</a>.</p>
         </footer>
         <div class="m-clearfix-l"></div>
       </article>
       <article>
         <header>
-          <h1><a href="https://github.com/fnrizzi/SHAW/docs/output/getstarted/materialmodels.html" rel="bookmark" title="Permalink to Material Models">
+          <h1><a href="getstarted/materialmodels.html" rel="bookmark" title="Permalink to Material Models">
             <time class="m-date" datetime="2021-02-22T11:00:00+01:00">
               Feb <span class="m-date-day">22</span> 2021
             </time>
@@ -859,13 +859,13 @@ conditions directly when assembling the system matrices.</p>
           <p>Material Models</p>
         </header>
         <footer>
-          <p>Posted by <a href="https://github.com/fnrizzi/SHAW/docs/output/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-22T11:00:00+01:00">Feb 22, 2021</time> in <a href="https://github.com/fnrizzi/SHAW/docs/output/category/getstarted.html">getstarted</a>.</p>
+          <p>Posted by <a href="author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-22T11:00:00+01:00">Feb 22, 2021</time> in <a href="category/getstarted.html">getstarted</a>.</p>
         </footer>
         <div class="m-clearfix-l"></div>
       </article>
       <article>
         <header>
-          <h1><a href="https://github.com/fnrizzi/SHAW/docs/output/demos/rank1fom.html" rel="bookmark" title="Permalink to Single Forcing Run">
+          <h1><a href="demos/rank1fom.html" rel="bookmark" title="Permalink to Single Forcing Run">
             <time class="m-date" datetime="2021-02-12T11:00:00+01:00">
               Feb <span class="m-date-day">12</span> 2021
             </time>
@@ -874,13 +874,13 @@ conditions directly when assembling the system matrices.</p>
           <p>Single Forcing FOM</p>
         </header>
         <footer>
-          <p>Posted by <a href="https://github.com/fnrizzi/SHAW/docs/output/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="https://github.com/fnrizzi/SHAW/docs/output/category/demos.html">demos</a>.</p>
+          <p>Posted by <a href="author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="category/demos.html">demos</a>.</p>
         </footer>
         <div class="m-clearfix-l"></div>
       </article>
       <article>
         <header>
-          <h1><a href="https://github.com/fnrizzi/SHAW/docs/output/demos/rank1fommulti.html" rel="bookmark" title="Permalink to Multi-forcing Run with rank-1">
+          <h1><a href="demos/rank1fommulti.html" rel="bookmark" title="Permalink to Multi-forcing Run with rank-1">
             <time class="m-date" datetime="2021-02-12T11:00:00+01:00">
               Feb <span class="m-date-day">12</span> 2021
             </time>
@@ -889,13 +889,13 @@ conditions directly when assembling the system matrices.</p>
           <p>Multi-forcing with rank-1</p>
         </header>
         <footer>
-          <p>Posted by <a href="https://github.com/fnrizzi/SHAW/docs/output/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="https://github.com/fnrizzi/SHAW/docs/output/category/demos.html">demos</a>.</p>
+          <p>Posted by <a href="author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="category/demos.html">demos</a>.</p>
         </footer>
         <div class="m-clearfix-l"></div>
       </article>
       <article>
         <header>
-          <h1><a href="https://github.com/fnrizzi/SHAW/docs/output/demos/rank2fom.html" rel="bookmark" title="Permalink to Multi-Forcing Run">
+          <h1><a href="demos/rank2fom.html" rel="bookmark" title="Permalink to Multi-Forcing Run">
             <time class="m-date" datetime="2021-02-12T11:00:00+01:00">
               Feb <span class="m-date-day">12</span> 2021
             </time>
@@ -904,13 +904,13 @@ conditions directly when assembling the system matrices.</p>
           <p>Multi-Forcing FOM</p>
         </header>
         <footer>
-          <p>Posted by <a href="https://github.com/fnrizzi/SHAW/docs/output/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="https://github.com/fnrizzi/SHAW/docs/output/category/demos.html">demos</a>.</p>
+          <p>Posted by <a href="author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="category/demos.html">demos</a>.</p>
         </footer>
         <div class="m-clearfix-l"></div>
       </article>
       <article>
         <header>
-          <h1><a href="https://github.com/fnrizzi/SHAW/docs/output/license.html" rel="bookmark" title="Permalink to License">
+          <h1><a href="license.html" rel="bookmark" title="Permalink to License">
             <time class="m-date" datetime="2021-02-12T11:00:00+01:00">
               Feb <span class="m-date-day">12</span> 2021
             </time>
@@ -919,13 +919,13 @@ conditions directly when assembling the system matrices.</p>
           <p>Legal info</p>
         </header>
         <footer>
-          <p>Posted by <a href="https://github.com/fnrizzi/SHAW/docs/output/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="https://github.com/fnrizzi/SHAW/docs/output/category/misc.html">misc</a>.</p>
+          <p>Posted by <a href="author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="category/misc.html">misc</a>.</p>
         </footer>
         <div class="m-clearfix-l"></div>
       </article>
       <article>
         <header>
-          <h1><a href="https://github.com/fnrizzi/SHAW/docs/output/various.html" rel="bookmark" title="Permalink to Various">
+          <h1><a href="various.html" rel="bookmark" title="Permalink to Various">
             <time class="m-date" datetime="2021-02-12T11:00:00+01:00">
               Feb <span class="m-date-day">12</span> 2021
             </time>
@@ -933,13 +933,13 @@ conditions directly when assembling the system matrices.</p>
           </a></h1>
         </header>
         <footer>
-          <p>Posted by <a href="https://github.com/fnrizzi/SHAW/docs/output/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="https://github.com/fnrizzi/SHAW/docs/output/category/misc.html">misc</a>.</p>
+          <p>Posted by <a href="author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="category/misc.html">misc</a>.</p>
         </footer>
         <div class="m-clearfix-l"></div>
       </article>
       <article>
         <header>
-          <h1><a href="https://github.com/fnrizzi/SHAW/docs/output/various/about.html" rel="bookmark" title="Permalink to About the Project">
+          <h1><a href="various/about.html" rel="bookmark" title="Permalink to About the Project">
             <time class="m-date" datetime="2021-02-12T11:00:00+01:00">
               Feb <span class="m-date-day">12</span> 2021
             </time>
@@ -948,7 +948,7 @@ conditions directly when assembling the system matrices.</p>
           <p>Legal info, third party licenses and contributor credits</p>
         </header>
         <footer>
-          <p>Posted by <a href="https://github.com/fnrizzi/SHAW/docs/output/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="https://github.com/fnrizzi/SHAW/docs/output/category/various.html">various</a>.</p>
+          <p>Posted by <a href="author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="category/various.html">various</a>.</p>
         </footer>
         <div class="m-clearfix-l"></div>
       </article>
@@ -956,10 +956,10 @@ conditions directly when assembling the system matrices.</p>
     <nav class="m-navpanel m-col-m-2">
       <h3>Categories</h3>
       <ol class="m-block-bar-m">
-        <li><a href="https://github.com/fnrizzi/SHAW/docs/output/category/demos.html">demos</a></li>
-        <li><a href="https://github.com/fnrizzi/SHAW/docs/output/category/getstarted.html">getstarted</a></li>
-        <li><a href="https://github.com/fnrizzi/SHAW/docs/output/category/misc.html">misc</a></li>
-        <li><a href="https://github.com/fnrizzi/SHAW/docs/output/category/various.html">various</a></li>
+        <li><a href="category/demos.html">demos</a></li>
+        <li><a href="category/getstarted.html">getstarted</a></li>
+        <li><a href="category/misc.html">misc</a></li>
+        <li><a href="category/various.html">various</a></li>
       </ol>
     </nav>
   </div>
