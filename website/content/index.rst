@@ -13,7 +13,7 @@ Elastic Shear Waves
 
             .. raw:: html
 
-                <h1 style="text-transform:capitalize">Elastic Shear Waves (ShWav)</h1>
+                <h1 style="text-transform:capitalize">Elastic SHeAr Waves (SHAW)</h1>
 
     .. container:: m-row
 

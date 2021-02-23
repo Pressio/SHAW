@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8" />
+  <title>Single Forcing Run | SHAW</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,600%7CSource+Sans+Pro:400,400i,600,600i&amp;subset=latin-ext" />
+  <link rel="stylesheet" href="/static/m-dark.css" />
+  <link rel="canonical" href="/single-forcing-run.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+  <meta property="og:site_name" content="SHAW" />
+  <meta property="og:title" content="Single Forcing Run" />
+  <meta name="twitter:title" content="Single Forcing Run" />
+  <meta property="og:url" content="/single-forcing-run.html" />
+  <meta property="og:description" content="Single Forcing FOM" />
+  <meta name="twitter:description" content="Single Forcing FOM" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:type" content="article" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHAW</a>
+      <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-12 m-col-m-none">
+            <li>
+              <a href="/">Build</a>
+              <ol>
+                <li><a href="/build/kokkos_host_serial">Host Serial Kokkos Build</a></li>
+                <li><a href="/build/kokkos_host_omp">Host OpenMP Kokkos Build</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/">Get Started</a>
+              <ol>
+                <li><a href="/getstarted/goveq">Equations and discretization</a></li>
+                <li><a href="/getstarted/inputfile">Input File</a></li>
+                <li><a href="/getstarted/materialmodels">Material Models</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/">Demos</a>
+              <ol>
+                <li><a href="/demos/rank1fom">Single Forcing Run</a></li>
+                <li><a href="/demos/rank1fomMulti">Multi-forcing Run with rank-1</a></li>
+                <li><a href="/demos/rank2fom">Multi-forcing Run wirh rank-2</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/">Various</a>
+              <ol>
+                <li><a href="/license">License</a></li>
+              </ol>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main>
+<div class="m-container">
+  <div class="m-row">
+    <article class="m-col-m-10 m-nopadb">
+      <header>
+        <h1><a href="/single-forcing-run.html" rel="bookmark" title="Permalink to Single Forcing Run">
+          <time class="m-date" datetime="2021-02-12T11:00:00+01:00">
+            Feb <span class="m-date-day">12</span> 2021
+          </time>
+          Single Forcing Run
+        </a></h1>
+        <p>Single Forcing FOM</p>
+      </header>
+      <div class="m-clearfix-l"></div>
+<!-- content -->
+<div>
+<p>This demo shows step-by-step how to create and run a simulation for a single forcing.</p>
+<p>Here we assume you already followed the <a href="/host-serial-kokkos-build/">step-by-step guide</a>
+to build the code and used <code>MYWORKDIR</code> as the working directory for that procedure,
+so that <code>${MYWORKDIR}/build</code> contains all the executables.</p>
+</div>
+<section id="prepare-environment">
+<h2><a href="#prepare-environment">1. Prepare environment</a></h2>
+<pre class="m-code"><span class="c1"># ensure this env var points to the build directory</span>
+<span class="nb">export</span> <span class="nv">MYWORKDIR</span><span class="o">=</span>&lt;the-same-work-directory-used-for-building-process&gt;
+
+<span class="nb">export</span> <span class="nv">ESWSRCDIR</span><span class="o">=</span>&lt;path-to-the-source-code-repository&gt;
+<span class="nb">export</span> <span class="nv">MYRUNDIR</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/myFirstRun
+mkdir -p <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span></pre>
+</section>
+<section id="generating-the-mesh">
+<h2><a href="#generating-the-mesh">2. Generating the mesh</a></h2>
+<p>The code has been developed such that the mesh is generated with Python
+and is used by the C++ code. There are two main reasons for this choice:
+first, it allows us to decouple the mesh generation from the actual physics code;
+second, we developed the code with an eye to later on study how to apply sample mesh
+to nonlinear wav problems. This is <strong>not</strong> needed right now
+to solve the current elastic shear wave problem because this is a linear problem,
+but it can be useful if, in the future, we extend the code to support nonlinear problems.</p>
+<p>To specify the grid, one only needs to specify the grid for the velocity points because
+the stress points are defined based on the staggered scheme (see paper).
+For this demo, we use a grid of <code>200</code> x <code>1000</code> velocity points
+along the radial and polar directions, respectively.
+To generate the mesh files proceed as follows:</p>
+<pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/meshing
+python create_single_mesh.py -nr <span class="m">200</span> -nth <span class="m">1000</span> -working-dir <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span></pre>
+<p>This should generate a directory <code>${MYRUNDIR}/mesh200x1000</code> containing:</p>
+<pre class="m-code">-rw-r--r--  <span class="m">1</span> fnrizzi  staff   <span class="m">4</span>.5M Aug <span class="m">30</span> <span class="m">12</span>:20 coeff_vp.dat
+-rw-r--r--  <span class="m">1</span> fnrizzi  staff    28M Aug <span class="m">30</span> <span class="m">12</span>:20 graph_sp.dat
+-rw-r--r--  <span class="m">1</span> fnrizzi  staff    16M Aug <span class="m">30</span> <span class="m">12</span>:20 graph_vp.dat
+-rw-r--r--  <span class="m">1</span> fnrizzi  staff   231B Aug <span class="m">30</span> <span class="m">12</span>:20 mesh_info.dat</pre>
+</section>
+<section id="input-file">
+<h2><a href="#input-file">3. Input file</a></h2>
+<p>Input files are based on yaml.
+For this demo, we use the following input file:</p>
+<pre class="m-code"><span class="nt">general</span><span class="p">:</span>
+  <span class="c1"># meshDir should contain the full path to the mesh directory</span>
+  <span class="c1"># as generated by the python script `meshing/create_single_mesh.py`</span>
+  <span class="c1"># but here we use this for simplicity since this input file</span>
+  <span class="c1"># is used in the doc showing how to run a case</span>
+  <span class="nt">meshDir</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">./mesh200x1000</span>
+  <span class="nt">dt</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.25</span>
+  <span class="nt">finalTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2000.0</span>
+  <span class="nt">checkNumericalDispersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+  <span class="nt">checkCfl</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="nt">io</span><span class="p">:</span>
+  <span class="nt">snapshotMatrix</span><span class="p">:</span>
+    <span class="nt">binary</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+    <span class="nt">velocity</span><span class="p">:</span> <span class="p p-Indicator">{</span><span class="nt">freq</span><span class="p">:</span> <span class="nv">100</span><span class="p p-Indicator">,</span><span class="nt"> fileName</span><span class="p">:</span> <span class="nv">snaps_vp</span><span class="p p-Indicator">}</span>
+    <span class="nt">stress</span><span class="p">:</span>   <span class="p p-Indicator">{</span><span class="nt">freq</span><span class="p">:</span> <span class="nv">100</span><span class="p p-Indicator">,</span><span class="nt"> fileName</span><span class="p">:</span> <span class="nv">snaps_sp</span><span class="p p-Indicator">}</span>
+  <span class="nt">seismogram</span><span class="p">:</span>
+    <span class="nt">binary</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+    <span class="nt">freq</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">4</span>
+    <span class="nt">receivers</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">5</span><span class="p p-Indicator">,</span><span class="nv">30</span><span class="p p-Indicator">,</span><span class="nv">55</span><span class="p p-Indicator">,</span><span class="nv">80</span><span class="p p-Indicator">,</span><span class="nv">105</span><span class="p p-Indicator">,</span><span class="nv">130</span><span class="p p-Indicator">,</span><span class="nv">155</span><span class="p p-Indicator">,</span><span class="nv">175</span><span class="p p-Indicator">]</span>
+
+<span class="nt">source</span><span class="p">:</span>
+  <span class="nt">signal</span><span class="p">:</span>
+    <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ricker</span>
+    <span class="nt">depth</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">640.0</span>  <span class="c1"># km</span>
+    <span class="nt">period</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">65.0</span>  <span class="c1"># seconds</span>
+    <span class="nt">delay</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">180.0</span>  <span class="c1"># seconds</span>
+
+<span class="nt">material</span><span class="p">:</span>
+  <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">prem</span></pre>
+<p>Note how the input file is organized into sections:</p>
+<ul>
+<li><em>general</em>: contains general inputs, e.g., where the mesh is, time stepping, etc;</li>
+<li><em>io</em>: contains parameters to collect data, e.g., the snapshot matrix and seismogram;</li>
+<li><em>source</em>: to define the kind of source signal, and its depth with respect to earth surface;</li>
+<li><em>material</em>: defines the type of material to use.</li>
+</ul>
+<p>Which is ready to get:</p>
+<pre class="m-code">cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/demos/fom_rank1/input.yaml <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span></pre>
+</section>
+<section id="run-the-simulation">
+<h2><a href="#run-the-simulation">3. Run the simulation</a></h2>
+<pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
+ln -s <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/build/shwave_fom .
+
+<span class="c1"># if you use OpenMP build, remember to set</span>
+<span class="c1"># OMP_NUM_THREADS=4 OMP_PLACES=threads OMP_PROC_BIND=spread</span>
+
+./shwave_fom input.yaml</pre>
+</section>
+<section id="simulation-data">
+<h2><a href="#simulation-data">5. Simulation data</a></h2>
+<p>After running the demo, you should have inside <code>${MYRUNDIR}</code> the following files:</p>
+<pre class="m-code">coords_sp.txt : coordinates of the velocity grid points
+coords_vp.txt : coordinates of the stresses grid points
+seismogram_0  : seismogram at the receiver locations <span class="nb">set</span> in input.yaml
+snaps_vp_0    : snapshot matrix <span class="k">for</span> the velocity
+snaps_sp_0    : snapshot matrix <span class="k">for</span> the stresses</pre>
+</section>
+<section id="post-process-data">
+<h2><a href="#post-process-data">4. Post-process data</a></h2>
+<p>To post-process the data, you can use the Python scripts created for this demo:</p>
+<pre class="m-code">cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/demos/fom_rank1/*.py <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span></pre>
+<p>First, we visualize the seismogram data by doing:</p>
+<pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
+python plotSeismogram.py</pre>
+<figure class="m-figure">
+<img src="/static/img/demo1_f1.png" />
+</figure>
+<p>Then, we can extract and visualize the full wavefield at <code>t=250, 1000, 2000</code> (seconds):</p>
+<pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
+ln -s <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/build/extractStateFromSnaps .
+
+./extractStateFromSnaps --snaps<span class="o">=</span>./snaps_vp_0 binary <span class="se">\</span>
+ --fsize<span class="o">=</span><span class="m">1</span> --outformat<span class="o">=</span>ascii --timesteps<span class="o">=</span><span class="m">4000</span> <span class="m">8000</span>  --samplingfreq<span class="o">=</span><span class="m">100</span> --outfileappend<span class="o">=</span>vp
+
+python plotWavefield.py</pre>
+<div class="m-imagegrid m-container-inflate">
+<div>
+<figure style="width: 34.273%">
+<a href="/static/img/demo1_f2.png"><img src="/static/img/demo1_f2.png" /><div>
+</div>
+</a>
+</figure>
+<figure style="width: 31.753%">
+<a href="/static/img/demo1_f3.png"><img src="/static/img/demo1_f3.png" /><div>
+</div>
+</a>
+</figure>
+<figure style="width: 33.974%">
+<a href="/static/img/demo1_f4.png"><img src="/static/img/demo1_f4.png" /><div>
+</div>
+</a>
+</figure>
+</div>
+</div>
+</section>
+<!-- /content -->
+      <footer>
+        <p>Posted by <a href="/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="/demos/">demos</a>.</p>
+      </footer>
+    </article>
+    <nav class="m-navpanel m-col-m-2">
+      <h3>Categories</h3>
+      <ol class="m-block-bar-m">
+        <li><a href="/build/">build</a></li>
+        <li><a href="/demos/">demos</a></li>
+        <li><a href="/getstarted/">getstarted</a></li>
+        <li><a href="/misc/">misc</a></li>
+        <li><a href="/various/">various</a></li>
+      </ol>
+    </nav>
+  </div>
+</div>
+</main>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <p>
+        Site created by Francesco Rizzi. Powered by <a href="https://getpelican.com">Pelican</a>
+        and <a href="https://mcss.mosra.cz">m.css</a>, using a theme adapted from <a href="https://magnum.graphics/">magnum</a>.<br />
+        This site content is <a href="https://github.com/fnrizzi/SHAW">available on GitHub</a>.<br />
+        </p>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>
