@@ -74,7 +74,7 @@ M_LINKS_NAVBAR1 = [('Build', '', '',
                       ("Host Serial Kokkos Build", 'building/kokkos_host_serial/', ''),
                       ("Host OpenMP Kokkos Build", 'building/kokkos_host_omp/',    '')
                     ]),
-
+                  
                     ('Get Started', '', '',
                     [
                       ("Equations and discretization", 'getstarted/goveq/',         ''),

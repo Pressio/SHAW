@@ -1,37 +1,34 @@
-Host Serial Kokkos Build
-########################
+Host Serial Kokkod Build
+========================
 
 :breadcrumb: {filename}/kokkos_host_serial.rst
-:summary: Building with Host Serial Kokkos
 :date: 2021-02-12 11:00
+:summary: Build the code for host serial-only execution using serial Kokkos backend
 
-
+###################
 `1. Prerequisites`_
-====================
+###################
 
 * CMake>=3.13.0
 
-* C, C++ (with support for c++14) compilers: we have tested this with GCC 8.3.1 and GCC 8.4.0
+* C++ (with support for c++14) compiler: we have tested this with GCC 8.3.1 and GCC 8.4.0
 
 * BLAS/LAPACK: if you don't have them, we provide a script to build them for you
 
-
+#########################
 `2. Prepare environment`_
-=========================
+#########################
 
 .. code:: bash
 
-   export CC=<path-to-your-C-compiler>
    export CXX=<path-to-your-C++-compiler>
-
    export ESWSRCDIR=<path-to-where-you-cloned-the-repository>
-
    export MYWORKDIR=<path-to-where-you-want-to-work-in> #e.g. ${HOME}/myWaveTest
    mkdir -p ${MYWORKDIR}
 
-
+#################
 `3. BLAS/LAPACK`_
-=================
+#################
 
 To handle BLAS/LAPACK, we envision the following three scenarios.
 
@@ -67,6 +64,7 @@ since it contains both BLAS and LAPACK and it is fairly easy to build.
 
 .. code:: bash
 
+   export CC=<path-to-your-C-compiler>
    export FC=<path-to-your-Fortran-compiler>
    cd ${MYWORKDIR}
    mkdir tpls && cd tpls
@@ -85,7 +83,7 @@ you see something as:
    lrwxr-xr-x  1 fnrizzi  staff    34B Aug 30 09:40 libopenblas.dylib
    drwxr-xr-x  3 fnrizzi  staff    96B Aug 30 09:40 pkgconfig
 
-And then do:
+Now, do and move to section 4:
 
 .. code:: bash
 
@@ -95,8 +93,10 @@ And then do:
    export LAPACKLIBNAME=openblas
 
 
+##############################
 `4. Build Kokkos and Kernels`_
-==============================
+##############################
+
 Now that you BLAS/LAPACK is ready, we build Kokkos core and kernels as follows:
 
 .. code:: bash
@@ -117,12 +117,13 @@ Now that you BLAS/LAPACK is ready, we build Kokkos core and kernels as follows:
   the `Kokkos userguide <https://github.com/kokkos/kokkos>`_
   and `here <https://github.com/kokkos/kokkos-kernels/wiki/Building>`_,
   you need to modify the flags passed to
-  `build_kokkos_and_kernels.sh <https://github.com/fnrizzi/ElasticShearWaves/tree/master/bash_scripts/build_kokkos_and_kernels.sh>`_
+  `build_kokkos_and_kernels.sh <https://github.com/fnrizzi/SHAW/tree/master/bash_scripts/build_kokkos_and_kernels.sh>`_
   and rerun it.
 
 
+#############################################
 `5. Build the Shear Wave Code and Run Tests`_
-=============================================
+#############################################
 
 .. code:: bash
 

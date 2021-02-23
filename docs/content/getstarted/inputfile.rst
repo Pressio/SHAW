@@ -2,7 +2,7 @@ Input File
 ##########
 
 :breadcrumb: {filename}/inputfile.rst
-:summary: Input File
+:summary: Input File: description, organization and things to pay attention to
 :date: 2021-02-22 11:00
 
 The input file is organized into sections: *general*, *io*, *source*, *material*.
@@ -28,8 +28,6 @@ Contains settings for, e.g., mesh location, time stepping, etc
 
 
 |
-|
-
 
 ################
 `2. IO Section`_
@@ -70,7 +68,6 @@ Note that the IO section is *optional*, following these rules:
 
 * if you only want the `seismogram`, enable that node and omit the one for the snapshot matrix
 
-|
 |
 
 ############################
@@ -151,19 +148,16 @@ The forcingSize defines how many realizations are solved at once using the rank-
 
 
 |
-|
 
 ############################
 `4. Material Model Section`_
 ############################
 
-| The material section is *mandatory*, in the input file you have to choose one.
-| We currently support a single, two-layer, the PREM, or custom material model.
-
+The material section is *mandatory*, in the input file you
+have to choose one among the following ones.
 
 `3.1 Single Layer Material Model`_
 ----------------------------------
-
 A single medium with no discontinuities.
 You can provide coefficients to define a quadratic parametrization of the density and shear velocity profile.
 For more details, e.g. meaning and units, see `this <{filename}/getstarted/materialmodels.rst>`_.
@@ -177,7 +171,6 @@ For more details, e.g. meaning and units, see `this <{filename}/getstarted/mater
 
 `3.2 Two-layer Material Model`_
 -------------------------------
-
 Represents a material model with two layers, separated by a
 single discontinuity as shown in the figure below.
 Both the density and shear velocity only have radial dependence.

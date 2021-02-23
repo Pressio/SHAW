@@ -2,41 +2,39 @@ Host OpenMP Kokkos Build
 ########################
 
 :breadcrumb: {filename}/kokkos_host_omp.rst
-:summary: Building with Host OpenMP Kokkos
 :date: 2021-02-12 11:00
+:summary: Build the code for host-only execution using OpenMP Kokkos backend
 
-
+###################
 `1. Prerequisites`_
-====================
+###################
 
 * CMake>=3.13.0
 
-* C, C++ (with support for c++14) compilers: we have tested this with GCC 8.3.1 and GCC 8.4.0
+* C++ (with support for c++14) compiler: we have tested this with GCC 8.3.1 and GCC 8.4.0
 
 * BLAS/LAPACK: if you don't have them, we provide a script to build them for you
 
-
+#########################
 `2. Prepare environment`_
-=========================
+#########################
 
 .. code:: bash
 
-   export CC=<path-to-your-C-compiler>
    export CXX=<path-to-your-C++-compiler>
-
    export ESWSRCDIR=<path-to-where-you-cloned-the-repository>
-
    export MYWORKDIR=<path-to-where-you-want-to-work-in> #e.g. ${HOME}/myWaveTest
    mkdir -p ${MYWORKDIR}
 
-
+#################
 `3. BLAS/LAPACK`_
-=================
+#################
 This step is the same as described in `the serial build <{filename}/building/kokkos_host_serial.rst>`_,
 
-
+##############################
 `4. Build Kokkos and Kernels`_
-==============================
+##############################
+
 Now that you BLAS/LAPACK is ready, we build Kokkos core and kernels
 with OpenMP support as follows:
 
@@ -56,11 +54,11 @@ with OpenMP support as follows:
   the `Kokkos userguide <https://github.com/kokkos/kokkos>`_
   and `here <https://github.com/kokkos/kokkos-kernels/wiki/Building>`_,
   you need to modify the flags passed to
-  `build_kokkos_and_kernels.sh <https://github.com/fnrizzi/ElasticShearWaves/tree/master/bash_scripts/build_kokkos_and_kernels.sh>`_
+  `build_kokkos_and_kernels.sh <https://github.com/fnrizzi/SHAW/tree/master/bash_scripts/build_kokkos_and_kernels.sh>`_
   and rerun it.
 
-
+#############################################
 `5. Build the Shear Wave Code and Run Tests`_
-=============================================
+#############################################
 
 This step is the same as Step 5 described on `this page <{filename}/building/kokkos_host_serial.rst>`_.

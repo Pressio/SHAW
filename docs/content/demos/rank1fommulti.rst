@@ -2,17 +2,16 @@ Multi-forcing Run with rank-1
 #############################
 
 :breadcrumb: {filename}/rank1fommulti.rst
-:summary: Multi-forcing with rank-1
+:summary: This demo shows how to simulate multiple trajectories using the rank-1 formulation.
 :date: 2021-02-12 11:00
 
 .. container::
 
-   This demo shows step-by-step how to create and run a simulation for multiple forcings using the rank-1 version.
-   We demonstrate how one can edit the input file to
-
    Here we assume you already followed the `step-by-step guide <{filename}/build/kokkos_host_serial.rst>`_
    to build the code and used ``MYWORKDIR`` as the working directory for that procedure,
    so that ``${MYWORKDIR}/build`` contains all the executables.
+
+|
 
 `1. Prepare environment`_
 =========================
@@ -21,7 +20,6 @@ Multi-forcing Run with rank-1
 
    # ensure this env var points to the build directory
    export MYWORKDIR=<the-same-work-directory-used-for-building-process>
-
    export ESWSRCDIR=<path-to-the-source-code-repository>
    export MYRUNDIR=${MYWORKDIR}/myFirstRun
    mkdir -p ${MYRUNDIR}
@@ -54,8 +52,6 @@ This should generate a directory ``${MYRUNDIR}/mesh256x1024`` containing:
 
 `3. Input file`_
 ================
-
-Input files are based on yaml.
 For this demo, we use the following input file:
 
 .. code:: yaml
@@ -120,23 +116,23 @@ After running the demo, you should have inside ``${MYRUNDIR}`` the following fil
 
 .. code:: bash
 
-   coords_sp.txt : coordinates of the velocity grid points
-   coords_vp.txt : coordinates of the stresses grid points
+   coords_sp.txt #: coordinates of the velocity grid points
+   coords_vp.txt #: coordinates of the stresses grid points
 
-   seismogram_0  : seismogram for depth = 240
-   seismogram_1  : seismogram for depth = 440
-   seismogram_2  : seismogram for depth = 540
-   seismogram_3  : seismogram for depth = 740
+   seismogram_0  #: seismogram for depth = 240
+   seismogram_1  #: seismogram for depth = 440
+   seismogram_2  #: seismogram for depth = 540
+   seismogram_3  #: seismogram for depth = 740
 
-   snaps_vp_0    : velocity snapshots for depth = 240
-   snaps_vp_1    : velocity snapshots for depth = 440
-   snaps_vp_2    : velocity snapshots for depth = 540
-   snaps_vp_3    : velocity snapshots for depth = 740
+   snaps_vp_0    #: velocity snapshots for depth = 240
+   snaps_vp_1    #: velocity snapshots for depth = 440
+   snaps_vp_2    #: velocity snapshots for depth = 540
+   snaps_vp_3    #: velocity snapshots for depth = 740
 
-   snaps_sp_0    : stresses snapshots for depth = 240
-   snaps_sp_1    : stresses snapshots for depth = 440
-   snaps_sp_2    : stresses snapshots for depth = 540
-   snaps_sp_3    : stresses snapshots for depth = 740
+   snaps_sp_0    #: stresses snapshots for depth = 240
+   snaps_sp_1    #: stresses snapshots for depth = 440
+   snaps_sp_2    #: stresses snapshots for depth = 540
+   snaps_sp_3    #: stresses snapshots for depth = 740
 
 
 `4. Post-process data`_

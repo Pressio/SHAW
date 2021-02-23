@@ -1,10 +1,10 @@
-Elastic Shear Waves
-###################
+Shear Waves Simulator
+#####################
 
 :save_as: index.html
 :cover: {static}/img/top5.jpg
-:description: Performance-portable simulator for elastic shear waves.
-:summary: Performance-portable simulator for elastic shear waves.
+:description: Performance-portable simulator for (elastic) shear waves.
+:summary: Performance-portable simulator for (elastic) shear waves.
 :hide_navbar_brand: False
 :landing:
     .. container:: m-row
@@ -13,7 +13,7 @@ Elastic Shear Waves
 
             .. raw:: html
 
-                <h1 style="text-transform:capitalize">Elastic SHeAr Waves (SHAW)</h1>
+                <h1 style="text-transform:capitalize">SHeAr Waves (SHAW) Simulator</h1>
 
     .. container:: m-row
 
@@ -29,7 +29,7 @@ Elastic Shear Waves
             are *transversal* (particles oscillate perpendicularly to the direction
             of wave propagation), while P-waves are *longitudinal* (particles oscillate
             in the same direction as the wave). Both P- and S-waves
-            are body waves, because they travel through the interior of the earth
+            are body waves, because they travel through the interior of the Earth
             (or some other planet), and their evolution is affected
             by the generating source as well as the material properties of the medium,
             namely density, stiffness, composition, etc.
@@ -40,7 +40,7 @@ Elastic Shear Waves
             with high-accuracy requires a large computational cost.
 
             *This project contributes to the field by providing an open-source
-            C++ code to simulate elastic shear waves in an axi-symmetric domain.*
+            C++ code to simulate the generation and propagation of (elastic) shear waves in an axi-symmetric domain.*
 
 
         .. container:: m-col-l-3 m-push-l-1
@@ -64,18 +64,19 @@ Elastic Shear Waves
 
             .. note-info:: HIGHLIGHTS AND CAPABILITIES
 
-	    *  We use the velocity-shear formulation in an axi-symmetric domain, leading to a so-called 2.5 dimensional model.
+	    *  We use the `velocity-shear formulation in an axi-symmetric domain <{filename}/getstarted/goveq.rst>`_,
+	       leading to a so-called 2.5 dimensional model;
 
-	    *  The code currently supports the following radial material models: a single layer,
-	       a bilayer model and the Preliminary Reference Earth Model (PREM).
-	       We remark that these are 1D models in the sense that they only depend on the radial distance.
-	       Given the modularity of the code, one can easily add other material models.
+	    *  The code currently supports the following `radial material models <{filename}/getstarted/materialmodels.rst>`_:
+	       a single layer, a bilayer model, the Preliminary Reference Earth Model (PREM) and custom.
+	       These are 1D models in the sense that they only depend on the radial distance.
+	       Given the modularity of the code, one can easily add other material models;
 
 	    *  The modular strucuture of the code makes it easy to simulate
 	       the wave dynamics in another planet/axisymmetric body:
-	       one just has to create a grid suitable for that planet, and a suitable material model.
+	       one just has to create a grid suitable for that planet, and a suitable material model;
 
-	    *  The current implementation relies on Kokkos, but we are porting the code to other programming models.
+	    *  The current implementation relies on Kokkos, but we are porting the code to other programming models;
 
 	    *  The code implements what we refer to as "rank-1" and "rank-2" formulations:
 
@@ -83,12 +84,12 @@ Elastic Shear Waves
 
 		 * the discrete state and forcing term are stored using 1D arrays
 
-		 * this is used to simulate the case of a *single forcing term*
+		 * this is used to simulate the wave dynamics due to a *single forcing term*
 
 	       *  *rank-2*:
 
 		 * the discrete state and forcing term are stored using rank-2 tensors (i.e. matrices)
-		 * this is useful to simultaneously solve the wave problem
+		 * this is useful to *simultaneously* solve the wave dynamics
 		   for *multiple forcing realizations* (e.g. multiple source locations and/or periods).
 		   This rank-2 formulation has an advantage from a computational
 		   standpoint because it has higher computational intensity,
@@ -101,17 +102,17 @@ Elastic Shear Waves
 
             .. note-success:: GET STARTED
 
-	    -  build the code choosing one of the following versions:
+	    -  Build the code choosing one of the following versions:
 
 	         -  `Host serial Kokkos <{filename}/building/kokkos_host_serial.rst>`_: Kokkos-only version with *host serial* backend
 
 	         -  `Host OpenMP Kokkos <{filename}/building/kokkos_host_omp.rst>`_: Kokkos-only version with *host OpenMP* backend
 
-	    -  read about the `governing equations, domain and discretization <{filename}/getstarted/goveq.rst>`_
+	    -  Read about the `governing equations, domain and discretization <{filename}/getstarted/goveq.rst>`_;
 
-	    -  learn about how the `input file <{filename}/getstarted/inputfile.rst>`_
+	    -  Learn about how the `input file <{filename}/getstarted/inputfile.rst>`_;
 
-	    -  learn about how the `material models supported <{filename}/getstarted/materialmodels.rst>`_
+	    -  Learn about how the `material models supported <{filename}/getstarted/materialmodels.rst>`_;
 
 	    -  Explore the demos:
 
@@ -119,7 +120,7 @@ Elastic Shear Waves
 	           the most basic case involving a single forcing term
 
 	       `rank-1 simulation to solve for multiple-depths <{filename}/demos/rank1fommulti.rst>`_:
-	           we use the rank-1 formulation to run multiple simulations corresponding to different realizations of the source depth
+	           we use the rank-1 formulation to sequentially solve the dynamics for different realizations of the source depth
 
 	       `rank-2 simulation to solve for multiple-depths <{filename}/demos/rank2fom.rst>`_:
 	           same objective as demo above, but we use the rank-2 formulation to propagate multiple samples *simultaneously*
@@ -133,4 +134,4 @@ Elastic Shear Waves
 
 	    .. block-danger:: If you use this code, please cite:
 
-			    *A compute-bound formulation of Galerkin model reduction for linear time-invariant dynamical systems*, by F.Rizzi, E.J.Parish, P.J.Blonigan, J.Tencer (https://arxiv.org/abs/2009.11742).
+			    *A compute-bound formulation of Galerkin model reduction for linear time-invariant dynamical systems* --- by F.Rizzi, E.J.Parish, P.J.Blonigan, J.Tencer (https://arxiv.org/abs/2009.11742).

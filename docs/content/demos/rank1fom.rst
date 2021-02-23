@@ -2,16 +2,16 @@ Single Forcing Run
 ##################
 
 :breadcrumb: {filename}/rank1fom.rst
-:summary: Single Forcing FOM
+:summary: This demo shows step-by-step how to create and run a simulation for a single forcing.
 :date: 2021-02-12 11:00
 
 .. container::
 
-   This demo shows step-by-step how to create and run a simulation for a single forcing.
-
    Here we assume you already followed the `step-by-step guide <{filename}/build/kokkos_host_serial.rst>`_
    to build the code and used ``MYWORKDIR`` as the working directory for that procedure,
    so that ``${MYWORKDIR}/build`` contains all the executables.
+
+|
 
 `1. Prepare environment`_
 =========================
@@ -98,18 +98,7 @@ For this demo, we use the following input file:
    material:
      kind: prem
 
-
-Note how the input file is organized into sections:
-
-- *general*: contains general inputs, e.g., where the mesh is, time stepping, etc;
-
-- *io*: contains parameters to collect data, e.g., the snapshot matrix and seismogram;
-
-- *source*: to define the kind of source signal, and its depth with respect to earth surface;
-
-- *material*: defines the type of material to use.
-
-Which is ready to get:
+Which is already in the repo and you can copy as:
 
 .. code:: bash
 
@@ -125,7 +114,6 @@ Which is ready to get:
 
    # if you use OpenMP build, remember to set
    # OMP_NUM_THREADS=4 OMP_PLACES=threads OMP_PROC_BIND=spread
-
    ./shwave_fom input.yaml
 
 
@@ -136,11 +124,11 @@ After running the demo, you should have inside ``${MYRUNDIR}`` the following fil
 
 .. code:: bash
 
-   coords_sp.txt : coordinates of the velocity grid points
-   coords_vp.txt : coordinates of the stresses grid points
-   seismogram_0  : seismogram at the receiver locations set in input.yaml
-   snaps_vp_0    : snapshot matrix for the velocity
-   snaps_sp_0    : snapshot matrix for the stresses
+   coords_sp.txt #: coordinates of the velocity grid points
+   coords_vp.txt #: coordinates of the stresses grid points
+   seismogram_0  #: seismogram at the receiver locations set in input.yaml
+   snaps_vp_0    #: snapshot matrix for the velocity
+   snaps_sp_0    #: snapshot matrix for the stresses
 
 
 `4. Post-process data`_
@@ -172,7 +160,7 @@ Then, we can extract and visualize the full wavefield at ``t=250, 1000, 2000`` (
    ln -s ${MYWORKDIR}/build/extractStateFromSnaps .
 
    ./extractStateFromSnaps --snaps=./snaps_vp_0 binary \
-    --fsize=1 --outformat=ascii --timesteps=4000 8000  --samplingfreq=100 --outfileappend=vp
+    --fsize=1 --outformat=ascii --timesteps=1000 4000 8000  --samplingfreq=100 --outfileappend=vp
 
    python plotWavefield.py
 

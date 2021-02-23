@@ -2,7 +2,7 @@ Material Models
 ###############
 
 :breadcrumb: {filename}/materialmodels.rst
-:summary: Material Models
+:summary: Material Models: overview and supported parametrizations
 :date: 2021-02-22 11:00
 
 .. role:: math-info(math)
@@ -20,7 +20,7 @@ The code currently supports the following material models:
 
 
 | When you create an input file to run a simulation, you need to define a material model.
-| Note that the modular structure of the code allows for easily adding more models.
+|    Note that the modular structure of the code allows for easily adding more models.
 
 
 ##################################
@@ -78,13 +78,12 @@ Both the density and shear velocity only have radial dependence.
       :scale: 40 %
 
 
-As above, the profiles can be quadratic, and the coefficients should be provided
-such that the density
-must be in *[kg/m^3]*, and the shear velocity must be in *[m/s]*,
-considering :math-info:`x` to be in units of *[Km]*, and the
-discontinuity is located at :math-info:`d` [km] deep.
+As above, the profiles can be up to quadratic, and the coefficients
+should be provided such that the density is in *[kg/m^3]*,
+the shear velocity in *[m/s]*, assuming :math-info:`x` to be in units of *[Km]*, and the
+discontinuity is :math-info:`d` [km] deep.
 
-Define such a model in the input file can be done as follows:
+Defining such a model in the input file can be done as follows:
 
 .. code:: yaml
 
@@ -94,12 +93,13 @@ Define such a model in the input file can be done as follows:
       density: [a0, a1, a2]    # must have units of kg/m^3
       velocity: [b0, b1, b2]   # must have units of m/s
     layer2:
-      depth: d           # must have units of km
+      depth: d                 # must have units of km
       density: [c0, c1, c2]    # must have units of kg/m^3
       velocity: [d0, d1, d2]   # must have units of m/s
 
 where it is intended that within each layer, the density and shear velocity can
-have different parametrizations.
+have different parametrizations. Note that this supports different
+parametrizations within each layer, and potentially discontinuous profiles.
 
 
 |

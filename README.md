@@ -1,37 +1,19 @@
-<!-- # Scope
-This repository contains code for simulating elastic seismic shear waves in an axisymmetric domain.
+# Scope
+This repository contains code for simulating (elastic) seismic shear waves in an axisymmetric domain.
 The implementation uses Kokkos and Kokkos-kernels to enable performance portability,
 and we provide capabilities to run both the full order model (FOM)
 as well as the Galerkin reduced order model (ROM).
 
-Specifically, this code has been developed mainly for a paper submitted on 11th Sept. 2020 to SISC which is under review.
-The arXiv preprint can be found at: https://arxiv.org/abs/2009.11742
+# Userguide and documentation
+You can find the full user-guide (building, using it, description, etc) [here](http://francescorizzi.net/SHAW/).
 
-# Prerequisites
-To build and use the code, you need to have CMake>=3.11.0,
-C, C++, Fortran compilers, as well as Python>3.6 with at least
-the following packages: matplotlib, numpy, scipy, yaml.
-The code has been tested on MaxOS Catalina 10.15.5 and RedHat 7.0
-with GCC-8.3.1 and GCC-8.4.0.
 
-# Building
-A [step-by-step guide](./docs/build.md) on how to build/install the
-TPLs needed and the elastic shear wave code.
+# License and Citation
 
-# Step-by-step for running a full-order model simulation
-Follow [this guide](./docs/run_fom.md) for an example to run a FOM run.
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
-# Step-by-step for a rank-1 Galerkin ROM simulation
-Follow [this guide](./docs/run_rom.md) for an example to run a rank-1 Galerkin run.
+This code is a spinoff of the code developed for this paper: https://arxiv.org/abs/2009.11742
 
-# Step-by-step for a rank-2 Galerkin ROM simulation
-Coming soon.
-Follow [this guide](./docs/run_rom2.md) for an example to run a rank-2 Galerkin
-to efficiently generate samples of the forcing period. 
- -->
-<!-- # Content
-- [bash script driving the build](./do_build.sh)
-- [C++ source code and tests](./cpp)
-- [meshing](./meshing)
-- [Python scripts for processing and workflows](./python_scripts)
- -->
+
+# Questions? Problems?
+Open an issue on [github](https://github.com/fnrizzi/SHAW/issues).
