@@ -1,12 +1,10 @@
 # Scope
 This repository contains code for simulating (elastic) seismic shear waves in an axisymmetric domain.
-The implementation uses Kokkos and Kokkos-kernels to enable performance portability,
-and we provide capabilities to run both the full order model (FOM)
-as well as the Galerkin reduced order model (ROM).
+The implementation currently uses Kokkos and Kokkos-kernels to enable performance portability.
+Portings to other programming models are being planned.
 
 # Userguide and documentation
-You can find the full user-guide (building, using it, description, etc) [here](http://francescorizzi.net/SHAW/).
-
+You can find the full user-guide (description, building, using it, demos, etc) [here](http://francescorizzi.net/shaw/).
 
 # License and Citation
 
