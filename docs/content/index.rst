@@ -103,9 +103,9 @@ Elastic Shear Waves
 
 	    -  build the code choosing one of the following versions:
 
-	         -  `Host serial Kokkos <{filename}/build/kokkos_host_serial.rst>`_: Kokkos-only version with *host serial* backend
+	         -  `Host serial Kokkos <{filename}/building/kokkos_host_serial.rst>`_: Kokkos-only version with *host serial* backend
 
-	         -  `Host OpenMP Kokkos <{filename}/build/kokkos_host_omp.rst>`_: Kokkos-only version with *host OpenMP* backend
+	         -  `Host OpenMP Kokkos <{filename}/building/kokkos_host_omp.rst>`_: Kokkos-only version with *host OpenMP* backend
 
 	    -  read about the `governing equations, domain and discretization <{filename}/getstarted/goveq.rst>`_
 

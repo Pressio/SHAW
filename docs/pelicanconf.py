@@ -10,8 +10,6 @@ M_SITE_LOGO_TEXT = 'SHAW'
 SITENAME = 'SHAW'
 SITESUBTITLE = 'Elastic Shear Waves'
 SITEURL = ''
-# http://francescorizzi.net/SHAW/output'
-# SITEURL = 'https://github.com/fnrizzi/SHAW'
 
 # M_BLOG_NAME = ''
 # M_BLOG_URL = 'blog/'
@@ -42,7 +40,7 @@ PAGE_SAVE_AS = '{slug}/index.html'
 # AUTHOR_URL = 'blog/author/{slug}/'
 # AUTHOR_SAVE_AS = 'blog/author/{slug}/index.html'
 CATEGORY_URL = '{slug}/'
-CATEGORY_SAVE_AS = '' #'{slug}/index.html'
+CATEGORY_SAVE_AS = '{slug}/index.html'
 TAG_URL = 'tag/{slug}/'
 TAG_SAVE_AS = '' #'blog/tag/{slug}/index.html'
 
@@ -63,6 +61,7 @@ if platform.system() == 'Windows':
 else:
     DATE_FORMATS = {'en': ('en_US.UTF-8', '%b %d, %Y')}
 
+# USE_FOLDER_AS_CATEGORY = False
 FEED_ATOM = None
 FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None
@@ -72,25 +71,26 @@ AUTHOR_FEED_RSS = None
 
 M_LINKS_NAVBAR1 = [('Build', '', '',
                     [
-                      ("Host Serial Kokkos Build", 'build/kokkos_host_serial', 'build/kokkos_host_serial'),
-                      ("Host OpenMP Kokkos Build", 'build/kokkos_host_omp',    'build/kokkos_host_omp')
+                      ("Host Serial Kokkos Build", 'building/kokkos_host_serial/', ''),
+                      ("Host OpenMP Kokkos Build", 'building/kokkos_host_omp/',    '')
                     ]),
 
                     ('Get Started', '', '',
                     [
-                      ("Equations and discretization", 'getstarted/goveq',          'getstarted/goveq'),
-                      ('Input File',                   'getstarted/inputfile',      'getstarted/inputfile'),
-                      ('Material Models',              'getstarted/materialmodels', 'getstarted/materialmodels'),
+                      ("Equations and discretization", 'getstarted/goveq/',         ''),
+                      ('Input File',                   'getstarted/inputfile/',     ''),
+                      ('Material Models',              'getstarted/materialmodels/',''),
                     ]),
 
                    ('Demos', '', '',
                     [
-                      ("Single Forcing Run",            'demos/rank1fom',      'demos/rank1fom'),
-                      ("Multi-forcing Run with rank-1", 'demos/rank1fomMulti', 'demos/rank1fomMulti'),
-                      ("Multi-forcing Run wirh rank-2", 'demos/rank2fom',      '')
+                      ("Single Forcing Run",            'demos/rank1fom/',      ''),
+                      ("Multi-forcing Run with rank-1", 'demos/rank1fommulti/', ''),
+                      ("Multi-forcing Run wirh rank-2", 'demos/rank2fom/',      '')
                     ]),
 
-                   ('Various', '', '', [("License", 'license', 'license')])]
+                   ("License", 'license', 'license', [])
+                   ]
 M_LINKS_NAVBAR2 = []
 M_LINKS_FOOTER1 = []
 M_LINKS_FOOTER2 = []
@@ -146,7 +146,7 @@ M_HTMLSANITY_HYPHENATION = True
 
 # _magnum_colors_src = re.compile(r"""<span class="mh">0x(?P<hex>[0-9a-f]{6})(?P<alpha>[0-9a-f]{2})?(?P<literal>_s?rgba?f?)</span>""")
 # _magnum_colors_dst = r"""<span class="mh">0x\g<hex>\g<alpha>\g<literal><span class="m-code-color" style="background-color: #\g<hex>;"></span></span>"""
-# # #_zwnj_in_console_colors_src = re.compile(
+# # # #_zwnj_in_console_colors_src = re.compile(
 
 # M_CODE_FILTERS_POST = {
 #     'C++': lambda str: _magnum_colors_src.sub(_magnum_colors_dst, str)
@@ -156,17 +156,17 @@ M_HTMLSANITY_HYPHENATION = True
 #     logging.warning("LaTeX not found, fallback to rendering math as code")
 #     M_MATH_RENDER_AS_CODE = True
 
-# DIRECT_TEMPLATES = ['archives']
-# PAGINATED_TEMPLATES = {'archives': None, 'tag': None, 'category': None, 'author': None}
+DIRECT_TEMPLATES = ['archives']
+PAGINATED_TEMPLATES = {'archives': None, 'tag': None, 'category': None, 'author': None}
 
-# SLUGIFY_SOURCE = 'basename'
-# # PATH_METADATA = '(?P<slug>.+).rst'
+SLUGIFY_SOURCE = 'basename'
+PATH_METADATA = '(?P<slug>.+).rst'
 # PATH_METADATA = '(blog/)?(?P<slug>.+).rst'
-# # PATH_METADATA = '(?P<slug>.*)\..*'
-# SLUG_REGEX_SUBSTITUTIONS = [
-#         (r'[^\w\s-]', ''),  # remove non-alphabetical/whitespace/'-' chars
-#         (r'(?u)\A\s*', ''),  # strip leading whitespace
-#         (r'(?u)\s*\Z', ''),  # strip trailing whitespace
-#         (r'[-\s]+', '-'),  # reduce multiple whitespace or '-' to single '-'
-#         (r'C\+\+', 'cpp'),
-#     ]
+# PATH_METADATA = '(?P<slug>.*)\..*'
+SLUG_REGEX_SUBSTITUTIONS = [
+        (r'[^\w\s-]', ''),  # remove non-alphabetical/whitespace/'-' chars
+        (r'(?u)\A\s*', ''),  # strip leading whitespace
+        (r'(?u)\s*\Z', ''),  # strip trailing whitespace
+        (r'[-\s]+', '-'),  # reduce multiple whitespace or '-' to single '-'
+        (r'C\+\+', 'cpp'),
+    ]
