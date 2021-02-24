@@ -1,5 +1,5 @@
-Host OpenMP Kokkos Build
-########################
+OpenMP Host-only Kokkos Build
+#############################
 
 :breadcrumb: {filename}/kokkos_host_omp.rst
 :date: 2021-02-12 11:00
@@ -30,7 +30,7 @@ Host OpenMP Kokkos Build
 #################
 `3. BLAS/LAPACK`_
 #################
-This step is the same as described in `the serial build <{filename}/building/kokkos_host_serial.rst>`_,
+This step is the same as described in `the serial host-only build <{filename}/kokkos_host_serial.rst>`_,
 
 ##############################
 `4. Build Kokkos and Kernels`_
@@ -54,7 +54,7 @@ with OpenMP support as follows:
 * If you want to enable arch-specific optimizations following
   the `Kokkos userguide <https://github.com/kokkos/kokkos>`_
   and `here <https://github.com/kokkos/kokkos-kernels/wiki/Building>`_,
-  you need to modify the flags passed to
+  you need to modify the flags passed to Kokkos inside
   `build_kokkos_and_kernels.sh <https://github.com/fnrizzi/SHAW/tree/master/bash_scripts/build_kokkos_and_kernels.sh>`_
   and rerun it.
 
@@ -62,4 +62,4 @@ with OpenMP support as follows:
 `5. Build the Shear Wave Code and Run Tests`_
 #############################################
 
-This step is the same as Step 5 described on `this page <{filename}/building/kokkos_host_serial.rst>`_.
+This step is the same as described for `the serial host-only version <{filename}/kokkos_host_serial.rst>`_.

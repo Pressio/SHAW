@@ -54,10 +54,11 @@ This should generate a directory ``${MYRUNDIR}/mesh200x1000`` containing:
 
 .. code:: bash
 
-   -rw-r--r--  1 fnrizzi  staff   4.5M Aug 30 12:20 coeff_vp.dat
-   -rw-r--r--  1 fnrizzi  staff    28M Aug 30 12:20 graph_sp.dat
-   -rw-r--r--  1 fnrizzi  staff    16M Aug 30 12:20 graph_vp.dat
-   -rw-r--r--  1 fnrizzi  staff   231B Aug 30 12:20 mesh_info.dat
+   .
+   ├── [4.5M]  coeff_vp.dat
+   ├── [ 28M]  graph_sp.dat
+   ├── [ 16M]  graph_vp.dat
+   └── [ 231]  mesh_info.dat
 
 
 `3. Input file`_
@@ -111,11 +112,11 @@ Which is already in the repo and you can copy as:
 .. code:: bash
 
    cd ${MYRUNDIR}
-   ln -s ${MYWORKDIR}/build/shwave_fom .
+   ln -s ${MYWORKDIR}/build/shawExe .
 
    # if you use OpenMP build, remember to set
    # OMP_NUM_THREADS=4 OMP_PLACES=threads OMP_PROC_BIND=spread
-   ./shwave_fom input.yaml
+   ./shawExe input.yaml
 
 
 `5. Simulation data`_
@@ -160,8 +161,11 @@ Then, we can extract and visualize the full wavefield at ``t=250, 1000, 2000`` (
    cd ${MYRUNDIR}
    ln -s ${MYWORKDIR}/build/extractStateFromSnaps .
 
-   ./extractStateFromSnaps --snaps=./snaps_vp_0 binary \
-    --fsize=1 --outformat=ascii --timesteps=1000 4000 8000  --samplingfreq=100 --outfileappend=vp
+   # extract from the velocity snapshots the velocity field at specific timesteps:
+   # since we use ``dt = 0.25`` seconds, our tartgets ``t=250, 1000, 2000``,
+   # correspond to *time steps* 1000, 4000, 8000
+   ./extractStateFromSnaps --snaps=./snaps_vp_0 binary --fsize=1 \
+     --outformat=ascii --timesteps=1000 4000 8000  --samplingfreq=100 --outfileappend=vp
 
    python plotWavefield.py
 

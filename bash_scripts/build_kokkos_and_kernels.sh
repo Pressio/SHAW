@@ -80,7 +80,7 @@ function buildKokkosKernels(){
 }
 
 MYPWD=`pwd`
-kokkosver=3.1.01
+kokkosver=3.3.01
 
 # create dir
 [[ ! -d kokkos ]] && mkdir kokkos

@@ -1,5 +1,5 @@
-Host Serial Kokkod Build
-========================
+Serial Host-only Kokkod Build
+#############################
 
 :breadcrumb: {filename}/kokkos_host_serial.rst
 :date: 2021-02-12 11:00
@@ -117,7 +117,7 @@ Now that you BLAS/LAPACK is ready, we build Kokkos core and kernels as follows:
 * If you want to enable arch-specific optimizations following
   the `Kokkos userguide <https://github.com/kokkos/kokkos>`_
   and `here <https://github.com/kokkos/kokkos-kernels/wiki/Building>`_,
-  you need to modify the flags passed to
+  you need to modify the flags passed to Kokkos inside
   `build_kokkos_and_kernels.sh <https://github.com/fnrizzi/SHAW/tree/master/bash_scripts/build_kokkos_and_kernels.sh>`_
   and rerun it.
 
@@ -137,47 +137,56 @@ which should display (at the time of this writing we have these tests):
 
 .. code:: bash
 
-   Start  1: parser_test_1
-   1/21 Test  #1: parser_test_1 .....................   Passed    0.32 sec
-   Start  2: parser_test_2
-   2/21 Test  #2: parser_test_2 .....................   Passed    0.19 sec
-   Start  3: parser_test_3
-   3/21 Test  #3: parser_test_3 .....................   Passed    0.22 sec
-   Start  4: parser_test_4
-   4/21 Test  #4: parser_test_4 .....................   Passed    0.19 sec
-   Start  5: seismogram_test
-   5/21 Test  #5: seismogram_test ...................   Passed    0.20 sec
-   Start  6: forcing_rank1
-   6/21 Test  #6: forcing_rank1 .....................   Passed    0.20 sec
-   Start  7: graphs
-   7/21 Test  #7: graphs ............................   Passed    0.19 sec
-   Start  8: coords
-   8/21 Test  #8: coords ............................   Passed    0.20 sec
-   Start  9: jacobian_vp
-   9/21 Test  #9: jacobian_vp .......................   Passed    0.20 sec
-   Start 10: jacobian_sp
-   10/21 Test #10: jacobian_sp .......................   Passed    0.20 sec
-   Start 11: stress_labels
-   11/21 Test #11: stress_labels .....................   Passed    0.20 sec
-   Start 12: fomInnerDomainKokkos1
-   12/21 Test #12: fomInnerDomainKokkos1 .............   Passed    0.67 sec
-   Start 13: fomInnerDomainKokkos2
-   13/21 Test #13: fomInnerDomainKokkos2 .............   Passed    0.47 sec
-   Start 14: fomNearSurfaceKokkos1
-   14/21 Test #14: fomNearSurfaceKokkos1 .............   Passed    0.50 sec
-   Start 15: fomNearSurfaceKokkos2
-   15/21 Test #15: fomNearSurfaceKokkos2 .............   Passed    0.47 sec
-   Start 16: fomNearCmbKokkos1
-   16/21 Test #16: fomNearCmbKokkos1 .................   Passed    0.64 sec
-   Start 17: fomNearCmbKokkos2
-   17/21 Test #17: fomNearCmbKokkos2 .................   Passed    0.64 sec
-   Start 18: fomSymmetryAxisThetaZeroKokkos1
-   18/21 Test #18: fomSymmetryAxisThetaZeroKokkos1 ...   Passed    0.86 sec
-   Start 19: fomSymmetryAxisThetaZeroKokkos2
-   19/21 Test #19: fomSymmetryAxisThetaZeroKokkos2 ...   Passed    0.85 sec
-   Start 20: fomSymmetryAxisThetaPiKokkos1
-   20/21 Test #20: fomSymmetryAxisThetaPiKokkos1 .....   Passed    0.84 sec
-   Start 21: fomSymmetryAxisThetaPiKokkos2
-   21/21 Test #21: fomSymmetryAxisThetaPiKokkos2 .....   Passed    0.85 sec
 
-   100% tests passed, 0 tests failed out of 21
+	  Start  1: meshinfo
+     1/25 Test  #1: meshinfo ............................   Passed    0.26 sec
+	  Start  2: parser_test_1
+     2/25 Test  #2: parser_test_1 .......................   Passed    0.17 sec
+	  Start  3: parser_test_2
+     3/25 Test  #3: parser_test_2 .......................   Passed    0.16 sec
+	  Start  4: parser_test_3
+     4/25 Test  #4: parser_test_3 .......................   Passed    0.16 sec
+	  Start  5: parser_test_4
+     5/25 Test  #5: parser_test_4 .......................   Passed    0.16 sec
+	  Start  6: parser_test_5
+     6/25 Test  #6: parser_test_5 .......................   Passed    0.16 sec
+	  Start  7: parser_test_6
+     7/25 Test  #7: parser_test_6 .......................   Passed    0.16 sec
+	  Start  8: seismogram_test
+     8/25 Test  #8: seismogram_test .....................   Passed    0.17 sec
+	  Start  9: forcing_rank1
+     9/25 Test  #9: forcing_rank1 .......................   Passed    0.17 sec
+	  Start 10: graphs
+    10/25 Test #10: graphs ..............................   Passed    0.17 sec
+	  Start 11: coords
+    11/25 Test #11: coords ..............................   Passed    0.17 sec
+	  Start 12: jacobian_vp
+    12/25 Test #12: jacobian_vp .........................   Passed    0.17 sec
+	  Start 13: jacobian_sp
+    13/25 Test #13: jacobian_sp .........................   Passed    0.16 sec
+	  Start 14: stress_labels
+    14/25 Test #14: stress_labels .......................   Passed    0.17 sec
+	  Start 15: fomInnerDomain
+    15/25 Test #15: fomInnerDomain ......................   Passed    1.40 sec
+	  Start 16: fomNearSurface
+    16/25 Test #16: fomNearSurface ......................   Passed    1.28 sec
+	  Start 17: fomNearCmb
+    17/25 Test #17: fomNearCmb ..........................   Passed    1.68 sec
+	  Start 18: fomSymmetryAxisThetaZero
+    18/25 Test #18: fomSymmetryAxisThetaZero ............   Passed    2.26 sec
+	  Start 19: fomSymmetryAxisThetaPi
+    19/25 Test #19: fomSymmetryAxisThetaPi ..............   Passed    2.31 sec
+	  Start 20: multiDepthsForcingRank1
+    20/25 Test #20: multiDepthsForcingRank1 .............   Passed    1.95 sec
+	  Start 21: multiPeriodsForcingRank1
+    21/25 Test #21: multiPeriodsForcingRank1 ............   Passed    1.78 sec
+	  Start 22: multiDepthsAndPeriodsForcingRank1
+    22/25 Test #22: multiDepthsAndPeriodsForcingRank1 ...   Passed    5.19 sec
+	  Start 23: multiDepthsForcingRank2
+    23/25 Test #23: multiDepthsForcingRank2 .............   Passed    1.86 sec
+	  Start 24: multiPeriodsForcingRank2
+    24/25 Test #24: multiPeriodsForcingRank2 ............   Passed    1.03 sec
+	  Start 25: multiDepthsAndPeriodsForcingRank2
+    25/25 Test #25: multiDepthsAndPeriodsForcingRank2 ...   Passed    2.94 sec
+
+   100% tests passed, 0 tests failed out of 25

@@ -45,10 +45,11 @@ This should generate a directory ``${MYRUNDIR}/mesh256x1024`` containing:
 
 .. code:: bash
 
-   -rw-r--r--  1 fnrizzi  staff   5.9M Feb  9 19:30 coeff_vp.dat
-   -rw-r--r--  1 fnrizzi  staff    37M Feb  9 19:30 graph_sp.dat
-   -rw-r--r--  1 fnrizzi  staff    21M Feb  9 19:30 graph_vp.dat
-   -rw-r--r--  1 fnrizzi  staff   231B Feb  9 19:30 mesh_info.dat
+   .
+   ├── [5.9M]  coeff_vp.dat
+   ├── [ 37M]  graph_sp.dat
+   ├── [ 21M]  graph_vp.dat
+   └── [ 231]  mesh_info.dat
 
 
 `3. Input file`_
@@ -102,18 +103,18 @@ Which is ready to get:
 .. code:: bash
 
    cd ${MYRUNDIR}
-   ln -s ${MYWORKDIR}/build/shwave_fom .
+   ln -s ${MYWORKDIR}/build/shawExe .
 
    # if you use OpenMP build, remember to set
    # OMP_NUM_THREADS=4 OMP_PLACES=threads OMP_PROC_BIND=spread
-
-   ./shwave_fom input.yaml
+   ./shawExe input.yaml
 
 
 `5. Simulation data`_
 =======================
 
-After running the demo, you should have inside ``${MYRUNDIR}`` the following files:
+After running the demo (have some patience because it takes some a couple minutes),
+you should have inside ``${MYRUNDIR}`` the following files:
 
 .. code:: bash
 

@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <title> &raquo; Material Models | SHAW</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,600%7CSource+Sans+Pro:400,400i,600,600i&amp;subset=latin-ext" />
-  <link rel="stylesheet" href="http://francescorizzi.net/shaw/static/m-dark.css" />
-  <link rel="canonical" href="http://francescorizzi.net/shaw/material-models/" />
+  <link rel="stylesheet" href="/static/m-dark.css" />
+  <link rel="canonical" href="/material-models/" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#22272e" />
   <meta property="og:site_name" content="SHAW" />
   <meta property="og:title" content="Material Models" />
   <meta name="twitter:title" content="Material Models" />
-  <meta property="og:url" content="http://francescorizzi.net/shaw/material-models/" />
+  <meta property="og:url" content="/material-models/" />
   <meta property="og:description" content="Material Models: overview and supported parametrizations" />
   <meta name="twitter:description" content="Material Models: overview and supported parametrizations" />
   <meta name="twitter:card" content="summary" />
@@ -21,36 +21,36 @@
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a href="http://francescorizzi.net/shaw/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHAW</a>
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHAW</a>
       <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
         <div class="m-row">
           <ol class="m-col-t-12 m-col-m-none">
             <li>
-              <a href="http://francescorizzi.net/shaw/">Build</a>
+              <a href="/">Build</a>
               <ol>
-                <li><a href="http://francescorizzi.net/shaw/host-serial-kokkod-build/">Host Serial Kokkos Build</a></li>
-                <li><a href="http://francescorizzi.net/shaw/host-openmp-kokkos-build/">Host OpenMP Kokkos Build</a></li>
+                <li><a href="/host-serial-kokkod-build/">Host Serial Kokkos Build</a></li>
+                <li><a href="/host-openmp-kokkos-build/">Host OpenMP Kokkos Build</a></li>
               </ol>
             </li>
             <li>
-              <a href="http://francescorizzi.net/shaw/">Get Started</a>
+              <a href="/">Get Started</a>
               <ol>
-                <li><a href="http://francescorizzi.net/shaw/governing-equations-and-discretization/">Equations and discretization</a></li>
-                <li><a href="http://francescorizzi.net/shaw/input-file/">Input File</a></li>
-                <li><a href="http://francescorizzi.net/shaw/material-models/">Material Models</a></li>
+                <li><a href="/governing-equations-and-discretization/">Equations and discretization</a></li>
+                <li><a href="/input-file/">Input File</a></li>
+                <li><a href="/material-models/">Material Models</a></li>
               </ol>
             </li>
             <li>
-              <a href="http://francescorizzi.net/shaw/">Demos</a>
+              <a href="/">Demos</a>
               <ol>
-                <li><a href="http://francescorizzi.net/shaw/single-forcing-run/">Single Forcing Run</a></li>
-                <li><a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1/">Multi-forcing Run with rank-1</a></li>
-                <li><a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-2/">Multi-forcing Run wirh rank-2</a></li>
+                <li><a href="/single-forcing-run/">Single Forcing Run</a></li>
+                <li><a href="/multi-forcing-run-with-rank-1/">Multi-forcing Run with rank-1</a></li>
+                <li><a href="/multi-forcing-run-with-rank-2/">Multi-forcing Run wirh rank-2</a></li>
               </ol>
             </li>
-            <li><a href="http://francescorizzi.net/shaw/license">License</a></li>
+            <li><a href="/license">License</a></li>
           </ol>
         </div>
       </div>
@@ -64,7 +64,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb">
-            <a href="http://francescorizzi.net/shaw/material-models/"></a> &raquo;
+            <a href="/material-models/"></a> &raquo;
           </span>
           Material Models
         </h1>
@@ -74,20 +74,18 @@
 <li>single layer</li>
 <li>two layers</li>
 <li>PREM</li>
-<li>custom material model.</li>
+<li>custom material model</li>
 </ul>
-<p>
-When you create an input file to run a simulation, you need to define a material model.<br />
-<p>
-Note that the modular structure of the code allows for easily adding more models.<br />
-</p>
-</p>
+<aside class="m-block m-danger">
+<h3>No default choice is set.</h3>
+<p>When you create an input file for a simulation, you <em>need to</em> define a material model.</p>
+</aside>
 <section id="single-layer-material-model">
 <h2><a href="#single-layer-material-model">1. Single Layer Material Model</a></h2>
 <p>A single material <em>without</em> discontinuities as shown in the
 figure below, and such that both the density and shear velocity only have radial dependence.</p>
 <figure class="m-figure">
-<img src="http://francescorizzi.net/shaw/static/img/mat_f1.png" style="width: 181px" />
+<img src="/static/img/mat_f1.png" style="width: 181px" />
 </figure>
 <p>The code currently supports up to quadratic parametrizations as:</p>
 <div class="m-math">
@@ -180,8 +178,8 @@ x
 <pre class="m-code"><span class="nt">material</span><span class="p">:</span>
   <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">unilayer</span>
   <span class="nt">layer</span><span class="p">:</span>
-    <span class="nt">density</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">a0</span><span class="p p-Indicator">,</span> <span class="nv">a1</span><span class="p p-Indicator">,</span> <span class="nv">a2</span><span class="p p-Indicator">]</span>    <span class="c1"># must have units of kg/m^3</span>
-    <span class="nt">velocity</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">b0</span><span class="p p-Indicator">,</span> <span class="nv">b1</span><span class="p p-Indicator">,</span> <span class="nv">b2</span><span class="p p-Indicator">]</span>   <span class="c1"># must have units of m/s</span></pre>
+    <span class="nt">density</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">a0</span><span class="p p-Indicator">,</span> <span class="nv">a1</span><span class="p p-Indicator">,</span> <span class="nv">a2</span><span class="p p-Indicator">]</span>    <span class="c1"># density  must have units of kg/m^3</span>
+    <span class="nt">velocity</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">b0</span><span class="p p-Indicator">,</span> <span class="nv">b1</span><span class="p p-Indicator">,</span> <span class="nv">b2</span><span class="p p-Indicator">]</span>   <span class="c1"># velocity must have units of m/s</span></pre>
 <p>Note that if you want a homogenouos material with constant density
 and shear velocity, you can just set <svg class="m-math m-default" style="width: 2.639em; height: 1.107em; vertical-align: -0.243em;" viewBox="0 -8.302191 25.332706 10.626798">
 <title>
@@ -212,7 +210,7 @@ coefficients to zero.</p>
 single discontinuity as shown in the figure below.
 Both the density and shear velocity only have radial dependence.</p>
 <figure class="m-figure">
-<img src="http://francescorizzi.net/shaw/static/img/mat_f2.png" style="width: 233px" />
+<img src="/static/img/mat_f2.png" style="width: 233px" />
 </figure>
 <p>As above, the profiles can be up to quadratic, and the coefficients
 should be provided such that the density is in <em>[kg/m^3]</em>,
@@ -242,12 +240,12 @@ d
 <pre class="m-code"><span class="nt">material</span><span class="p">:</span>
   <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">unilayer</span>
   <span class="nt">layer1</span><span class="p">:</span>
-    <span class="nt">density</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">a0</span><span class="p p-Indicator">,</span> <span class="nv">a1</span><span class="p p-Indicator">,</span> <span class="nv">a2</span><span class="p p-Indicator">]</span>    <span class="c1"># must have units of kg/m^3</span>
-    <span class="nt">velocity</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">b0</span><span class="p p-Indicator">,</span> <span class="nv">b1</span><span class="p p-Indicator">,</span> <span class="nv">b2</span><span class="p p-Indicator">]</span>   <span class="c1"># must have units of m/s</span>
+    <span class="nt">density</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">a0</span><span class="p p-Indicator">,</span> <span class="nv">a1</span><span class="p p-Indicator">,</span> <span class="nv">a2</span><span class="p p-Indicator">]</span>    <span class="c1"># density  must have units of kg/m^3</span>
+    <span class="nt">velocity</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">b0</span><span class="p p-Indicator">,</span> <span class="nv">b1</span><span class="p p-Indicator">,</span> <span class="nv">b2</span><span class="p p-Indicator">]</span>   <span class="c1"># velocity must have units of m/s</span>
   <span class="nt">layer2</span><span class="p">:</span>
     <span class="nt">depth</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">d</span>                 <span class="c1"># must have units of km</span>
-    <span class="nt">density</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">c0</span><span class="p p-Indicator">,</span> <span class="nv">c1</span><span class="p p-Indicator">,</span> <span class="nv">c2</span><span class="p p-Indicator">]</span>    <span class="c1"># must have units of kg/m^3</span>
-    <span class="nt">velocity</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">d0</span><span class="p p-Indicator">,</span> <span class="nv">d1</span><span class="p p-Indicator">,</span> <span class="nv">d2</span><span class="p p-Indicator">]</span>   <span class="c1"># must have units of m/s</span></pre>
+    <span class="nt">density</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">c0</span><span class="p p-Indicator">,</span> <span class="nv">c1</span><span class="p p-Indicator">,</span> <span class="nv">c2</span><span class="p p-Indicator">]</span>    <span class="c1"># density  must have units of kg/m^3</span>
+    <span class="nt">velocity</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">d0</span><span class="p p-Indicator">,</span> <span class="nv">d1</span><span class="p p-Indicator">,</span> <span class="nv">d2</span><span class="p p-Indicator">]</span>   <span class="c1"># velocity must have units of m/s</span></pre>
 <p>where it is intended that within each layer, the density and shear velocity can
 have different parametrizations. Note that this supports different
 parametrizations within each layer, and potentially discontinuous profiles.</p>
@@ -258,17 +256,101 @@ parametrizations within each layer, and potentially discontinuous profiles.</p>
 <section id="preliminary-reference-earth-model-prem">
 <h2><a href="#preliminary-reference-earth-model-prem">3. Preliminary Reference Earth Model (PREM)</a></h2>
 <p>The PREM model is a radial model representing the average Earth properties, and one of the most
-commonly adoptedo ones. For more details, check the following references:</p>
+commonly adopted. Choose it from the input file as:</p>
+<pre class="m-code"><span class="nt">material</span><span class="p">:</span>
+  <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">prem</span></pre>
+<p>The details of the parametrization for the PREM model are <a href="https://github.com/fnrizzi/SHAW/blob/master/src/shared/material_models/material_model_prem.hpp">handled directly within the code</a>.</p>
+<p>For more details, check the following references:</p>
 <ul>
 <li>Dziewonski, A.M., and D.L. Anderson. 1981. “Preliminary reference Earth model.” Phys. Earth Plan. Int. 25:297-356.</li>
 <li><a class="m-link-wrap" href="http://ds.iris.edu/ds/products/emc-prem/">http://ds.iris.edu/ds/products/emc-prem/</a></li>
 <li><a class="m-link-wrap" href="https://www.cfa.harvard.edu/~lzeng/papers/PREM.pdf">https://www.cfa.harvard.edu/~lzeng/papers/PREM.pdf</a></li>
 </ul>
-<p>To use the PREM model, you should add the following to your input file:</p>
+<aside class="m-block m-warning">
+<h3>PREM is for Earth only</h3>
+<p>The PREM model only makes sense when you are simulating the Earth.
+So your domain must be bounded between the core-mantle boundary (CMB)
+located at <svg class="m-math m-default" style="width: 6.766em; height: 1.045em; vertical-align: -0.243em;" viewBox="0 -7.704442 64.95676 10.029049">
+<title>
+r_{cmb} = 3,480
+</title>
+<defs>
+<path id='eq7-g0-98' d='M1.944707-5.292154C1.952677-5.308095 1.976588-5.411706 1.976588-5.419676C1.976588-5.459527 1.944707-5.531258 1.849066-5.531258C1.817186-5.531258 1.570112-5.507347 1.3868-5.491407L.940473-5.459527C.765131-5.443587 .68543-5.435616 .68543-5.292154C.68543-5.180573 .797011-5.180573 .892653-5.180573C1.275218-5.180573 1.275218-5.132752 1.275218-5.061021C1.275218-5.0132 1.195517-4.694396 1.147696-4.511083L.454296-1.737484C.390535-1.466501 .390535-1.346949 .390535-1.211457C.390535-.390535 .892653 .079701 1.506351 .079701C2.486675 .079701 3.506849-1.052055 3.506849-2.207721C3.506849-2.996762 2.996762-3.514819 2.359153-3.514819C1.912827-3.514819 1.570112-3.227895 1.39477-3.076463L1.944707-5.292154ZM1.506351-.143462C1.219427-.143462 .932503-.366625 .932503-.948443C.932503-1.163636 .964384-1.362889 1.060025-1.745455C1.115816-1.976588 1.171606-2.199751 1.235367-2.430884C1.275218-2.574346 1.275218-2.590286 1.370859-2.709838C1.641843-3.044583 2.000498-3.291656 2.335243-3.291656C2.733748-3.291656 2.885181-2.901121 2.885181-2.542466C2.885181-2.247572 2.709838-1.39477 2.470735-.924533C2.263512-.494147 1.880946-.143462 1.506351-.143462Z'/>
+<path id='eq7-g0-99' d='M3.259776-3.052553C2.933001-3.012702 2.82939-2.765629 2.82939-2.606227C2.82939-2.375093 3.036613-2.311333 3.140224-2.311333C3.180075-2.311333 3.58655-2.343213 3.58655-2.82939S3.060523-3.514819 2.582316-3.514819C1.45056-3.514819 .350685-2.414944 .350685-1.299128C.350685-.541968 .868742 .079701 1.753425 .079701C3.012702 .079701 3.674222-.72528 3.674222-.828892C3.674222-.900623 3.594521-.956413 3.5467-.956413S3.474969-.932503 3.435118-.884682C2.805479-.143462 1.912827-.143462 1.769365-.143462C1.338979-.143462 .996264-.406476 .996264-1.012204C.996264-1.362889 1.155666-2.207721 1.530262-2.701868C1.880946-3.148194 2.279452-3.291656 2.590286-3.291656C2.685928-3.291656 3.052553-3.283686 3.259776-3.052553Z'/>
+<path id='eq7-g0-109' d='M1.594022-1.307098C1.617933-1.42665 1.697634-1.729514 1.721544-1.849066C1.745455-1.928767 1.793275-2.12005 1.809215-2.199751C1.825156-2.239601 2.088169-2.757659 2.438854-3.020672C2.709838-3.227895 2.972852-3.291656 3.196015-3.291656C3.490909-3.291656 3.650311-3.116314 3.650311-2.749689C3.650311-2.558406 3.602491-2.375093 3.514819-2.016438C3.459029-1.809215 3.323537-1.275218 3.275716-1.060025L3.156164-.581818C3.116314-.446326 3.060523-.207223 3.060523-.167372C3.060523 .01594 3.211955 .079701 3.315567 .079701C3.459029 .079701 3.57858-.01594 3.634371-.111582C3.658281-.159402 3.722042-.430386 3.761893-.597758L3.945205-1.307098C3.969116-1.42665 4.048817-1.729514 4.072727-1.849066C4.184309-2.279452 4.184309-2.287422 4.367621-2.550436C4.630635-2.940971 5.00523-3.291656 5.539228-3.291656C5.826152-3.291656 5.993524-3.124284 5.993524-2.749689C5.993524-2.311333 5.65878-1.39477 5.507347-1.012204C5.427646-.804981 5.403736-.749191 5.403736-.597758C5.403736-.143462 5.778331 .079701 6.121046 .079701C6.902117 .079701 7.228892-1.036115 7.228892-1.139726C7.228892-1.219427 7.165131-1.243337 7.10934-1.243337C7.013699-1.243337 6.997758-1.187547 6.973848-1.107846C6.782565-.446326 6.447821-.143462 6.144956-.143462C6.017435-.143462 5.953674-.223163 5.953674-.406476S6.017435-.765131 6.097136-.964384C6.216687-1.267248 6.567372-2.183811 6.567372-2.630137C6.567372-3.227895 6.152927-3.514819 5.579078-3.514819C5.029141-3.514819 4.574844-3.227895 4.216189-2.733748C4.152428-3.371357 3.642341-3.514819 3.227895-3.514819C2.86127-3.514819 2.375093-3.387298 1.936737-2.81345C1.880946-3.291656 1.498381-3.514819 1.123786-3.514819C.844832-3.514819 .645579-3.347447 .510087-3.076463C.318804-2.701868 .239103-2.311333 .239103-2.295392C.239103-2.223661 .294894-2.191781 .358655-2.191781C.462267-2.191781 .470237-2.223661 .526027-2.430884C.621669-2.82142 .765131-3.291656 1.099875-3.291656C1.307098-3.291656 1.354919-3.092403 1.354919-2.917061C1.354919-2.773599 1.315068-2.622167 1.251308-2.359153C1.235367-2.295392 1.115816-1.825156 1.083935-1.713574L.789041-.518057C.757161-.398506 .70934-.199253 .70934-.167372C.70934 .01594 .860772 .079701 .964384 .079701C1.107846 .079701 1.227397-.01594 1.283188-.111582C1.307098-.159402 1.370859-.430386 1.41071-.597758L1.594022-1.307098Z'/>
+<path id='eq7-g2-48' d='M5.355915-3.825654C5.355915-4.817933 5.296139-5.786301 4.865753-6.694894C4.375592-7.687173 3.514819-7.950187 2.929016-7.950187C2.235616-7.950187 1.3868-7.603487 .944458-6.611208C.609714-5.858032 .490162-5.116812 .490162-3.825654C.490162-2.666002 .573848-1.793275 1.004234-.944458C1.470486-.035866 2.295392 .251059 2.917061 .251059C3.957161 .251059 4.554919-.37061 4.901619-1.06401C5.332005-1.960648 5.355915-3.132254 5.355915-3.825654ZM2.917061 .011955C2.534496 .011955 1.75741-.203238 1.530262-1.506351C1.398755-2.223661 1.398755-3.132254 1.398755-3.969116C1.398755-4.94944 1.398755-5.834122 1.590037-6.539477C1.793275-7.340473 2.402989-7.711083 2.917061-7.711083C3.371357-7.711083 4.064757-7.436115 4.291905-6.40797C4.447323-5.726526 4.447323-4.782067 4.447323-3.969116C4.447323-3.16812 4.447323-2.259527 4.315816-1.530262C4.088667-.215193 3.335492 .011955 2.917061 .011955Z'/>
+<path id='eq7-g2-51' d='M2.199751-4.291905C1.996513-4.27995 1.948692-4.267995 1.948692-4.160399C1.948692-4.040847 2.008468-4.040847 2.223661-4.040847H2.773599C3.789788-4.040847 4.244085-3.203985 4.244085-2.056289C4.244085-.490162 3.431133-.071731 2.84533-.071731C2.271482-.071731 1.291158-.3467 .944458-1.135741C1.327024-1.075965 1.673724-1.291158 1.673724-1.721544C1.673724-2.068244 1.422665-2.307347 1.08792-2.307347C.800996-2.307347 .490162-2.139975 .490162-1.685679C.490162-.621669 1.554172 .251059 2.881196 .251059C4.303861 .251059 5.355915-.836862 5.355915-2.044334C5.355915-3.144209 4.471233-4.004981 3.323537-4.208219C4.363636-4.507098 5.033126-5.379826 5.033126-6.312329C5.033126-7.256787 4.052802-7.950187 2.893151-7.950187C1.697634-7.950187 .812951-7.220922 .812951-6.348194C.812951-5.869988 1.183562-5.774346 1.362889-5.774346C1.613948-5.774346 1.900872-5.953674 1.900872-6.312329C1.900872-6.694894 1.613948-6.862267 1.350934-6.862267C1.279203-6.862267 1.255293-6.862267 1.219427-6.850311C1.673724-7.663263 2.797509-7.663263 2.857285-7.663263C3.251806-7.663263 4.028892-7.483935 4.028892-6.312329C4.028892-6.085181 3.993026-5.415691 3.646326-4.901619C3.287671-4.375592 2.881196-4.339726 2.558406-4.327771L2.199751-4.291905Z'/>
+<path id='eq7-g2-52' d='M4.315816-7.782814C4.315816-8.009963 4.315816-8.069738 4.148443-8.069738C4.052802-8.069738 4.016936-8.069738 3.921295-7.926276L.32279-2.343213V-1.996513H3.466999V-.908593C3.466999-.466252 3.443088-.3467 2.570361-.3467H2.331258V0C2.606227-.02391 3.550685-.02391 3.88543-.02391S5.176588-.02391 5.451557 0V-.3467H5.212453C4.351681-.3467 4.315816-.466252 4.315816-.908593V-1.996513H5.523288V-2.343213H4.315816V-7.782814ZM3.526775-6.850311V-2.343213H.621669L3.526775-6.850311Z'/>
+<path id='eq7-g2-56' d='M3.56264-4.315816C4.160399-4.638605 5.033126-5.188543 5.033126-6.192777C5.033126-7.232877 4.028892-7.950187 2.929016-7.950187C1.745455-7.950187 .812951-7.07746 .812951-5.989539C.812951-5.583064 .932503-5.176588 1.267248-4.770112C1.398755-4.614695 1.41071-4.60274 2.247572-4.016936C1.08792-3.478954 .490162-2.677958 .490162-1.80523C.490162-.537983 1.697634 .251059 2.917061 .251059C4.244085 .251059 5.355915-.729265 5.355915-1.984558C5.355915-3.203985 4.495143-3.741968 3.56264-4.315816ZM1.936737-5.391781C1.78132-5.499377 1.303113-5.810212 1.303113-6.396015C1.303113-7.173101 2.116065-7.663263 2.917061-7.663263C3.777833-7.663263 4.542964-7.041594 4.542964-6.180822C4.542964-5.451557 4.016936-4.865753 3.323537-4.483188L1.936737-5.391781ZM2.49863-3.849564L3.945205-2.905106C4.25604-2.701868 4.805978-2.331258 4.805978-1.601993C4.805978-.6934 3.88543-.071731 2.929016-.071731C1.912827-.071731 1.0401-.812951 1.0401-1.80523C1.0401-2.737733 1.721544-3.490909 2.49863-3.849564Z'/>
+<path id='eq7-g2-61' d='M8.069738-3.873474C8.237111-3.873474 8.452304-3.873474 8.452304-4.088667C8.452304-4.315816 8.249066-4.315816 8.069738-4.315816H1.028144C.860772-4.315816 .645579-4.315816 .645579-4.100623C.645579-3.873474 .848817-3.873474 1.028144-3.873474H8.069738ZM8.069738-1.649813C8.237111-1.649813 8.452304-1.649813 8.452304-1.865006C8.452304-2.092154 8.249066-2.092154 8.069738-2.092154H1.028144C.860772-2.092154 .645579-2.092154 .645579-1.876961C.645579-1.649813 .848817-1.649813 1.028144-1.649813H8.069738Z'/>
+<path id='eq7-g1-59' d='M2.331258 .047821C2.331258-.645579 2.10411-1.159651 1.613948-1.159651C1.231382-1.159651 1.0401-.848817 1.0401-.585803S1.219427 0 1.625903 0C1.78132 0 1.912827-.047821 2.020423-.155417C2.044334-.179328 2.056289-.179328 2.068244-.179328C2.092154-.179328 2.092154-.011955 2.092154 .047821C2.092154 .442341 2.020423 1.219427 1.327024 1.996513C1.195517 2.139975 1.195517 2.163885 1.195517 2.187796C1.195517 2.247572 1.255293 2.307347 1.315068 2.307347C1.41071 2.307347 2.331258 1.422665 2.331258 .047821Z'/>
+<path id='eq7-g1-114' d='M4.65056-4.889664C4.27995-4.817933 4.088667-4.554919 4.088667-4.291905C4.088667-4.004981 4.315816-3.90934 4.483188-3.90934C4.817933-3.90934 5.092902-4.196264 5.092902-4.554919C5.092902-4.937484 4.722291-5.272229 4.124533-5.272229C3.646326-5.272229 3.096389-5.057036 2.594271-4.327771C2.510585-4.961395 2.032379-5.272229 1.554172-5.272229C1.08792-5.272229 .848817-4.913574 .705355-4.65056C.502117-4.220174 .32279-3.502864 .32279-3.443088C.32279-3.395268 .37061-3.335492 .454296-3.335492C.549938-3.335492 .561893-3.347447 .633624-3.622416C.812951-4.339726 1.0401-5.033126 1.518306-5.033126C1.80523-5.033126 1.888917-4.829888 1.888917-4.483188C1.888917-4.220174 1.769365-3.753923 1.685679-3.383313L1.350934-2.092154C1.303113-1.865006 1.171606-1.327024 1.111831-1.111831C1.028144-.800996 .896638-.239103 .896638-.179328C.896638-.011955 1.028144 .119552 1.207472 .119552C1.338979 .119552 1.566127 .035866 1.637858-.203238C1.673724-.298879 2.116065-2.10411 2.187796-2.379078C2.247572-2.642092 2.319303-2.893151 2.379078-3.156164C2.426899-3.323537 2.47472-3.514819 2.510585-3.670237C2.546451-3.777833 2.86924-4.363636 3.16812-4.62665C3.311582-4.758157 3.622416-5.033126 4.112578-5.033126C4.303861-5.033126 4.495143-4.99726 4.65056-4.889664Z'/>
+</defs>
+<g id='eq7-page1'>
+<use x='0' y='0' xlink:href='#eq7-g1-114'/>
+<use x='5.275307' y='1.793263' xlink:href='#eq7-g0-99'/>
+<use x='8.943087' y='1.793263' xlink:href='#eq7-g0-109'/>
+<use x='16.433613' y='1.793263' xlink:href='#eq7-g0-98'/>
+<use x='23.875159' y='0' xlink:href='#eq7-g2-61'/>
+<use x='36.30064' y='0' xlink:href='#eq7-g2-51'/>
+<use x='42.15363' y='0' xlink:href='#eq7-g1-59'/>
+<use x='47.397789' y='0' xlink:href='#eq7-g2-52'/>
+<use x='53.25078' y='0' xlink:href='#eq7-g2-56'/>
+<use x='59.10377' y='0' xlink:href='#eq7-g2-48'/>
+</g>
+</svg> km and the Earth surface located at <svg class="m-math m-default" style="width: 7.354em; height: 1.045em; vertical-align: -0.243em;" viewBox="0 -7.704442 70.596789 10.029049">
+<title>
+r_{earth} = 6,371
+</title>
+<defs>
+<path id='eq8-g2-49' d='M3.443088-7.663263C3.443088-7.938232 3.443088-7.950187 3.203985-7.950187C2.917061-7.627397 2.319303-7.185056 1.08792-7.185056V-6.838356C1.362889-6.838356 1.960648-6.838356 2.618182-7.149191V-.920548C2.618182-.490162 2.582316-.3467 1.530262-.3467H1.159651V0C1.482441-.02391 2.642092-.02391 3.036613-.02391S4.578829-.02391 4.901619 0V-.3467H4.531009C3.478954-.3467 3.443088-.490162 3.443088-.920548V-7.663263Z'/>
+<path id='eq8-g2-51' d='M2.199751-4.291905C1.996513-4.27995 1.948692-4.267995 1.948692-4.160399C1.948692-4.040847 2.008468-4.040847 2.223661-4.040847H2.773599C3.789788-4.040847 4.244085-3.203985 4.244085-2.056289C4.244085-.490162 3.431133-.071731 2.84533-.071731C2.271482-.071731 1.291158-.3467 .944458-1.135741C1.327024-1.075965 1.673724-1.291158 1.673724-1.721544C1.673724-2.068244 1.422665-2.307347 1.08792-2.307347C.800996-2.307347 .490162-2.139975 .490162-1.685679C.490162-.621669 1.554172 .251059 2.881196 .251059C4.303861 .251059 5.355915-.836862 5.355915-2.044334C5.355915-3.144209 4.471233-4.004981 3.323537-4.208219C4.363636-4.507098 5.033126-5.379826 5.033126-6.312329C5.033126-7.256787 4.052802-7.950187 2.893151-7.950187C1.697634-7.950187 .812951-7.220922 .812951-6.348194C.812951-5.869988 1.183562-5.774346 1.362889-5.774346C1.613948-5.774346 1.900872-5.953674 1.900872-6.312329C1.900872-6.694894 1.613948-6.862267 1.350934-6.862267C1.279203-6.862267 1.255293-6.862267 1.219427-6.850311C1.673724-7.663263 2.797509-7.663263 2.857285-7.663263C3.251806-7.663263 4.028892-7.483935 4.028892-6.312329C4.028892-6.085181 3.993026-5.415691 3.646326-4.901619C3.287671-4.375592 2.881196-4.339726 2.558406-4.327771L2.199751-4.291905Z'/>
+<path id='eq8-g2-54' d='M1.470486-4.160399C1.470486-7.185056 2.940971-7.663263 3.58655-7.663263C4.016936-7.663263 4.447323-7.531756 4.674471-7.173101C4.531009-7.173101 4.076712-7.173101 4.076712-6.682939C4.076712-6.419925 4.25604-6.192777 4.566874-6.192777C4.865753-6.192777 5.068991-6.372105 5.068991-6.718804C5.068991-7.340473 4.614695-7.950187 3.574595-7.950187C2.068244-7.950187 .490162-6.40797 .490162-3.777833C.490162-.490162 1.924782 .251059 2.940971 .251059C4.244085 .251059 5.355915-.884682 5.355915-2.438854C5.355915-4.028892 4.244085-5.092902 3.048568-5.092902C1.984558-5.092902 1.590037-4.172354 1.470486-3.837609V-4.160399ZM2.940971-.071731C2.187796-.071731 1.829141-.74122 1.721544-.992279C1.613948-1.303113 1.494396-1.888917 1.494396-2.725778C1.494396-3.670237 1.924782-4.853798 3.000747-4.853798C3.658281-4.853798 4.004981-4.411457 4.184309-4.004981C4.375592-3.56264 4.375592-2.964882 4.375592-2.450809C4.375592-1.841096 4.375592-1.303113 4.148443-.848817C3.849564-.274969 3.419178-.071731 2.940971-.071731Z'/>
+<path id='eq8-g2-55' d='M5.678705-7.424159V-7.699128H2.797509C1.350934-7.699128 1.327024-7.854545 1.279203-8.081694H1.016189L.645579-5.69066H.908593C.944458-5.905853 1.052055-6.647073 1.207472-6.77858C1.303113-6.850311 2.199751-6.850311 2.367123-6.850311H4.901619L3.634371-5.033126C3.311582-4.566874 2.10411-2.606227 2.10411-.358655C2.10411-.227148 2.10411 .251059 2.594271 .251059C3.096389 .251059 3.096389-.215193 3.096389-.37061V-.968369C3.096389-2.749689 3.383313-4.136488 3.945205-4.937484L5.678705-7.424159Z'/>
+<path id='eq8-g2-61' d='M8.069738-3.873474C8.237111-3.873474 8.452304-3.873474 8.452304-4.088667C8.452304-4.315816 8.249066-4.315816 8.069738-4.315816H1.028144C.860772-4.315816 .645579-4.315816 .645579-4.100623C.645579-3.873474 .848817-3.873474 1.028144-3.873474H8.069738ZM8.069738-1.649813C8.237111-1.649813 8.452304-1.649813 8.452304-1.865006C8.452304-2.092154 8.249066-2.092154 8.069738-2.092154H1.028144C.860772-2.092154 .645579-2.092154 .645579-1.876961C.645579-1.649813 .848817-1.649813 1.028144-1.649813H8.069738Z'/>
+<path id='eq8-g0-97' d='M3.124284-3.036613C3.052553-3.172105 2.82142-3.514819 2.335243-3.514819C1.3868-3.514819 .342715-2.406974 .342715-1.227397C.342715-.398506 .876712 .079701 1.490411 .079701C2.000498 .079701 2.438854-.326775 2.582316-.486177C2.725778 .063761 3.267746 .079701 3.363387 .079701C3.730012 .079701 3.913325-.223163 3.977086-.358655C4.136488-.645579 4.24807-1.107846 4.24807-1.139726C4.24807-1.187547 4.216189-1.243337 4.120548-1.243337S4.008966-1.195517 3.961146-.996264C3.849564-.557908 3.698132-.143462 3.387298-.143462C3.203985-.143462 3.132254-.294894 3.132254-.518057C3.132254-.653549 3.203985-.924533 3.251806-1.123786S3.419178-1.801245 3.451059-1.944707L3.610461-2.550436C3.650311-2.741719 3.737983-3.076463 3.737983-3.116314C3.737983-3.299626 3.58655-3.363387 3.482939-3.363387C3.363387-3.363387 3.164134-3.283686 3.124284-3.036613ZM2.582316-.860772C2.183811-.310834 1.769365-.143462 1.514321-.143462C1.147696-.143462 .964384-.478207 .964384-.892653C.964384-1.267248 1.179577-2.12005 1.354919-2.470735C1.586052-2.956912 1.976588-3.291656 2.343213-3.291656C2.86127-3.291656 3.012702-2.709838 3.012702-2.614197C3.012702-2.582316 2.81345-1.801245 2.765629-1.594022C2.662017-1.219427 2.662017-1.203487 2.582316-.860772Z'/>
+<path id='eq8-g0-101' d='M1.601993-1.817186C1.777335-1.817186 2.375093-1.825156 2.797509-1.976588C3.490909-2.215691 3.514819-2.693898 3.514819-2.81345C3.514819-3.259776 3.092403-3.514819 2.574346-3.514819C1.673724-3.514819 .390535-2.805479 .390535-1.39477C.390535-.581818 .884682 .079701 1.761395 .079701C3.004732 .079701 3.674222-.71731 3.674222-.828892C3.674222-.900623 3.594521-.956413 3.5467-.956413S3.474969-.932503 3.435118-.884682C2.805479-.143462 1.912827-.143462 1.777335-.143462C1.195517-.143462 1.020174-.637609 1.020174-1.083935C1.020174-1.323039 1.091905-1.681694 1.123786-1.817186H1.601993ZM1.187547-2.040349C1.44259-3.012702 2.16787-3.291656 2.574346-3.291656C2.893151-3.291656 3.196015-3.132254 3.196015-2.81345C3.196015-2.040349 1.888917-2.040349 1.554172-2.040349H1.187547Z'/>
+<path id='eq8-g0-104' d='M2.327273-5.292154C2.335243-5.308095 2.359153-5.411706 2.359153-5.419676C2.359153-5.459527 2.327273-5.531258 2.231631-5.531258C2.199751-5.531258 1.952677-5.507347 1.769365-5.491407L1.323039-5.459527C1.147696-5.443587 1.067995-5.435616 1.067995-5.292154C1.067995-5.180573 1.179577-5.180573 1.275218-5.180573C1.657783-5.180573 1.657783-5.132752 1.657783-5.061021C1.657783-5.037111 1.657783-5.021171 1.617933-4.877709L.486177-.342715C.454296-.223163 .454296-.175342 .454296-.167372C.454296-.03188 .565878 .079701 .71731 .079701C.844832 .079701 .956413 0 1.020174-.103611C1.044085-.151432 1.107846-.406476 1.147696-.565878L1.331009-1.275218C1.354919-1.39477 1.43462-1.697634 1.458531-1.817186C1.578082-2.279452 1.578082-2.295392 1.753425-2.550436C2.024408-2.940971 2.399004-3.291656 2.933001-3.291656C3.219925-3.291656 3.387298-3.124284 3.387298-2.749689C3.387298-2.311333 3.052553-1.40274 2.901121-1.012204C2.797509-.749191 2.797509-.70137 2.797509-.597758C2.797509-.143462 3.172105 .079701 3.514819 .079701C4.29589 .079701 4.622665-1.036115 4.622665-1.139726C4.622665-1.219427 4.558904-1.243337 4.503113-1.243337C4.407472-1.243337 4.391532-1.187547 4.367621-1.107846C4.176339-.454296 3.841594-.143462 3.53873-.143462C3.411208-.143462 3.347447-.223163 3.347447-.406476S3.411208-.765131 3.490909-.964384C3.610461-1.267248 3.961146-2.183811 3.961146-2.630137C3.961146-3.227895 3.5467-3.514819 2.972852-3.514819C2.526526-3.514819 2.10411-3.323537 1.737484-2.901121L2.327273-5.292154Z'/>
+<path id='eq8-g0-114' d='M1.538232-1.099875C1.625903-1.44259 1.713574-1.785305 1.793275-2.13599C1.801245-2.15193 1.857036-2.383064 1.865006-2.422914C1.888917-2.494645 2.088169-2.82142 2.295392-3.020672C2.550436-3.251806 2.82142-3.291656 2.964882-3.291656C3.052553-3.291656 3.196015-3.283686 3.307597-3.188045C2.964882-3.116314 2.917061-2.82142 2.917061-2.749689C2.917061-2.574346 3.052553-2.454795 3.227895-2.454795C3.443088-2.454795 3.682192-2.630137 3.682192-2.948941C3.682192-3.235866 3.435118-3.514819 2.980822-3.514819C2.438854-3.514819 2.072229-3.156164 1.904857-2.940971C1.745455-3.514819 1.203487-3.514819 1.123786-3.514819C.836862-3.514819 .637609-3.331507 .510087-3.084433C.326775-2.725778 .239103-2.319303 .239103-2.295392C.239103-2.223661 .294894-2.191781 .358655-2.191781C.462267-2.191781 .470237-2.223661 .526027-2.430884C.621669-2.82142 .765131-3.291656 1.099875-3.291656C1.307098-3.291656 1.354919-3.092403 1.354919-2.917061C1.354919-2.773599 1.315068-2.622167 1.251308-2.359153C1.235367-2.295392 1.115816-1.825156 1.083935-1.713574L.789041-.518057C.757161-.398506 .70934-.199253 .70934-.167372C.70934 .01594 .860772 .079701 .964384 .079701C1.243337 .079701 1.299128-.143462 1.362889-.414446L1.538232-1.099875Z'/>
+<path id='eq8-g0-116' d='M1.761395-3.172105H2.542466C2.693898-3.172105 2.789539-3.172105 2.789539-3.323537C2.789539-3.435118 2.685928-3.435118 2.550436-3.435118H1.825156L2.11208-4.566874C2.14396-4.686426 2.14396-4.726276 2.14396-4.734247C2.14396-4.901619 2.016438-4.98132 1.880946-4.98132C1.609963-4.98132 1.554172-4.766127 1.466501-4.407472L1.219427-3.435118H.454296C.302864-3.435118 .199253-3.435118 .199253-3.283686C.199253-3.172105 .302864-3.172105 .438356-3.172105H1.155666L.67746-1.259278C.629639-1.060025 .557908-.781071 .557908-.669489C.557908-.191283 .948443 .079701 1.370859 .079701C2.223661 .079701 2.709838-1.044085 2.709838-1.139726C2.709838-1.227397 2.638107-1.243337 2.590286-1.243337C2.502615-1.243337 2.494645-1.211457 2.438854-1.091905C2.279452-.70934 1.880946-.143462 1.39477-.143462C1.227397-.143462 1.131756-.255044 1.131756-.518057C1.131756-.669489 1.155666-.757161 1.179577-.860772L1.761395-3.172105Z'/>
+<path id='eq8-g1-59' d='M2.331258 .047821C2.331258-.645579 2.10411-1.159651 1.613948-1.159651C1.231382-1.159651 1.0401-.848817 1.0401-.585803S1.219427 0 1.625903 0C1.78132 0 1.912827-.047821 2.020423-.155417C2.044334-.179328 2.056289-.179328 2.068244-.179328C2.092154-.179328 2.092154-.011955 2.092154 .047821C2.092154 .442341 2.020423 1.219427 1.327024 1.996513C1.195517 2.139975 1.195517 2.163885 1.195517 2.187796C1.195517 2.247572 1.255293 2.307347 1.315068 2.307347C1.41071 2.307347 2.331258 1.422665 2.331258 .047821Z'/>
+<path id='eq8-g1-114' d='M4.65056-4.889664C4.27995-4.817933 4.088667-4.554919 4.088667-4.291905C4.088667-4.004981 4.315816-3.90934 4.483188-3.90934C4.817933-3.90934 5.092902-4.196264 5.092902-4.554919C5.092902-4.937484 4.722291-5.272229 4.124533-5.272229C3.646326-5.272229 3.096389-5.057036 2.594271-4.327771C2.510585-4.961395 2.032379-5.272229 1.554172-5.272229C1.08792-5.272229 .848817-4.913574 .705355-4.65056C.502117-4.220174 .32279-3.502864 .32279-3.443088C.32279-3.395268 .37061-3.335492 .454296-3.335492C.549938-3.335492 .561893-3.347447 .633624-3.622416C.812951-4.339726 1.0401-5.033126 1.518306-5.033126C1.80523-5.033126 1.888917-4.829888 1.888917-4.483188C1.888917-4.220174 1.769365-3.753923 1.685679-3.383313L1.350934-2.092154C1.303113-1.865006 1.171606-1.327024 1.111831-1.111831C1.028144-.800996 .896638-.239103 .896638-.179328C.896638-.011955 1.028144 .119552 1.207472 .119552C1.338979 .119552 1.566127 .035866 1.637858-.203238C1.673724-.298879 2.116065-2.10411 2.187796-2.379078C2.247572-2.642092 2.319303-2.893151 2.379078-3.156164C2.426899-3.323537 2.47472-3.514819 2.510585-3.670237C2.546451-3.777833 2.86924-4.363636 3.16812-4.62665C3.311582-4.758157 3.622416-5.033126 4.112578-5.033126C4.303861-5.033126 4.495143-4.99726 4.65056-4.889664Z'/>
+</defs>
+<g id='eq8-page1'>
+<use x='0' y='0' xlink:href='#eq8-g1-114'/>
+<use x='5.275307' y='1.793263' xlink:href='#eq8-g0-101'/>
+<use x='9.203691' y='1.793263' xlink:href='#eq8-g0-97'/>
+<use x='13.701701' y='1.793263' xlink:href='#eq8-g0-114'/>
+<use x='17.758297' y='1.793263' xlink:href='#eq8-g0-116'/>
+<use x='20.816317' y='1.793263' xlink:href='#eq8-g0-104'/>
+<use x='29.515188' y='0' xlink:href='#eq8-g2-61'/>
+<use x='41.940669' y='0' xlink:href='#eq8-g2-54'/>
+<use x='47.793659' y='0' xlink:href='#eq8-g1-59'/>
+<use x='53.037818' y='0' xlink:href='#eq8-g2-51'/>
+<use x='58.890808' y='0' xlink:href='#eq8-g2-55'/>
+<use x='64.743798' y='0' xlink:href='#eq8-g2-49'/>
+</g>
+</svg> km.
+These are the default bounds used by <a href="https://github.com/fnrizzi/SHAW/blob/master/meshing/create_single_mesh.py">the meshing script</a>.</p>
+</aside>
+</section>
+<section id="using-a-custom-model-from-the-main-file">
+<h2><a href="#using-a-custom-model-from-the-main-file">4. Using a Custom Model from the main file</a></h2>
+<p>If you are <em>not</em> interested in using one of the choices described above, you can easily try a custom one without needing to change the source code. To do so, you need two do two things:</p>
+<ol>
+<li><p>in your input file, you need to set:</p>
 <pre class="m-code"><span class="nt">material</span><span class="p">:</span>
-  <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">prem</span></pre>
-<p>Note that the PREM model only makes sense when you simulate the Earth and therefore use the appropriate
-axisymmetric domain for the Earth.</p>
+  <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">custom</span></pre>
+</li>
+<li>and also modify the <code>MyCustomMaterialModel</code> inside <a href="https://github.com/fnrizzi/SHAW/blob/master/src/kokkos/main_fom.cc">the main file</a>
+as you desire such that when the <code>computeAt</code> method is called for a given grid point in the domain, you set the local density and shear velocity according to you model.</li>
+</ol>
+<aside class="m-block m-info">
+<h3>Extending the set of supported models</h3>
+<p>The modular structure of the code allows to easily add new models: this can easily be done by adding a new
+derived class inside <a href="https://github.com/fnrizzi/SHAW/tree/master/src/shared/material_models">the models</a>,
+add an <code>enum</code> field that identifies that model in <a href="https://github.com/fnrizzi/SHAW/blob/master/src/shared/enums/supported_material_model_enums.hpp">this file</a>, and adding the code in <a href="https://github.com/fnrizzi/SHAW/blob/master/src/shared/parser/parser_material_model.hpp">the parser class</a> to recognize that if selected from the input file.</p>
+</aside>
 </section>
 <!-- /content -->
       </div>

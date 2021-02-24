@@ -1,16 +1,11 @@
 
 #include "CLI11.hpp"
 #include "Kokkos_Core.hpp"
-#include "KokkosBlas2_gemv.hpp"
 #include "../shared/constants.hpp"
-#include "../shared/meta/meta_eigen.hpp"
 #include "../shared/meta/meta_kokkos.hpp"
 #include "../shared/io/matrix_write.hpp"
 #include "../shared/io/matrix_read.hpp"
-#include "../shared/io/read_basis.hpp"
-#include "../shared/io/read_reference_state.hpp"
 #include "../shared/io/vector_write.hpp"
-#include "../shared/io/vector_read.hpp"
 #include "utility"
 
 int main(int argc, char *argv[])
@@ -76,9 +71,7 @@ int main(int argc, char *argv[])
   Kokkos::initialize(); //argc, argv);
   {
     using sc_t = double;
-    using exe_space = Kokkos::DefaultExecutionSpace;
     using kll = Kokkos::LayoutLeft;
-    static_assert(is_host_space<exe_space>::value, "");
 
     if (fSize == 1)
     {
@@ -87,10 +80,15 @@ int main(int argc, char *argv[])
       ////////////////////////////
 
       // *** load states ***
-      using snap_t = Kokkos::View<sc_t**, kll, exe_space>;
+      using snap_t = Kokkos::View<sc_t**, kll, Kokkos::HostSpace>;
       snap_t snaps("snaps", 1, 1);
-      if (snapBinary) readBinaryMatrixWithSize(snapFile, snaps);
-      else readAsciiMatrixWithSize(snapFile, snaps);
+      if (snapBinary){
+	readBinaryMatrixWithSize(snapFile, snaps);
+      }
+      else{
+	readAsciiMatrixWithSize(snapFile, snaps);
+      }
+
       std::cout << "snap size: "
 		<< snaps.extent(0) << " "
 		<< snaps.extent(1) << std::endl;
@@ -111,11 +109,15 @@ int main(int argc, char *argv[])
       ////////////////////////////
 
       // *** load states ***
-      using snap_t = Kokkos::View<sc_t***, kll, exe_space>;
+      using snap_t = Kokkos::View<sc_t***, kll, Kokkos::HostSpace>;
       snap_t snaps("snaps", 1, 1, 1);
-      if (snapBinary) readBinaryMatrixWithSize(snapFile, snaps);
-      else
+      if (snapBinary){
+	readBinaryMatrixWithSize(snapFile, snaps);
+      }
+      else{
 	throw std::runtime_error("Rank-2  snaps ascii not supported yet");
+      }
+
       std::cout << "snap size: "
 		<< snaps.extent(0) << " "
 		<< snaps.extent(1) << " "

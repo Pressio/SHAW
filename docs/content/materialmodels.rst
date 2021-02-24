@@ -16,11 +16,12 @@ The code currently supports the following material models:
 
 * PREM
 
-* custom material model.
+* custom material model
 
+.. block-danger:: No default choice is set.
 
-| When you create an input file to run a simulation, you need to define a material model.
-|    Note that the modular structure of the code allows for easily adding more models.
+		  When you create an input file for a simulation, you *need to* define a material model.
+
 
 
 ##################################
@@ -56,8 +57,8 @@ Defining such a model in the input file can be done as follows:
   material:
     kind: unilayer
     layer:
-      density: [a0, a1, a2]    # must have units of kg/m^3
-      velocity: [b0, b1, b2]   # must have units of m/s
+      density: [a0, a1, a2]    # density  must have units of kg/m^3
+      velocity: [b0, b1, b2]   # velocity must have units of m/s
 
 
 Note that if you want a homogenouos material with constant density
@@ -90,12 +91,12 @@ Defining such a model in the input file can be done as follows:
   material:
     kind: unilayer
     layer1:
-      density: [a0, a1, a2]    # must have units of kg/m^3
-      velocity: [b0, b1, b2]   # must have units of m/s
+      density: [a0, a1, a2]    # density  must have units of kg/m^3
+      velocity: [b0, b1, b2]   # velocity must have units of m/s
     layer2:
       depth: d                 # must have units of km
-      density: [c0, c1, c2]    # must have units of kg/m^3
-      velocity: [d0, d1, d2]   # must have units of m/s
+      density: [c0, c1, c2]    # density  must have units of kg/m^3
+      velocity: [d0, d1, d2]   # velocity must have units of m/s
 
 where it is intended that within each layer, the density and shear velocity can
 have different parametrizations. Note that this supports different
@@ -108,7 +109,17 @@ parametrizations within each layer, and potentially discontinuous profiles.
 `3. Preliminary Reference Earth Model (PREM)`_
 ##############################################
 The PREM model is a radial model representing the average Earth properties, and one of the most
-commonly adoptedo ones. For more details, check the following references:
+commonly adopted. Choose it from the input file as:
+
+.. code:: yaml
+
+  material:
+    kind: prem
+
+The details of the parametrization for the PREM model are `handled directly within the code <https://github.com/fnrizzi/SHAW/blob/master/src/shared/material_models/material_model_prem.hpp>`_.
+
+
+For more details, check the following references:
 
 * Dziewonski, A.M., and D.L. Anderson. 1981. “Preliminary reference Earth model.” Phys. Earth Plan. Int. 25:297-356.
 
@@ -116,14 +127,33 @@ commonly adoptedo ones. For more details, check the following references:
 
 * https://www.cfa.harvard.edu/~lzeng/papers/PREM.pdf
 
+.. block-warning:: PREM is for Earth only
 
-To use the PREM model, you should add the following to your input file:
-
-.. code:: yaml
-
-  material:
-    kind: prem
+		   The PREM model only makes sense when you are simulating the Earth.
+		   So your domain must be bounded between the core-mantle boundary (CMB)
+		   located at :math-info:`r_{cmb} = 3,480` km and the Earth surface located at :math-info:`r_{earth} = 6,371` km.
+		   These are the default bounds used by `the meshing script <https://github.com/fnrizzi/SHAW/blob/master/meshing/create_single_mesh.py>`_.
 
 
-Note that the PREM model only makes sense when you simulate the Earth and therefore use the appropriate
-axisymmetric domain for the Earth.
+#############################################
+`4. Using a Custom Model from the main file`_
+#############################################
+
+If you are *not* interested in using one of the choices described above, you can easily try a custom one without needing to change the source code. To do so, you need two do two things:
+
+1.  in your input file, you need to set:
+
+    .. code:: yaml
+
+        material:
+	  kind: custom
+
+
+2.  and also modify the ``MyCustomMaterialModel`` inside `the main file <https://github.com/fnrizzi/SHAW/blob/master/src/kokkos/main_fom.cc>`_
+    as you desire such that when the ``computeAt`` method is called for a given grid point in the domain, you set the local density and shear velocity according to you model.
+
+.. block-info:: Extending the set of supported models
+
+		The modular structure of the code allows to easily add new models: this can easily be done by adding a new
+		derived class inside `the models <https://github.com/fnrizzi/SHAW/tree/master/src/shared/material_models>`_,
+		add an ``enum`` field that identifies that model in `this file <https://github.com/fnrizzi/SHAW/blob/master/src/shared/enums/supported_material_model_enums.hpp>`_, and adding the code in `the parser class <https://github.com/fnrizzi/SHAW/blob/master/src/shared/parser/parser_material_model.hpp>`_ to recognize that if selected from the input file.

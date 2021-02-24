@@ -107,9 +107,9 @@ Shear Waves Simulator
 
 	    -  Build the code choosing one of the following versions:
 
-	         -  `Host serial Kokkos <{filename}/kokkos_host_serial.rst>`_: Kokkos-only version with *host serial* backend
+	         -  `Serial Host-only Kokkos <{filename}/kokkos_host_serial.rst>`_: runs on host with *serial* backend
 
-	         -  `Host OpenMP Kokkos <{filename}/kokkos_host_omp.rst>`_: Kokkos-only version with *host OpenMP* backend
+	         -  `OpenMP Host-only Kokkos <{filename}/kokkos_host_omp.rst>`_: runs on host with *OpenMP* backend
 
 	    -  Read about the `governing equations, domain and discretization <{filename}/goveq.rst>`_;
 

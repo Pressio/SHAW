@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <title> &raquo; Single Forcing Run | SHAW</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,600%7CSource+Sans+Pro:400,400i,600,600i&amp;subset=latin-ext" />
-  <link rel="stylesheet" href="http://francescorizzi.net/shaw/static/m-dark.css" />
-  <link rel="canonical" href="http://francescorizzi.net/shaw/single-forcing-run/" />
+  <link rel="stylesheet" href="/static/m-dark.css" />
+  <link rel="canonical" href="/single-forcing-run/" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#22272e" />
   <meta property="og:site_name" content="SHAW" />
   <meta property="og:title" content="Single Forcing Run" />
   <meta name="twitter:title" content="Single Forcing Run" />
-  <meta property="og:url" content="http://francescorizzi.net/shaw/single-forcing-run/" />
+  <meta property="og:url" content="/single-forcing-run/" />
   <meta property="og:description" content="This demo shows step-by-step how to create and run a simulation for a single forcing." />
   <meta name="twitter:description" content="This demo shows step-by-step how to create and run a simulation for a single forcing." />
   <meta name="twitter:card" content="summary" />
@@ -21,36 +21,36 @@
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a href="http://francescorizzi.net/shaw/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHAW</a>
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHAW</a>
       <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
         <div class="m-row">
           <ol class="m-col-t-12 m-col-m-none">
             <li>
-              <a href="http://francescorizzi.net/shaw/">Build</a>
+              <a href="/">Build</a>
               <ol>
-                <li><a href="http://francescorizzi.net/shaw/host-serial-kokkod-build/">Host Serial Kokkos Build</a></li>
-                <li><a href="http://francescorizzi.net/shaw/host-openmp-kokkos-build/">Host OpenMP Kokkos Build</a></li>
+                <li><a href="/host-serial-kokkod-build/">Host Serial Kokkos Build</a></li>
+                <li><a href="/host-openmp-kokkos-build/">Host OpenMP Kokkos Build</a></li>
               </ol>
             </li>
             <li>
-              <a href="http://francescorizzi.net/shaw/">Get Started</a>
+              <a href="/">Get Started</a>
               <ol>
-                <li><a href="http://francescorizzi.net/shaw/governing-equations-and-discretization/">Equations and discretization</a></li>
-                <li><a href="http://francescorizzi.net/shaw/input-file/">Input File</a></li>
-                <li><a href="http://francescorizzi.net/shaw/material-models/">Material Models</a></li>
+                <li><a href="/governing-equations-and-discretization/">Equations and discretization</a></li>
+                <li><a href="/input-file/">Input File</a></li>
+                <li><a href="/material-models/">Material Models</a></li>
               </ol>
             </li>
             <li>
-              <a href="http://francescorizzi.net/shaw/">Demos</a>
+              <a href="/">Demos</a>
               <ol>
-                <li><a href="http://francescorizzi.net/shaw/single-forcing-run/">Single Forcing Run</a></li>
-                <li><a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1/">Multi-forcing Run with rank-1</a></li>
-                <li><a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-2/">Multi-forcing Run wirh rank-2</a></li>
+                <li><a href="/single-forcing-run/">Single Forcing Run</a></li>
+                <li><a href="/multi-forcing-run-with-rank-1/">Multi-forcing Run with rank-1</a></li>
+                <li><a href="/multi-forcing-run-with-rank-2/">Multi-forcing Run wirh rank-2</a></li>
               </ol>
             </li>
-            <li><a href="http://francescorizzi.net/shaw/license">License</a></li>
+            <li><a href="/license">License</a></li>
           </ol>
         </div>
       </div>
@@ -64,7 +64,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb">
-            <a href="http://francescorizzi.net/shaw/single-forcing-run/"></a> &raquo;
+            <a href="/single-forcing-run/"></a> &raquo;
           </span>
           Single Forcing Run
         </h1>
@@ -102,10 +102,11 @@ To generate the mesh files proceed as follows:</p>
 <pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/meshing
 python create_single_mesh.py -nr <span class="m">200</span> -nth <span class="m">1000</span> -working-dir <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span></pre>
 <p>This should generate a directory <code>${MYRUNDIR}/mesh200x1000</code> containing:</p>
-<pre class="m-code">-rw-r--r--  <span class="m">1</span> fnrizzi  staff   <span class="m">4</span>.5M Aug <span class="m">30</span> <span class="m">12</span>:20 coeff_vp.dat
--rw-r--r--  <span class="m">1</span> fnrizzi  staff    28M Aug <span class="m">30</span> <span class="m">12</span>:20 graph_sp.dat
--rw-r--r--  <span class="m">1</span> fnrizzi  staff    16M Aug <span class="m">30</span> <span class="m">12</span>:20 graph_vp.dat
--rw-r--r--  <span class="m">1</span> fnrizzi  staff   231B Aug <span class="m">30</span> <span class="m">12</span>:20 mesh_info.dat</pre>
+<pre class="m-code">.
+├── <span class="o">[</span><span class="m">4</span>.5M<span class="o">]</span>  coeff_vp.dat
+├── <span class="o">[</span> 28M<span class="o">]</span>  graph_sp.dat
+├── <span class="o">[</span> 16M<span class="o">]</span>  graph_vp.dat
+└── <span class="o">[</span> <span class="m">231</span><span class="o">]</span>  mesh_info.dat</pre>
 </section>
 <section id="input-file">
 <h2><a href="#input-file">3. Input file</a></h2>
@@ -147,11 +148,11 @@ For this demo, we use the following input file:</p>
 <section id="run-the-simulation">
 <h2><a href="#run-the-simulation">3. Run the simulation</a></h2>
 <pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
-ln -s <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/build/shwave_fom .
+ln -s <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/build/shawExe .
 
 <span class="c1"># if you use OpenMP build, remember to set</span>
 <span class="c1"># OMP_NUM_THREADS=4 OMP_PLACES=threads OMP_PROC_BIND=spread</span>
-./shwave_fom input.yaml</pre>
+./shawExe input.yaml</pre>
 </section>
 <section id="simulation-data">
 <h2><a href="#simulation-data">5. Simulation data</a></h2>
@@ -170,30 +171,33 @@ snaps_sp_0    <span class="c1">#: snapshot matrix for the stresses</span></pre>
 <pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
 python plotSeismogram.py</pre>
 <figure class="m-figure">
-<img src="http://francescorizzi.net/shaw/static/img/demo1_f1.png" />
+<img src="/static/img/demo1_f1.png" />
 </figure>
 <p>Then, we can extract and visualize the full wavefield at <code>t=250, 1000, 2000</code> (seconds):</p>
 <pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
 ln -s <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/build/extractStateFromSnaps .
 
-./extractStateFromSnaps --snaps<span class="o">=</span>./snaps_vp_0 binary <span class="se">\</span>
- --fsize<span class="o">=</span><span class="m">1</span> --outformat<span class="o">=</span>ascii --timesteps<span class="o">=</span><span class="m">1000</span> <span class="m">4000</span> <span class="m">8000</span>  --samplingfreq<span class="o">=</span><span class="m">100</span> --outfileappend<span class="o">=</span>vp
+<span class="c1"># extract from the velocity snapshots the velocity field at specific timesteps:</span>
+<span class="c1"># since we use ``dt = 0.25`` seconds, our tartgets ``t=250, 1000, 2000``,</span>
+<span class="c1"># correspond to *time steps* 1000, 4000, 8000</span>
+./extractStateFromSnaps --snaps<span class="o">=</span>./snaps_vp_0 binary --fsize<span class="o">=</span><span class="m">1</span> <span class="se">\</span>
+  --outformat<span class="o">=</span>ascii --timesteps<span class="o">=</span><span class="m">1000</span> <span class="m">4000</span> <span class="m">8000</span>  --samplingfreq<span class="o">=</span><span class="m">100</span> --outfileappend<span class="o">=</span>vp
 
 python plotWavefield.py</pre>
 <div class="m-imagegrid m-container-inflate">
 <div>
 <figure style="width: 34.273%">
-<a href="http://francescorizzi.net/shaw/static/img/demo1_f2.png"><img src="http://francescorizzi.net/shaw/static/img/demo1_f2.png" /><div>
+<a href="/static/img/demo1_f2.png"><img src="/static/img/demo1_f2.png" /><div>
 </div>
 </a>
 </figure>
 <figure style="width: 31.753%">
-<a href="http://francescorizzi.net/shaw/static/img/demo1_f3.png"><img src="http://francescorizzi.net/shaw/static/img/demo1_f3.png" /><div>
+<a href="/static/img/demo1_f3.png"><img src="/static/img/demo1_f3.png" /><div>
 </div>
 </a>
 </figure>
 <figure style="width: 33.974%">
-<a href="http://francescorizzi.net/shaw/static/img/demo1_f4.png"><img src="http://francescorizzi.net/shaw/static/img/demo1_f4.png" /><div>
+<a href="/static/img/demo1_f4.png"><img src="/static/img/demo1_f4.png" /><div>
 </div>
 </a>
 </figure>

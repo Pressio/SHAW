@@ -10,7 +10,7 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../fullMesh21x51 DESTINATION ${CMAKE_CURRE
 
 add_test(NAME fomSymmetryAxisThetaZero
   COMMAND ${CMAKE_COMMAND}
-  -DCMD_FOM=$<TARGET_FILE:shwave_fom>
+  -DCMD_FOM=$<TARGET_FILE:shawExe>
   -DINPUT_FNAME=input.yaml
   -P ${CMAKE_CURRENT_SOURCE_DIR}/test.cmake
   )

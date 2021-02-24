@@ -46,18 +46,18 @@ fi
 # go to working dir
 cd ${WORKINGDIR}
 
-# get eigen
-if [ ! -d ${WORKINGDIR}/tpls/eigen ]; then
-    EIGENVERSION=3.3.7
-    EIGENUNPACKEDDIRNAME=eigen-${EIGENVERSION}
+# # get eigen
+# if [ ! -d ${WORKINGDIR}/tpls/eigen ]; then
+#     EIGENVERSION=3.3.7
+#     EIGENUNPACKEDDIRNAME=eigen-${EIGENVERSION}
 
-    mkdir -p ${WORKINGDIR}/tpls/eigen
-    cd ${WORKINGDIR}/tpls/eigen
-    cp ${TOPDIR}/../tpls/eigen-${EIGENVERSION}.tar.gz .
-    tar zxf eigen-${EIGENVERSION}.tar.gz
-    mv ${EIGENUNPACKEDDIRNAME} eigen
-    cd ${WORKINGDIR}
-fi
+#     mkdir -p ${WORKINGDIR}/tpls/eigen
+#     cd ${WORKINGDIR}/tpls/eigen
+#     cp ${TOPDIR}/../tpls/eigen-${EIGENVERSION}.tar.gz .
+#     tar zxf eigen-${EIGENVERSION}.tar.gz
+#     mv ${EIGENUNPACKEDDIRNAME} eigen
+#     cd ${WORKINGDIR}
+# fi
 
 # get yaml-cpp
 if [ ! -d ${WORKINGDIR}/tpls/yamlcpp ]; then
@@ -87,10 +87,7 @@ fi
 #----------------------
 # build wave code
 #----------------------
-EIGENPATH="${WORKINGDIR}/tpls/eigen/eigen"
-
-#USEOMP=OFF
-#[[ ${WITHOPENMP} == yes ]] && USEOMP=ON
+#EIGENPATH="${WORKINGDIR}/tpls/eigen/eigen"
 
 KOKKOSKERDIR=
 if [[ $ARCH == mac ]]; then
@@ -109,8 +106,6 @@ cmake -DCMAKE_CXX_COMPILER=${CXX} \
       -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
       -DCMAKE_BUILD_TYPE=Release \
       \
-      -DEIGEN_INCLUDE_DIR=${EIGENPATH} \
-      \
       -DYAMLCPP_INCLUDE_DIR=${YAMLCPPPFX}/include \
       -DYAMLCPP_LIB_DIR=${YAMLCPPPFX}/lib \
       \
@@ -120,8 +115,6 @@ cmake -DCMAKE_CXX_COMPILER=${CXX} \
       ${CPPSRC}
 make -j4
 cd ..
-
-#-DHAVE_OMP:BOOL=${USEOMP}
 
 #----------------------
 # go back where we started

@@ -113,8 +113,9 @@ Governing Equations and Discretization
 	We remark that, differently than (cite), we do not rely on ghost
 	points to impose boundary conditions, but account for the boundary
 	conditions directly when assembling the system matrix.
-	As an example, the figure below shows the grid when modeling the Earth
-	For the Earth, we know that there is a liquid core, so that region is considered.
+
+	As an example, the figure below shows the grid when modeling the Earth: the computational
+	domain extends from the surface to the core-mantle boundary, excluding the liquid core.
 
 	.. figure:: {static}/img/mesh.png
 		    :width: 450 px
