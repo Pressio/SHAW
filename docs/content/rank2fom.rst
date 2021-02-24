@@ -8,9 +8,8 @@ Multi-forcing Run with rank-2
 
 .. container::
 
-   Here we assume you already followed the `step-by-step guide <{filename}/build/kokkos_host_serial.rst>`_
-   to build the code and used ``MYWORKDIR`` as the working directory for that procedure,
-   so that ``${MYWORKDIR}/build`` contains all the executables.
+   Here we assume you completed the building process, e.g., `step-by-step guide <{filename}/kokkos_host_serial.rst>`_,
+   ``MYWORKDIR`` points to the working directory for that procedure, so that ``${MYWORKDIR}/build`` contains all the executables.
 
 |
 

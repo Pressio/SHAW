@@ -18,11 +18,6 @@ The code currently supports the following material models:
 
 * custom material model
 
-.. block-danger:: No default choice is set.
-
-		  When you create an input file for a simulation, you *need to* define a material model.
-
-
 
 ##################################
 `1. Single Layer Material Model`_
