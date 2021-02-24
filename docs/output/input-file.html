@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <title>Input File | SHAW</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,600%7CSource+Sans+Pro:400,400i,600,600i&amp;subset=latin-ext" />
-  <link rel="stylesheet" href="/static/m-dark.css" />
-  <link rel="canonical" href="/input-file.html" />
+  <link rel="stylesheet" href="http://francescorizzi.net/shaw/static/m-dark.css" />
+  <link rel="canonical" href="http://francescorizzi.net/shaw/input-file.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#22272e" />
   <meta property="og:site_name" content="SHAW" />
   <meta property="og:title" content="Input File" />
   <meta name="twitter:title" content="Input File" />
-  <meta property="og:url" content="/input-file.html" />
+  <meta property="og:url" content="http://francescorizzi.net/shaw/input-file.html" />
   <meta property="og:description" content="Input File: description, organization and things to pay attention to" />
   <meta name="twitter:description" content="Input File: description, organization and things to pay attention to" />
   <meta name="twitter:card" content="summary" />
@@ -21,36 +21,36 @@
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHAW</a>
+      <a href="http://francescorizzi.net/shaw/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHAW</a>
       <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
         <div class="m-row">
           <ol class="m-col-t-12 m-col-m-none">
             <li>
-              <a href="/">Build</a>
+              <a href="http://francescorizzi.net/shaw/">Build</a>
               <ol>
-                <li><a href="/host-serial-kokkod-build/">Host Serial Kokkos Build</a></li>
-                <li><a href="/host-openmp-kokkos-build/">Host OpenMP Kokkos Build</a></li>
+                <li><a href="http://francescorizzi.net/shaw/host-serial-kokkod-build/">Host Serial Kokkos Build</a></li>
+                <li><a href="http://francescorizzi.net/shaw/host-openmp-kokkos-build/">Host OpenMP Kokkos Build</a></li>
               </ol>
             </li>
             <li>
-              <a href="/">Get Started</a>
+              <a href="http://francescorizzi.net/shaw/">Get Started</a>
               <ol>
-                <li><a href="/governing-equations-and-discretization/">Equations and discretization</a></li>
-                <li><a href="/input-file/">Input File</a></li>
-                <li><a href="/material-models/">Material Models</a></li>
+                <li><a href="http://francescorizzi.net/shaw/governing-equations-and-discretization/">Equations and discretization</a></li>
+                <li><a href="http://francescorizzi.net/shaw/input-file/">Input File</a></li>
+                <li><a href="http://francescorizzi.net/shaw/material-models/">Material Models</a></li>
               </ol>
             </li>
             <li>
-              <a href="/">Demos</a>
+              <a href="http://francescorizzi.net/shaw/">Demos</a>
               <ol>
-                <li><a href="/single-forcing-run/">Single Forcing Run</a></li>
-                <li><a href="/multi-forcing-run-with-rank-1/">Multi-forcing Run with rank-1</a></li>
-                <li><a href="/multi-forcing-run-with-rank-2/">Multi-forcing Run wirh rank-2</a></li>
+                <li><a href="http://francescorizzi.net/shaw/single-forcing-run/">Single Forcing Run</a></li>
+                <li><a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1/">Multi-forcing Run with rank-1</a></li>
+                <li><a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-2/">Multi-forcing Run wirh rank-2</a></li>
               </ol>
             </li>
-            <li><a href="/license">License</a></li>
+            <li><a href="http://francescorizzi.net/shaw/license">License</a></li>
           </ol>
         </div>
       </div>
@@ -62,7 +62,7 @@
   <div class="m-row">
     <article class="m-col-m-10 m-nopadb">
       <header>
-        <h1><a href="/input-file.html" rel="bookmark" title="Permalink to Input File">
+        <h1><a href="http://francescorizzi.net/shaw/input-file.html" rel="bookmark" title="Permalink to Input File">
           <time class="m-date" datetime="2021-02-22T11:00:00+01:00">
             Feb <span class="m-date-day">22</span> 2021
           </time>
@@ -151,7 +151,7 @@ the corresponding node in the yaml input as:</p>
     <span class="nt">depth</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1100.0</span>  <span class="c1"># depth of the source in Km</span>
     <span class="nt">period</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">40.</span>    <span class="c1"># period of the signal in seconds</span>
     <span class="nt">delay</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">10.0</span>    <span class="c1"># delay in seconds</span></pre>
-<p>For a full example of this scenario, see <a href="/single-forcing-run/">the first demo</a>.</p>
+<p>For a full example of this scenario, see <a href="http://francescorizzi.net/shaw/single-forcing-run/">the first demo</a>.</p>
 </section>
 <section id="multi-forcing-simulation-using-rank-1">
 <h3><a href="#multi-forcing-simulation-using-rank-1">3.2 Multi-forcing simulation using rank-1</a></h3>
@@ -175,7 +175,7 @@ If you provide a list of samples for both the period and depth, then the code
 will use a tensor-product to define all cases.
 For example, if you specify 20 depths and 10 periods, the code
 will thus solve 200 trajectories.</p>
-<p>For a full example of this rank-1 multi-forcing scenario, see <a href="/multi-forcing-run-with-rank-1/">the second demo</a>.</p>
+<p>For a full example of this rank-1 multi-forcing scenario, see <a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1/">the second demo</a>.</p>
 </section>
 <section id="multi-forcing-simulation-using-rank-2">
 <h3><a href="#multi-forcing-simulation-using-rank-2">3.3 Multi-forcing simulation using rank-2</a></h3>
@@ -248,15 +248,15 @@ commonly adoptedo ones. For more details, check the following references:</p>
 </section>
 <!-- /content -->
       <footer>
-        <p>Posted by <a href="/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-22T11:00:00+01:00">Feb 22, 2021</time> in <a href="/misc/">misc</a>.</p>
+        <p>Posted by <a href="http://francescorizzi.net/shaw/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-22T11:00:00+01:00">Feb 22, 2021</time> in <a href="http://francescorizzi.net/shaw/misc/">misc</a>.</p>
       </footer>
     </article>
     <nav class="m-navpanel m-col-m-2">
       <h3>Categories</h3>
       <ol class="m-block-bar-m">
-        <li><a href="/building/">building</a></li>
-        <li><a href="/demos/">demos</a></li>
-        <li><a href="/misc/">misc</a></li>
+        <li><a href="http://francescorizzi.net/shaw/building/">building</a></li>
+        <li><a href="http://francescorizzi.net/shaw/demos/">demos</a></li>
+        <li><a href="http://francescorizzi.net/shaw/misc/">misc</a></li>
       </ol>
     </nav>
   </div>
