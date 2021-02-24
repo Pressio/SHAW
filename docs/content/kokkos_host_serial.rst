@@ -1,4 +1,4 @@
-Serial Host-only Kokkod Build
+Serial Host-only Kokkos Build
 #############################
 
 :breadcrumb: {filename}/kokkos_host_serial.rst

@@ -72,7 +72,7 @@ AUTHOR_FEED_RSS = None
 
 M_LINKS_NAVBAR1 = [('Build', '', '',
                     [
-                      ("Host Serial Kokkos Build", 'host-serial-kokkod-build/', ''),
+                      ("Host Serial Kokkos Build", 'host-serial-kokkos-build/', ''),
                       ("Host OpenMP Kokkos Build", 'host-openmp-kokkos-build/', '')
                     ]),
 
