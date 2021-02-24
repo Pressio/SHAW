@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <title>SHAW</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,600%7CSource+Sans+Pro:400,400i,600,600i&amp;subset=latin-ext" />
-  <link rel="stylesheet" href="http://francescorizzi.net/shaw/static/m-dark.css" />
+  <link rel="stylesheet" href="/static/m-dark.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#22272e" />
   <meta property="og:site_name" content="SHAW" />
   <meta property="og:title" content="SHAW" />
   <meta name="twitter:title" content="SHAW" />
-  <meta property="og:url" content="http://francescorizzi.net/shaw/" />
+  <meta property="og:url" content="/" />
   <meta name="twitter:card" content="summary" />
   <meta property="og:type" content="website" />
 </head>
@@ -18,36 +18,36 @@
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a href="http://francescorizzi.net/shaw/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHAW</a>
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHAW</a>
       <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
         <div class="m-row">
           <ol class="m-col-t-12 m-col-m-none">
             <li>
-              <a href="http://francescorizzi.net/shaw/">Build</a>
+              <a href="/">Build</a>
               <ol>
-                <li><a href="http://francescorizzi.net/shaw/host-serial-kokkod-build/">Host Serial Kokkos Build</a></li>
-                <li><a href="http://francescorizzi.net/shaw/host-openmp-kokkos-build/">Host OpenMP Kokkos Build</a></li>
+                <li><a href="/host-serial-kokkod-build/">Host Serial Kokkos Build</a></li>
+                <li><a href="/host-openmp-kokkos-build/">Host OpenMP Kokkos Build</a></li>
               </ol>
             </li>
             <li>
-              <a href="http://francescorizzi.net/shaw/">Get Started</a>
+              <a href="/">Get Started</a>
               <ol>
-                <li><a href="http://francescorizzi.net/shaw/governing-equations-and-discretization/">Equations and discretization</a></li>
-                <li><a href="http://francescorizzi.net/shaw/input-file/">Input File</a></li>
-                <li><a href="http://francescorizzi.net/shaw/material-models/">Material Models</a></li>
+                <li><a href="/governing-equations-and-discretization/">Equations and discretization</a></li>
+                <li><a href="/input-file/">Input File</a></li>
+                <li><a href="/material-models/">Material Models</a></li>
               </ol>
             </li>
             <li>
-              <a href="http://francescorizzi.net/shaw/">Demos</a>
+              <a href="/">Demos</a>
               <ol>
-                <li><a href="http://francescorizzi.net/shaw/single-forcing-run/">Single Forcing Run</a></li>
-                <li><a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1/">Multi-forcing Run with rank-1</a></li>
-                <li><a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-2/">Multi-forcing Run wirh rank-2</a></li>
+                <li><a href="/single-forcing-run/">Single Forcing Run</a></li>
+                <li><a href="/multi-forcing-run-with-rank-1/">Multi-forcing Run with rank-1</a></li>
+                <li><a href="/multi-forcing-run-with-rank-2/">Multi-forcing Run wirh rank-2</a></li>
               </ol>
             </li>
-            <li><a href="http://francescorizzi.net/shaw/license">License</a></li>
+            <li><a href="/license">License</a></li>
           </ol>
         </div>
       </div>
@@ -60,7 +60,7 @@
     <div class="m-col-m-10">
       <article>
         <header>
-          <h1><a href="http://francescorizzi.net/shaw/governing-equations-and-discretization.html" rel="bookmark" title="Permalink to Governing Equations and Discretization">
+          <h1><a href="/governing-equations-and-discretization.html" rel="bookmark" title="Permalink to Governing Equations and Discretization">
             <time class="m-date" datetime="2021-02-22T11:00:00+01:00">
               Feb <span class="m-date-day">22</span> 2021
             </time>
@@ -71,11 +71,11 @@
         <div class="m-clearfix-l"></div>
 <!-- content -->
 <div>
-<p><em>We model the axisymmetric evolution of elastic seismic shear waves.</em></p>
+<p><span class="m-text m-warning">Our objective is to model the evolution of elastic seismic shear waves in an axisymmetric domain.</span></p>
 <p>Assuming the target body/planet (e.g. Earth) can be approximated as a sphere,
 we adopt a spherical coordinate system as shown in the figure below:</p>
 <figure class="m-figure">
-<img src="http://francescorizzi.net/shaw/static/img/sc.svg" style="width: 350px" />
+<img src="/static/img/sc.svg" style="width: 350px" />
 </figure>
 <p>In the axisymmetric approximation, one assumes that fields/quantities
 do not vary along <svg class="m-math m-default" style="width: 0.722em; height: 1.107em; vertical-align: -0.243em;" viewBox="0 -8.302191 6.928102 10.626798">
@@ -102,6 +102,8 @@ with respect to <svg class="m-math m-default" style="width: 0.722em; height: 1.1
 </svg> can be dropped.</p>
 <p>With this assumption, the set of equations governing the time evolution
 of elastic waves in the velocity-stress formulation can be written as:</p>
+<aside class="m-block m-info">
+<h3>Governing Equations</h3>
 <div class="m-math">
 <svg style="width: 46.912em; height: 2.562em;" viewBox="0 -24.590612 450.359967 24.590612">
 <title>
@@ -508,7 +510,7 @@ v(r, \theta, t)
 <use x='36.086504' y='0' xlink:href='#eq10-g1-41'/>
 </g>
 </svg> is the velocity (for simplicity we drop the subscript,
-but it is intended that this is the <svg class="m-math m-default" style="width: 1.114em; height: 0.884em; vertical-align: -0.350em;" viewBox="0 -5.147373 10.693249 8.490382">
+but it is intended to be the <svg class="m-math m-default" style="width: 1.114em; height: 0.884em; vertical-align: -0.350em;" viewBox="0 -5.147373 10.693249 8.490382">
 <title>
 v_{\phi}
 </title>
@@ -658,8 +660,9 @@ v_s
 </svg> being the shear wave velocity.</li>
 </ul>
 </blockquote>
-<p>In practice, the axisymmetric approximation means that one solves the
-above governing equations over a <em>circular sector</em>.
+</aside>
+<p><span class="m-text m-warning">In practice, the axisymmetric approximation means that one solves the
+above governing equations over a *circular sector/block arc*.</span>
 Such a formulation is referred to as 2.5-dimensional because it involves
 a 2-dimensional spatial domain (a circular sector of the Earth)
 but models point sources with correct 3-dimensional spreading {cite}.</p>
@@ -727,8 +730,11 @@ r_{earth} = 6,371
 <use x='58.890808' y='0' xlink:href='#eq18-g2-55'/>
 <use x='64.743798' y='0' xlink:href='#eq18-g2-49'/>
 </g>
-</svg> km.</p>
-<p>The 2D spatial domain is discretized using a staggered grid as shown in the figure below.
+</svg> km.
+When modeling a body that is not the Earth, one needs to use proper domain bounds.
+Note, however, that the code <em>always</em> assumes the domain NOT to include the
+singularity at the origin, which yields substantial simplifications.</p>
+<p>The 2D spatial domain is discretized using a staggered grid.
 Staggered grids are typical for seismic modeling and wave problems in general.
 We use a second-order centered finite-difference method for the spatial operators.
 Directly at the symmetry axis, i.e., <svg class="m-math m-default" style="width: 4.135em; height: 1.107em; vertical-align: -0.243em;" viewBox="0 -8.302191 39.693074 10.626798">
@@ -815,22 +821,24 @@ condition (i.e., waves fully reflect), by setting the zero-stress condition
 Note that this condition on the stress directly defines the velocity
 at the core-mantle boundary and earth surface and, therefore,
 no boundary condition on the velocity itself must be set there.
-We remark that, differently than [19], we do not rely on ghost
+We remark that, differently than (cite), we do not rely on ghost
 points to impose boundary conditions, but account for the boundary
-conditions directly when assembling the system matrices.</p>
+conditions directly when assembling the system matrix.
+As an example, the figure below shows the grid when modeling the Earth
+For the Earth, we know that there is a liquid core, so that region is considered.</p>
 <figure class="m-figure">
-<img src="http://francescorizzi.net/shaw/static/img/mesh.png" style="width: 450px" />
-<figcaption>Schematic of the axi-symmetric domain and staggered grid used for its discretization.</figcaption>
+<img src="/static/img/mesh.png" style="width: 450px" />
+<figcaption>Schematic of the axi-symmetric domain for the Earth and staggered grid used for its discretization.</figcaption>
 </figure>
 </div>
 <!-- /content -->
         <footer>
-          <p>Posted by <a href="http://francescorizzi.net/shaw/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-22T11:00:00+01:00">Feb 22, 2021</time> in <a href="http://francescorizzi.net/shaw/misc/">misc</a>.</p>
+          <p>Posted by <a href="/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-22T11:00:00+01:00">Feb 22, 2021</time> in <a href="/misc/">misc</a>.</p>
         </footer>
       </article>
       <article>
         <header>
-          <h1><a href="http://francescorizzi.net/shaw/input-file.html" rel="bookmark" title="Permalink to Input File">
+          <h1><a href="/input-file.html" rel="bookmark" title="Permalink to Input File">
             <time class="m-date" datetime="2021-02-22T11:00:00+01:00">
               Feb <span class="m-date-day">22</span> 2021
             </time>
@@ -839,13 +847,13 @@ conditions directly when assembling the system matrices.</p>
           <p>Input File: description, organization and things to pay attention to</p>
         </header>
         <footer>
-          <p>Posted by <a href="http://francescorizzi.net/shaw/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-22T11:00:00+01:00">Feb 22, 2021</time> in <a href="http://francescorizzi.net/shaw/misc/">misc</a>.</p>
+          <p>Posted by <a href="/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-22T11:00:00+01:00">Feb 22, 2021</time> in <a href="/misc/">misc</a>.</p>
         </footer>
         <div class="m-clearfix-l"></div>
       </article>
       <article>
         <header>
-          <h1><a href="http://francescorizzi.net/shaw/material-models.html" rel="bookmark" title="Permalink to Material Models">
+          <h1><a href="/material-models.html" rel="bookmark" title="Permalink to Material Models">
             <time class="m-date" datetime="2021-02-22T11:00:00+01:00">
               Feb <span class="m-date-day">22</span> 2021
             </time>
@@ -854,13 +862,13 @@ conditions directly when assembling the system matrices.</p>
           <p>Material Models: overview and supported parametrizations</p>
         </header>
         <footer>
-          <p>Posted by <a href="http://francescorizzi.net/shaw/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-22T11:00:00+01:00">Feb 22, 2021</time> in <a href="http://francescorizzi.net/shaw/misc/">misc</a>.</p>
+          <p>Posted by <a href="/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-22T11:00:00+01:00">Feb 22, 2021</time> in <a href="/misc/">misc</a>.</p>
         </footer>
         <div class="m-clearfix-l"></div>
       </article>
       <article>
         <header>
-          <h1><a href="http://francescorizzi.net/shaw/host-openmp-kokkos-build.html" rel="bookmark" title="Permalink to Host OpenMP Kokkos Build">
+          <h1><a href="/host-openmp-kokkos-build.html" rel="bookmark" title="Permalink to Host OpenMP Kokkos Build">
             <time class="m-date" datetime="2021-02-12T11:00:00+01:00">
               Feb <span class="m-date-day">12</span> 2021
             </time>
@@ -869,13 +877,13 @@ conditions directly when assembling the system matrices.</p>
           <p>Build the code for host-only execution using OpenMP Kokkos backend</p>
         </header>
         <footer>
-          <p>Posted by <a href="http://francescorizzi.net/shaw/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="http://francescorizzi.net/shaw/building/">building</a>.</p>
+          <p>Posted by <a href="/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="/building/">building</a>.</p>
         </footer>
         <div class="m-clearfix-l"></div>
       </article>
       <article>
         <header>
-          <h1><a href="http://francescorizzi.net/shaw/host-serial-kokkod-build.html" rel="bookmark" title="Permalink to Host Serial Kokkod Build">
+          <h1><a href="/host-serial-kokkod-build.html" rel="bookmark" title="Permalink to Host Serial Kokkod Build">
             <time class="m-date" datetime="2021-02-12T11:00:00+01:00">
               Feb <span class="m-date-day">12</span> 2021
             </time>
@@ -884,13 +892,13 @@ conditions directly when assembling the system matrices.</p>
           <p>Build the code for host serial-only execution using serial Kokkos backend</p>
         </header>
         <footer>
-          <p>Posted by <a href="http://francescorizzi.net/shaw/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="http://francescorizzi.net/shaw/building/">building</a>.</p>
+          <p>Posted by <a href="/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="/building/">building</a>.</p>
         </footer>
         <div class="m-clearfix-l"></div>
       </article>
       <article>
         <header>
-          <h1><a href="http://francescorizzi.net/shaw/license.html" rel="bookmark" title="Permalink to License">
+          <h1><a href="/license.html" rel="bookmark" title="Permalink to License">
             <time class="m-date" datetime="2021-02-12T11:00:00+01:00">
               Feb <span class="m-date-day">12</span> 2021
             </time>
@@ -899,13 +907,13 @@ conditions directly when assembling the system matrices.</p>
           <p>Legal info</p>
         </header>
         <footer>
-          <p>Posted by <a href="http://francescorizzi.net/shaw/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="http://francescorizzi.net/shaw/misc/">misc</a>.</p>
+          <p>Posted by <a href="/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="/misc/">misc</a>.</p>
         </footer>
         <div class="m-clearfix-l"></div>
       </article>
       <article>
         <header>
-          <h1><a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1.html" rel="bookmark" title="Permalink to Multi-forcing Run with rank-1">
+          <h1><a href="/multi-forcing-run-with-rank-1.html" rel="bookmark" title="Permalink to Multi-forcing Run with rank-1">
             <time class="m-date" datetime="2021-02-12T11:00:00+01:00">
               Feb <span class="m-date-day">12</span> 2021
             </time>
@@ -914,13 +922,13 @@ conditions directly when assembling the system matrices.</p>
           <p>This demo shows how to simulate multiple trajectories using the rank-1 formulation.</p>
         </header>
         <footer>
-          <p>Posted by <a href="http://francescorizzi.net/shaw/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="http://francescorizzi.net/shaw/demos/">demos</a>.</p>
+          <p>Posted by <a href="/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="/demos/">demos</a>.</p>
         </footer>
         <div class="m-clearfix-l"></div>
       </article>
       <article>
         <header>
-          <h1><a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-2.html" rel="bookmark" title="Permalink to Multi-forcing Run with rank-2">
+          <h1><a href="/multi-forcing-run-with-rank-2.html" rel="bookmark" title="Permalink to Multi-forcing Run with rank-2">
             <time class="m-date" datetime="2021-02-12T11:00:00+01:00">
               Feb <span class="m-date-day">12</span> 2021
             </time>
@@ -929,13 +937,13 @@ conditions directly when assembling the system matrices.</p>
           <p>Multi-forcing with rank-2</p>
         </header>
         <footer>
-          <p>Posted by <a href="http://francescorizzi.net/shaw/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="http://francescorizzi.net/shaw/demos/">demos</a>.</p>
+          <p>Posted by <a href="/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="/demos/">demos</a>.</p>
         </footer>
         <div class="m-clearfix-l"></div>
       </article>
       <article>
         <header>
-          <h1><a href="http://francescorizzi.net/shaw/single-forcing-run.html" rel="bookmark" title="Permalink to Single Forcing Run">
+          <h1><a href="/single-forcing-run.html" rel="bookmark" title="Permalink to Single Forcing Run">
             <time class="m-date" datetime="2021-02-12T11:00:00+01:00">
               Feb <span class="m-date-day">12</span> 2021
             </time>
@@ -944,7 +952,7 @@ conditions directly when assembling the system matrices.</p>
           <p>This demo shows step-by-step how to create and run a simulation for a single forcing.</p>
         </header>
         <footer>
-          <p>Posted by <a href="http://francescorizzi.net/shaw/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="http://francescorizzi.net/shaw/demos/">demos</a>.</p>
+          <p>Posted by <a href="/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="/demos/">demos</a>.</p>
         </footer>
         <div class="m-clearfix-l"></div>
       </article>
@@ -952,9 +960,9 @@ conditions directly when assembling the system matrices.</p>
     <nav class="m-navpanel m-col-m-2">
       <h3>Categories</h3>
       <ol class="m-block-bar-m">
-        <li><a href="http://francescorizzi.net/shaw/building/">building</a></li>
-        <li><a href="http://francescorizzi.net/shaw/demos/">demos</a></li>
-        <li><a href="http://francescorizzi.net/shaw/misc/">misc</a></li>
+        <li><a href="/building/">building</a></li>
+        <li><a href="/demos/">demos</a></li>
+        <li><a href="/misc/">misc</a></li>
       </ol>
     </nav>
   </div>
@@ -967,7 +975,7 @@ conditions directly when assembling the system matrices.</p>
         <p>
         Site created by Francesco Rizzi. Powered by <a href="https://getpelican.com">Pelican</a>
         and <a href="https://mcss.mosra.cz">m.css</a>, using a theme adapted from <a href="https://magnum.graphics/">magnum</a>.<br />
-        This site content is <a href="https://github.com/fnrizzi/SHAW">available on GitHub</a>.<br />
+        This site content is written in rst and <a href="https://github.com/fnrizzi/SHAW/tree/master/docs/content">available on GitHub</a>.<br />
         </p>
       </div>
     </div>

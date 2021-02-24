@@ -5,17 +5,30 @@ Input File
 :summary: Input File: description, organization and things to pay attention to
 :date: 2021-02-22 11:00
 
-The input file is organized into sections: *general*, *io*, *source*, *material*.
-Below we describe each one separately.
+.. role:: yellow
+    :class: m-text m-warning
 
-For a full working example of input file, look for example at this `demo <{filename}/demos/rank1fom.rst>`_:
+.. role:: red
+    :class: m-text m-danger
+
+.. role:: blue
+    :class: m-text m-info
+
+.. role:: green
+    :class: m-text m-success
+
+
+The input file is organized into sections: *general*, *io*, *source*, *material*.
+One input file must contain a single instance of each of these sections.
+Below we describe each section separately.
+
+For complete, valid examples of input files, look at `the full template file <https://github.com/fnrizzi/SHAW/blob/master/sampleInputFiles/template.yaml>`_, or the `demos' input files <https://github.com/fnrizzi/SHAW/blob/master/demos>`_.
 
 #####################
 `1. General Section`_
 #####################
 
-The general section is *mandatory*.
-Contains settings for, e.g., mesh location, time stepping, etc
+The section contains the following self-explanatory fields:
 
 .. code:: yaml
 
@@ -26,6 +39,7 @@ Contains settings for, e.g., mesh location, time stepping, etc
     checkNumericalDispersion: true   # enable/disable check for numerical dispersion
     checkCfl: true                   # enable/disable CFL check
 
+.. note-danger:: The general section is *mandatory*: do not forget it when you create the input file!
 
 |
 
@@ -36,10 +50,10 @@ Contains settings for, e.g., mesh location, time stepping, etc
 Defines if and how to collect data. Specifically, the code supports data
 collection in two forms, namely a snapshot matrix and/or seismogram.
 The snaptshot matrix stores the state over the full mesh sampled with a specific
-frequency during the simulation time. The seismogram, instead, stores the velocity
-signal sampled with a target frequency only at target receivers on the domain surface.
-These receiver locations are set in the input file by providing their angles in degrees.
-
+frequency during the simulation. The seismogram, instead, stores the velocity
+sampled with a target frequency only at specific receivers located on the domain surface.
+The receivers' locations are set in the input file by providing their angles in degrees.
+Receivers mimic the role of, e.g., real recording startions on the Earth surface.
 
 .. code:: yaml
 
@@ -59,14 +73,13 @@ These receiver locations are set in the input file by providing their angles in 
      receivers: [5, 10, ...]  # comma-separated angles (degrees) of all receiver locations
 			      # on surface where to collect seismograms
 
+.. note-success:: The IO section is *optional*:
 
-Note that the IO section is *optional*, following these rules:
+  * if the full section is omitted in the input, data collection is disabled and no output files are generated
 
-* if the whole section is missing in the yaml input, data collection is disabled and no output files are generated
+  * if you only want the `snapshotMatrix` matrix, just enable that node and omit the seismogram node
 
-* if you only want the `snapshotMatrix` matrix, just enable that node and omit the seismogram
-
-* if you only want the `seismogram`, enable that node and omit the one for the snapshot matrix
+  * if you only want the `seismogram`, enable that node and omit the one for the snapshotMatrix node
 
 |
 
@@ -74,14 +87,19 @@ Note that the IO section is *optional*, following these rules:
 `3. Source/forcing Section`_
 ############################
 
-The forcing section is *mandatory* to define the source signal and parameters.
-As anticipated in the highlights in `main page <{filename}/index.rst>`_, the code supports three scenarios:
+Contains the parametrization of the source signal.
 
-* single forcing term
+.. note-danger:: The forcing section is *mandatory*: do not forget it when you create the input file!
 
-* multi-forcing simulation solved by running sequential rank-1 solves
+		 You need to choose one of these options:
 
-* multi-forcing simulation solved by running sequential rank-2 solves
+		 * single forcing term
+
+		 * multi-forcing simulation solved by running sequential rank-1 solves
+
+		 * multi-forcing simulation solved by running sequential rank-2 solves
+
+Below we discuss these options in detail.
 
 `3.1 Single Forcing Run`_
 -------------------------
@@ -97,6 +115,8 @@ the corresponding node in the yaml input as:
       depth: 1100.0  # depth of the source in Km
       period: 40.    # period of the signal in seconds
       delay: 10.0    # delay in seconds
+
+For a full example of this scenario, see `the first demo <{filename}/rank1fom.rst>`_.
 
 
 `3.2 Multi-forcing simulation using rank-1`_
@@ -121,6 +141,14 @@ list of target depths in Kilometers.
      period: 40.	             # seconds
      delay: 10.0		     # seconds
 
+If, instead of the depth, you want to sample the period, you can fix the depth
+and just provide a list of signal period samples to solve for.
+If you provide a list of samples for both the period and depth, then the code
+will use a tensor-product to define all cases.
+For example, if you specify 20 depths and 10 periods, the code
+will thus solve 200 trajectories.
+
+For a full example of this rank-1 multi-forcing scenario, see `the second demo <{filename}/rank1fommulti.rst>`_.
 
 `3.3 Multi-forcing simulation using rank-2`_
 --------------------------------------------
@@ -134,16 +162,18 @@ with fixed kind, period and delay, but for multiple source depths.
 To this end, you can just set the depth yaml field to be a comma-separated
 list of target depths in Kilometers and specify a forcingSize.
 The forcingSize defines how many realizations are solved at once using the rank-2 formulation.
-
+:yellow:`Note that the forcingSize must be a divisor of number of target samples.`
+For example, if you specify 20 depths, the forcingSize must be a divisor of 20.
+Another example, if you specify 20 depths and 10 periods, the total number of trajectories
+to compute is 200, so forcingSize must be a divisor of 200.
 
 .. code:: yaml
 
   source:
     signal:
-     kind: ricker
-     depth: [1100.0, 550, ...] # km
-     period: 40.	       # seconds
-     delay: 10.0               # seconds
+     # ...
+     # same fields/options shown in 3.2 above
+     # ...
      forcingSize: 4	       # forcingSize>=2 enables rank-2 solution
 
 
@@ -153,8 +183,11 @@ The forcingSize defines how many realizations are solved at once using the rank-
 `4. Material Model Section`_
 ############################
 
-The material section is *mandatory*, in the input file you
-have to choose one among the following ones.
+Last but not least, we have the material model parametrization.
+You need to choose one of the options below.
+
+.. note-danger:: The material model section is *mandatory*: do not forget it when you create the input file!
+
 
 `3.1 Single Layer Material Model`_
 ----------------------------------

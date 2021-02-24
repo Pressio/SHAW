@@ -39,8 +39,11 @@ Shear Waves Simulator
             signal forms and parametrizations); and (b) simulating these systems at global scale
             with high-accuracy requires a large computational cost.
 
-            *This project contributes to the field by providing an open-source
-            C++ code to simulate the generation and propagation of (elastic) shear waves in an axi-symmetric domain.*
+	    .. role:: yellow
+		      :class: m-text m-warning
+
+            :yellow:`This project contributes to the field by providing an open-source
+            C++ code to simulate the generation and propagation of (elastic) shear waves in an axi-symmetric domain.`
 
 
         .. container:: m-col-l-3 m-push-l-1
@@ -82,7 +85,7 @@ Shear Waves Simulator
 
 	       *  *rank-1*:
 
-		 * the discrete state and forcing term are stored using 1D arrays
+		 * the discrete state and forcing term are stored as 1D arrays
 
 		 * this is used to simulate the wave dynamics due to a *single forcing term*
 

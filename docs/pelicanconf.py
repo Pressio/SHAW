@@ -9,8 +9,8 @@ M_SITE_LOGO_TEXT = 'SHAW'
 
 SITENAME = 'SHAW'
 SITESUBTITLE = 'Elastic Shear Waves'
-SITEURL = 'http://francescorizzi.net/shaw'
-# SITEURL = ''
+#SITEURL = 'http://francescorizzi.net/shaw'
+SITEURL = ''
 
 # M_BLOG_NAME = ''
 # M_BLOG_URL = 'blog/'
@@ -75,7 +75,7 @@ M_LINKS_NAVBAR1 = [('Build', '', '',
                       ("Host Serial Kokkos Build", 'host-serial-kokkod-build/', ''),
                       ("Host OpenMP Kokkos Build", 'host-openmp-kokkos-build/', '')
                     ]),
-                  
+
                     ('Get Started', '', '',
                     [
                       ("Equations and discretization", 'governing-equations-and-discretization/',         ''),
@@ -105,7 +105,7 @@ M_CSS_FILES = ['https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i
 M_FINE_PRINT = """
 | Site created by Francesco Rizzi. Powered by `Pelican <https://getpelican.com>`_
   and `m.css <https://mcss.mosra.cz>`_, using a theme adapted from `magnum <https://magnum.graphics/>`_.
-| This site content is `available on GitHub <https://github.com/fnrizzi/SHAW>`_.
+| This site content is written in rst and `available on GitHub <https://github.com/fnrizzi/SHAW/tree/master/docs/content>`_.
 """
 
 # M_NEWS_ON_INDEX = ("Latest news on our blog", 3)

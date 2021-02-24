@@ -112,7 +112,7 @@ commonly adoptedo ones. For more details, check the following references:
 
 * Dziewonski, A.M., and D.L. Anderson. 1981. “Preliminary reference Earth model.” Phys. Earth Plan. Int. 25:297-356.
 
-*  http://ds.iris.edu/ds/products/emc-prem/
+* http://ds.iris.edu/ds/products/emc-prem/
 
 * https://www.cfa.harvard.edu/~lzeng/papers/PREM.pdf
 
