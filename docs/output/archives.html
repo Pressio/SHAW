@@ -29,6 +29,7 @@
               <ol>
                 <li><a href="http://francescorizzi.net/shaw/serial-host-only-kokkos-build/">Host Serial Kokkos Build</a></li>
                 <li><a href="http://francescorizzi.net/shaw/openmp-host-only-kokkos-build/">Host OpenMP Kokkos Build</a></li>
+                <li><a href="http://francescorizzi.net/shaw/openmpcuda-kokkos-build/">OpenMP/CUDA Kokkos Build</a></li>
               </ol>
             </li>
             <li>
@@ -60,6 +61,33 @@
     <div class="m-col-m-10">
       <article>
         <header>
+          <h1><a href="http://francescorizzi.net/shaw/openmpcuda-kokkos-build.html" rel="bookmark" title="Permalink to OpenMP/CUDA Kokkos Build">
+            <time class="m-date" datetime="2021-02-25T15:00:00+01:00">
+              Feb <span class="m-date-day">25</span> 2021
+            </time>
+            OpenMP/CUDA Kokkos Build
+          </a></h1>
+          <p>Build the code for host/device execution using OpenMP and CUDA Kokkos backends</p>
+        </header>
+        <div class="m-clearfix-l"></div>
+<!-- content -->
+<section id="prerequisites">
+<h2><a href="#prerequisites">1. Prerequisites</a></h2>
+<ul>
+<li>CMake&gt;=3.13.0</li>
+<li>C++ (with support for c++14) compiler: we have tested this with GCC 8.3.1 and GCC 8.4.0</li>
+<li>BLAS/LAPACK: if you don’t have them, we provide a script to build them for you</li>
+<li>CUDA: this was tested with Toolkit 11.2</li>
+</ul>
+<p><em>Details coming soon</em></p>
+</section>
+<!-- /content -->
+        <footer>
+          <p>Posted by <a href="http://francescorizzi.net/shaw/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-25T15:00:00+01:00">Feb 25, 2021</time> in <a href="http://francescorizzi.net/shaw/building/">building</a>.</p>
+        </footer>
+      </article>
+      <article>
+        <header>
           <h1><a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-2.html" rel="bookmark" title="Permalink to Multi-forcing Run with rank-2">
             <time class="m-date" datetime="2021-02-24T20:00:00+01:00">
               Feb <span class="m-date-day">24</span> 2021
@@ -68,102 +96,10 @@
           </a></h1>
           <p>This demo shows how to simulate multiple trajectories using the rank-2 formulation.</p>
         </header>
-        <div class="m-clearfix-l"></div>
-<!-- content -->
-<aside class="m-block m-info">
-<h3>Before you start</h3>
-<p>
-Below we assume you already completed one of the builds described in the build tab.<br />
-For simplicity, look at the <a href="http://francescorizzi.net/shaw/serial-host-only-kokkos-build/">serial step-by-step build guide</a>.<br />
-</p>
-</aside>
-<aside class="m-block m-info">
-<h3>Scope</h3>
-<p>For the sake of demonstration, this demo solves <em>the same problem</em>
-described in <a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1/">the rank-1 demo</a>, except that
-here we use the <em>rank-2 formulation</em>, which allows us to simulate several
-trajectories simultaneously.</p>
-</aside>
-<section id="prepare-environment">
-<h2><a href="#prepare-environment">1. Prepare environment</a></h2>
-<pre class="m-code"><span class="nb">export</span> <span class="nv">ESWSRCDIR</span><span class="o">=</span>&lt;fullpath-to-the-source-code-repository&gt;
-<span class="nb">export</span> <span class="nv">SHAWEXEDIR</span><span class="o">=</span>&lt;fullpath-to-where-you-built-the-code-executables&gt;
-
-<span class="c1"># create a dir to run the demo</span>
-<span class="nb">export</span> <span class="nv">MYRUNDIR</span><span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/myThirdDemo
-mkdir -p <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span></pre>
-</section>
-<section id="generating-the-mesh">
-<h2><a href="#generating-the-mesh">2. Generating the mesh</a></h2>
-<p>This is identical to <a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1/">the mesh used in this demo</a>.</p>
-<pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/meshing
-python create_single_mesh.py -nr <span class="m">256</span> -nth <span class="m">1024</span> -working-dir <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span></pre>
-</section>
-<section id="input-file">
-<h2><a href="#input-file">3. Input file</a></h2>
-<p>The input file is identical to <a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1/">the one for the rank-1 demo</a>,
-except for the addition of one line to the <code>source</code> section:</p>
-<pre class="m-code"><span class="c1">#</span>
-<span class="c1"># general, io, material: as in the other demo</span>
-<span class="c1">#</span>
-<span class="nt">source</span><span class="p">:</span>
-  <span class="nt">signal</span><span class="p">:</span>
-    <span class="c1"># kind, depth, period, delay: same as the other one</span>
-    <span class="c1"># ...</span>
-
-    <span class="c1"># forcingSize defines many simultaneous trajectories to compute</span>
-    <span class="nt">forcingSize</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">4</span></pre>
-<p>The full input file can be copied:</p>
-<pre class="m-code">cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/demos/fom_rank2_sample_depth/input.yaml <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span></pre>
-</section>
-<section id="run-the-simulation">
-<h2><a href="#run-the-simulation">3. Run the simulation</a></h2>
-<pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
-ln -s <span class="si">${</span><span class="nv">SHAWEXEDIR</span><span class="si">}</span>/shawExe .
-./shawExe input.yaml</pre>
-<p>To give an idea of runtime, on a MacPro with 2.4 GHz 8-Core Intel Core i9 and 32 GB 2667 MHz DDR4,
-and using a serial build of the code, the run takes approximately 107 seconds,
-of which the IO time for data collection is less than 1 second.
-Note that this already gives a hint to the advantages of using the rank-2 formulation.
-In fact, while here it takes 107 seconds to simulate the four trajectories simultaneously,
-in the <a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1/">rank-1 version of this demo</a> it took
-about 150 seconds to simulate the same realizations.</p>
-</section>
-<section id="simulation-data">
-<h2><a href="#simulation-data">5. Simulation data</a></h2>
-<p>The demo should generate inside <code>${MYRUNDIR}</code> the following:</p>
-<pre class="m-code">coords_sp.txt <span class="c1">#: coordinates of the velocity grid points</span>
-coords_vp.txt <span class="c1">#: oordinates of the stresses grid points</span>
-
-<span class="c1"># seismogram for all forcing realizations at the receiver locations</span>
-<span class="c1"># the input file set the format to be ascii</span>
-<span class="c1"># since we have 8 receivers and 4 sample depths, the file generated is as follows:</span>
-<span class="c1"># rows 1-8  : seismogram for each station when source depth=240 Km</span>
-<span class="c1"># rows 9-16 : seismogram for each station when source depth=440 Km</span>
-<span class="c1"># rows 17-24: seismogram for each station when source depth=540 Km</span>
-<span class="c1"># rows 25-32: seismogram for each station when source depth=700 Km</span>
-seismogram_0
-
-snaps_vp_0    <span class="c1">#: snapshot matrix for the velocity for all realizations</span>
-snaps_sp_0    <span class="c1">#: snapshot matrix for the stresses for all realizations</span></pre>
-</section>
-<section id="post-process-data">
-<h2><a href="#post-process-data">4. Post-process data</a></h2>
-<p>To post-process the data, get the Python scripts created
-for this demo and visualize the seismogram:</p>
-<pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
-cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/demos/fom_rank2_sample_depth/plotSeismogram.py .
-python plotSeismogram.py</pre>
-<p>Which generates a figure identical to the <a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1/">seismogram plot obtained with the rank-1</a>
-(as expected) since here we solve the sample problem just in a different, more efficient way.</p>
-<figure class="m-figure">
-<img src="http://francescorizzi.net/shaw/static/img/demo3_f1.png" />
-</figure>
-</section>
-<!-- /content -->
         <footer>
           <p>Posted by <a href="http://francescorizzi.net/shaw/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-24T20:00:00+01:00">Feb 24, 2021</time> in <a href="http://francescorizzi.net/shaw/demos/">demos</a>.</p>
         </footer>
+        <div class="m-clearfix-l"></div>
       </article>
       <article>
         <header>

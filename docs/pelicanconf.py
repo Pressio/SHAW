@@ -73,8 +73,9 @@ AUTHOR_FEED_RSS = None
 M_LINKS_NAVBAR1 = [('Build', '', '',
                     [
                       ("Host Serial Kokkos Build", 'serial-host-only-kokkos-build/', ''),
-                      ("Host OpenMP Kokkos Build", 'openmp-host-only-kokkos-build/', '')
-                    ]),
+                      ("Host OpenMP Kokkos Build", 'openmp-host-only-kokkos-build/', ''),
+                      ("OpenMP/CUDA Kokkos Build", 'openmpcuda-kokkos-build/', '')
+                     ]),
 
                     ('Get Started', '', '',
                     [
