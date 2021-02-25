@@ -39,10 +39,10 @@ Shear Waves Simulator
             signal forms and parametrizations); and (b) simulating these systems at global scale
             with high-accuracy requires a large computational cost.
 
-	    .. role:: yellow
-		      :class: m-text m-warning
+	    .. role:: green
+		      :class: m-text m-success
 
-            :yellow:`This project contributes to the field by providing an open-source
+            :green:`This project contributes to the field by providing an open-source
             C++ code to simulate the generation and propagation of (elastic) shear waves in an axi-symmetric domain.`
 
 
@@ -65,7 +65,7 @@ Shear Waves Simulator
 
         .. container:: m-col-l-11 m-push-l-1
 
-            .. note-info:: HIGHLIGHTS AND CAPABILITIES
+            .. block-primary:: HIGHLIGHTS AND CAPABILITIES
 
 	    *  We use the `velocity-shear formulation in an axi-symmetric domain <{filename}/goveq.rst>`_,
 	       leading to a so-called 2.5 dimensional model;
@@ -103,7 +103,7 @@ Shear Waves Simulator
 
         .. container:: m-col-l-11 m-push-l-1
 
-            .. note-success:: GET STARTED
+            .. block-warning:: GET STARTED
 
 	    -  Build the code choosing one of the following versions:
 

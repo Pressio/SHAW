@@ -23,7 +23,7 @@ io:
 source:
   signal:
     kind: ricker
-    depth: [240.,440.,540.,700]
+    depth: [240.,440.,540.,700.]
     period: 65.0
     delay: 180.0
 

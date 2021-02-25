@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <title>Multi-forcing Run with rank-1 | SHAW</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,600%7CSource+Sans+Pro:400,400i,600,600i&amp;subset=latin-ext" />
-  <link rel="stylesheet" href="http://francescorizzi.net/shaw/static/m-dark.css" />
-  <link rel="canonical" href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1.html" />
+  <link rel="stylesheet" href="/static/m-dark.css" />
+  <link rel="canonical" href="/multi-forcing-run-with-rank-1.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#22272e" />
   <meta property="og:site_name" content="SHAW" />
   <meta property="og:title" content="Multi-forcing Run with rank-1" />
   <meta name="twitter:title" content="Multi-forcing Run with rank-1" />
-  <meta property="og:url" content="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1.html" />
+  <meta property="og:url" content="/multi-forcing-run-with-rank-1.html" />
   <meta property="og:description" content="This demo shows how to simulate multiple trajectories using the rank-1 formulation." />
   <meta name="twitter:description" content="This demo shows how to simulate multiple trajectories using the rank-1 formulation." />
   <meta name="twitter:card" content="summary" />
@@ -21,36 +21,36 @@
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a href="http://francescorizzi.net/shaw/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHAW</a>
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHAW</a>
       <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
         <div class="m-row">
           <ol class="m-col-t-12 m-col-m-none">
             <li>
-              <a href="http://francescorizzi.net/shaw/">Build</a>
+              <a href="/">Build</a>
               <ol>
-                <li><a href="http://francescorizzi.net/shaw/serial-host-only-kokkos-build/">Host Serial Kokkos Build</a></li>
-                <li><a href="http://francescorizzi.net/shaw/openmp-host-only-kokkos-build/">Host OpenMP Kokkos Build</a></li>
+                <li><a href="/serial-host-only-kokkos-build/">Host Serial Kokkos Build</a></li>
+                <li><a href="/openmp-host-only-kokkos-build/">Host OpenMP Kokkos Build</a></li>
               </ol>
             </li>
             <li>
-              <a href="http://francescorizzi.net/shaw/">Get Started</a>
+              <a href="/">Get Started</a>
               <ol>
-                <li><a href="http://francescorizzi.net/shaw/governing-equations-and-discretization/">Equations and discretization</a></li>
-                <li><a href="http://francescorizzi.net/shaw/input-file/">Input File</a></li>
-                <li><a href="http://francescorizzi.net/shaw/material-models/">Material Models</a></li>
+                <li><a href="/governing-equations-and-discretization/">Equations and discretization</a></li>
+                <li><a href="/input-file/">Input File</a></li>
+                <li><a href="/material-models/">Material Models</a></li>
               </ol>
             </li>
             <li>
-              <a href="http://francescorizzi.net/shaw/">Demos</a>
+              <a href="/">Demos</a>
               <ol>
-                <li><a href="http://francescorizzi.net/shaw/single-forcing-run/">Single Forcing Run</a></li>
-                <li><a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1/">Multi-forcing Run with rank-1</a></li>
-                <li><a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-2/">Multi-forcing Run wirh rank-2</a></li>
+                <li><a href="/single-forcing-run/">Single Forcing Run</a></li>
+                <li><a href="/multi-forcing-run-with-rank-1/">Multi-forcing Run with rank-1</a></li>
+                <li><a href="/multi-forcing-run-with-rank-2/">Multi-forcing Run wirh rank-2</a></li>
               </ol>
             </li>
-            <li><a href="http://francescorizzi.net/shaw/license">License</a></li>
+            <li><a href="/license">License</a></li>
           </ol>
         </div>
       </div>
@@ -62,7 +62,7 @@
   <div class="m-row">
     <article class="m-col-m-10 m-nopadb">
       <header>
-        <h1><a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1.html" rel="bookmark" title="Permalink to Multi-forcing Run with rank-1">
+        <h1><a href="/multi-forcing-run-with-rank-1.html" rel="bookmark" title="Permalink to Multi-forcing Run with rank-1">
           <time class="m-date" datetime="2021-02-12T11:00:00+01:00">
             Feb <span class="m-date-day">12</span> 2021
           </time>
@@ -72,30 +72,30 @@
       </header>
       <div class="m-clearfix-l"></div>
 <!-- content -->
-<div>
-Here we assume you completed the building process, e.g., <a href="http://francescorizzi.net/shaw/serial-host-only-kokkos-build/">step-by-step guide</a>,
-<code>MYWORKDIR</code> points to the working directory for that procedure, so that <code>${MYWORKDIR}/build</code> contains all the executables.</div>
+<aside class="m-block m-info">
+<h3>Before you start</h3>
 <p>
-<br />
+Below we assume you already completed one of the builds described in the build tab.<br />
+For simplicity, look at the <a href="/serial-host-only-kokkos-build/">serial step-by-step build guide</a>.<br />
 </p>
+</aside>
 <section id="prepare-environment">
 <h2><a href="#prepare-environment">1. Prepare environment</a></h2>
-<pre class="m-code"><span class="c1"># ensure this env var points to the build directory</span>
-<span class="nb">export</span> <span class="nv">MYWORKDIR</span><span class="o">=</span>&lt;the-same-work-directory-used-for-building-process&gt;
-<span class="nb">export</span> <span class="nv">ESWSRCDIR</span><span class="o">=</span>&lt;path-to-the-source-code-repository&gt;
-<span class="nb">export</span> <span class="nv">MYRUNDIR</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/myFirstRun
+<pre class="m-code"><span class="nb">export</span> <span class="nv">ESWSRCDIR</span><span class="o">=</span>&lt;fullpath-to-the-source-code-repository&gt;
+<span class="nb">export</span> <span class="nv">SHAWEXEDIR</span><span class="o">=</span>&lt;fullpath-to-where-you-built-the-code-executables&gt;
+
+<span class="c1"># create a dir to run the demo</span>
+<span class="nb">export</span> <span class="nv">MYRUNDIR</span><span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/mySecondDemo
 mkdir -p <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span></pre>
 </section>
 <section id="generating-the-mesh">
 <h2><a href="#generating-the-mesh">2. Generating the mesh</a></h2>
-<p>To specify the grid, one only needs to specify the grid for the velocity points because
-the stress points are defined based on the staggered scheme (see paper).
-For this demo, we use a grid of <code>256</code> x <code>1024</code> velocity points
+<p>For this demo, we use a grid of <code>256</code> x <code>1024</code> velocity points
 along the radial and polar directions, respectively.
 To generate the mesh files proceed as follows:</p>
 <pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/meshing
 python create_single_mesh.py -nr <span class="m">256</span> -nth <span class="m">1024</span> -working-dir <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span></pre>
-<p>This should generate a directory <code>${MYRUNDIR}/mesh256x1024</code> containing:</p>
+<p>After generating the grid, you should have a <code>${MYRUNDIR}/mesh256x1024</code> directory containing:</p>
 <pre class="m-code">.
 ├── <span class="o">[</span><span class="m">5</span>.9M<span class="o">]</span>  coeff_vp.dat
 ├── <span class="o">[</span> 37M<span class="o">]</span>  graph_sp.dat
@@ -104,7 +104,7 @@ python create_single_mesh.py -nr <span class="m">256</span> -nth <span class="m"
 </section>
 <section id="input-file">
 <h2><a href="#input-file">3. Input file</a></h2>
-<p>For this demo, we use the following input file:</p>
+<p>We use the following input file (<a href="/input-file/">learn more about input file</a>):</p>
 <pre class="m-code"><span class="nt">general</span><span class="p">:</span>
   <span class="nt">meshDir</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">./mesh256x1024</span>
   <span class="nt">dt</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.25</span>
@@ -129,46 +129,51 @@ python create_single_mesh.py -nr <span class="m">256</span> -nth <span class="m"
 
     <span class="c1"># here we pass a list of depths to use as samples</span>
     <span class="c1"># this will automatically activate sampling</span>
-    <span class="nt">depth</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">240.</span><span class="p p-Indicator">,</span><span class="nv">440.</span><span class="p p-Indicator">,</span><span class="nv">540.</span><span class="p p-Indicator">,</span><span class="nv">740.</span><span class="p p-Indicator">]</span>
+    <span class="nt">depth</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">240.</span><span class="p p-Indicator">,</span><span class="nv">440.</span><span class="p p-Indicator">,</span><span class="nv">540.</span><span class="p p-Indicator">,</span><span class="nv">700.</span><span class="p p-Indicator">]</span>
 
     <span class="nt">period</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">65.0</span>
     <span class="nt">delay</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">180.0</span>
 
 <span class="nt">material</span><span class="p">:</span>
   <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">prem</span></pre>
-<p>Which is ready to get:</p>
+<p>You can get the input file as:</p>
 <pre class="m-code">cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/demos/fom_rank1_sample_depth/input.yaml <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span></pre>
 </section>
 <section id="run-the-simulation">
 <h2><a href="#run-the-simulation">3. Run the simulation</a></h2>
 <pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
-ln -s <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/build/shawExe .
+ln -s <span class="si">${</span><span class="nv">SHAWEXEDIR</span><span class="si">}</span>/shawExe .
 
 <span class="c1"># if you use OpenMP build, remember to set</span>
-<span class="c1"># OMP_NUM_THREADS=4 OMP_PLACES=threads OMP_PROC_BIND=spread</span>
+<span class="c1"># OMP_NUM_THREADS=how-many-you-want-use OMP_PLACES=threads OMP_PROC_BIND=spread</span>
 ./shawExe input.yaml</pre>
+<p>You will notice that since we use the rank-1 formulation, the code will solve
+sequentially all four realizations of the forcing term.
+To give an idea of runtime, on a MacPro with 2.4 GHz 8-Core Intel Core i9 and 32 GB 2667 MHz DDR4,
+and using a serial build of the code, each individual realization takes approximately 36 seconds,
+of which the IO time for data collection is less than 1 second.</p>
 </section>
 <section id="simulation-data">
 <h2><a href="#simulation-data">5. Simulation data</a></h2>
-<p>After running the demo (have some patience because it takes some a couple minutes),
-you should have inside <code>${MYRUNDIR}</code> the following files:</p>
+<p>After running the demo (have some patience because it takes some a couple minutes
+if you use the serial mode), you should have inside <code>${MYRUNDIR}</code> the following files:</p>
 <pre class="m-code">coords_sp.txt <span class="c1">#: coordinates of the velocity grid points</span>
 coords_vp.txt <span class="c1">#: coordinates of the stresses grid points</span>
 
 seismogram_0  <span class="c1">#: seismogram for depth = 240</span>
 seismogram_1  <span class="c1">#: seismogram for depth = 440</span>
 seismogram_2  <span class="c1">#: seismogram for depth = 540</span>
-seismogram_3  <span class="c1">#: seismogram for depth = 740</span>
+seismogram_3  <span class="c1">#: seismogram for depth = 700</span>
 
 snaps_vp_0    <span class="c1">#: velocity snapshots for depth = 240</span>
 snaps_vp_1    <span class="c1">#: velocity snapshots for depth = 440</span>
 snaps_vp_2    <span class="c1">#: velocity snapshots for depth = 540</span>
-snaps_vp_3    <span class="c1">#: velocity snapshots for depth = 740</span>
+snaps_vp_3    <span class="c1">#: velocity snapshots for depth = 700</span>
 
 snaps_sp_0    <span class="c1">#: stresses snapshots for depth = 240</span>
 snaps_sp_1    <span class="c1">#: stresses snapshots for depth = 440</span>
 snaps_sp_2    <span class="c1">#: stresses snapshots for depth = 540</span>
-snaps_sp_3    <span class="c1">#: stresses snapshots for depth = 740</span></pre>
+snaps_sp_3    <span class="c1">#: stresses snapshots for depth = 700</span></pre>
 </section>
 <section id="post-process-data">
 <h2><a href="#post-process-data">4. Post-process data</a></h2>
@@ -178,20 +183,53 @@ for this demo and visualize the seismogram:</p>
 cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/demos/fom_rank1_sample_depth/plotSeismogram.py .
 python plotSeismogram.py</pre>
 <figure class="m-figure">
-<img src="http://francescorizzi.net/shaw/static/img/demo2_f1.png" />
+<img src="/static/img/demo2_f1.png" />
 </figure>
+<p>We now extract and compare the velocity wavefield at <code>t=2000</code> (seconds)
+for <code>depth=240</code> and <code>depth=700</code></p>
+<pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
+ln -s <span class="si">${</span><span class="nv">SHAWEXEDIR</span><span class="si">}</span>/extractStateFromSnaps .
+
+<span class="c1"># snaps_vp_0 contains snapshots for depth=240 km</span>
+<span class="c1"># extract target state and write to file appending vp_d240 to identify the case</span>
+./extractStateFromSnaps --snaps<span class="o">=</span>./snaps_vp_0 binary --fsize<span class="o">=</span><span class="m">1</span> <span class="se">\</span>
+  --outformat<span class="o">=</span>ascii --timesteps<span class="o">=</span><span class="m">8000</span>  --samplingfreq<span class="o">=</span><span class="m">100</span> --outfileappend<span class="o">=</span>vp_d240
+
+<span class="c1"># snaps_vp_3 contains snapshots for depth=700 km</span>
+<span class="c1"># extract target state and write to file appending vp_d700 to identify the case</span>
+./extractStateFromSnaps --snaps<span class="o">=</span>./snaps_vp_3 binary --fsize<span class="o">=</span><span class="m">1</span> <span class="se">\</span>
+  --outformat<span class="o">=</span>ascii --timesteps<span class="o">=</span><span class="m">8000</span>  --samplingfreq<span class="o">=</span><span class="m">100</span> --outfileappend<span class="o">=</span>vp_d700
+
+python plotWavefield.py</pre>
+<p>And plot them below, showing as expected the largely different pattern
+and trailing waves due to the complex reflection/refraction effects
+of the waves propagating through the discontinuous PREM material model.</p>
+<div class="m-imagegrid m-container-inflate">
+<div>
+<figure style="width: 50.000%">
+<a href="/static/img/demo2_f2.png"><img src="/static/img/demo2_f2.png" /><div>
+</div>
+</a>
+</figure>
+<figure style="width: 50.000%">
+<a href="/static/img/demo2_f3.png"><img src="/static/img/demo2_f3.png" /><div>
+</div>
+</a>
+</figure>
+</div>
+</div>
 </section>
 <!-- /content -->
       <footer>
-        <p>Posted by <a href="http://francescorizzi.net/shaw/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="http://francescorizzi.net/shaw/demos/">demos</a>.</p>
+        <p>Posted by <a href="/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-12T11:00:00+01:00">Feb 12, 2021</time> in <a href="/demos/">demos</a>.</p>
       </footer>
     </article>
     <nav class="m-navpanel m-col-m-2">
       <h3>Categories</h3>
       <ol class="m-block-bar-m">
-        <li><a href="http://francescorizzi.net/shaw/building/">building</a></li>
-        <li><a href="http://francescorizzi.net/shaw/demos/">demos</a></li>
-        <li><a href="http://francescorizzi.net/shaw/misc/">misc</a></li>
+        <li><a href="/building/">building</a></li>
+        <li><a href="/demos/">demos</a></li>
+        <li><a href="/misc/">misc</a></li>
       </ol>
     </nav>
   </div>

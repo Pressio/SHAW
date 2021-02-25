@@ -1,14 +1,8 @@
 #!/usr/bin/env python
 
+import yaml
 import numpy as np
-import sys, re, os
 import matplotlib.pyplot as plt
-from numpy import linalg as la
-from matplotlib import cm
-
-
-def loadSeismogram():
-  return np.loadtxt('seismogram_0')
 
 def doPlot(panelId, t, data, key):
   plt.subplot(panelId)
@@ -44,26 +38,36 @@ def doPlot(panelId, t, data, key):
 ###############################
 if __name__== "__main__":
 ###############################
-  # get data
-  data = loadSeismogram()
+  # get yaml file that we use to extract things
+  inputs = yaml.safe_load(open("input.yaml"))
 
-  # in input.yaml file, receivers are at 5,30,55,80,... degrees
-  # but here only plot a few
-  D = {}
-  D['5']  = data[0, :]
-  D['30'] = data[1, :]
-  D['55'] = data[2, :]
-  D['80'] = data[3, :]
+  finalTime = float(inputs["general"]["finalTime"])
+  dt        = float(inputs["general"]["dt"])
+  seismoFreq= int(inputs["io"]["seismogram"]["freq"])
+  stations  = [str(i) for i in inputs["io"]["seismogram"]["receivers"]]
 
   # set the time axis
   # time = samplingFrequency*dt*numSamples
   # see input.yaml for samplingFrequency and dt
-  t = 4*0.25*np.arange(2000)
+  t = seismoFreq*dt*np.arange(finalTime)
+
+  # get data
+  data = np.loadtxt('seismogram_0')
+
+  D = {}
+  D[stations[0]] = data[0, :]
+  D[stations[1]] = data[1, :]
+  D[stations[2]] = data[2, :]
+
+  # # set the time axis
+  # # time = samplingFrequency*dt*numSamples
+  # # see input.yaml for samplingFrequency and dt
+  # t = 4*0.25*np.arange(2000)
 
   f = plt.figure(figsize=(13,10))
-  doPlot(311, t, D, '5')
-  doPlot(312, t, D, '30')
-  doPlot(313, t, D, '80')
+  doPlot(311, t, D, stations[0])
+  doPlot(312, t, D, stations[1])
+  doPlot(313, t, D, stations[2])
   plt.tight_layout()
   f.savefig('seismogram.png', format="png", bbox_inches='tight', dpi=300, transparent=True)
 

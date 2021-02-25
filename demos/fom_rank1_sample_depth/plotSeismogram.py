@@ -74,7 +74,7 @@ if __name__== "__main__":
   # get data for all realizations
   data = loadSeismograms()
 
-  depths = ['240', '440', '540', '740']
+  depths = ['240', '440', '540', '700']
 
   # set the time axis
   # time = samplingFrequency*dt*numSamples

@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <title>Multi-forcing Run with rank-2 | SHAW</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,600%7CSource+Sans+Pro:400,400i,600,600i&amp;subset=latin-ext" />
-  <link rel="stylesheet" href="http://francescorizzi.net/shaw/static/m-dark.css" />
-  <link rel="canonical" href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-2.html" />
+  <link rel="stylesheet" href="/static/m-dark.css" />
+  <link rel="canonical" href="/multi-forcing-run-with-rank-2.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#22272e" />
   <meta property="og:site_name" content="SHAW" />
   <meta property="og:title" content="Multi-forcing Run with rank-2" />
   <meta name="twitter:title" content="Multi-forcing Run with rank-2" />
-  <meta property="og:url" content="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-2.html" />
+  <meta property="og:url" content="/multi-forcing-run-with-rank-2.html" />
   <meta property="og:description" content="This demo shows how to simulate multiple trajectories using the rank-2 formulation." />
   <meta name="twitter:description" content="This demo shows how to simulate multiple trajectories using the rank-2 formulation." />
   <meta name="twitter:card" content="summary" />
@@ -21,36 +21,36 @@
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a href="http://francescorizzi.net/shaw/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHAW</a>
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m">SHAW</a>
       <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
       <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
         <div class="m-row">
           <ol class="m-col-t-12 m-col-m-none">
             <li>
-              <a href="http://francescorizzi.net/shaw/">Build</a>
+              <a href="/">Build</a>
               <ol>
-                <li><a href="http://francescorizzi.net/shaw/serial-host-only-kokkos-build/">Host Serial Kokkos Build</a></li>
-                <li><a href="http://francescorizzi.net/shaw/openmp-host-only-kokkos-build/">Host OpenMP Kokkos Build</a></li>
+                <li><a href="/serial-host-only-kokkos-build/">Host Serial Kokkos Build</a></li>
+                <li><a href="/openmp-host-only-kokkos-build/">Host OpenMP Kokkos Build</a></li>
               </ol>
             </li>
             <li>
-              <a href="http://francescorizzi.net/shaw/">Get Started</a>
+              <a href="/">Get Started</a>
               <ol>
-                <li><a href="http://francescorizzi.net/shaw/governing-equations-and-discretization/">Equations and discretization</a></li>
-                <li><a href="http://francescorizzi.net/shaw/input-file/">Input File</a></li>
-                <li><a href="http://francescorizzi.net/shaw/material-models/">Material Models</a></li>
+                <li><a href="/governing-equations-and-discretization/">Equations and discretization</a></li>
+                <li><a href="/input-file/">Input File</a></li>
+                <li><a href="/material-models/">Material Models</a></li>
               </ol>
             </li>
             <li>
-              <a href="http://francescorizzi.net/shaw/">Demos</a>
+              <a href="/">Demos</a>
               <ol>
-                <li><a href="http://francescorizzi.net/shaw/single-forcing-run/">Single Forcing Run</a></li>
-                <li><a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1/">Multi-forcing Run with rank-1</a></li>
-                <li><a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-2/">Multi-forcing Run wirh rank-2</a></li>
+                <li><a href="/single-forcing-run/">Single Forcing Run</a></li>
+                <li><a href="/multi-forcing-run-with-rank-1/">Multi-forcing Run with rank-1</a></li>
+                <li><a href="/multi-forcing-run-with-rank-2/">Multi-forcing Run wirh rank-2</a></li>
               </ol>
             </li>
-            <li><a href="http://francescorizzi.net/shaw/license">License</a></li>
+            <li><a href="/license">License</a></li>
           </ol>
         </div>
       </div>
@@ -62,7 +62,7 @@
   <div class="m-row">
     <article class="m-col-m-10 m-nopadb">
       <header>
-        <h1><a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-2.html" rel="bookmark" title="Permalink to Multi-forcing Run with rank-2">
+        <h1><a href="/multi-forcing-run-with-rank-2.html" rel="bookmark" title="Permalink to Multi-forcing Run with rank-2">
           <time class="m-date" datetime="2021-02-24T20:00:00+01:00">
             Feb <span class="m-date-day">24</span> 2021
           </time>
@@ -72,35 +72,39 @@
       </header>
       <div class="m-clearfix-l"></div>
 <!-- content -->
-<div>
-Here we assume you completed the building process, e.g., <a href="http://francescorizzi.net/shaw/serial-host-only-kokkos-build/">step-by-step guide</a>,
-<code>MYWORKDIR</code> points to the working directory for that procedure, so that <code>${MYWORKDIR}/build</code> contains all the executables.</div>
+<aside class="m-block m-info">
+<h3>Before you start</h3>
 <p>
-<br />
+Below we assume you already completed one of the builds described in the build tab.<br />
+For simplicity, look at the <a href="/serial-host-only-kokkos-build/">serial step-by-step build guide</a>.<br />
 </p>
+</aside>
 <aside class="m-block m-info">
 <h3>Scope</h3>
-<p>For the sake of demonstration, in this demo we solve <em>the same problem</em>
-solved in <a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1/">the rank-1 demo</a>, except that
-we use the rank-2 formulation, which allows us to simulate all four sample
-trajectories in one single run.</p>
+<p>For the sake of demonstration, this demo solves <em>the same problem</em>
+described in <a href="/multi-forcing-run-with-rank-1/">the rank-1 demo</a>, except that
+here we use the <em>rank-2 formulation</em>, which allows us to simulate several
+trajectories simultaneously.</p>
 </aside>
 <section id="prepare-environment">
 <h2><a href="#prepare-environment">1. Prepare environment</a></h2>
-<pre class="m-code"><span class="c1"># ensure this env var points to the build directory</span>
-<span class="nb">export</span> <span class="nv">MYWORKDIR</span><span class="o">=</span>&lt;the-same-work-directory-used-for-building-process&gt;
-<span class="nb">export</span> <span class="nv">ESWSRCDIR</span><span class="o">=</span>&lt;path-to-the-source-code-repository&gt;
-<span class="nb">export</span> <span class="nv">MYRUNDIR</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/mySecondRun
+<pre class="m-code"><span class="nb">export</span> <span class="nv">ESWSRCDIR</span><span class="o">=</span>&lt;fullpath-to-the-source-code-repository&gt;
+<span class="nb">export</span> <span class="nv">SHAWEXEDIR</span><span class="o">=</span>&lt;fullpath-to-where-you-built-the-code-executables&gt;
+
+<span class="c1"># create a dir to run the demo</span>
+<span class="nb">export</span> <span class="nv">MYRUNDIR</span><span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/myThirdDemo
 mkdir -p <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span></pre>
 </section>
 <section id="generating-the-mesh">
 <h2><a href="#generating-the-mesh">2. Generating the mesh</a></h2>
-<p>This is identical to <a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1/">the mesh used in this demo</a>.</p>
+<p>This is identical to <a href="/multi-forcing-run-with-rank-1/">the mesh used in this demo</a>.</p>
+<pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/meshing
+python create_single_mesh.py -nr <span class="m">256</span> -nth <span class="m">1024</span> -working-dir <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span></pre>
 </section>
 <section id="input-file">
 <h2><a href="#input-file">3. Input file</a></h2>
-<p>The input file is identical to <a href="http://francescorizzi.net/shaw/multi-forcing-run-with-rank-1/">the input for the rank-1 demo</a>,
-except for one addition to the source yaml node:</p>
+<p>The input file is identical to <a href="/multi-forcing-run-with-rank-1/">the one for the rank-1 demo</a>,
+except for the addition of one line to the <code>source</code> section:</p>
 <pre class="m-code"><span class="c1">#</span>
 <span class="c1"># general, io, material: as in the other demo</span>
 <span class="c1">#</span>
@@ -117,23 +121,58 @@ except for one addition to the source yaml node:</p>
 <section id="run-the-simulation">
 <h2><a href="#run-the-simulation">3. Run the simulation</a></h2>
 <pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
-ln -s <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/build/shawExe .
-
-<span class="c1"># if you use OpenMP build, remember to set</span>
-<span class="c1"># OMP_NUM_THREADS=4 OMP_PLACES=threads OMP_PROC_BIND=spread</span>
+ln -s <span class="si">${</span><span class="nv">SHAWEXEDIR</span><span class="si">}</span>/shawExe .
 ./shawExe input.yaml</pre>
+<p>To give an idea of runtime, on a MacPro with 2.4 GHz 8-Core Intel Core i9 and 32 GB 2667 MHz DDR4,
+and using a serial build of the code, the run takes approximately 107 seconds,
+of which the IO time for data collection is less than 1 second.
+Note that this already gives a hint to the advantages of using the rank-2 formulation.
+In fact, while here it takes 107 seconds to simulate the four trajectories simultaneously,
+in the <a href="/multi-forcing-run-with-rank-1/">rank-1 version of this demo</a> it took
+about 150 seconds to simulate the same realizations.</p>
+</section>
+<section id="simulation-data">
+<h2><a href="#simulation-data">5. Simulation data</a></h2>
+<p>The demo should generate inside <code>${MYRUNDIR}</code> the following:</p>
+<pre class="m-code">coords_sp.txt <span class="c1">#: coordinates of the velocity grid points</span>
+coords_vp.txt <span class="c1">#: oordinates of the stresses grid points</span>
+
+<span class="c1"># seismogram for all forcing realizations at the receiver locations</span>
+<span class="c1"># the input file set the format to be ascii</span>
+<span class="c1"># since we have 8 receivers and 4 sample depths, the file generated is as follows:</span>
+<span class="c1"># rows 1-8  : seismogram for each station when source depth=240 Km</span>
+<span class="c1"># rows 9-16 : seismogram for each station when source depth=440 Km</span>
+<span class="c1"># rows 17-24: seismogram for each station when source depth=540 Km</span>
+<span class="c1"># rows 25-32: seismogram for each station when source depth=700 Km</span>
+seismogram_0
+
+snaps_vp_0    <span class="c1">#: snapshot matrix for the velocity for all realizations</span>
+snaps_sp_0    <span class="c1">#: snapshot matrix for the stresses for all realizations</span></pre>
+</section>
+<section id="post-process-data">
+<h2><a href="#post-process-data">4. Post-process data</a></h2>
+<p>To post-process the data, get the Python scripts created
+for this demo and visualize the seismogram:</p>
+<pre class="m-code"><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
+cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/demos/fom_rank2_sample_depth/plotSeismogram.py .
+python plotSeismogram.py</pre>
+<p>Which generates a figure identical to the <a href="/multi-forcing-run-with-rank-1/">seismogram plot obtained with the rank-1</a>
+(as expected) since here we solve the sample problem just in a different, more efficient way.</p>
+<figure class="m-figure">
+<img src="/static/img/demo3_f1.png" />
+</figure>
 </section>
 <!-- /content -->
       <footer>
-        <p>Posted by <a href="http://francescorizzi.net/shaw/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-24T20:00:00+01:00">Feb 24, 2021</time> in <a href="http://francescorizzi.net/shaw/demos/">demos</a>.</p>
+        <p>Posted by <a href="/author/francesco-rizzi.html">Francesco  Rizzi</a> on <time datetime="2021-02-24T20:00:00+01:00">Feb 24, 2021</time> in <a href="/demos/">demos</a>.</p>
       </footer>
     </article>
     <nav class="m-navpanel m-col-m-2">
       <h3>Categories</h3>
       <ol class="m-block-bar-m">
-        <li><a href="http://francescorizzi.net/shaw/building/">building</a></li>
-        <li><a href="http://francescorizzi.net/shaw/demos/">demos</a></li>
-        <li><a href="http://francescorizzi.net/shaw/misc/">misc</a></li>
+        <li><a href="/building/">building</a></li>
+        <li><a href="/demos/">demos</a></li>
+        <li><a href="/misc/">misc</a></li>
       </ol>
     </nav>
   </div>

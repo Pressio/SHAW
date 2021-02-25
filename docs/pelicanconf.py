@@ -9,8 +9,8 @@ M_SITE_LOGO_TEXT = 'SHAW'
 
 SITENAME = 'SHAW'
 SITESUBTITLE = 'Elastic Shear Waves'
-SITEURL = 'http://francescorizzi.net/shaw'
-#SITEURL = ''
+#SITEURL = 'http://francescorizzi.net/shaw'
+SITEURL = ''
 
 # M_BLOG_NAME = ''
 # M_BLOG_URL = 'blog/'

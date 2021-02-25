@@ -193,7 +193,7 @@ You need to choose one of the options below.
 ----------------------------------
 A single medium with no discontinuities.
 You can provide coefficients to define a quadratic parametrization of the density and shear velocity profile.
-For more details, e.g. meaning and units, see `this <{filename}/getstarted/materialmodels.rst>`_.
+For more details, e.g. meaning and units, see `this <{filename}/materialmodels.rst>`_.
 
 .. code:: yaml
 
@@ -209,7 +209,7 @@ single discontinuity as shown in the figure below.
 Both the density and shear velocity only have radial dependence.
 You can provide coefficients to define a quadratic parametrization
 of the density and shear velocity profile.
-For more details, e.g. meaning and units, see `this <{filename}/getstarted/materialmodels.rst>`_.
+For more details, e.g. meaning and units, see `this <{filename}/materialmodels.rst>`_.
 
 .. code:: yaml
 

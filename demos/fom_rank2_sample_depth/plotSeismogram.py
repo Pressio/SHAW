@@ -1,16 +1,14 @@
 #!/usr/bin/env python
 
+import yaml
 import numpy as np
 import sys, re, os
 import matplotlib.pyplot as plt
 from numpy import linalg as la
 from matplotlib import cm
 
-def loadSeismograms():
-  return {'d0' : np.loadtxt('seismogram_0'),
-          'd1' : np.loadtxt('seismogram_1'),
-          'd2' : np.loadtxt('seismogram_2'),
-          'd3' : np.loadtxt('seismogram_3')}
+def loadSeismogram():
+  return np.loadtxt('seismogram_0')
 
 def doPlot(panelId, t, data, angle, depths):
   plt.subplot(panelId)
@@ -71,22 +69,40 @@ def doPlot(panelId, t, data, angle, depths):
 ###############################
 if __name__== "__main__":
 ###############################
-  # get data for all realizations
-  data = loadSeismograms()
+  # get yaml file that we use to extract things
+  inputs = yaml.safe_load(open("input.yaml"))
 
-  depths = ['240', '440', '540', '740']
+  finalTime = float(inputs["general"]["finalTime"])
+  dt        = float(inputs["general"]["dt"])
+  stations  = [str(i) for i in inputs["io"]["seismogram"]["receivers"]]
+  seismoFreq= int(inputs["io"]["seismogram"]["freq"])
+  depths    = [str(i) for i in inputs["source"]["signal"]["depth"]]
+  fSize     = int(inputs["source"]["signal"]["forcingSize"])
 
   # set the time axis
   # time = samplingFrequency*dt*numSamples
   # see input.yaml for samplingFrequency and dt
-  t = 4*0.25*np.arange(2000)
+  t = seismoFreq*dt*np.arange(finalTime)
+
+
+  # get all seismogram data
+  # data is an array such that:
+  # rows = numOfStations * fSize
+  # cols = values at each time sampled
+  data0 = loadSeismogram()
+  # make a dic for each "batch" of data
+  numStations = len(stations)
+  data = {'d0' : data0[0:numStations, :],
+          'd1' : data0[numStations:2*numStations, :],
+          'd2' : data0[2*numStations:3*numStations, :],
+          'd3' : data0[3*numStations:, :]}
 
   f = plt.figure(figsize=(13,10))
 
   # for each target receiver, plot all realizations
-  doPlot(311, t, data, '5',  depths)
-  doPlot(312, t, data, '30', depths)
-  doPlot(313, t, data, '55', depths)
+  doPlot(311, t, data, stations[0], depths)
+  doPlot(312, t, data, stations[1], depths)
+  doPlot(313, t, data, stations[2], depths)
   plt.tight_layout()
   f.savefig('seismogram.png', format="png",
             bbox_inches='tight', dpi=300, transparent=True)
