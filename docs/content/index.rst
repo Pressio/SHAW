@@ -46,6 +46,10 @@ Shear Waves Simulator
             C++ code to simulate the generation and propagation of (elastic) shear waves in an axi-symmetric domain.`
 
 
+            .. block-flat:: Get the code: https://github.com/Pressio/SHAW
+
+
+
         .. container:: m-col-l-3 m-push-l-1
 
             .. figure:: {static}/img/logo1.png
@@ -105,6 +109,8 @@ Shear Waves Simulator
 
             .. block-warning:: GET STARTED
 
+            -  Clone the code: https://github.com/Pressio/SHAW
+
 	    -  Build the code choosing one of the following versions:
 
 	         -  `Serial Host-only Kokkos <{filename}/kokkos_host_serial.rst>`_: runs on host with *serial* backend
@@ -134,7 +140,11 @@ Shear Waves Simulator
 
         .. container:: m-col-l-10 m-push-l-1
 
-
 	    .. block-danger:: If you use this code, please cite:
 
 			    *A compute-bound formulation of Galerkin model reduction for linear time-invariant dynamical systems* --- by F.Rizzi, E.J.Parish, P.J.Blonigan, J.Tencer (https://arxiv.org/abs/2009.11742).
+
+
+	    .. block-danger:: Contact us:
+
+			    Open an issue on github: <https://github.com/Pressio/SHAW> or email us: francesco.rizzi@ng-analytics.com, fnrizzi@sandia.gov

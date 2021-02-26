@@ -9,8 +9,9 @@ License
   //@HEADER
   // ************************************************************************
   //
-  //                         Elastic Shear Waves
-  // Copyright 2020 Francesco Rizzi
+  //                              Pressio
+  // Copyright 2019 National Technology & Engineering Solutions of Sandia,LLC
+  //                              (NTESS)
   //
   // Under the terms of Contract DE-NA0003525 with NTESS, the
   // U.S. Government retains certain rights in this software.
@@ -45,7 +46,7 @@ License
   // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
   // POSSIBILITY OF SUCH DAMAGE.
   //
-  // Questions? Contact Francesco Rizzi (francesco.rizzi@ng-analytics.com)
+  // Questions? Contact Francesco Rizzi (fnrizzi@sandia.gov)
   //
   // ************************************************************************
   //@HEADER

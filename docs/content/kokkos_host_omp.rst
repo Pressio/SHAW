@@ -10,11 +10,14 @@ OpenMP Host-only Kokkos Build
 `1. Prerequisites`_
 ###################
 
+* The SHAW repo: https://github.com/Pressio/SHAW
+
 * CMake>=3.13.0
 
 * C++ (with support for c++14) compiler: we have tested this with GCC 8.3.1 and GCC 8.4.0
 
 * BLAS/LAPACK: if you don't have them, we provide a script to build them for you
+
 
 #########################
 `2. Prepare environment`_
@@ -55,7 +58,7 @@ with OpenMP support as follows:
   the `Kokkos userguide <https://github.com/kokkos/kokkos>`_
   and `here <https://github.com/kokkos/kokkos-kernels/wiki/Building>`_,
   you need to modify the flags passed to Kokkos inside
-  `build_kokkos_and_kernels.sh <https://github.com/fnrizzi/SHAW/tree/master/bash_scripts/build_kokkos_and_kernels.sh>`_
+  `build_kokkos_and_kernels.sh <https://github.com/Pressio/SHAW/tree/master/bash_scripts/build_kokkos_and_kernels.sh>`_
   and rerun it.
 
 #############################################

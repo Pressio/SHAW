@@ -10,6 +10,8 @@ OpenMP/CUDA Kokkos Build
 `1. Prerequisites`_
 ###################
 
+* The SHAW repo: https://github.com/Pressio/SHAW
+
 * CMake>=3.13.0
 
 * C++ (with support for c++14) compiler: we have tested this with GCC 8.3.1 and GCC 8.4.0
