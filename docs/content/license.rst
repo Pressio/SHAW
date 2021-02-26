@@ -9,7 +9,7 @@ License
   //@HEADER
   // ************************************************************************
   //
-  //                              Pressio
+  //                            Pressio/SHAW
   // Copyright 2019 National Technology & Engineering Solutions of Sandia,LLC
   //                              (NTESS)
   //
