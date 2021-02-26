@@ -4,7 +4,6 @@ import sys, os, time, shutil, subprocess
 import numpy as np
 from argparse import ArgumentParser
 from constants import *
-from regexes import *
 
 def str2bool(v):
   if isinstance(v, bool):
@@ -59,17 +58,6 @@ def generateMeshIfNeeded(workDir, nr, nth):
     os.chdir(owd)
 
 #=======================================================
-def extractRankFromSvdLogFile(logFilePath, dof):
-  # \d{1,} match one or more (any) digits before the .
-  # \d{9,} match nine or more (any) digits
-  svdRankRegExp = re.compile(r'svd_matrix_'+dof+'_rank = \d{1,}')
-
-  file1 = open(logFilePath, 'r')
-  strings = re.search(svdRankRegExp, file1.read())
-  file1.close()
-  return int(strings.group().split()[2])
-
-#=======================================================
 def runExe(workDir, exeDir, exeName, nThreads, forceSpread=False):
   # link exeName from exeDir to workDir
   linkExe(workDir, exeDir, exeName)
@@ -84,11 +72,6 @@ def runExe(workDir, exeDir, exeName, nThreads, forceSpread=False):
     my_env["OMP_NUM_THREADS"] = str(nThreads)
     my_env["OMP_PLACES"]      ="threads"
     my_env["OMP_PROC_BIND"]   ="spread"
-
-  elif (exeName == romExeName):
-    my_env["OMP_NUM_THREADS"] = str(nThreads)
-    my_env["OMP_PLACES"]      ="cores"
-    my_env["OMP_PROC_BIND"]   ="true"
 
   if (forceSpread):
     my_env["OMP_PROC_BIND"]="spread"

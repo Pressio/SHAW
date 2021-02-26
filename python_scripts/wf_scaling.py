@@ -5,6 +5,7 @@ import re, sys, os, time, yaml, copy
 import numpy as np
 from argparse import ArgumentParser
 import shutil, subprocess
+
 from constants import *
 from utils import *
 from create_run_directory import createFomRunDirectory, createRomRunDirectory
@@ -22,11 +23,21 @@ def createBaseDic():
     },
     'source':
     {'signal':
-     {'kind': 'gaussDer', 'depth': 640., 'angle': 0., 'period': 60., 'delay': 180.}
+     {
+       'kind': 'gaussDer',
+       'depth': 640.,
+       'angle': 0.,
+       'period': 60.,
+       'delay': 180.
+     }
     },
     'material':
     {'kind': 'unilayer',
-     'layer': {'density': [2500., 0.], 'velocity': [5000., 0.]}
+     'layer':
+     {
+       'density': [2500., 0.],
+       'velocity': [5000., 0.]
+     }
     }
   }
   return baseDic
@@ -246,14 +257,14 @@ if __name__== "__main__":
   fSizes  = [2, 4, 8, 16, 32, 48]
 
   meshesDir = args.workDir + "/meshes"
-  #generateMeshes(meshesDir, meshList)
+  generateMeshes(meshesDir, meshList)
 
   # the base dictionary to use
   baseDic = createBaseDic()
 
   #------------------------------
-  #doRunsRankOneForcing(args.dryRun, args.workDir, baseDic, args.exeDir, meshesDir, threads)
-  #doRunsRankTwoForcing(args.dryRun, args.workDir, baseDic, args.exeDir, meshesDir, threads, fSizes)
+  doRunsRankOneForcing(args.dryRun, args.workDir, baseDic, args.exeDir, meshesDir, threads)
+  doRunsRankTwoForcing(args.dryRun, args.workDir, baseDic, args.exeDir, meshesDir, threads, fSizes)
 
   #if not dr:
   extractData(args.workDir, meshList, threads, args.workDir+'/scaling.txt', [1]+fSizes)
