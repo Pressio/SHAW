@@ -33,7 +33,7 @@ Let's make things easy:
 .. code-block:: shell
 
    export CXX=<path-to-your-C++14-compiler>
-   export ESWSRCDIR=<path-to-where-you-cloned-the-SHAW-repository>
+   export SHAWDIR=<path-to-where-you-cloned-the-SHAW-repository>
 
    export WORKDIR=${HOME}/myFirstShawBuild
    mkdir -p ${WORKDIR}
@@ -47,7 +47,7 @@ automates getting the TPLs:
 
 .. code-block:: shell
 
-   cd ${ESWSRCDIR}/bash_scripts
+   cd ${SHAWDIR}/bash_scripts
    bash build_tpls.sh ${WORKDIR} openmp
 
 This script will fetch, build and install inside ``WORKDIR/tpls``

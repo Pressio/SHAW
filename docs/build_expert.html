@@ -221,8 +221,8 @@
 mkdir build <span class="o">&amp;&amp;</span> <span class="nb">cd</span> build
 
 cmake <span class="se">\</span>
--DKokkosKernels_DIR<span class="o">=</span>&lt;your-install-path&gt;/lib/cmake/KokkosKernels/ <span class="se">\</span>
--Dyaml-cpp_DIR<span class="o">=</span>&lt;your-install-path&gt;/share/cmake/ <span class="se">\</span>
+-DKokkosKernels_DIR<span class="o">=</span>&lt;your-kernels-install-path&gt;/lib/cmake/KokkosKernels/ <span class="se">\</span>
+-Dyaml-cpp_DIR<span class="o">=</span>&lt;your-yamlcpp-install-path&gt;/share/cmake/ <span class="se">\</span>
 <span class="si">${</span><span class="nv">SHAWDIR</span><span class="si">}</span>
 
 make -j4
