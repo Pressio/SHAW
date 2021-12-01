@@ -1,0 +1,319 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
+
+    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
+        <title>BLAS/LAPACK - SHAW 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">SHAW 0.1.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">SHAW 0.1.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="goveq.html">Governing equations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="goveq.html#discretization">Discretization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_expert.html">Building: “expert” mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_stepbystep.html">Building: step-by-step</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="inputfile.html">Input File</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="inputfile_description.html">General Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inputfile_description.html#io-section">IO Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inputfile_description.html#source-forcing-section">Source/forcing Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inputfile_description.html#material-model-section">Material Model Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inputfile_template.html">Template</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="demos.html">End-to-end Demos</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="demo_rank1fom.html">(1): Single Forcing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo_rank1fommulti.html">(2): Multi-forcing via rank-1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo_rank2fom.html">(3): Multi-forcing via rank-2</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/Pressio/SHAW">GitHub Repo</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/Pressio/SHAW/issues">Open an issue/feature req.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <div class="section" id="blas-lapack">
+<h1>BLAS/LAPACK<a class="headerlink" href="#blas-lapack" title="Permalink to this headline">¶</a></h1>
+<p>To handle BLAS/LAPACK, we envision the following three scenarios.</p>
+<div class="section" id="you-want-to-let-cmake-figure-it-out">
+<h2>You want to let CMake figure it out<a class="headerlink" href="#you-want-to-let-cmake-figure-it-out" title="Permalink to this headline">¶</a></h2>
+<p>Just unset (to be safe) the following env vars, and then move to section 4.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">unset</span> BLAS_ROOT
+<span class="nb">unset</span> LAPACK_ROOT
+<span class="nb">unset</span> BLASLIBNAME
+<span class="nb">unset</span> LAPACKLIBNAME
+</pre></div>
+</div>
+</div>
+<div class="section" id="you-have-and-want-to-use-a-specific-blas-lapack">
+<h2>You have and want to use a specific BLAS/LAPACK<a class="headerlink" href="#you-have-and-want-to-use-a-specific-blas-lapack" title="Permalink to this headline">¶</a></h2>
+<p>If you want a specific BLAS/LAPACK, set the following and then move to section 4.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">BLAS_ROOT</span><span class="o">=</span>&lt;path-to-blas-install-dir&gt;
+<span class="nb">export</span> <span class="nv">LAPACK_ROOT</span><span class="o">=</span>&lt;path-to-lapack-install-dir&gt;
+<span class="nb">export</span> <span class="nv">BLASLIBNAME</span><span class="o">=</span>&lt;blas-lib-name-without-extension&gt;     <span class="c1">#e.g. openblas</span>
+<span class="nb">export</span> <span class="nv">LAPACKLIBNAME</span><span class="o">=</span>&lt;lapack-lib-name-without-extension&gt; <span class="c1">#e.g. lapack</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="you-want-to-install-them">
+<h2>You want to install them<a class="headerlink" href="#you-want-to-install-them" title="Permalink to this headline">¶</a></h2>
+<p>You can install BLAS/LAPACK yourself or you can follow the steps below
+to install OpenBLAS. We chose OpenBLAS for simplicity
+since it contains both BLAS and LAPACK and it is fairly easy to build.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">CC</span><span class="o">=</span>&lt;path-to-your-C-compiler&gt;
+<span class="nb">export</span> <span class="nv">FC</span><span class="o">=</span>&lt;path-to-your-Fortran-compiler&gt;
+<span class="nb">cd</span> <span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>
+mkdir tpls <span class="o">&amp;&amp;</span> <span class="nb">cd</span> tpls
+cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/bash/build_openblas.sh .
+bash build_openblas.sh
+</pre></div>
+</div>
+<p>If this succeeds, inside <code class="docutils literal notranslate"><span class="pre">${MYWORKDIR}/tpls/openblas/install/lib</span></code>
+you see something as:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>drwxr-xr-x  <span class="m">3</span> fnrizzi  staff    96B Aug <span class="m">30</span> <span class="m">09</span>:40 cmake
+lrwxr-xr-x  <span class="m">1</span> fnrizzi  staff    34B Aug <span class="m">30</span> <span class="m">09</span>:40 libopenblas.0.dylib
+lrwxr-xr-x  <span class="m">1</span> fnrizzi  staff    30B Aug <span class="m">30</span> <span class="m">09</span>:40 libopenblas.a
+lrwxr-xr-x  <span class="m">1</span> fnrizzi  staff    34B Aug <span class="m">30</span> <span class="m">09</span>:40 libopenblas.dylib
+drwxr-xr-x  <span class="m">3</span> fnrizzi  staff    96B Aug <span class="m">30</span> <span class="m">09</span>:40 pkgconfig
+</pre></div>
+</div>
+<p>Then do:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">BLAS_ROOT</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/tpls/openblas/install
+<span class="nb">export</span> <span class="nv">LAPACK_ROOT</span><span class="o">=</span><span class="si">${</span><span class="nv">MYWORKDIR</span><span class="si">}</span>/tpls/openblas/install
+<span class="nb">export</span> <span class="nv">BLASLIBNAME</span><span class="o">=</span>openblas
+<span class="nb">export</span> <span class="nv">LAPACKLIBNAME</span><span class="o">=</span>openblas
+</pre></div>
+</div>
+</div>
+</div>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS) |
+            Last updated on Dec 01, 2021. |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
+            <a class="muted-link" href="_sources/blas_lapack.rst.txt"
+               rel="nofollow">
+              Show Source
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">BLAS/LAPACK</a><ul>
+<li><a class="reference internal" href="#you-want-to-let-cmake-figure-it-out">You want to let CMake figure it out</a></li>
+<li><a class="reference internal" href="#you-have-and-want-to-use-a-specific-blas-lapack">You have and want to use a specific BLAS/LAPACK</a></li>
+<li><a class="reference internal" href="#you-want-to-install-them">You want to install them</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/main.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    </body>
+</html>

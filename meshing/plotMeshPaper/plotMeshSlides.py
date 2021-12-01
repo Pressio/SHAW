@@ -18,19 +18,19 @@ cmbRadius = earthRadius - mantleThickness
 
 def plotThetaLine(ax):
   ax.plot(np.linspace(np.pi/2., np.pi/4, 100),
-          1800*np.ones(100), c='w', linestyle='-', linewidth=1)
+          1800*np.ones(100), c='k', linestyle='-', linewidth=1)
 
 def plotCMB(ax):
   # trace the CMB
   cmbTh = np.linspace(0, 2*np.pi, 100)
   cmbRa = cmbRadius*np.ones(100)
-  ax.plot(cmbTh, cmbRa, c='w', linestyle='-', linewidth=1)
+  ax.plot(cmbTh, cmbRa, c='k', linestyle='-', linewidth=1)
 
 def plotEarthSurf(ax):
   # trace the earth surface
   surfTh = np.linspace(0, 2*np.pi, 100)
   surfRa = earthRadius*np.ones(100)
-  ax.plot(surfTh, surfRa, c='w', linewidth=1)
+  ax.plot(surfTh, surfRa, c='k', linewidth=1)
 
 def doPlot(workDir):
   vpD = np.loadtxt(workDir+'/graph_vp.dat')
@@ -63,7 +63,7 @@ def doPlot(workDir):
   print(xxx)
   ax.set_xticks(xxx)
   lll = [r'$0$','',r'$\pi/4$','',r'$\pi/2$','',r'$3\pi/4$','',r'$\pi$']
-  ax.set_xticklabels(np.flip(lll), fontsize=15, color='w')
+  ax.set_xticklabels(np.flip(lll), fontsize=15, color='k')
   # ax.set_yticklabels([])
 
   #ax.set_rlabel_position(0)
@@ -74,33 +74,33 @@ def doPlot(workDir):
   #                  edgecolor = 'black', facecolor = 'black', lw = 2, zorder = 5, clip_on=False,
   #                  head_width=0.5, head_length=0.5, capstyle='round')
   #ax.quiver((0, 0), (1, 0), color='black', clip_on=False, linewidth=0.01)
-  ax.quiver((1, 0), (1,0), color='white', clip_on=False, linewidth=0.00001, minlength=1, scale=7.5)
+  ax.quiver((1, 0), (1,0), color='k', clip_on=False, linewidth=0.00001, minlength=1, scale=7.5)
 
-  plt.text(0.3, 0.5, r'$r$', color='w' , transform=ax.transAxes, fontsize=20)
-  plt.text(0.28, 0.65, r'$\theta$', color='w', transform=ax.transAxes, fontsize=20)
+  plt.text(0.3, 0.5, r'$r$', color='k' , transform=ax.transAxes, fontsize=20)
+  plt.text(0.28, 0.65, r'$\theta$', color='k', transform=ax.transAxes, fontsize=20)
 
-  ms=27
-  mm=['o','s','<']
+  # ms=27
+  # mm=['o','s','<']
 
-  v_th, v_r = -vpD[:,2]+np.pi*0.5, vpD[:,3]
-  ax.scatter(v_th, v_r, marker=mm[0], s=27, edgecolor='None', facecolor='red', 
-    clip_on=False, zorder=5, label=r'$v$')
+  # v_th, v_r = -vpD[:,2]+np.pi*0.5, vpD[:,3]
+  # ax.scatter(v_th, v_r, marker=mm[0], s=27, edgecolor='None', facecolor='red', 
+  #   clip_on=False, zorder=5, label=r'$v$')
 
-  sr_th, sr_r = -srpD[:,3]+np.pi*0.5, srpD[:,4]
-  ax.scatter(sr_th, sr_r, marker=mm[1], s=ms, edgecolor='None', 
-    facecolor='yellow', clip_on=False, zorder=5, label=r'$\sigma_{r, \phi}$')
+  # sr_th, sr_r = -srpD[:,3]+np.pi*0.5, srpD[:,4]
+  # ax.scatter(sr_th, sr_r, marker=mm[1], s=ms, edgecolor='None', 
+  #   facecolor='yellow', clip_on=False, zorder=5, label=r'$\sigma_{r, \phi}$')
 
-  st_th, st_r = -stpD[:,3]+np.pi*0.5, stpD[:,4]
-  ax.scatter(st_th, st_r, marker=mm[2], s=ms, edgecolor='None', 
-    facecolor='yellow', zorder=5, label=r'$\sigma_{\theta, \phi}$')
+  # st_th, st_r = -stpD[:,3]+np.pi*0.5, stpD[:,4]
+  # ax.scatter(st_th, st_r, marker=mm[2], s=ms, edgecolor='None', 
+  #   facecolor='yellow', zorder=5, label=r'$\sigma_{\theta, \phi}$')
 
-  ax.set_axisbelow(True)
-  leg = plt.legend(bbox_to_anchor=(0.25, 0.5), 
-    fontsize=18, fancybox=False, framealpha=0, ncol=1, handletextpad=0.0, 
-    markerscale=1.2)
-  for text in leg.get_texts(): text.set_color("w")
+  # ax.set_axisbelow(True)
+  # leg = plt.legend(bbox_to_anchor=(0.25, 0.5), 
+  #   fontsize=18, fancybox=False, framealpha=0, ncol=1, handletextpad=0.0, 
+  #   markerscale=1.2)
+  # for text in leg.get_texts(): text.set_color("w")
 
-  plt.savefig("mesh.png", bbox_inches='tight', dpi=600, transparent=False)#True)
+  plt.savefig("mesh.png", bbox_inches='tight', dpi=600, transparent=True)
 
 #     th_fm = -np.asarray([v[0] for (k,v) in coordsSp.items()])+np.pi*0.5
 #     r_fm  = np.asarray([v[1] for (k,v) in coordsSp.items()])

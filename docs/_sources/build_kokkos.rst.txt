@@ -1,0 +1,27 @@
+
+Build Kokkos and Kernels
+========================
+
+Now that you BLAS/LAPACK is ready, we build Kokkos core and kernels as follows:
+
+.. code-block:: shell
+
+   cd ${MYWORKDIR}
+   [[ ! -d tpls ]] && mkdir tpls
+   cd tpls
+   cp ${ESWSRCDIR}/bash_scripts/build_kokkos_and_kernels.sh .
+   export KOKKOSPFX=${MYWORKDIR}/tpls/kokkos/kokkos_install
+   export KOKKOSKERPFX=${MYWORKDIR}/tpls/kokkos/kokkos_kernels_install
+   bash build_kokkos_and_kernels.sh serial
+
+**Remarks**:
+
+* the script above does a simple *serial build* to get you started quickly on any system.
+
+* If you want to enable arch-specific optimizations following
+  the `Kokkos userguide <https://github.com/kokkos/kokkos>`_
+  and `here <https://github.com/kokkos/kokkos-kernels/wiki/Building>`_,
+  you need to modify the flags passed to Kokkos inside
+  `build_kokkos_and_kernels.sh <https://github.com/Pressio/SHAW/tree/master/bash_scripts/build_kokkos_and_kernels.sh>`_
+  and rerun it.
+
