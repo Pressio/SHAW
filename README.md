@@ -11,7 +11,7 @@ The name "SHAW" is an acronym built from "SHeAr Waves".
 Click below to check the documentation for more details:
 
 <a href="https://pressio.github.io/SHAW/index.html" target="_blank">
-    <img src='docs/img/logo-display.svg' width='95%'>
+    <img src='docs/img/logo-display.svg' width='90%'>
 </a>
 
 <!-- NOTE: this new documentation is currently being ported from [the old one](http://francescorizzi.net/shaw/). -->
@@ -23,7 +23,7 @@ You can find the full user-guide (description, building, using it, demos, etc) [
 
 ## Questions?
 Find us on Slack: https://pressioteam.slack.com or
-open an issue on [github](https://github.com/fnrizzi/SHAW/issues).
+open an issue on [github](https://github.com/Pressio/SHAW/issues).
 
 
 ## License and Citation
@@ -44,9 +44,3 @@ If you use this code, please cite the following paper:
   author = {Francesco Rizzi and Eric J. Parish and Patrick J. Blonigan and John Tencer}
 }
 ```
-
-
-<!--
-# Questions? Problems?
-Open an issue on [github](https://github.com/fnrizzi/SHAW/issues).
- -->
