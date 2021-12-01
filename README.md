@@ -30,9 +30,20 @@ open an issue on [github](https://github.com/fnrizzi/SHAW/issues).
 
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
-This code is a spinoff of the code developed for this paper: https://www.sciencedirect.com/science/article/abs/pii/S0045782521003042
-
-If you use this code, please cite that paper.
+If you use this code, please cite the following paper:
+```
+@article{RIZZI2021113973,
+  title = {A compute-bound formulation of Galerkin model reduction for linear time-invariant dynamical systems},
+  journal = {Computer Methods in Applied Mechanics and Engineering},
+  volume = {384},
+  pages = {113973},
+  year = {2021},
+  issn = {0045-7825},
+  doi = {https://doi.org/10.1016/j.cma.2021.113973},
+  url = {https://www.sciencedirect.com/science/article/pii/S0045782521003042},
+  author = {Francesco Rizzi and Eric J. Parish and Patrick J. Blonigan and John Tencer}
+}
+```
 
 
 <!--
