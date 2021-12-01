@@ -418,7 +418,7 @@ commonly adopted. Choose it from the input file as:</p>
   <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">prem</span>
 </pre></div>
 </div>
-<p>The details of the parametrization for the PREM model are <a class="reference external" href="https://github.com/fnrizzi/SHAW/blob/master/src/shared/material_models/material_model_prem.hpp">handled directly within the code</a>.</p>
+<p>The details of the parametrization for the PREM model are <a class="reference external" href="https://github.com/Pressio/SHAW/blob/master/src/shared/material_models/material_model_prem.hpp">handled directly within the code</a>.</p>
 <p>For more details, check the following references:</p>
 <ul class="simple">
 <li><p>Dziewonski, A.M., and D.L. Anderson. 1981. “Preliminary reference Earth model.” Phys. Earth Plan. Int. 25:297-356.</p></li>
@@ -431,7 +431,7 @@ commonly adopted. Choose it from the input file as:</p>
 <p>The PREM model only makes sense when you are simulating the Earth.
 So your domain must be bounded between the core-mantle boundary (CMB)
 located at <span class="math notranslate nohighlight">\(r_{cmb} = 3,480\)</span> km and the Earth surface located at <span class="math notranslate nohighlight">\(r_{earth} = 6,371\)</span> km.
-These are the default bounds used by <a class="reference external" href="https://github.com/fnrizzi/SHAW/blob/master/meshing/create_single_mesh.py">the meshing script</a>.</p>
+These are the default bounds used by <a class="reference external" href="https://github.com/Pressio/SHAW/blob/master/meshing/create_single_mesh.py">the meshing script</a>.</p>
 </div>
 </div>
 <div class="section" id="custom-material-model">
@@ -446,15 +446,15 @@ To do so, you need two do two things:</p>
 </pre></div>
 </div>
 </li>
-<li><p>modify the <code class="docutils literal notranslate"><span class="pre">MyCustomMaterialModel</span></code> inside <a class="reference external" href="https://github.com/fnrizzi/SHAW/blob/master/src/kokkos/main_fom.cc">the main file</a>
+<li><p>modify the <code class="docutils literal notranslate"><span class="pre">MyCustomMaterialModel</span></code> inside <a class="reference external" href="https://github.com/Pressio/SHAW/blob/master/src/kokkos/main_fom.cc">the main file</a>
 as you desire such that when the <code class="docutils literal notranslate"><span class="pre">computeAt</span></code> method is called for a given grid point in the domain, you set the local density and shear velocity according to you model.</p></li>
 </ol>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>Extending the set of supported models</p>
 <p>The modular structure of the code allows to easily add new models: this can easily be done by adding a new
-derived class inside <a class="reference external" href="https://github.com/fnrizzi/SHAW/tree/master/src/shared/material_models">the models</a>,
-add an <code class="docutils literal notranslate"><span class="pre">enum</span></code> field that identifies that model in <a class="reference external" href="https://github.com/fnrizzi/SHAW/blob/master/src/shared/enums/supported_material_model_enums.hpp">this file</a>, and adding the code in <a class="reference external" href="https://github.com/fnrizzi/SHAW/blob/master/src/shared/parser/parser_material_model.hpp">the parser class</a> to recognize that if selected from the input file.</p>
+derived class inside <a class="reference external" href="https://github.com/Pressio/SHAW/tree/master/src/shared/material_models">the models</a>,
+add an <code class="docutils literal notranslate"><span class="pre">enum</span></code> field that identifies that model in <a class="reference external" href="https://github.com/Pressio/SHAW/blob/master/src/shared/enums/supported_material_model_enums.hpp">this file</a>, and adding the code in <a class="reference external" href="https://github.com/Pressio/SHAW/blob/master/src/shared/parser/parser_material_model.hpp">the parser class</a> to recognize that if selected from the input file.</p>
 </div>
 </div>
 </div>

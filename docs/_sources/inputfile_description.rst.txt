@@ -266,7 +266,7 @@ commonly adopted. Choose it from the input file as:
   material:
     kind: prem
 
-The details of the parametrization for the PREM model are `handled directly within the code <https://github.com/fnrizzi/SHAW/blob/master/src/shared/material_models/material_model_prem.hpp>`_.
+The details of the parametrization for the PREM model are `handled directly within the code <https://github.com/Pressio/SHAW/blob/master/src/shared/material_models/material_model_prem.hpp>`_.
 
 
 For more details, check the following references:
@@ -284,7 +284,7 @@ For more details, check the following references:
    The PREM model only makes sense when you are simulating the Earth.
    So your domain must be bounded between the core-mantle boundary (CMB)
    located at :math:`r_{cmb} = 3,480` km and the Earth surface located at :math:`r_{earth} = 6,371` km.
-   These are the default bounds used by `the meshing script <https://github.com/fnrizzi/SHAW/blob/master/meshing/create_single_mesh.py>`_.
+   These are the default bounds used by `the meshing script <https://github.com/Pressio/SHAW/blob/master/meshing/create_single_mesh.py>`_.
 
 
 .. _customdescription:
@@ -304,7 +304,7 @@ To do so, you need two do two things:
       	  kind: custom
 
 
-2.  modify the ``MyCustomMaterialModel`` inside `the main file <https://github.com/fnrizzi/SHAW/blob/master/src/kokkos/main_fom.cc>`_
+2.  modify the ``MyCustomMaterialModel`` inside `the main file <https://github.com/Pressio/SHAW/blob/master/src/kokkos/main_fom.cc>`_
     as you desire such that when the ``computeAt`` method is called for a given grid point in the domain, you set the local density and shear velocity according to you model.
 
 
@@ -313,5 +313,5 @@ To do so, you need two do two things:
   Extending the set of supported models
 
   The modular structure of the code allows to easily add new models: this can easily be done by adding a new
-  derived class inside `the models <https://github.com/fnrizzi/SHAW/tree/master/src/shared/material_models>`_,
-  add an ``enum`` field that identifies that model in `this file <https://github.com/fnrizzi/SHAW/blob/master/src/shared/enums/supported_material_model_enums.hpp>`_, and adding the code in `the parser class <https://github.com/fnrizzi/SHAW/blob/master/src/shared/parser/parser_material_model.hpp>`_ to recognize that if selected from the input file.
+  derived class inside `the models <https://github.com/Pressio/SHAW/tree/master/src/shared/material_models>`_,
+  add an ``enum`` field that identifies that model in `this file <https://github.com/Pressio/SHAW/blob/master/src/shared/enums/supported_material_model_enums.hpp>`_, and adding the code in `the parser class <https://github.com/Pressio/SHAW/blob/master/src/shared/parser/parser_material_model.hpp>`_ to recognize that if selected from the input file.
