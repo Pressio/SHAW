@@ -14,7 +14,7 @@ of elastic shear waves in an axi-symmetric domain.
 
 .. figure:: ../img/logo1.png
    :align: center
-   :width: 30%
+   :width: 26%
 
    Sample countour plot of a velocity field obtained using the SHAW code.
 
