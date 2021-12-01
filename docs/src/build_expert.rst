@@ -27,8 +27,8 @@ Then, as usual for a typical CMake project, you can do:
    mkdir build && cd build
 
    cmake \
-   -DKokkosKernels_DIR=<your-install-path>/lib/cmake/KokkosKernels/ \
-   -Dyaml-cpp_DIR=<your-install-path>/share/cmake/ \
+   -DKokkosKernels_DIR=<your-kernels-install-path>/lib/cmake/KokkosKernels/ \
+   -Dyaml-cpp_DIR=<your-yamlcpp-install-path>/share/cmake/ \
    ${SHAWDIR}
 
    make -j4

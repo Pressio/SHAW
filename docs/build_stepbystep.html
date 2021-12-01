@@ -231,7 +231,7 @@ guide that leverages some scripts we have prepared to simplify this.</p>
 <h2>Step 1: Prepare environment<a class="headerlink" href="#step-1-prepare-environment" title="Permalink to this headline">¶</a></h2>
 <p>Let’s make things easy:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">CXX</span><span class="o">=</span>&lt;path-to-your-C++14-compiler&gt;
-<span class="nb">export</span> <span class="nv">ESWSRCDIR</span><span class="o">=</span>&lt;path-to-where-you-cloned-the-SHAW-repository&gt;
+<span class="nb">export</span> <span class="nv">SHAWDIR</span><span class="o">=</span>&lt;path-to-where-you-cloned-the-SHAW-repository&gt;
 
 <span class="nb">export</span> <span class="nv">WORKDIR</span><span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/myFirstShawBuild
 mkdir -p <span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>
@@ -242,7 +242,7 @@ mkdir -p <span class="si">${</span><span class="nv">WORKDIR</span><span class="s
 <h2>Step 2: Build TPLs<a class="headerlink" href="#step-2-build-tpls" title="Permalink to this headline">¶</a></h2>
 <p>To simplify this part, we have prepared script that
 automates getting the TPLs:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/bash_scripts
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> <span class="si">${</span><span class="nv">SHAWDIR</span><span class="si">}</span>/bash_scripts
 bash build_tpls.sh <span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span> openmp
 </pre></div>
 </div>
