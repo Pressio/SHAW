@@ -11,7 +11,7 @@ The name "SHAW" is an acronym built from "SHeAr Waves".
 Click below to check the documentation for more details:
 
 <a href="https://pressio.github.io/SHAW/index.html" target="_blank">
-    <img src='docs/img/logo-display.svg' width='90%'>
+    <img src='docs/img/logo-display.svg' width='80%'>
 </a>
 
 <!-- NOTE: this new documentation is currently being ported from [the old one](http://francescorizzi.net/shaw/). -->
