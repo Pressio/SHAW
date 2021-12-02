@@ -1,0 +1,132 @@
+# Workflow settings
+# See https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions
+
+name: Test SHAW # GUI display name
+
+on: # Triggers, see https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+
+concurrency: # Concurrency group: which jobs run together and which cancel each other
+  group: CI-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false # true -> cancel all jobs if any fails
+      max-parallel: 8
+
+      # Build matrix for your jobs: you can define different variations to run each job in
+      # matrix configurations - reachable with ${{ matrix.config.<key> }}.
+      # Extra options:
+      # - cxx:  path to C++ compiler
+      # - mode: build mode inside Pressio (Debug / Release)
+      matrix:
+        config:
+          - { cxx: clang++, mode: Release }
+          - { cxx: clang++, mode: Debug }
+          #- { cxx: g++,     mode: Release }
+
+    env: # environment variables available to all steps
+      CXX: ${{ matrix.config.cxx }}
+      APT_PACKAGES: python3 pip python-is-python3 g++ clang gpg wget
+      PIP_PACKAGES: pytest numpy scipy matplotlib
+      SHAWDIR: /home/runner/work/SHAW/SHAW
+      WORKDIR: /home/runner/work/build
+
+    steps:
+      - uses: actions/checkout@v2 # check out the repository
+
+      - name: Install packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --install-suggests $APT_PACKAGES
+
+      - name: Install CMake
+        run: |
+          export CMAKE_KEYRING=/usr/share/keyrings/kitware-archive-keyring.gpg
+          wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null \
+            | gpg --dearmor - \
+            | sudo tee $CMAKE_KEYRING >/dev/null
+          echo "deb [signed-by=$CMAKE_KEYRING] https://apt.kitware.com/ubuntu/ focal main" \
+            | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
+          sudo apt-get update
+          rm $CMAKE_KEYRING
+          sudo apt-get install -y kitware-archive-keyring cmake
+
+      - name: Check environment
+        run: |
+          echo ======================================================
+          echo CPU Threads: $(grep -c processor /proc/cpuinfo)
+          echo ======================================================
+          echo $(which $CXX) --version
+          $CXX --version
+          echo ======================================================
+          echo $(which python) --version
+          python --version
+          echo ======================================================
+          echo Source directory: $SHAWDIR
+          echo work directory: $WORKDIR
+          echo ======================================================
+          git --version
+          cd $DEMOAPPS_HOME
+          git status
+
+      - name: Install required Python modules
+        run: |
+          sudo pip install $PIP_PACKAGES
+          echo ======================================================
+          pip list
+          echo ======================================================
+
+      - name: Build/Install TPLs
+        run: |
+          mkdir $WORKDIR
+          cd $SHAWDIR/bash_scripts
+          bash build_tpls.sh $WORKDIR
+
+      # - name: Configure SHAW
+      #   run: |
+      #     cd $WORKDIR
+      #     cmake \
+      #       -DCMAKE_BUILD_TYPE:STRING=${{ matrix.config.mode }} \
+      #       -DPRESSIODEMOAPPS_ENABLE_TESTS:BOOL=ON \
+      #       -DPRESSIODEMOAPPS_ENABLE_TPL_EIGEN:BOOL=ON \
+      #       -DPRESSIODEMOAPPS_ENABLE_BINDINGS:BOOL=OFF \
+      #       -B $WORKDIR/shaw-build -S $SHAWDIR
+
+      # - name: Configure C++ tests
+      #   run: |
+      #     cmake \
+      #       -DCMAKE_BUILD_TYPE:STRING=${{ matrix.config.mode }} \
+      #       -DPRESSIODEMOAPPS_ENABLE_TESTS:BOOL=ON \
+      #       -DPRESSIODEMOAPPS_ENABLE_TPL_EIGEN:BOOL=ON \
+      #       -DPRESSIODEMOAPPS_ENABLE_BINDINGS:BOOL=OFF \
+      #       -B $BUILD_DIR -S $DEMOAPPS_HOME
+
+      # # NOTE: -j2 caused g++ crash (out of memory)
+      # - name: Build C++ tests
+      #   run: |
+      #     export NUM_CPU=$(grep -c processor /proc/cpuinfo)
+      #     cmake --build $BUILD_DIR -j $NUM_CPU
+
+      # - name: Run C++ tests
+      #   run: |
+      #     export NUM_CPU=$(grep -c processor /proc/cpuinfo)
+      #     cd $BUILD_DIR
+      #     ctest -j $NUM_CPU --output-on-failure
+
+      # - name: Install Python package
+      #   run: |
+      #     cd $DEMOAPPS_HOME
+      #     sudo -E python setup.py install
+
+      # - name: Run Python tests
+      #   run: |
+      #     cd $DEMOAPPS_HOME
+      #     pytest -s
