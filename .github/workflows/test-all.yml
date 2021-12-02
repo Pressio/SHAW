@@ -103,7 +103,7 @@ jobs:
           -DCMAKE_VERBOSE_MAKEFILE:STRING=On \
           -DCMAKE_BUILD_TYPE:STRING=${{ matrix.config.mode }} \
           -DKokkosKernels_DIR=$WORKDIR/tpls/kokkos-kernels-install/lib/cmake/KokkosKernels \
-          -Dyaml-cpp_DIR=$WORKDIR/tpls/yamlcpp-install/share/cmake/yaml-cpp \
+          -Dyaml-cpp_DIR=$WORKDIR/tpls/yamlcpp-install/share/cmake \
           -B $SHAWBUILDDIR -S $SHAWDIR
 
       # NOTE: -j2 caused g++ crash (out of memory)
