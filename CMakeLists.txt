@@ -27,16 +27,22 @@ link_libraries(dl ${YAML_CPP_LIBRARIES} Kokkos::kokkoskernels)
 
 message(STATUS ${YAML_CPP_INCLUDE_DIR})
 
-set(exeName1 shawExe)
-add_executable(${exeName1}
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/kokkos/main_fom.cc)
+# set(exeName1 shawExe)
+# add_executable(${exeName1}
+#   ${CMAKE_CURRENT_SOURCE_DIR}/src/kokkos/main_fom.cc)
 
-set(exeName2 extractStateFromSnaps)
-add_executable(${exeName2}
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/tools/main_extract_state_from_snaps.cc)
+# set(exeName2 extractStateFromSnaps)
+# add_executable(${exeName2}
+#   ${CMAKE_CURRENT_SOURCE_DIR}/src/tools/main_extract_state_from_snaps.cc)
 
-enable_testing()
-add_subdirectory(tests)
+# enable_testing()
+# add_subdirectory(tests)
+
+
+
+
+
+
 
 
 

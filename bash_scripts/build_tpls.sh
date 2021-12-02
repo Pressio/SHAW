@@ -152,7 +152,7 @@ function doYamlCpp()
 [[ ! -d ${TPLDIR} ]] && mkdir -p ${TPLDIR}
 cd ${TPLDIR}
 
-doKokkos
+#doKokkos
 doYamlCpp
 
 cd ${MYPWD}
