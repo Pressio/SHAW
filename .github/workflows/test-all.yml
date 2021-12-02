@@ -48,17 +48,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --install-suggests $APT_PACKAGES
 
-      - name: Install CMake
-        run: |
-          export CMAKE_KEYRING=/usr/share/keyrings/kitware-archive-keyring.gpg
-          wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null \
-            | gpg --dearmor - \
-            | sudo tee $CMAKE_KEYRING >/dev/null
-          echo "deb [signed-by=$CMAKE_KEYRING] https://apt.kitware.com/ubuntu/ focal main" \
-            | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
-          sudo apt-get update
-          rm $CMAKE_KEYRING
-          sudo apt-get install -y kitware-archive-keyring cmake
+      # - name: Install CMake
+      #   run: |
+      #     export CMAKE_KEYRING=/usr/share/keyrings/kitware-archive-keyring.gpg
+      #     wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null \
+      #       | gpg --dearmor - \
+      #       | sudo tee $CMAKE_KEYRING >/dev/null
+      #     echo "deb [signed-by=$CMAKE_KEYRING] https://apt.kitware.com/ubuntu/ focal main" \
+      #       | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
+      #     sudo apt-get update
+      #     rm $CMAKE_KEYRING
+      #     sudo apt-get install -y kitware-archive-keyring cmake
 
       - name: Check environment
         run: |
