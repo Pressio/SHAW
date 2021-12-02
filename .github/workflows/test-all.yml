@@ -28,9 +28,9 @@ jobs:
       # - mode: build mode inside Pressio (Debug / Release)
       matrix:
         config:
-          - { cxx: clang++, mode: Release }
-          - { cxx: clang++, mode: Debug }
-          #- { cxx: g++,     mode: Release }
+          #- { cxx: clang++, mode: Release }
+          #- { cxx: clang++, mode: Debug }
+          - { cxx: g++,     mode: Release }
 
     env: # environment variables available to all steps
       CXX: ${{ matrix.config.cxx }}
