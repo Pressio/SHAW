@@ -19,12 +19,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 #==================================
+
 find_package(yaml-cpp REQUIRED)
+message(STATUS ${YAML_CPP_INCLUDE_DIR})
 include_directories(${YAML_CPP_INCLUDE_DIR})
-target_link_libraries(${YAML_CPP_LIBRARIES})
 
 find_package(KokkosKernels REQUIRED)
-link_libraries(dl yaml-cpp Kokkos::kokkoskernels)
+link_libraries(dl ${YAML_CPP_LIBRARIES} Kokkos::kokkoskernels)
 # Kokkos::BLAS Kokkos::LAPACK)
 
 set(exeName1 shawExe)
