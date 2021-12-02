@@ -11,7 +11,7 @@ The name "SHAW" is an acronym built from "SHeAr Waves".
 Click below to check the documentation for more details:
 
 <a href="https://pressio.github.io/SHAW/index.html" target="_blank">
-    <img src='docs/img/logo-display.svg' width='95%'>
+    <img src='docs/img/logo-display.svg' width='80%'>
 </a>
 
 <!-- NOTE: this new documentation is currently being ported from [the old one](http://francescorizzi.net/shaw/). -->
@@ -23,19 +23,24 @@ You can find the full user-guide (description, building, using it, demos, etc) [
 
 ## Questions?
 Find us on Slack: https://pressioteam.slack.com or
-open an issue on [github](https://github.com/fnrizzi/SHAW/issues).
+open an issue on [github](https://github.com/Pressio/SHAW/issues).
 
 
 ## License and Citation
 
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
-This code is a spinoff of the code developed for this paper: https://www.sciencedirect.com/science/article/abs/pii/S0045782521003042
-
-If you use this code, please cite that paper.
-
-
-<!--
-# Questions? Problems?
-Open an issue on [github](https://github.com/fnrizzi/SHAW/issues).
- -->
+If you use this code, please cite the following paper:
+```
+@article{RIZZI2021113973,
+  title = {A compute-bound formulation of Galerkin model reduction for linear time-invariant dynamical systems},
+  journal = {Computer Methods in Applied Mechanics and Engineering},
+  volume = {384},
+  pages = {113973},
+  year = {2021},
+  issn = {0045-7825},
+  doi = {https://doi.org/10.1016/j.cma.2021.113973},
+  url = {https://www.sciencedirect.com/science/article/pii/S0045782521003042},
+  author = {Francesco Rizzi and Eric J. Parish and Patrick J. Blonigan and John Tencer}
+}
+```
