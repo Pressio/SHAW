@@ -22,23 +22,22 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(yaml-cpp REQUIRED)
 message(STATUS ${YAML_CPP_INCLUDE_DIR})
-#include_directories(${YAML_CPP_INCLUDE_DIR})
-#target_link_libraries(${YAML_CPP_LIBRARIES})
+include_directories(${YAML_CPP_INCLUDE_DIR})
 
-#find_package(KokkosKernels REQUIRED)
-#link_libraries(dl yaml-cpp Kokkos::kokkoskernels)
+find_package(KokkosKernels REQUIRED)
+link_libraries(dl ${YAML_CPP_LIBRARIES} Kokkos::kokkoskernels)
 # Kokkos::BLAS Kokkos::LAPACK)
 
-# set(exeName1 shawExe)
-# add_executable(${exeName1}
-#   ${CMAKE_CURRENT_SOURCE_DIR}/src/kokkos/main_fom.cc)
+set(exeName1 shawExe)
+add_executable(${exeName1}
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/kokkos/main_fom.cc)
 
-# set(exeName2 extractStateFromSnaps)
-# add_executable(${exeName2}
-#   ${CMAKE_CURRENT_SOURCE_DIR}/src/tools/main_extract_state_from_snaps.cc)
+set(exeName2 extractStateFromSnaps)
+add_executable(${exeName2}
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/tools/main_extract_state_from_snaps.cc)
 
-# enable_testing()
-# add_subdirectory(tests)
+enable_testing()
+add_subdirectory(tests)
 
 
 
