@@ -19,13 +19,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 #==================================
-#find_package(KokkosKernels REQUIRED)
-find_package(yaml-cpp REQUIRED)
-include_directories(${YAML_CPP_INCLUDE_DIR})
-link_libraries(dl ${YAML_CPP_LIBRARIES}) # Kokkos::kokkoskernels)
-# Kokkos::BLAS Kokkos::LAPACK)
 
-message(STATUS ${YAML_CPP_INCLUDE_DIR})
+find_package(yaml-cpp REQUIRED)
+message(${YAML_CPP_INCLUDE_DIR})
+#include_directories(${YAML_CPP_INCLUDE_DIR})
+#target_link_libraries(${YAML_CPP_LIBRARIES})
+
+#find_package(KokkosKernels REQUIRED)
+#link_libraries(dl yaml-cpp Kokkos::kokkoskernels)
+# Kokkos::BLAS Kokkos::LAPACK)
 
 # set(exeName1 shawExe)
 # add_executable(${exeName1}
@@ -37,12 +39,6 @@ message(STATUS ${YAML_CPP_INCLUDE_DIR})
 
 # enable_testing()
 # add_subdirectory(tests)
-
-
-
-
-
-
 
 
 
