@@ -19,11 +19,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 #==================================
+find_package(KokkosKernels REQUIRED)
+
 find_package(yaml-cpp REQUIRED)
 include_directories(${YAML_CPP_INCLUDE_DIR})
 target_link_libraries(${YAML_CPP_LIBRARIES})
 
-find_package(KokkosKernels REQUIRED)
 link_libraries(dl yaml-cpp Kokkos::kokkoskernels)
 # Kokkos::BLAS Kokkos::LAPACK)
 

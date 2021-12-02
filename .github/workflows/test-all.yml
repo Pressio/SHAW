@@ -95,10 +95,12 @@ jobs:
       - name: Configure SHAW
         run: |
           cd $WORKDIR
+          tree -c -L 2
+
           cmake \
           -DCMAKE_BUILD_TYPE:STRING=${{ matrix.config.mode }} \
-          -DKokkosKernels_DIR=$WORKDIR/tpls/kokkos-kernels-install/lib/cmake/KokkosKernels/ \
-          -Dyaml-cpp_DIR=$WORKDIR/tpls/yamlcpp-install/share/cmake/ \
+          -DKokkosKernels_DIR=$WORKDIR/tpls/kokkos-kernels-install/lib/cmake/KokkosKernels \
+          -Dyaml-cpp_DIR=$WORKDIR/tpls/yamlcpp-install/share/cmake \
           -B $SHAWBUILDDIR -S $SHAWDIR
 
       # NOTE: -j2 caused g++ crash (out of memory)
@@ -112,12 +114,3 @@ jobs:
           export NUM_CPU=$(grep -c processor /proc/cpuinfo)
           cd $SHAWBUILDDIR
           ctest -j $NUM_CPU --output-on-failure
-
-      # - name: Configure C++ tests
-      #   run: |
-      #     cmake \
-      #       -DCMAKE_BUILD_TYPE:STRING=${{ matrix.config.mode }} \
-      #       -DPRESSIODEMOAPPS_ENABLE_TESTS:BOOL=ON \
-      #       -DPRESSIODEMOAPPS_ENABLE_TPL_EIGEN:BOOL=ON \
-      #       -DPRESSIODEMOAPPS_ENABLE_BINDINGS:BOOL=OFF \
-      #       -B $BUILD_DIR -S $DEMOAPPS_HOME
