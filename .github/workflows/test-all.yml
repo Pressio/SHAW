@@ -38,6 +38,7 @@ jobs:
       PIP_PACKAGES: pytest numpy scipy matplotlib
       SHAWDIR: /home/runner/work/SHAW/SHAW
       WORKDIR: /home/runner/work/build
+      SHAWBUILDDIR: /home/runner/work/build/shaw-build
 
     steps:
       - uses: actions/checkout@v2 # check out the repository
@@ -76,6 +77,7 @@ jobs:
           git --version
           cd $SHAWDIR
           git status
+          git branch
 
       - name: Install required Python modules
         run: |
@@ -90,15 +92,26 @@ jobs:
           cd $SHAWDIR/bash_scripts
           bash build_tpls.sh $WORKDIR
 
-      # - name: Configure SHAW
-      #   run: |
-      #     cd $WORKDIR
-      #     cmake \
-      #       -DCMAKE_BUILD_TYPE:STRING=${{ matrix.config.mode }} \
-      #       -DPRESSIODEMOAPPS_ENABLE_TESTS:BOOL=ON \
-      #       -DPRESSIODEMOAPPS_ENABLE_TPL_EIGEN:BOOL=ON \
-      #       -DPRESSIODEMOAPPS_ENABLE_BINDINGS:BOOL=OFF \
-      #       -B $WORKDIR/shaw-build -S $SHAWDIR
+      - name: Configure SHAW
+        run: |
+          cd $WORKDIR
+          cmake \
+          -DCMAKE_BUILD_TYPE:STRING=${{ matrix.config.mode }} \
+          -DKokkosKernels_DIR=$WORKDIR/tpls/kokkos-kernels-install/lib/cmake/KokkosKernels/ \
+          -Dyaml-cpp_DIR=${WORKDIR}/tpls/yamlcpp-install/share/cmake/ \
+          -B $SHAWBUILDDIR -S ${SHAWDIR}
+
+      # NOTE: -j2 caused g++ crash (out of memory)
+      - name: Build C++ tests
+        run: |
+          export NUM_CPU=$(grep -c processor /proc/cpuinfo)
+          cmake --build $SHAWBUILDDIR -j $NUM_CPU
+
+      - name: Run C++ tests
+        run: |
+          export NUM_CPU=$(grep -c processor /proc/cpuinfo)
+          cd $SHAWBUILDDIR
+          ctest -j $NUM_CPU --output-on-failure
 
       # - name: Configure C++ tests
       #   run: |
@@ -108,25 +121,3 @@ jobs:
       #       -DPRESSIODEMOAPPS_ENABLE_TPL_EIGEN:BOOL=ON \
       #       -DPRESSIODEMOAPPS_ENABLE_BINDINGS:BOOL=OFF \
       #       -B $BUILD_DIR -S $DEMOAPPS_HOME
-
-      # # NOTE: -j2 caused g++ crash (out of memory)
-      # - name: Build C++ tests
-      #   run: |
-      #     export NUM_CPU=$(grep -c processor /proc/cpuinfo)
-      #     cmake --build $BUILD_DIR -j $NUM_CPU
-
-      # - name: Run C++ tests
-      #   run: |
-      #     export NUM_CPU=$(grep -c processor /proc/cpuinfo)
-      #     cd $BUILD_DIR
-      #     ctest -j $NUM_CPU --output-on-failure
-
-      # - name: Install Python package
-      #   run: |
-      #     cd $DEMOAPPS_HOME
-      #     sudo -E python setup.py install
-
-      # - name: Run Python tests
-      #   run: |
-      #     cd $DEMOAPPS_HOME
-      #     pytest -s
