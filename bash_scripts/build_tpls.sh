@@ -153,6 +153,6 @@ function doYamlCpp()
 cd ${TPLDIR}
 
 doKokkos
-#doYamlCpp
+doYamlCpp
 
 cd ${MYPWD}

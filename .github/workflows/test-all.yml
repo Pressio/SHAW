@@ -29,8 +29,8 @@ jobs:
       matrix:
         config:
           #- { cxx: clang++, mode: Release }
-          #- { cxx: clang++, mode: Debug }
-          - { cxx: g++,     mode: Release }
+          #- { cxx: clang++ }
+          - { cxx: g++ }
 
     env: # environment variables available to all steps
       CXX: ${{ matrix.config.cxx }}
@@ -38,7 +38,8 @@ jobs:
       PIP_PACKAGES: pytest numpy scipy matplotlib
       SHAWDIR: /home/runner/work/SHAW/SHAW
       WORKDIR: /home/runner/work/build
-      SHAWBUILDDIR: /home/runner/work/build/shaw-build
+      SHAWBUILDDEB_DIR: /home/runner/work/build/shaw-build-debug
+      SHAWBUILDREL_DIR: /home/runner/work/build/shaw-build-release
 
     steps:
       - uses: actions/checkout@v2 # check out the repository
@@ -94,26 +95,36 @@ jobs:
           cd $SHAWDIR/bash_scripts
           bash build_tpls.sh $WORKDIR
 
-      - name: Configure SHAW
+      - name: Configure SHAW (debug)
         run: |
           cd $WORKDIR
-          tree -c -L 2
-
           cmake \
           -DCMAKE_VERBOSE_MAKEFILE:STRING=On \
-          -DCMAKE_BUILD_TYPE:STRING=${{ matrix.config.mode }} \
+          -DCMAKE_BUILD_TYPE:STRING=Debug \
           -DKokkosKernels_DIR=$WORKDIR/tpls/kokkos-kernels-install/lib/cmake/KokkosKernels \
-          -B $SHAWBUILDDIR -S $SHAWDIR
+          -B $SHAWBUILDDEB_DIR -S $SHAWDIR
           #-Dyaml-cpp_DIR=$WORKDIR/tpls/yamlcpp-install/share/cmake \
 
-      # NOTE: -j2 caused g++ crash (out of memory)
-      - name: Build C++ tests
+      - name: Build/run C++ tests (debug)
         run: |
           export NUM_CPU=$(grep -c processor /proc/cpuinfo)
-          cmake --build $SHAWBUILDDIR -j $NUM_CPU
+          cmake --build $$SHAWBUILDDEB_DIR -j $NUM_CPU
+          cd $$SHAWBUILDDEB_DIR
+          ctest -j $NUM_CPU --output-on-failure
 
-      - name: Run C++ tests
+      - name: Configure SHAW (release)
+        run: |
+          cd $WORKDIR
+          cmake \
+          -DCMAKE_VERBOSE_MAKEFILE:STRING=On \
+          -DCMAKE_BUILD_TYPE:STRING=Release \
+          -DKokkosKernels_DIR=$WORKDIR/tpls/kokkos-kernels-install/lib/cmake/KokkosKernels \
+          -B $SHAWBUILDREL_DIR -S $SHAWDIR
+          #-Dyaml-cpp_DIR=$WORKDIR/tpls/yamlcpp-install/share/cmake \
+
+      - name: Build/run C++ tests (release)
         run: |
           export NUM_CPU=$(grep -c processor /proc/cpuinfo)
-          cd $SHAWBUILDDIR
+          cmake --build $$SHAWBUILDREL_DIR -j $NUM_CPU
+          cd $SHAWBUILDREL_DIR
           ctest -j $NUM_CPU --output-on-failure
