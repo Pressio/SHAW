@@ -34,7 +34,7 @@ jobs:
 
     env: # environment variables available to all steps
       CXX: ${{ matrix.config.cxx }}
-      APT_PACKAGES: python3 pip python-is-python3 g++ clang gpg wget
+      APT_PACKAGES: python3 pip python-is-python3 g++ clang gpg wget libyaml-cpp-dev
       PIP_PACKAGES: pytest numpy scipy matplotlib
       SHAWDIR: /home/runner/work/SHAW/SHAW
       WORKDIR: /home/runner/work/build
