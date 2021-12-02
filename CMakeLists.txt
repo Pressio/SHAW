@@ -25,6 +25,8 @@ include_directories(${YAML_CPP_INCLUDE_DIR})
 link_libraries(dl ${YAML_CPP_LIBRARIES} Kokkos::kokkoskernels)
 # Kokkos::BLAS Kokkos::LAPACK)
 
+message(STATUS ${YAML_CPP_INCLUDE_DIR})
+
 set(exeName1 shawExe)
 add_executable(${exeName1}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/kokkos/main_fom.cc)
