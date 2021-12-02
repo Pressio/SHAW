@@ -21,7 +21,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 #==================================
 
 find_package(yaml-cpp REQUIRED)
-message(${YAML_CPP_INCLUDE_DIR})
+message(STATUS ${YAML_CPP_INCLUDE_DIR})
 #include_directories(${YAML_CPP_INCLUDE_DIR})
 #target_link_libraries(${YAML_CPP_LIBRARIES})
 

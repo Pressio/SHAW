@@ -71,6 +71,8 @@ jobs:
           echo $(which python) --version
           python --version
           echo ======================================================
+          cmake --version
+          echo ======================================================
           echo Source directory: $SHAWDIR
           echo work directory: $WORKDIR
           echo ======================================================
