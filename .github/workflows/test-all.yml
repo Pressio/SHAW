@@ -74,7 +74,7 @@ jobs:
           echo work directory: $WORKDIR
           echo ======================================================
           git --version
-          cd $DEMOAPPS_HOME
+          cd $SHAWDIR
           git status
 
       - name: Install required Python modules
