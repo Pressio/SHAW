@@ -108,8 +108,8 @@ jobs:
       - name: Build/run C++ tests (debug)
         run: |
           export NUM_CPU=$(grep -c processor /proc/cpuinfo)
-          cmake --build $$SHAWBUILDDEB_DIR -j $NUM_CPU
-          cd $$SHAWBUILDDEB_DIR
+          cmake --build $SHAWBUILDDEB_DIR -j $NUM_CPU
+          cd $SHAWBUILDDEB_DIR
           ctest -j $NUM_CPU --output-on-failure
 
       - name: Configure SHAW (release)
@@ -125,6 +125,6 @@ jobs:
       - name: Build/run C++ tests (release)
         run: |
           export NUM_CPU=$(grep -c processor /proc/cpuinfo)
-          cmake --build $$SHAWBUILDREL_DIR -j $NUM_CPU
+          cmake --build $SHAWBUILDREL_DIR -j $NUM_CPU
           cd $SHAWBUILDREL_DIR
           ctest -j $NUM_CPU --output-on-failure
