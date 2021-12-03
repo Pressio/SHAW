@@ -9,9 +9,9 @@ on: # Triggers, see https://docs.github.com/en/actions/learn-github-actions/even
   pull_request:
     branches: [master, develop]
 
-concurrency: # Concurrency group: which jobs run together and which cancel each other
-  group: CI-${{ github.head_ref }}
-  cancel-in-progress: true
+#concurrency: # Concurrency group: which jobs run together and which cancel each other
+#  group: CI-${{ github.head_ref }}
+#  cancel-in-progress: true
 
 jobs:
   CI:
