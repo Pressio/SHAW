@@ -86,3 +86,4 @@ if __name__== "__main__":
   fomFile = './state_timestep_8000_vp'
   fomState = np.loadtxt(fomFile, skiprows=1)
   doPlot(th, r, fomState.reshape((nr, nth)), 0,[-5e-9, 5e-9], "wavefield_8000.png", title="t=2000 (s)")
+
