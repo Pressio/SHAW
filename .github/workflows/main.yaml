@@ -14,7 +14,7 @@ concurrency: # Concurrency group: which jobs run together and which cancel each 
   cancel-in-progress: true
 
 jobs:
-  CI-ubuntu:
+  CI:
     runs-on: ubuntu-latest
 
     strategy:
