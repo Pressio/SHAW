@@ -22,7 +22,7 @@ def doPlot(panelId, t, data, angle, depths):
   d3 = data['d3'][row, :]
 
   plt.title("Seismogram for receiver at " + angle+'\u00b0',
-            fontsize=15, color='w')
+            fontsize=15, color='gray')
 
   plt.plot(t, d0, '-o', color='m',
            markerfacecolor='none',
@@ -48,10 +48,10 @@ def doPlot(panelId, t, data, angle, depths):
              ncol=1, fontsize=12, labelspacing=.3,
              handletextpad=0.2,
              frameon=False, markerscale=0.75)
-  plt.setp(lg.get_texts(), color='w')
+  plt.setp(lg.get_texts(), color='gray')
 
   plt.xlim([-50, 2050])
-  plt.xticks(np.linspace(0, 2000, 6), color='w')
+  plt.xticks(np.linspace(0, 2000, 6), color='gray')
   plt.ylim([-2.5e-6, 2.5e-6])
 
   ylab = r'$v_{\phi}(t)$'
@@ -59,7 +59,7 @@ def doPlot(panelId, t, data, angle, depths):
   plt.xlabel(r'Time (seconds)', fontsize=15)
 
   ax = plt.gca()
-  mycolor = 'w'
+  mycolor = 'gray'
   ax.xaxis.label.set_color(mycolor);
   ax.tick_params(axis='x', colors=mycolor)
   ax.yaxis.label.set_color(mycolor);

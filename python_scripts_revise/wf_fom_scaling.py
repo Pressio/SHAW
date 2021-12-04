@@ -15,7 +15,9 @@ from log_file_extractor import *
 def createBaseDic():
   baseDic = {
     'general' :
-    {'meshDir': "empty", 'dt': 0.05, 'finalTime': 50.,
+    {'meshDir': "empty", 
+     'dt': 0.05, 
+     'finalTime': 50.,
      'checkNumericalDispersion': True,
      'checkCfl': True,
      'includeMatPropInJacobian': True,

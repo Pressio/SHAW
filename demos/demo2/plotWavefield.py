@@ -35,7 +35,7 @@ def doPlot(th, r, z, figID, bd, outName, title, plotSource=False):
   fig1 = plt.figure(figID)
   ax1 = fig1.add_subplot(111, projection='polar')
 
-  h1=ax1.pcolormesh(th, r, z, cmap=cm1, shading = "flat",
+  h1=ax1.pcolormesh(th, r, z, cmap=cm1, shading = "auto",
                     vmin=bd[0], vmax=bd[1], zorder=1)
   ax1.set_ylim([cmbRadius, earthRadius])
   ax1.set_yticks([]) #[3480, 5701, 6371])
@@ -47,7 +47,7 @@ def doPlot(th, r, z, figID, bd, outName, title, plotSource=False):
                        r'$\pi/2$', r'$2\pi/6$', r'$\pi/6$', r'$0$'],
                       fontsize=11)
 
-  ax1.set_title(title, fontsize=15, color='w')
+  ax1.set_title(title, fontsize=15, color='gray')
   ax1.set_rorigin(-1)
   plotEarthSurf(ax1)
   plotCMB(ax1)
@@ -57,9 +57,9 @@ def doPlot(th, r, z, figID, bd, outName, title, plotSource=False):
   if plotSource:
     sourceRadius = earthRadius-640. #[km]
     c = ax1.scatter(np.pi/2.01, sourceRadius, c='r', s=15)  
-    ax1.text(np.pi/2.01, sourceRadius, "Source", horizontalalignment='center', verticalalignment='top', color='w')  
+    ax1.text(np.pi/2.01, sourceRadius, "Source", horizontalalignment='center', verticalalignment='top', color='gray')  
 
-  mycolor = 'w'
+  mycolor = 'gray'
   ax1.xaxis.label.set_color(mycolor);
   ax1.tick_params(axis='x', colors=mycolor)
   ax1.yaxis.label.set_color(mycolor);

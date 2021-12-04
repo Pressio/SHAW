@@ -5,8 +5,8 @@ If you are reading this page, it likely is because you want
 a simplified (automated) way the get this done,
 so that you can minimize the extra effort
 in building the TPLs needed and the SHAW code.
-This page tries to address this: it provides a step-by-step
-guide that leverages some scripts we have prepared to simplify this.
+This page tries to do so providing a step-by-step
+guide and some scripts we have prepared.
 
 
 Prerequisites
@@ -28,22 +28,19 @@ Prerequisites
 Step 1: Prepare environment
 ----------------------------
 
-Let's make things easy:
-
 .. code-block:: shell
 
-   export CXX=<path-to-your-C++14-compiler>
-   export SHAWDIR=<path-to-where-you-cloned-the-SHAW-repository>
+   export CXX=<fullpath-to-your-C++14-compiler>
+   export SHAWDIR=<fullpath-to-where-you-cloned-the-SHAW-repository>
 
    export WORKDIR=${HOME}/myFirstShawBuild
    mkdir -p ${WORKDIR}
 
 
 Step 2: Build TPLs
---------------------------------
+------------------
 
-To simplify this part, we have prepared script that
-automates getting the TPLs:
+We have prepared a script that automates this:
 
 .. code-block:: shell
 
@@ -51,12 +48,12 @@ automates getting the TPLs:
    bash build_tpls.sh ${WORKDIR} openmp
 
 This script will fetch, build and install inside ``WORKDIR/tpls``
-all TPLs needed: Kokkos-core, Kokkos-kernelas and yaml-cpp.
+all TPLs needed: Kokkos-core, Kokkos-kernels and yaml-cpp.
 
 .. Attention::
 
-   This will build Kokkos for host-only use with the OpenMP backend
-   but **without** any architecture specifications. This is on purpose,
+   This builds Kokkos with only the OpenMP backend and **without**
+   any architecture specifications. This is on purpose,
    because this step is meant to be as generic and simple as possible to get
    you started quickly. If you want to customize things, read
    more on the `Kokkos github <https://github.com/kokkos>`_.
@@ -90,14 +87,16 @@ Step 3: Build SHAW
 .. code-block:: shell
 
    cd ${WORKDIR}
-   mkdir shaw-build && cd shaw-build
 
+   # note that here there is not need to specify compiler because
+   # cmake will automatically pick the up the env var CXX tha we
+   # already set above in step 1
    cmake \
      -DKokkosKernels_DIR=${WORKDIR}/tpls/kokkos-kernels-install/lib/cmake/KokkosKernels/ \
      -Dyaml-cpp_DIR=${WORKDIR}/tpls/yamlcpp-install/share/cmake/ \
-     ${SHAWDIR}
+     -B ${WORKDIR}/shaw-build \
+     -S ${SHAWDIR}
 
+   cd ${WORKDIR}/shaw-build
    make -j4
-
-   # running the SHAW tests is advised
    ctest

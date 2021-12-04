@@ -168,11 +168,12 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="demos.html">End-to-end Demos</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="demo_rank1fom.html">(1): Single Forcing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="demo_rank1fommulti.html">(2): Multi-forcing via rank-1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="demo_rank2fom.html">(3): Multi-forcing via rank-2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo1.html">Demo 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo2.html">Demo 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo3.html">Demo 3</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Performance</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/Pressio/SHAW">GitHub Repo</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/Pressio/SHAW/issues">Open an issue/feature req.</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -238,8 +239,8 @@ with high-accuracy requires a large computational cost.</p>
 <ul>
 <li><p>The code relies on the <a class="reference external" href="https://github.com/kokkos">Kokkos programming model</a>
 for performance portability</p></li>
-<li><p>We use the <a class="reference internal" href="goveq.html"><span class="doc">velocity-stress formulation in an axi-symmetric domain</span></a></p></li>
-<li><p>We currently support the following material models:</p>
+<li><p><a class="reference internal" href="goveq.html"><span class="doc">Velocity-stress formulation in an axi-symmetric domain</span></a></p></li>
+<li><p>Support for the following material models:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="inputfile_description.html#singlelayerdescription"><span class="std std-ref">single layer model</span></a></p></li>
 <li><p><a class="reference internal" href="inputfile_description.html#twolayerdescription"><span class="std std-ref">bilayer model</span></a></p></li>
@@ -249,27 +250,27 @@ for performance portability</p></li>
 <p>These are 1D models because they only depend on the radial distance.
 The modularity of the code allows one to easily add new models</p>
 </li>
-<li><p>If you want to simulate the wave dynamics in another
-planet/axisymmetric body, all you have to do is to create
-a mesh suitable for that planet, and a suitable material model</p></li>
+<li><p>Simulating the dynamics in another planet/axisymmetric body is relatively easy:
+you have to create a mesh suitable for that planet, and a suitable material model</p></li>
 <li><p>The code implements what we refer to as “rank-1” and “rank-2” formulations:</p>
 <ul class="simple">
 <li><p><em>rank-1</em>:</p>
 <ul>
-<li><p>the discrete state and forcing term are stored as 1D arrays</p></li>
-<li><p>this is used to simulate the wave dynamics due to a <em>single forcing term</em></p></li>
+<li><p>discrete state and forcing are stored as 1D arrays</p></li>
+<li><p>this is useful to simulate the wave dynamics due to a <em>single forcing term</em></p></li>
+<li><p><a class="reference internal" href="demo1.html"><span class="doc">See the demo!</span></a></p></li>
 </ul>
 </li>
 <li><p><em>rank-2</em>:</p>
 <ul>
-<li><p>the discrete state and forcing term are stored
-using rank-2 tensors (i.e. matrices)</p></li>
+<li><p>discrete state and forcing are stored using rank-2 tensors (i.e. matrices)</p></li>
 <li><p>this is useful to <em>simultaneously</em> solve the wave
 dynamics for <em>multiple forcing realizations</em> (e.g. multiple
 source locations and/or periods). This rank-2 formulation
 has an advantage from a computational standpoint because
 it has higher computational intensity, thus benefiting
 efficient ensemble propagation</p></li>
+<li><p><a class="reference internal" href="demo3.html"><span class="doc">See the demo!</span></a></p></li>
 </ul>
 </li>
 </ul>
@@ -300,7 +301,11 @@ efficient ensemble propagation</p></li>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="goveq.html">Governing equations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="goveq.html#discretization">Discretization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build_expert.html">Building: “expert” mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_expert.html">Building: “expert” mode</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="build_expert.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build_expert.html#build">Build</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="build_stepbystep.html">Building: step-by-step</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="build_stepbystep.html#prerequisites">Prerequisites</a></li>
 <li class="toctree-l2"><a class="reference internal" href="build_stepbystep.html#step-1-prepare-environment">Step 1: Prepare environment</a></li>
@@ -317,11 +322,12 @@ efficient ensemble propagation</p></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="demos.html">End-to-end Demos</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="demo_rank1fom.html">(1): Single Forcing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="demo_rank1fommulti.html">(2): Multi-forcing via rank-1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="demo_rank2fom.html">(3): Multi-forcing via rank-2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo1.html">Demo 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo2.html">Demo 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo3.html">Demo 3</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Performance</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/Pressio/SHAW">GitHub Repo</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/Pressio/SHAW/issues">Open an issue/feature req.</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -348,7 +354,7 @@ efficient ensemble propagation</p></li>
 
         <div class="related-information">
               Copyright &#169; 2021, National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS) |
-            Last updated on Dec 01, 2021. |
+            Last updated on Dec 04, 2021. |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s

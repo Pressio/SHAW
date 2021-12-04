@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -168,11 +168,12 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="demos.html">End-to-end Demos</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="demo_rank1fom.html">(1): Single Forcing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="demo_rank1fommulti.html">(2): Multi-forcing via rank-1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="demo_rank2fom.html">(3): Multi-forcing via rank-2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo1.html">Demo 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo2.html">Demo 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo3.html">Demo 3</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Performance</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/Pressio/SHAW">GitHub Repo</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/Pressio/SHAW/issues">Open an issue/feature req.</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -196,7 +197,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -204,32 +205,34 @@
         <article role="main">
           <div class="section" id="building-expert-mode">
 <h1>Building: “expert” mode<a class="headerlink" href="#building-expert-mode" title="Permalink to this headline">¶</a></h1>
-<p>You need:</p>
+<div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>This repo: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/Pressio/SHAW</span></code></p></li>
-<li><p>C++14 compiler: we have tested this with GCC 8.3.1 and GCC 8.4.0</p></li>
+<li><p>C++14 compiler: we have tested this with GCC 8.3.1, GCC 8.4.0, GCC 10.2.0.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">CMake&gt;=3.16.0</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">BLAS</span></code> and <code class="docutils literal notranslate"><span class="pre">LAPACK</span></code></p></li>
 <li><p><a class="reference external" href="https://github.com/kokkos/kokkos">Kokkos</a> and
 <a class="reference external" href="https://github.com/kokkos/kokkos-kernels">Kokkos-kernels</a>: last tested version <code class="docutils literal notranslate"><span class="pre">3.5.00</span></code></p></li>
 <li><p><a class="reference external" href="https://github.com/jbeder/yaml-cpp">yaml-cpp</a>: last tested version <code class="docutils literal notranslate"><span class="pre">0.7.0</span></code></p></li>
 </ul>
-<p>Then, as usual for a typical CMake project, you can do:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">CXX</span><span class="o">=</span>&lt;path-to-your-C++-compiler&gt;
-<span class="nb">export</span> <span class="nv">SHAWDIR</span><span class="o">=</span>&lt;path-to-where-you-cloned-the-shaw-repository&gt;
+</div>
+<div class="section" id="build">
+<h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cmake <span class="se">\</span>
+-DCMAKE_CXX_COMPILER<span class="o">=</span>&lt;fullpath-to-your-C++-compiler&gt; <span class="se">\</span>
+-DKokkosKernels_DIR<span class="o">=</span>&lt;fullpath-to-your-kernels-install-path&gt;/lib/cmake/KokkosKernels/ <span class="se">\</span>
+-Dyaml-cpp_DIR<span class="o">=</span>&lt;fullpath-to-your-yamlcpp-install-path&gt;/share/cmake/ <span class="se">\</span>
+-B &lt;fullpath-to-where-you-want-to-build-the-code&gt; <span class="se">\</span>
+-S &lt;fullpath-to-your-shaw-repository&gt;
 
-mkdir build <span class="o">&amp;&amp;</span> <span class="nb">cd</span> build
-
-cmake <span class="se">\</span>
--DKokkosKernels_DIR<span class="o">=</span>&lt;your-kernels-install-path&gt;/lib/cmake/KokkosKernels/ <span class="se">\</span>
--Dyaml-cpp_DIR<span class="o">=</span>&lt;your-yamlcpp-install-path&gt;/share/cmake/ <span class="se">\</span>
-<span class="si">${</span><span class="nv">SHAWDIR</span><span class="si">}</span>
-
+<span class="c1"># from within your build dir</span>
 make -j4
 
 <span class="c1"># running the tests is advised</span>
 ctest
 </pre></div>
+</div>
 </div>
 </div>
 
@@ -262,7 +265,7 @@ ctest
 
         <div class="related-information">
               Copyright &#169; 2021, National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS) |
-            Last updated on Dec 01, 2021. |
+            Last updated on Dec 04, 2021. |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
@@ -275,8 +278,28 @@ ctest
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Building: “expert” mode</a><ul>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#build">Build</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

@@ -168,11 +168,12 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="demos.html">End-to-end Demos</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="demo_rank1fom.html">(1): Single Forcing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="demo_rank1fommulti.html">(2): Multi-forcing via rank-1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="demo_rank2fom.html">(3): Multi-forcing via rank-2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo1.html">Demo 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo2.html">Demo 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo3.html">Demo 3</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Performance</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/Pressio/SHAW">GitHub Repo</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/Pressio/SHAW/issues">Open an issue/feature req.</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -204,13 +205,16 @@
         <article role="main">
           <div class="section" id="governing-equations">
 <h1>Governing equations<a class="headerlink" href="#governing-equations" title="Permalink to this headline">¶</a></h1>
-<p>This code simulates the evolution of elastic seismic shear waves in an axisymmetric domain.`</p>
+<p>This code simulates the evolution of elastic seismic shear waves in an axisymmetric domain.</p>
 <p>Assuming the target body/planet (e.g. Earth) can be approximated as a sphere,
 we adopt a spherical coordinate system as shown in the figure below:</p>
 <a class="reference internal image-reference" href="_images/sc.svg"><img alt="Alternative text" class="align-center" src="_images/sc.svg" width="35%"/></a>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
 <p>In the axisymmetric approximation, one assumes that fields/quantities
 do not vary along <span class="math notranslate nohighlight">\(\phi\)</span>, implying that all the derivatives
 with respect to <span class="math notranslate nohighlight">\(\phi\)</span> can be dropped.</p>
+</div>
 <p>With this assumption, the set of equations governing the time evolution
 of elastic waves in the velocity-stress formulation can be written as:</p>
 <div class="math-wrapper"><div class="math notranslate nohighlight">
@@ -229,23 +233,29 @@ G \left( \frac{1}{r} \frac{\partial v}{\partial \theta}
 <p>where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(t\)</span> represents time</p></li>
-<li><p><span class="math notranslate nohighlight">\(r \in [0, r_{surface}]\)</span> is the radial distance from origin to surface of the body</p></li>
+<li><p><span class="math notranslate nohighlight">\(r \in [0, r_{surface}]\)</span> is the radial distance from origin to the surface of the body</p></li>
 <li><p><span class="math notranslate nohighlight">\(\theta \in [0, \pi]\)</span> is the polar angle</p></li>
 <li><p><span class="math notranslate nohighlight">\(\rho(r, \theta)\)</span> is the density</p></li>
-<li><p><span class="math notranslate nohighlight">\(v(r, \theta, t)\)</span> is the velocity (for simplicity we drop the subscript, but it is intended to be the <span class="math notranslate nohighlight">\(v_{\phi}\)</span> velocity component)</p></li>
-<li><p><span class="math notranslate nohighlight">\(\sigma_{r\phi}(r, \theta, t)\)</span> and <span class="math notranslate nohighlight">\(\sigma_{\theta\phi}(r, \theta, t)\)</span> are the two components of the stress tensor remaining after the axisymmetric approximation</p></li>
+<li><p><span class="math notranslate nohighlight">\(v(r, \theta, t)\)</span> is the velocity (for simplicity we drop the subscript,
+but it is intended to be the <span class="math notranslate nohighlight">\(v_{\phi}\)</span> velocity component)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma_{r\phi}(r, \theta, t)\)</span> and <span class="math notranslate nohighlight">\(\sigma_{\theta\phi}(r, \theta, t)\)</span>
+are the two components of the stress tensor remaining after the axisymmetric approximation</p></li>
 <li><p><span class="math notranslate nohighlight">\(f(r, \theta,t)\)</span> is the forcing term</p></li>
-<li><p><span class="math notranslate nohighlight">\(G(r, \theta) = v_s^2(r, \theta) \rho(r, \theta)\)</span> is the shear modulus and <span class="math notranslate nohighlight">\(v_s\)</span> being the shear wave velocity.</p></li>
+<li><p><span class="math notranslate nohighlight">\(G(r, \theta) = v_s^2(r, \theta) \rho(r, \theta)\)</span> is the shear modulus
+and <span class="math notranslate nohighlight">\(v_s\)</span> being the shear wave velocity.</p></li>
 </ul>
 <p>In practice, the axisymmetric approximation means that one solves the
 above governing equations over a <em>circular sector/block arc</em>.
 Such a formulation is referred to as 2.5-dimensional because it involves
 a 2-dimensional spatial domain (a circular sector of the Earth)
 but models point sources with correct 3-dimensional spreading {cite}.</p>
-<p>Note that we assume both the density and shear modulus to only depend on the spatial coordinates.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We assume both the density and shear modulus to only depend on the spatial coordinates.</p>
+</div>
 </div>
 <div class="section" id="discretization">
-<h1>Discretization<a class="headerlink" href="#discretization" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Discretization<a class="headerlink" href="#discretization" title="Permalink to this headline">¶</a></h1>
 <p>Shear waves cannot propagate in liquids.
 Therefore, when modeling the Earth, the system of equations above is not
 applicable to the core region of the Earth, and is solved in the region
@@ -269,11 +279,11 @@ no boundary condition on the velocity itself must be set there.
 We remark that, differently than (cite), we do not rely on ghost
 points to impose boundary conditions, but account for the boundary
 conditions directly when assembling the system matrix.</p>
-<p>As an example, the figure below shows the grid when modeling the Earth: the computational
+<p>The figure below shows the grid when modeling the Earth: the computational
 domain extends from the surface to the core-mantle boundary, excluding the liquid core.</p>
-<div class="figure align-center" id="id1">
+<div class="figure align-center" id="id2">
 <a class="reference internal image-reference" href="_images/mesh.png"><img alt="_images/mesh.png" src="_images/mesh.png" style="width: 450px;"/></a>
-<p class="caption"><span class="caption-text">Schematic of the axi-symmetric domain for the Earth and staggered grid used for its discretization.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Schematic of the axi-symmetric domain for the Earth and staggered grid used for its discretization.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 
@@ -306,7 +316,7 @@ domain extends from the surface to the core-mantle boundary, excluding the liqui
 
         <div class="related-information">
               Copyright &#169; 2021, National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS) |
-            Last updated on Dec 01, 2021. |
+            Last updated on Dec 04, 2021. |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s

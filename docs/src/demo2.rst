@@ -1,27 +1,31 @@
 Demo 2
 ======
 
-Earth, PREM, Multi-forcing (rank-1)
+.. admonition:: Description:
 
-.. Important::
-   You need to have the code built to proceed wit this demo, see :doc:`build_expert` or :doc:`build_stepbystep`.
+   This demo simulates the wave dynamic for multiple
+   forcings using the rank-1 formulation and the PREM Earth's model.
 
 
-Prepare
--------
+1. Prepare
+----------
 
 .. code-block:: bash
 
-   export ESWSRCDIR=<fullpath-to-the-source-code-repository>
-   export SHAWEXEDIR=<fullpath-to-where-you-built-the-code-executables>
+   export SHAWDIR=<fullpath-to-the-source-code-repository>
+   export EXEDIR=<fullpath-to-where-you-built-the-code-executables>
 
    # create a dir to run the demo
    export MYRUNDIR=${HOME}/mySecondDemo
    mkdir -p ${MYRUNDIR}
 
+.. Important::
+   You need to have the code built to proceed, see :doc:`build_expert` or :doc:`build_stepbystep`.
 
-Generating the mesh
--------------------
+|
+
+2. Generate the mesh
+--------------------
 
 For this demo, we use a grid of ``256`` x ``1024`` velocity points
 along the radial and polar directions, respectively.
@@ -29,7 +33,7 @@ To generate the mesh files proceed as follows:
 
 .. code-block:: bash
 
-   cd ${ESWSRCDIR}/meshing
+   cd ${SHAWDIR}/meshing
    python create_single_mesh.py -nr 256 -nth 1024 -working-dir ${MYRUNDIR}
 
 
@@ -43,60 +47,31 @@ After generating the grid, you should have a ``${MYRUNDIR}/mesh256x1024`` direct
    ├── [ 21M]  graph_vp.dat
    └── [ 231]  mesh_info.dat
 
+|
 
-Input file
-----------
+3. Input file
+-------------
 
-We use the following input file (`learn more about input file <{filename}/inputfile.rst>`_):
+We use the following input file (:doc:`learn more about input file <inputfile>`):
 
-.. code-block:: yaml
+.. literalinclude :: ../../demos/demo2/input.yaml
+  :language: yaml
 
-  general:
-    meshDir: ./mesh256x1024
-    dt: 0.25
-    finalTime: 2000.0
-    checkNumericalDispersion: true
-    checkCfl: true
-
-  io:
-    snapshotMatrix:
-      binary: true
-      velocity: {freq: 100, fileName: snaps_vp}
-      stress:   {freq: 100, fileName: snaps_sp}
-
-  seismogram:
-    binary: false
-    freq: 4
-    receivers: [5,30,55,80,105,130,155,175]
-
-  source:
-    signal:
-      kind: ricker
-
-      # here we pass a list of depths to use as samples
-      # this will automatically activate sampling
-      depth: [240.,440.,540.,700.]
-
-      period: 65.0
-      delay: 180.0
-
-  material:
-    kind: prem
-
-You can get the input file as:
+which we have ready for you to copy as:
 
 .. code-block:: bash
 
-   cp ${ESWSRCDIR}/demos/fom_rank1_sample_depth/input.yaml ${MYRUNDIR}
+   cp ${SHAWDIR}/demos/demo2/input.yaml ${MYRUNDIR}
 
+|
 
-Run the simulation
-------------------
+4. Run the simulation
+---------------------
 
 .. code-block:: bash
 
    cd ${MYRUNDIR}
-   ln -s ${SHAWEXEDIR}/shawExe .
+   ln -s ${EXEDIR}/shawExe .
 
    # if you use OpenMP build, remember to set
    # OMP_NUM_THREADS=how-many-you-want-use OMP_PLACES=threads OMP_PROC_BIND=spread
@@ -109,8 +84,8 @@ and using a serial build of the code, each individual realization takes approxim
 of which the IO time for data collection is less than 1 second.
 
 
-Simulation data
----------------
+5. Simulation data
+------------------
 
 After running the demo (have some patience because it takes some a couple minutes
 if you use the serial mode), you should have inside ``${MYRUNDIR}`` the following files:
@@ -136,8 +111,8 @@ if you use the serial mode), you should have inside ``${MYRUNDIR}`` the followin
    snaps_sp_3    #: stresses snapshots for depth = 700
 
 
-Post-process data
------------------
+6. Post-process data
+--------------------
 
 To post-process the data, get the Python scripts created
 for this demo and visualize the seismogram:
@@ -145,7 +120,7 @@ for this demo and visualize the seismogram:
 .. code-block:: bash
 
    cd ${MYRUNDIR}
-   cp ${ESWSRCDIR}/demos/fom_rank1_sample_depth/plotSeismogram.py .
+   cp ${SHAWDIR}/demos/demo2/plotSeismogram.py .
    python plotSeismogram.py
 
 
@@ -158,7 +133,7 @@ for ``depth=240`` and ``depth=700``
 .. code-block:: bash
 
    cd ${MYRUNDIR}
-   ln -s ${SHAWEXEDIR}/extractStateFromSnaps .
+   ln -s ${EXEDIR}/extractStateFromSnaps .
 
    # snaps_vp_0 contains snapshots for depth=240 km
    # extract target state and write to file appending vp_d240 to identify the case
@@ -170,6 +145,7 @@ for ``depth=240`` and ``depth=700``
    ./extractStateFromSnaps --snaps=./snaps_vp_3 binary --fsize=1 \
      --outformat=ascii --timesteps=8000  --samplingfreq=100 --outfileappend=vp_d700
 
+   cp ${SHAWDIR}/demos/demo2/plotWavefield.py .
    python plotWavefield.py
 
 And plot them below, showing as expected the largely different pattern

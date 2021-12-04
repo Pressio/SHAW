@@ -2,10 +2,10 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="(2): Multi-forcing via rank-1" href="demo_rank1fommulti.html" /><link rel="prev" title="End-to-end Demos" href="demos.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Demo 3" href="demo3.html" /><link rel="prev" title="Demo 1" href="demo1.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>(1): Single Forcing - SHAW 0.1.0 documentation</title>
+        <title>Demo 2 - SHAW 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -168,11 +168,12 @@
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="demos.html">End-to-end Demos</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">(1): Single Forcing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="demo_rank1fommulti.html">(2): Multi-forcing via rank-1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="demo_rank2fom.html">(3): Multi-forcing via rank-2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo1.html">Demo 1</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Demo 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo3.html">Demo 3</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Performance</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/Pressio/SHAW">GitHub Repo</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/Pressio/SHAW/issues">Open an issue/feature req.</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -202,50 +203,61 @@
           </label>
         </div>
         <article role="main">
-          <div class="section" id="single-forcing">
-<h1>(1): Single Forcing<a class="headerlink" href="#single-forcing" title="Permalink to this headline">¶</a></h1>
-<p>Below we assume you already completed one of the builds described in the build tab.
-For simplicity, look at the serial step-by-step build guide.</p>
-<div class="section" id="prepare-environment">
-<h2>Prepare environment<a class="headerlink" href="#prepare-environment" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">ESWSRCDIR</span><span class="o">=</span>&lt;fullpath-to-the-source-code-repository&gt;
-<span class="nb">export</span> <span class="nv">SHAWEXEDIR</span><span class="o">=</span>&lt;fullpath-to-where-you-built-the-code-executables&gt;
+          <div class="section" id="demo-2">
+<h1>Demo 2<a class="headerlink" href="#demo-2" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-description admonition">
+<p class="admonition-title">Description:</p>
+<p>This demo simulates the wave dynamic for multiple
+forcings using the rank-1 formulation and the PREM Earth’s model.</p>
+</div>
+<div class="section" id="prepare">
+<h2>1. Prepare<a class="headerlink" href="#prepare" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">SHAWDIR</span><span class="o">=</span>&lt;fullpath-to-the-source-code-repository&gt;
+<span class="nb">export</span> <span class="nv">EXEDIR</span><span class="o">=</span>&lt;fullpath-to-where-you-built-the-code-executables&gt;
 
 <span class="c1"># create a dir to run the demo</span>
-<span class="nb">export</span> <span class="nv">MYRUNDIR</span><span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/myFirstDemo
+<span class="nb">export</span> <span class="nv">MYRUNDIR</span><span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/mySecondDemo
 mkdir -p <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
 </pre></div>
 </div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>You need to have the code built to proceed, see <a class="reference internal" href="build_expert.html"><span class="doc">Building: “expert” mode</span></a> or <a class="reference internal" href="build_stepbystep.html"><span class="doc">Building: step-by-step</span></a>.</p>
 </div>
-<div class="section" id="generating-the-mesh">
-<h2>Generating the mesh<a class="headerlink" href="#generating-the-mesh" title="Permalink to this headline">¶</a></h2>
-<p>For this demo, we use a grid of <code class="docutils literal notranslate"><span class="pre">200</span></code> x <code class="docutils literal notranslate"><span class="pre">1000</span></code> velocity points
+<div class="line-block">
+<div class="line"><br/></div>
+</div>
+</div>
+<div class="section" id="generate-the-mesh">
+<h2>2. Generate the mesh<a class="headerlink" href="#generate-the-mesh" title="Permalink to this headline">¶</a></h2>
+<p>For this demo, we use a grid of <code class="docutils literal notranslate"><span class="pre">256</span></code> x <code class="docutils literal notranslate"><span class="pre">1024</span></code> velocity points
 along the radial and polar directions, respectively.
 To generate the mesh files proceed as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/meshing
-python create_single_mesh.py -nr <span class="m">200</span> -nth <span class="m">1000</span> -working-dir <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> <span class="si">${</span><span class="nv">SHAWDIR</span><span class="si">}</span>/meshing
+python create_single_mesh.py -nr <span class="m">256</span> -nth <span class="m">1024</span> -working-dir <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
 </pre></div>
 </div>
-<p>Note that the grid generator script only needs the velocity points
-because the stress points are defined automatically
-based on the <a class="reference external" href="{filename}/goveq.rst">staggered scheme</a>.</p>
-<p>After generating the grid, you should have a <code class="docutils literal notranslate"><span class="pre">${MYRUNDIR}/mesh200x1000</span></code> directory containing:</p>
+<p>After generating the grid, you should have a <code class="docutils literal notranslate"><span class="pre">${MYRUNDIR}/mesh256x1024</span></code> directory containing:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.
-├── <span class="o">[</span><span class="m">4</span>.5M<span class="o">]</span>  coeff_vp.dat
-├── <span class="o">[</span> 28M<span class="o">]</span>  graph_sp.dat
-├── <span class="o">[</span> 16M<span class="o">]</span>  graph_vp.dat
+├── <span class="o">[</span><span class="m">5</span>.9M<span class="o">]</span>  coeff_vp.dat
+├── <span class="o">[</span> 37M<span class="o">]</span>  graph_sp.dat
+├── <span class="o">[</span> 21M<span class="o">]</span>  graph_vp.dat
 └── <span class="o">[</span> <span class="m">231</span><span class="o">]</span>  mesh_info.dat
 </pre></div>
 </div>
+<div class="line-block">
+<div class="line"><br/></div>
+</div>
 </div>
 <div class="section" id="input-file">
-<h2>Input file<a class="headerlink" href="#input-file" title="Permalink to this headline">¶</a></h2>
-<p>We use the following input file (<a class="reference external" href="{filename}/inputfile.rst">learn more about input file</a>):</p>
+<h2>3. Input file<a class="headerlink" href="#input-file" title="Permalink to this headline">¶</a></h2>
+<p>We use the following input file (<a class="reference internal" href="inputfile.html"><span class="doc">learn more about input file</span></a>):</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">general</span><span class="p">:</span>
   <span class="c1"># meshDir should contain the full path to the mesh directory</span>
   <span class="c1"># as generated by the python script `meshing/create_single_mesh.py`</span>
-  <span class="c1"># we assume the input file is in the same location as mesh dir</span>
-  <span class="nt">meshDir</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">./mesh200x1000</span>
+  <span class="c1"># but here we use this for simplicity since this input file</span>
+  <span class="c1"># is used in the doc showing how to run a case</span>
+  <span class="nt">meshDir</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">./mesh256x1024</span>
   <span class="nt">dt</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.25</span>
   <span class="nt">finalTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2000.0</span>
   <span class="nt">checkNumericalDispersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
@@ -256,6 +268,7 @@ based on the <a class="reference external" href="{filename}/goveq.rst">staggered
     <span class="nt">binary</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
     <span class="nt">velocity</span><span class="p">:</span> <span class="p p-Indicator">{</span><span class="nt">freq</span><span class="p">:</span> <span class="nv">100</span><span class="p p-Indicator">,</span><span class="nt"> fileName</span><span class="p">:</span> <span class="nv">snaps_vp</span><span class="p p-Indicator">}</span>
     <span class="nt">stress</span><span class="p">:</span>   <span class="p p-Indicator">{</span><span class="nt">freq</span><span class="p">:</span> <span class="nv">100</span><span class="p p-Indicator">,</span><span class="nt"> fileName</span><span class="p">:</span> <span class="nv">snaps_sp</span><span class="p p-Indicator">}</span>
+
   <span class="nt">seismogram</span><span class="p">:</span>
     <span class="nt">binary</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
     <span class="nt">freq</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">4</span>
@@ -264,69 +277,96 @@ based on the <a class="reference external" href="{filename}/goveq.rst">staggered
 <span class="nt">source</span><span class="p">:</span>
   <span class="nt">signal</span><span class="p">:</span>
     <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ricker</span>
-    <span class="nt">depth</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">640.0</span>  <span class="c1"># km</span>
-    <span class="nt">period</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">65.0</span>  <span class="c1"># seconds</span>
-    <span class="nt">delay</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">180.0</span>  <span class="c1"># seconds</span>
+    <span class="nt">depth</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">240.</span><span class="p p-Indicator">,</span><span class="nv">440.</span><span class="p p-Indicator">,</span><span class="nv">540.</span><span class="p p-Indicator">,</span><span class="nv">700.</span><span class="p p-Indicator">]</span>
+    <span class="nt">period</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">65.0</span>
+    <span class="nt">delay</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">180.0</span>
 
 <span class="nt">material</span><span class="p">:</span>
   <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">prem</span>
 </pre></div>
 </div>
-<p>You can get the input file as:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/demos/fom_rank1/input.yaml <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
+<p>which we have ready for you to copy as:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp <span class="si">${</span><span class="nv">SHAWDIR</span><span class="si">}</span>/demos/demo2/input.yaml <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
 </pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br/></div>
 </div>
 </div>
 <div class="section" id="run-the-simulation">
-<h2>Run the simulation<a class="headerlink" href="#run-the-simulation" title="Permalink to this headline">¶</a></h2>
+<h2>4. Run the simulation<a class="headerlink" href="#run-the-simulation" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
-ln -s <span class="si">${</span><span class="nv">SHAWEXEDIR</span><span class="si">}</span>/shawExe .
+ln -s <span class="si">${</span><span class="nv">EXEDIR</span><span class="si">}</span>/shawExe .
 
 <span class="c1"># if you use OpenMP build, remember to set</span>
 <span class="c1"># OMP_NUM_THREADS=how-many-you-want-use OMP_PLACES=threads OMP_PROC_BIND=spread</span>
 ./shawExe input.yaml
 </pre></div>
 </div>
+<p>You will notice that since we use the rank-1 formulation, the code will solve
+sequentially all four realizations of the forcing term.
+To give an idea of runtime, on a MacPro with 2.4 GHz 8-Core Intel Core i9 and 32 GB 2667 MHz DDR4,
+and using a serial build of the code, each individual realization takes approximately 36 seconds,
+of which the IO time for data collection is less than 1 second.</p>
 </div>
 <div class="section" id="simulation-data">
-<h2>Simulation data<a class="headerlink" href="#simulation-data" title="Permalink to this headline">¶</a></h2>
-<p>The demo should generate inside <code class="docutils literal notranslate"><span class="pre">${MYRUNDIR}</span></code> the following:</p>
+<h2>5. Simulation data<a class="headerlink" href="#simulation-data" title="Permalink to this headline">¶</a></h2>
+<p>After running the demo (have some patience because it takes some a couple minutes
+if you use the serial mode), you should have inside <code class="docutils literal notranslate"><span class="pre">${MYRUNDIR}</span></code> the following files:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>coords_sp.txt <span class="c1">#: coordinates of the velocity grid points</span>
 coords_vp.txt <span class="c1">#: coordinates of the stresses grid points</span>
-seismogram_0  <span class="c1">#: seismogram at the receiver locations set in input.yaml</span>
-snaps_vp_0    <span class="c1">#: snapshot matrix for the velocity</span>
-snaps_sp_0    <span class="c1">#: snapshot matrix for the stresses</span>
+
+seismogram_0  <span class="c1">#: seismogram for depth = 240</span>
+seismogram_1  <span class="c1">#: seismogram for depth = 440</span>
+seismogram_2  <span class="c1">#: seismogram for depth = 540</span>
+seismogram_3  <span class="c1">#: seismogram for depth = 700</span>
+
+snaps_vp_0    <span class="c1">#: velocity snapshots for depth = 240</span>
+snaps_vp_1    <span class="c1">#: velocity snapshots for depth = 440</span>
+snaps_vp_2    <span class="c1">#: velocity snapshots for depth = 540</span>
+snaps_vp_3    <span class="c1">#: velocity snapshots for depth = 700</span>
+
+snaps_sp_0    <span class="c1">#: stresses snapshots for depth = 240</span>
+snaps_sp_1    <span class="c1">#: stresses snapshots for depth = 440</span>
+snaps_sp_2    <span class="c1">#: stresses snapshots for depth = 540</span>
+snaps_sp_3    <span class="c1">#: stresses snapshots for depth = 700</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="post-process-data">
-<h2>Post-process data<a class="headerlink" href="#post-process-data" title="Permalink to this headline">¶</a></h2>
-<p>To post-process the data, you can use the Python scripts created for this demo:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp <span class="si">${</span><span class="nv">ESWSRCDIR</span><span class="si">}</span>/demos/fom_rank1/*.py <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
-</pre></div>
-</div>
-<p>First, we visualize the seismogram data by doing:</p>
+<h2>6. Post-process data<a class="headerlink" href="#post-process-data" title="Permalink to this headline">¶</a></h2>
+<p>To post-process the data, get the Python scripts created
+for this demo and visualize the seismogram:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
+cp <span class="si">${</span><span class="nv">SHAWDIR</span><span class="si">}</span>/demos/demo2/plotSeismogram.py .
 python plotSeismogram.py
 </pre></div>
 </div>
-<img alt="_images/demo1_f1.png" src="_images/demo1_f1.png"/>
-<p>Then, we can extract and visualize the full wavefield at <code class="docutils literal notranslate"><span class="pre">t=250,</span> <span class="pre">1000,</span> <span class="pre">2000</span></code> (seconds):</p>
+<img alt="_images/demo2_f1.png" src="_images/demo2_f1.png"/>
+<p>We now extract and compare the velocity wavefield at <code class="docutils literal notranslate"><span class="pre">t=2000</span></code> (seconds)
+for <code class="docutils literal notranslate"><span class="pre">depth=240</span></code> and <code class="docutils literal notranslate"><span class="pre">depth=700</span></code></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> <span class="si">${</span><span class="nv">MYRUNDIR</span><span class="si">}</span>
-ln -s <span class="si">${</span><span class="nv">SHAWEXEDIR</span><span class="si">}</span>/extractStateFromSnaps .
+ln -s <span class="si">${</span><span class="nv">EXEDIR</span><span class="si">}</span>/extractStateFromSnaps .
 
-<span class="c1"># extract from the velocity snapshots the velocity field at specific timesteps:</span>
-<span class="c1"># since we use ``dt = 0.25`` seconds, our tartgets ``t=250, 1000, 2000``,</span>
-<span class="c1"># correspond to *time steps* 1000, 4000, 8000</span>
+<span class="c1"># snaps_vp_0 contains snapshots for depth=240 km</span>
+<span class="c1"># extract target state and write to file appending vp_d240 to identify the case</span>
 ./extractStateFromSnaps --snaps<span class="o">=</span>./snaps_vp_0 binary --fsize<span class="o">=</span><span class="m">1</span> <span class="se">\</span>
-  --outformat<span class="o">=</span>ascii --timesteps<span class="o">=</span><span class="m">1000</span> <span class="m">4000</span> <span class="m">8000</span>  --samplingfreq<span class="o">=</span><span class="m">100</span> --outfileappend<span class="o">=</span>vp
+  --outformat<span class="o">=</span>ascii --timesteps<span class="o">=</span><span class="m">8000</span>  --samplingfreq<span class="o">=</span><span class="m">100</span> --outfileappend<span class="o">=</span>vp_d240
 
+<span class="c1"># snaps_vp_3 contains snapshots for depth=700 km</span>
+<span class="c1"># extract target state and write to file appending vp_d700 to identify the case</span>
+./extractStateFromSnaps --snaps<span class="o">=</span>./snaps_vp_3 binary --fsize<span class="o">=</span><span class="m">1</span> <span class="se">\</span>
+  --outformat<span class="o">=</span>ascii --timesteps<span class="o">=</span><span class="m">8000</span>  --samplingfreq<span class="o">=</span><span class="m">100</span> --outfileappend<span class="o">=</span>vp_d700
+
+cp <span class="si">${</span><span class="nv">SHAWDIR</span><span class="si">}</span>/demos/demo2/plotWavefield.py .
 python plotWavefield.py
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/demo1_f2.png"><img alt="_images/demo1_f2.png" src="_images/demo1_f2.png" style="width: 30%;"/></a>
-<a class="reference internal image-reference" href="_images/demo1_f3.png"><img alt="_images/demo1_f3.png" src="_images/demo1_f3.png" style="width: 28%;"/></a>
-<a class="reference internal image-reference" href="_images/demo1_f4.png"><img alt="_images/demo1_f4.png" src="_images/demo1_f4.png" style="width: 30%;"/></a>
+<p>And plot them below, showing as expected the largely different pattern
+and trailing waves due to the complex reflection/refraction effects
+of the waves propagating through the discontinuous PREM material model.</p>
+<a class="reference internal image-reference" href="_images/demo2_f2.png"><img alt="_images/demo2_f2.png" src="_images/demo2_f2.png" style="width: 45%;"/></a>
+<a class="reference internal image-reference" href="_images/demo2_f3.png"><img alt="_images/demo2_f3.png" src="_images/demo2_f3.png" style="width: 45%;"/></a>
 </div>
 </div>
 
@@ -335,23 +375,23 @@ python plotWavefield.py
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="demo_rank1fommulti.html">
+          <a class="next-page" href="demo3.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">(2): Multi-forcing via rank-1</div>
+                <div class="title">Demo 3</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="demos.html">
+          <a class="prev-page" href="demo1.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">End-to-end Demos</div>
+                <div class="title">Demo 1</div>
                 
               </div>
             </a>
@@ -359,12 +399,12 @@ python plotWavefield.py
 
         <div class="related-information">
               Copyright &#169; 2021, National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS) |
-            Last updated on Dec 01, 2021. |
+            Last updated on Dec 04, 2021. |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/demo_rank1fom.rst.txt"
+            <a class="muted-link" href="_sources/demo2.rst.txt"
                rel="nofollow">
               Show Source
             </a>
@@ -384,13 +424,13 @@ python plotWavefield.py
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">(1): Single Forcing</a><ul>
-<li><a class="reference internal" href="#prepare-environment">Prepare environment</a></li>
-<li><a class="reference internal" href="#generating-the-mesh">Generating the mesh</a></li>
-<li><a class="reference internal" href="#input-file">Input file</a></li>
-<li><a class="reference internal" href="#run-the-simulation">Run the simulation</a></li>
-<li><a class="reference internal" href="#simulation-data">Simulation data</a></li>
-<li><a class="reference internal" href="#post-process-data">Post-process data</a></li>
+<li><a class="reference internal" href="#">Demo 2</a><ul>
+<li><a class="reference internal" href="#prepare">1. Prepare</a></li>
+<li><a class="reference internal" href="#generate-the-mesh">2. Generate the mesh</a></li>
+<li><a class="reference internal" href="#input-file">3. Input file</a></li>
+<li><a class="reference internal" href="#run-the-simulation">4. Run the simulation</a></li>
+<li><a class="reference internal" href="#simulation-data">5. Simulation data</a></li>
+<li><a class="reference internal" href="#post-process-data">6. Post-process data</a></li>
 </ul>
 </li>
 </ul>

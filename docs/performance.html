@@ -2,10 +2,10 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Input File" href="inputfile.html" /><link rel="prev" title="Building: “expert” mode" href="build_expert.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="License" href="license.html" /><link rel="prev" title="Demo 3" href="demo3.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>Building: step-by-step - SHAW 0.1.0 documentation</title>
+        <title>Performance - SHAW 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -158,7 +158,7 @@
 <li class="toctree-l1"><a class="reference internal" href="goveq.html">Governing equations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="goveq.html#discretization">Discretization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build_expert.html">Building: “expert” mode</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Building: step-by-step</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_stepbystep.html">Building: step-by-step</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="inputfile.html">Input File</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="inputfile_description.html">General Section</a></li>
 <li class="toctree-l2"><a class="reference internal" href="inputfile_description.html#io-section">IO Section</a></li>
@@ -173,7 +173,7 @@
 <li class="toctree-l2"><a class="reference internal" href="demo3.html">Demo 3</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="performance.html">Performance</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Performance</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/Pressio/SHAW">GitHub Repo</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/Pressio/SHAW/issues">Open an issue/feature req.</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -197,102 +197,31 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <div class="section" id="building-step-by-step">
-<h1>Building: step-by-step<a class="headerlink" href="#building-step-by-step" title="Permalink to this headline">¶</a></h1>
-<p>If you are reading this page, it likely is because you want
-a simplified (automated) way the get this done,
-so that you can minimize the extra effort
-in building the TPLs needed and the SHAW code.
-This page tries to do so providing a step-by-step
-guide and some scripts we have prepared.</p>
-<div class="section" id="prerequisites">
-<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>This repo: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/Pressio/SHAW</span></code></p></li>
-<li><p>C++14 compiler with OpenMP support.</p>
-<ul>
-<li><p>We have tested this with GCC 8.3.1, GCC 8.4.0, GCC 10.2.0.</p></li>
-</ul>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">CMake&gt;=3.16.0</span></code>: easily installed via package manager</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">BLAS</span></code> and <code class="docutils literal notranslate"><span class="pre">LAPACK</span></code></p>
-<ul>
-<li><p>should already be present on your machine, if not, use your package manager</p></li>
-</ul>
-</li>
-</ul>
+          <div class="section" id="performance">
+<h1>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h1>
+<p>The following plot shows performance results obtained on a workstation
+with two 18-core Intel(R) Xeon(R) Gold 6154 CPU @ 3.00 GHz,
+each with a 24.75MB L3 cache and 125GB total memory.
+We enable hyperthreading, thus supporting a maximum of 36 logical threads per CPU,
+so a total of 72 threads. We use GCC-8.3.1 and rely on kokkos
+and kokkos-kernels version 3.1.01.
+We use Blis-0.7.0 as the kokkos-kernels’ backend for all dense operations.
+We use the OpenMP backend for Kokkos.</p>
+<div class="line-block">
+<div class="line"><br/></div>
 </div>
-<div class="section" id="step-1-prepare-environment">
-<h2>Step 1: Prepare environment<a class="headerlink" href="#step-1-prepare-environment" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">CXX</span><span class="o">=</span>&lt;fullpath-to-your-C++14-compiler&gt;
-<span class="nb">export</span> <span class="nv">SHAWDIR</span><span class="o">=</span>&lt;fullpath-to-where-you-cloned-the-SHAW-repository&gt;
-
-<span class="nb">export</span> <span class="nv">WORKDIR</span><span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/myFirstShawBuild
-mkdir -p <span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="step-2-build-tpls">
-<h2>Step 2: Build TPLs<a class="headerlink" href="#step-2-build-tpls" title="Permalink to this headline">¶</a></h2>
-<p>We have prepared a script that automates this:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> <span class="si">${</span><span class="nv">SHAWDIR</span><span class="si">}</span>/bash_scripts
-bash build_tpls.sh <span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span> openmp
-</pre></div>
-</div>
-<p>This script will fetch, build and install inside <code class="docutils literal notranslate"><span class="pre">WORKDIR/tpls</span></code>
-all TPLs needed: Kokkos-core, Kokkos-kernels and yaml-cpp.</p>
-<div class="admonition attention">
-<p class="admonition-title">Attention</p>
-<p>This builds Kokkos with only the OpenMP backend and <strong>without</strong>
-any architecture specifications. This is on purpose,
-because this step is meant to be as generic and simple as possible to get
-you started quickly. If you want to customize things, read
-more on the <a class="reference external" href="https://github.com/kokkos">Kokkos github</a>.</p>
-</div>
-<p>Once the build terminates, you should see
-the following structure inside your <code class="docutils literal notranslate"><span class="pre">WORKDIR</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>tree -c -L 2
-.
-└── tpls
-    ├── kokkos-3.5.00
-    ├── kokkos-3.5.00.tar.gz
-    ├── kokkos-kernels-3.5.00
-    ├── kokkos-kernels-3.5.00.tar.gz
-    ├── kokkos-build
-    ├── kokkos-install
-    ├── kokkos-kernels-build
-    ├── kokkos-kernels-install
-    ├── yaml-cpp-0.7.0.tar.gz
-    ├── yaml-cpp-yaml-cpp-0.7.0
-    ├── yamlcpp-build
-    └── yamlcpp-install
-</pre></div>
-</div>
-</div>
-<div class="section" id="step-3-build-shaw">
-<h2>Step 3: Build SHAW<a class="headerlink" href="#step-3-build-shaw" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> <span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>
-
-<span class="c1"># note that here there is not need to specify compiler because</span>
-<span class="c1"># cmake will automatically pick the up the env var CXX tha we</span>
-<span class="c1"># already set above in step 1</span>
-cmake <span class="se">\</span>
-  -DKokkosKernels_DIR<span class="o">=</span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/tpls/kokkos-kernels-install/lib/cmake/KokkosKernels/ <span class="se">\</span>
-  -Dyaml-cpp_DIR<span class="o">=</span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/tpls/yamlcpp-install/share/cmake/ <span class="se">\</span>
-  -B <span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/shaw-build <span class="se">\</span>
-  -S <span class="si">${</span><span class="nv">SHAWDIR</span><span class="si">}</span>
-
-<span class="nb">cd</span> <span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/shaw-build
-make -j4
-ctest
-</pre></div>
-</div>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="_images/fom_cpu_ave.png"><img alt="_images/fom_cpu_ave.png" src="_images/fom_cpu_ave.png" style="width: 95%;"/></a>
+<p class="caption"><span class="caption-text">M represents how many trajectories we are computing simultaneously:
+when M=1, this what we refer to as rank-1 formulation,
+while M&gt;=2 corresponds to what we refer to as rank-2 formulation;
+N is the <em>total</em> number of dofs (velocities plus stresses) for the problem.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 
@@ -301,23 +230,23 @@ ctest
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="inputfile.html">
+          <a class="next-page" href="license.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Input File</div>
+                <div class="title">License</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="build_expert.html">
+          <a class="prev-page" href="demo3.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Building: “expert” mode</div>
+                <div class="title">Demo 3</div>
                 
               </div>
             </a>
@@ -330,7 +259,7 @@ ctest
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/build_stepbystep.rst.txt"
+            <a class="muted-link" href="_sources/performance.rst.txt"
                rel="nofollow">
               Show Source
             </a>
@@ -338,30 +267,8 @@ ctest
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            Contents
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">Building: step-by-step</a><ul>
-<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
-<li><a class="reference internal" href="#step-1-prepare-environment">Step 1: Prepare environment</a></li>
-<li><a class="reference internal" href="#step-2-build-tpls">Step 2: Build TPLs</a></li>
-<li><a class="reference internal" href="#step-3-build-shaw">Step 3: Build SHAW</a></li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>

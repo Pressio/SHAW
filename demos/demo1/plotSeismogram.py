@@ -8,19 +8,19 @@ def doPlot(panelId, t, data, key):
   plt.subplot(panelId)
   plt.grid('on')
 
-  plt.plot(t, data[key], '-o', color='m',
+  plt.plot(t, data[key], '-o', color='r',
              markerfacecolor='none',
-             markersize=3, linewidth=1, 
+             markersize=0, linewidth=2, 
              label="Receiver at " + key+'\u00b0')
 
   lg = plt.legend(loc="upper right",
              ncol=1, fontsize=15, labelspacing=.3,
              handletextpad=0.2,
              frameon=False, markerscale=0.75)
-  plt.setp(lg.get_texts(), color='w')
+  plt.setp(lg.get_texts(), color='gray')
 
   plt.xlim([-50, 2050])
-  plt.xticks(np.linspace(0, 2000, 6), color='w')
+  plt.xticks(np.linspace(0, 2000, 6), color='gray')
   plt.ylim([-1.6e-6, 1.6e-6])
 
   ylab = r'$v_{\phi}(t)$'
@@ -28,7 +28,7 @@ def doPlot(panelId, t, data, key):
   plt.xlabel(r'Time (seconds)', fontsize=15)
 
   ax = plt.gca()
-  mycolor = 'w'
+  mycolor = 'gray'
   ax.xaxis.label.set_color(mycolor);
   ax.tick_params(axis='x', colors=mycolor)
   ax.yaxis.label.set_color(mycolor);

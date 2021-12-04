@@ -1,11 +1,12 @@
 Building: "expert" mode
 =======================
 
-You need:
+Prerequisites
+-------------
 
 * This repo: ``git clone https://github.com/Pressio/SHAW``
 
-* C++14 compiler: we have tested this with GCC 8.3.1 and GCC 8.4.0
+* C++14 compiler: we have tested this with GCC 8.3.1, GCC 8.4.0, GCC 10.2.0.
 
 * ``CMake>=3.16.0``
 
@@ -17,20 +18,19 @@ You need:
 * `yaml-cpp <https://github.com/jbeder/yaml-cpp>`_: last tested version ``0.7.0``
 
 
-Then, as usual for a typical CMake project, you can do:
+Build
+-----
 
 .. code-block:: shell
 
-   export CXX=<path-to-your-C++-compiler>
-   export SHAWDIR=<path-to-where-you-cloned-the-shaw-repository>
-
-   mkdir build && cd build
-
    cmake \
-   -DKokkosKernels_DIR=<your-kernels-install-path>/lib/cmake/KokkosKernels/ \
-   -Dyaml-cpp_DIR=<your-yamlcpp-install-path>/share/cmake/ \
-   ${SHAWDIR}
+   -DCMAKE_CXX_COMPILER=<fullpath-to-your-C++-compiler> \
+   -DKokkosKernels_DIR=<fullpath-to-your-kernels-install-path>/lib/cmake/KokkosKernels/ \
+   -Dyaml-cpp_DIR=<fullpath-to-your-yamlcpp-install-path>/share/cmake/ \
+   -B <fullpath-to-where-you-want-to-build-the-code> \
+   -S <fullpath-to-your-shaw-repository>
 
+   # from within your build dir
    make -j4
 
    # running the tests is advised

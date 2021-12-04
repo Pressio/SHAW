@@ -51,9 +51,9 @@ Highlights and features
 *  The code relies on the `Kokkos programming model <https://github.com/kokkos>`_
    for performance portability
 
-*  We use the :doc:`velocity-stress formulation in an axi-symmetric domain <goveq>`
+*  :doc:`Velocity-stress formulation in an axi-symmetric domain <goveq>`
 
-*  We currently support the following material models:
+*  Support for the following material models:
 
    - :ref:`single layer model <singlelayerdescription>`
 
@@ -66,22 +66,22 @@ Highlights and features
    These are 1D models because they only depend on the radial distance.
    The modularity of the code allows one to easily add new models
 
-*  If you want to simulate the wave dynamics in another
-   planet/axisymmetric body, all you have to do is to create
-   a mesh suitable for that planet, and a suitable material model
+*  Simulating the dynamics in another planet/axisymmetric body is relatively easy:
+   you have to create a mesh suitable for that planet, and a suitable material model
 
 *  The code implements what we refer to as "rank-1" and "rank-2" formulations:
 
    *  *rank-1*:
 
-      * the discrete state and forcing term are stored as 1D arrays
+      * discrete state and forcing are stored as 1D arrays
 
-      * this is used to simulate the wave dynamics due to a *single forcing term*
+      * this is useful to simulate the wave dynamics due to a *single forcing term*
+
+      * :doc:`See the demo! <demo1>`
 
    *  *rank-2*:
 
-      * the discrete state and forcing term are stored
-	using rank-2 tensors (i.e. matrices)
+      * discrete state and forcing are stored using rank-2 tensors (i.e. matrices)
 
       * this is useful to *simultaneously* solve the wave
 	dynamics for *multiple forcing realizations* (e.g. multiple
@@ -90,6 +90,7 @@ Highlights and features
 	it has higher computational intensity, thus benefiting
 	efficient ensemble propagation
 
+      * :doc:`See the demo! <demo3>`
 
 How to cite
 -----------
@@ -122,6 +123,7 @@ Contents
     build_stepbystep
     inputfile
     demos
+    performance
     GitHub Repo <https://github.com/Pressio/SHAW>
     Open an issue/feature req. <https://github.com/Pressio/SHAW/issues>
     license

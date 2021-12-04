@@ -1,7 +1,7 @@
 Governing equations
 ===================
 
-This code simulates the evolution of elastic seismic shear waves in an axisymmetric domain.`
+This code simulates the evolution of elastic seismic shear waves in an axisymmetric domain.
 
 Assuming the target body/planet (e.g. Earth) can be approximated as a sphere,
 we adopt a spherical coordinate system as shown in the figure below:
@@ -11,10 +11,10 @@ we adopt a spherical coordinate system as shown in the figure below:
   :align: center
   :alt: Alternative text
 
-
-In the axisymmetric approximation, one assumes that fields/quantities
-do not vary along :math:`\phi`, implying that all the derivatives
-with respect to :math:`\phi` can be dropped.
+.. Important::
+   In the axisymmetric approximation, one assumes that fields/quantities
+   do not vary along :math:`\phi`, implying that all the derivatives
+   with respect to :math:`\phi` can be dropped.
 
 With this assumption, the set of equations governing the time evolution
 of elastic waves in the velocity-stress formulation can be written as:
@@ -44,20 +44,22 @@ where:
 
 - :math:`t` represents time
 
-- :math:`r \in [0, r_{surface}]` is the radial distance from origin to surface of the body
+- :math:`r \in [0, r_{surface}]` is the radial distance from origin to the surface of the body
 
 - :math:`\theta \in [0, \pi]` is the polar angle
 
 - :math:`\rho(r, \theta)` is the density
 
-- :math:`v(r, \theta, t)` is the velocity (for simplicity we drop the subscript, but it is intended to be the :math:`v_{\phi}` velocity component)
+- :math:`v(r, \theta, t)` is the velocity (for simplicity we drop the subscript,
+  but it is intended to be the :math:`v_{\phi}` velocity component)
 
-- :math:`\sigma_{r\phi}(r, \theta, t)` and :math:`\sigma_{\theta\phi}(r, \theta, t)` are the two components of the stress tensor remaining after the axisymmetric approximation
+- :math:`\sigma_{r\phi}(r, \theta, t)` and :math:`\sigma_{\theta\phi}(r, \theta, t)`
+  are the two components of the stress tensor remaining after the axisymmetric approximation
 
 - :math:`f(r, \theta,t)` is the forcing term
 
-- :math:`G(r, \theta) = v_s^2(r, \theta) \rho(r, \theta)` is the shear modulus and :math:`v_s` being the shear wave velocity.
-
+- :math:`G(r, \theta) = v_s^2(r, \theta) \rho(r, \theta)` is the shear modulus
+  and :math:`v_s` being the shear wave velocity.
 
 
 In practice, the axisymmetric approximation means that one solves the
@@ -66,8 +68,11 @@ Such a formulation is referred to as 2.5-dimensional because it involves
 a 2-dimensional spatial domain (a circular sector of the Earth)
 but models point sources with correct 3-dimensional spreading {cite}.
 
-Note that we assume both the density and shear modulus to only depend on the spatial coordinates.
+.. Note::
+   We assume both the density and shear modulus to only depend on the spatial coordinates.
 
+
+.. _discretization:
 
 Discretization
 ==============
@@ -97,7 +102,7 @@ We remark that, differently than (cite), we do not rely on ghost
 points to impose boundary conditions, but account for the boundary
 conditions directly when assembling the system matrix.
 
-As an example, the figure below shows the grid when modeling the Earth: the computational
+The figure below shows the grid when modeling the Earth: the computational
 domain extends from the surface to the core-mantle boundary, excluding the liquid core.
 
 .. figure:: ../img/mesh.png

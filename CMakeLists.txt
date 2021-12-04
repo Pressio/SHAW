@@ -26,21 +26,26 @@ include_directories(${YAML_CPP_INCLUDE_DIR})
 
 find_package(KokkosKernels REQUIRED)
 link_libraries(dl ${YAML_CPP_LIBRARIES} Kokkos::kokkoskernels)
-# Kokkos::BLAS Kokkos::LAPACK)
 
-set(exeName1 shawExe)
-add_executable(${exeName1}
+# executables
+add_executable(
+  shawExe
   ${CMAKE_CURRENT_SOURCE_DIR}/src/kokkos/main_fom.cc)
 
-set(exeName2 extractStateFromSnaps)
-add_executable(${exeName2}
+add_executable(
+  extractStateFromSnaps
   ${CMAKE_CURRENT_SOURCE_DIR}/src/tools/main_extract_state_from_snaps.cc)
 
+# tests
 enable_testing()
 add_subdirectory(tests)
 
 
 
+# ---------------------
+# REMOVE at some point
+# ---------------------
+# Kokkos::BLAS Kokkos::LAPACK)
 #include_directories(${EIGEN_INCLUDE_DIR} ${YAMLCPP_INCLUDE_DIR} ${KOKKOS_INCLUDE_DIR})
 #link_directories   (${BLAS_LIB_DIR} ${YAMLCPP_LIB_DIR})
 #link_libraries	   (dl ${OMPLINK} yaml-cpp Kokkos::kokkoskernels ${BLASLIBNAME} gfortran)

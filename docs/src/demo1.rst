@@ -58,14 +58,14 @@ After generating the grid, you should have a ``${MYRUNDIR}/mesh200x1000`` direct
 
 We use the following input file (:doc:`learn more about input file <inputfile>`):
 
-.. literalinclude :: ../../demos/fom_rank1/input.yaml
+.. literalinclude :: ../../demos/demo1/input.yaml
   :language: yaml
 
 which we have ready for you to copy as:
 
 .. code-block:: bash
 
-   cp ${SHAWDIR}/demos/fom_rank1/input.yaml ${MYRUNDIR}
+   cp ${SHAWDIR}/demos/demo1/input.yaml ${MYRUNDIR}
 
 |
 
@@ -104,7 +104,7 @@ We created Python scripts for this:
 
 .. code-block:: bash
 
-   cp ${SHAWDIR}/demos/fom_rank1/*.py ${MYRUNDIR}
+   cp ${SHAWDIR}/demos/demo1/*.py ${MYRUNDIR}
 
 
 First, the seismogram data:
@@ -140,4 +140,4 @@ Then, contour plots of the velocity field at ``t=250, 1000, 2000`` (seconds):
 .. image:: ../img/demo1_f3.png
    :width: 28%
 .. image:: ../img/demo1_f4.png
-   :width: 30%
+   :width: 28%
