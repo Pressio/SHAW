@@ -156,7 +156,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="goveq.html">Governing equations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="goveq.html#discretization">Discretization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="goveq.html#semi-discrete-system">Semi-discrete System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="goveq.html#time-integration">Time integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build_expert.html">Building: “expert” mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build_stepbystep.html">Building: step-by-step</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="inputfile.html">Input File</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -205,7 +206,8 @@
         <article role="main">
           <div class="section" id="performance">
 <h1>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h1>
-<p>The following plot shows performance results obtained on a workstation
+<p>The following plot shows performance results obtained for the
+<a class="reference internal" href="goveq.html#rank2fom"><span class="std std-ref">rank-2 formulation</span></a> on a workstation
 with two 18-core Intel(R) Xeon(R) Gold 6154 CPU @ 3.00 GHz,
 each with a 24.75MB L3 cache and 125GB total memory.
 We enable hyperthreading, thus supporting a maximum of 36 logical threads per CPU,
@@ -219,10 +221,11 @@ We use the OpenMP backend for Kokkos.</p>
 <div class="figure align-center" id="id1">
 <a class="reference internal image-reference" href="_images/fom_cpu_ave.png"><img alt="_images/fom_cpu_ave.png" src="_images/fom_cpu_ave.png" style="width: 95%;"/></a>
 <p class="caption"><span class="caption-text">M represents how many trajectories we are computing simultaneously:
-when M=1, this what we refer to as rank-1 formulation,
-while M&gt;=2 corresponds to what we refer to as rank-2 formulation;
+when M=1, this what we refer to as <a class="reference internal" href="goveq.html#rank1fom"><span class="std std-ref">rank-1 formulation</span></a>,
+while M&gt;=2 corresponds to what we refer to as <a class="reference internal" href="goveq.html#rank2fom"><span class="std std-ref">rank-2 formulation</span></a>;
 N is the <em>total</em> number of dofs (velocities plus stresses) for the problem.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
+<p>todo: put link to script to run performance test</p>
 </div>
 
         </article>
@@ -254,7 +257,7 @@ N is the <em>total</em> number of dofs (velocities plus stresses) for the proble
 
         <div class="related-information">
               Copyright &#169; 2021, National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS) |
-            Last updated on Dec 04, 2021. |
+            Last updated on Dec 06, 2021. |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s

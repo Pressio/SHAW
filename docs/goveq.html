@@ -156,7 +156,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Governing equations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#discretization">Discretization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#semi-discrete-system">Semi-discrete System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#time-integration">Time integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build_expert.html">Building: “expert” mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build_stepbystep.html">Building: step-by-step</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="inputfile.html">Input File</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -206,67 +207,74 @@
           <div class="section" id="governing-equations">
 <h1>Governing equations<a class="headerlink" href="#governing-equations" title="Permalink to this headline">¶</a></h1>
 <p>This code simulates the evolution of elastic seismic shear waves in an axisymmetric domain.</p>
-<p>Assuming the target body/planet (e.g. Earth) can be approximated as a sphere,
-we adopt a spherical coordinate system as shown in the figure below:</p>
-<a class="reference internal image-reference" href="_images/sc.svg"><img alt="Alternative text" class="align-center" src="_images/sc.svg" width="35%"/></a>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>In the axisymmetric approximation, one assumes that fields/quantities
-do not vary along <span class="math notranslate nohighlight">\(\phi\)</span>, implying that all the derivatives
-with respect to <span class="math notranslate nohighlight">\(\phi\)</span> can be dropped.</p>
-</div>
-<p>With this assumption, the set of equations governing the time evolution
-of elastic waves in the velocity-stress formulation can be written as:</p>
+<p>Approximating the target body/planet (e.g. Earth) as a sphere,
+we start from a spherical coordinate system as shown in the figure below:</p>
+<a class="reference internal image-reference" href="_images/sc.svg"><img alt="Alternative text" class="align-center" src="_images/sc.svg" width="38%"/></a>
+<div class="admonition-continuum-formulation admonition">
+<p class="admonition-title">Continuum Formulation</p>
+<p>The axisymmetric approximation implies that fields/quantities
+are invarint along <span class="math notranslate nohighlight">\(\phi\)</span>; therefore, all the derivatives
+with respect to <span class="math notranslate nohighlight">\(\phi\)</span> can be dropped. The governing equations in the velocity-stress
+formulation thus reduce to:</p>
 <div class="math-wrapper"><div class="math notranslate nohighlight">
-\[\rho \frac{\partial v}{\partial t} =
+\[\large{\rho \frac{\partial v}{\partial t} =
 \frac{\partial \sigma_{r\phi}}{\partial r}
 + \frac{\partial \sigma_{\theta\phi}}{r \partial \theta}
 + \frac{3}{r} \Big(\sigma_{r\phi}
-+ 2 \sigma_{\theta\phi} \cot{\theta} \Big) + f\]</div></div>
++ 2 \sigma_{\theta\phi} \cot{\theta} \Big) + f}\]</div></div>
 <div class="math-wrapper"><div class="math notranslate nohighlight">
-\[\frac{\partial \sigma_{r\phi}}{\partial t} =
-G \left( \frac{\partial v}{\partial r} - \frac{1}{r} v \right)\]</div></div>
+\[\large{\frac{\partial \sigma_{r\phi}}{\partial t} =
+G \left( \frac{\partial v}{\partial r} - \frac{1}{r} v \right)}\]</div></div>
 <div class="math-wrapper"><div class="math notranslate nohighlight">
-\[\frac{\partial \sigma_{\theta\phi}}{\partial t} =
+\[\large{\frac{\partial \sigma_{\theta\phi}}{\partial t} =
 G \left( \frac{1}{r} \frac{\partial v}{\partial \theta}
-- \frac{\cot{\theta}}{r} v \right)\]</div></div>
-<p>where:</p>
+- \frac{\cot{\theta}}{r} v \right)}\]</div></div>
+</div>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(t\)</span> represents time</p></li>
 <li><p><span class="math notranslate nohighlight">\(r \in [0, r_{surface}]\)</span> is the radial distance from origin to the surface of the body</p></li>
 <li><p><span class="math notranslate nohighlight">\(\theta \in [0, \pi]\)</span> is the polar angle</p></li>
-<li><p><span class="math notranslate nohighlight">\(\rho(r, \theta)\)</span> is the density</p></li>
+<li><p><span class="math notranslate nohighlight">\(\rho(r, \theta)\)</span> is the density (depends only on the spatial coordinates)</p></li>
 <li><p><span class="math notranslate nohighlight">\(v(r, \theta, t)\)</span> is the velocity (for simplicity we drop the subscript,
 but it is intended to be the <span class="math notranslate nohighlight">\(v_{\phi}\)</span> velocity component)</p></li>
 <li><p><span class="math notranslate nohighlight">\(\sigma_{r\phi}(r, \theta, t)\)</span> and <span class="math notranslate nohighlight">\(\sigma_{\theta\phi}(r, \theta, t)\)</span>
 are the two components of the stress tensor remaining after the axisymmetric approximation</p></li>
 <li><p><span class="math notranslate nohighlight">\(f(r, \theta,t)\)</span> is the forcing term</p></li>
 <li><p><span class="math notranslate nohighlight">\(G(r, \theta) = v_s^2(r, \theta) \rho(r, \theta)\)</span> is the shear modulus
-and <span class="math notranslate nohighlight">\(v_s\)</span> being the shear wave velocity.</p></li>
+and <span class="math notranslate nohighlight">\(v_s\)</span> being the shear wave velocity (both depend only on the spatial coordinates)</p></li>
 </ul>
 <p>In practice, the axisymmetric approximation means that one solves the
-above governing equations over a <em>circular sector/block arc</em>.
+above governing equations over a <em>circular sector</em>.
 Such a formulation is referred to as 2.5-dimensional because it involves
 a 2-dimensional spatial domain (a circular sector of the Earth)
-but models point sources with correct 3-dimensional spreading {cite}.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>We assume both the density and shear modulus to only depend on the spatial coordinates.</p>
+but models point sources with correct 3-dimensional spreading {todo: add citation}.</p>
 </div>
+<div class="section" id="semi-discrete-system">
+<span id="discretization"></span><h1>Semi-discrete System<a class="headerlink" href="#semi-discrete-system" title="Permalink to this headline">¶</a></h1>
+<p>We discretize the 2D spatial domain using a staggered grid, which are typical
+for seismic modeling and wave problems in general.
+The figure below shows a sample grid for the Earth (this is just for visualization purposes):
+the computational domain extends from the surface to
+the core-mantle boundary, excluding the liquid core.</p>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="_images/mesh.png"><img alt="_images/mesh.png" src="_images/mesh.png" style="width: 55%;"/></a>
+<p class="caption"><span class="caption-text">Schematic of the axi-symmetric domain for the Earth and staggered
+grid used for its discretization. Markers are color-coded to visualize
+which quantity it represents.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
-<div class="section" id="discretization">
-<span id="id1"></span><h1>Discretization<a class="headerlink" href="#discretization" title="Permalink to this headline">¶</a></h1>
-<p>Shear waves cannot propagate in liquids.
-Therefore, when modeling the Earth, the system of equations above is not
-applicable to the core region of the Earth, and is solved in the region
+<div class="line-block">
+<div class="line"><br/></div>
+</div>
+<p>In the figure above you notice that the core region is omitted.
+This is because shear effects are typically negligible in liquids
+and, therefore, when modeling the Earth, the computational domain is the region
 bounded between the core-mantle boundary (CMB) located at <span class="math notranslate nohighlight">\(r_{cmb} = 3,480\)</span> km
 and the Earth surface located at <span class="math notranslate nohighlight">\(r_{earth} = 6,371\)</span> km.
-When modeling a body that is not the Earth, one needs to use proper domain bounds.
+When modeling a different body, one needs to use proper domain bounds.
 Note, however, that the code <em>always</em> assumes the domain NOT to include the
 singularity at the origin, which yields substantial simplifications.</p>
-<p>The 2D spatial domain is discretized using a staggered grid.
-Staggered grids are typical for seismic modeling and wave problems in general.
-We use a second-order centered finite-difference method for the spatial operators.
+<p>We use a second-order centered finite-difference method for the spatial operators.
+This is enough for the purposes of this work.
 Directly at the symmetry axis, i.e., <span class="math notranslate nohighlight">\(\theta = 0, \pi\)</span>, the velocity
 is set to zero since it undefined here due to the cotangent term in its governing equation.
 This implies that at the symmetry axis the stress <span class="math notranslate nohighlight">\(\sigma_{r,\phi}\)</span> is also zero.
@@ -276,15 +284,78 @@ condition (i.e., waves fully reflect), by setting the zero-stress condition
 Note that this condition on the stress directly defines the velocity
 at the core-mantle boundary and earth surface and, therefore,
 no boundary condition on the velocity itself must be set there.
-We remark that, differently than (cite), we do not rely on ghost
-points to impose boundary conditions, but account for the boundary
-conditions directly when assembling the system matrix.</p>
-<p>The figure below shows the grid when modeling the Earth: the computational
-domain extends from the surface to the core-mantle boundary, excluding the liquid core.</p>
-<div class="figure align-center" id="id2">
-<a class="reference internal image-reference" href="_images/mesh.png"><img alt="_images/mesh.png" src="_images/mesh.png" style="width: 450px;"/></a>
-<p class="caption"><span class="caption-text">Schematic of the axi-symmetric domain for the Earth and staggered grid used for its discretization.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+Note that we do not rely on ghost points to impose boundary conditions,
+but account for the boundary conditions directly when assembling the system matrix.</p>
+<div class="admonition-semi-discrete-rank-1-formulation admonition" id="rank1fom">
+<p class="admonition-title">Semi-discrete Rank-1 formulation</p>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[\large{\frac{d {\boldsymbol x}_{v}}{dt}(t; {\boldsymbol \eta}, {\boldsymbol \mu})
+= \mathbf{A}_{v}({\boldsymbol \eta}) {\boldsymbol x}_{\sigma}(t; {\boldsymbol \eta}, {\boldsymbol \mu})
++ {\boldsymbol f}_{v}(t; {\boldsymbol \eta}, {\boldsymbol \mu})}\]</div></div>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[\large{\frac{d {\boldsymbol x}_{\sigma}}{dt}(t; {\boldsymbol \eta}, {\boldsymbol \mu})
+= \mathbf{A}_{\sigma}({\boldsymbol \eta})
+{\boldsymbol x}_{v}(t; {\boldsymbol \eta}, {\boldsymbol \mu})}\]</div></div>
 </div>
+<p>where <span class="math notranslate nohighlight">\({\boldsymbol x}_{v}\)</span> is the state vector for the velocity degrees of freedom,
+<span class="math notranslate nohighlight">\({\boldsymbol x}_{\sigma}\)</span> is the state vector with the stresses degrees of freedom,
+<span class="math notranslate nohighlight">\(\mathbf{A}_{v}({\boldsymbol \eta})\)</span> is the discrete system matrix for the velocity,
+<span class="math notranslate nohighlight">\(\mathbf{A}_{\sigma}({\boldsymbol \eta})\)</span> is the one for the stresses,
+and <span class="math notranslate nohighlight">\({\boldsymbol f}_{v}(t; {\boldsymbol \eta}, {\boldsymbol \mu})\)</span> is the forcing vector,
+and <span class="math notranslate nohighlight">\({\boldsymbol \eta}\)</span> are parameters parametrizing the system matrix and
+<span class="math notranslate nohighlight">\({\boldsymbol \mu}\)</span> are parameters parametrizing the forcing.
+In this work, the finite difference scheme adopted leads to
+system matrices <span class="math notranslate nohighlight">\(\mathbf{A}_{v}({\boldsymbol \eta})\)</span> and
+<span class="math notranslate nohighlight">\(\mathbf{A}_{\sigma}({\boldsymbol \eta})\)</span>
+with about four and two non-zeros entries per row, respectively.</p>
+<p>We refer to this as the <em>rank-1 formulation</em> because the states and forcing are vectors.
+This solves a <em>single</em> trajectory at a time.
+One can immediately notice that this formulation is characterized by a standard
+sparse-matrix vector (<code class="docutils literal notranslate"><span class="pre">spmv</span></code>) product, which is well-known to be memory
+bandwidth bound due to its low compute intensity regardless of its sparsity pattern.</p>
+<p>Can we develop a more computationally efficient formulation?
+We can do so as follows: met <span class="math notranslate nohighlight">\({\boldsymbol X}\)</span> represent a set
+of <span class="math notranslate nohighlight">\(M\)</span> trajectories such that</p>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[{\boldsymbol X}(t; {\boldsymbol \eta}, \mathcal{M})
+\equiv \large[ {\boldsymbol x}_1(t; {\boldsymbol \eta}, {\boldsymbol \mu}_1)
+\ ... \ {\boldsymbol x}_{M}(t; {\boldsymbol \eta}, {\boldsymbol \mu}_{M}) \large]\]</div></div>
+<p>for a given choice of <span class="math notranslate nohighlight">\({\boldsymbol \eta}\)</span> and where
+<span class="math notranslate nohighlight">\({\boldsymbol \mu}_1, ..., {\boldsymbol \mu}_{M}\)</span>
+is the set of parameters defining the <span class="math notranslate nohighlight">\(M\)</span> forcing
+realizations driving the trajectories of interest.
+We can then express the dynamics of these <span class="math notranslate nohighlight">\(M\)</span> trajectories as:</p>
+<div class="admonition-semi-discrete-rank-2-formulation admonition" id="rank2fom">
+<p class="admonition-title">Semi-discrete Rank-2 formulation</p>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[\large{\frac{d {\boldsymbol X}_{v}}{dt}(t; {\boldsymbol \eta}, \mathcal{M})
+= \mathbf{A}_{v}({\boldsymbol \eta}) {\boldsymbol X}_{\sigma}(t; {\boldsymbol \eta}, \mathcal{M})
++ {\boldsymbol F}_{v}(t; {\boldsymbol \eta}, \mathcal{M})}\]</div></div>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[\large{\frac{d {\boldsymbol X}_{\sigma}}{dt}(t; {\boldsymbol \eta}, \mathcal{M})
+= \mathbf{A}_{\sigma}({\boldsymbol \eta}) {\boldsymbol X}_{v}(t; {\boldsymbol \eta}, \mathcal{M})}\]</div></div>
+</div>
+<p>where <span class="math notranslate nohighlight">\({\boldsymbol X}_{v}\)</span> is the rank-2 state tensor for the velocity
+degrees of freedom, <span class="math notranslate nohighlight">\({\boldsymbol X}_{\sigma}\)</span> is the rank-2 state tensor
+for the stresses degrees of freedom,
+<span class="math notranslate nohighlight">\(\mathbf{A}_{v}({\boldsymbol \eta})\)</span> is the discrete system matrix for the velocity,
+<span class="math notranslate nohighlight">\(\mathbf{A}_{\sigma}({\boldsymbol \eta})\)</span> is the one for the stresses,
+and <span class="math notranslate nohighlight">\({\boldsymbol F}_{v}(t; {\boldsymbol \eta}, \mathcal{M})\)</span> is the rank-2
+forcing tensor.
+Obviously, the rank-1 formulation can be easily obtained by setting <span class="math notranslate nohighlight">\(M = 1\)</span>.</p>
+<p>The formulation above has the advantage that it allows us to
+simulate <span class="math notranslate nohighlight">\(M\)</span> trajectories <em>simultaneously</em>.
+This now requires a sparse-matrix matrix (<code class="docutils literal notranslate"><span class="pre">spmm</span></code>) kernel which has
+a slightly higher higher arithmetic intensity than just <code class="docutils literal notranslate"><span class="pre">spmv</span></code>,
+so it has an advantage from a computational standpoint.</p>
+</div>
+<div class="section" id="time-integration">
+<h1>Time integration<a class="headerlink" href="#time-integration" title="Permalink to this headline">¶</a></h1>
+<p>For time integration, we use a leapfrog integrator,
+where the velocity field is updated first, followed by the stress update.
+This is a commonly used scheme for classical mechanics because
+it is time-reversible and symplectic.
+The initial conditions consist of zero velocity and stresses.</p>
 </div>
 
         </article>
@@ -316,7 +387,7 @@ domain extends from the surface to the core-mantle boundary, excluding the liqui
 
         <div class="related-information">
               Copyright &#169; 2021, National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS) |
-            Last updated on Dec 04, 2021. |
+            Last updated on Dec 06, 2021. |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
@@ -342,7 +413,8 @@ domain extends from the surface to the core-mantle boundary, excluding the liqui
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Governing equations</a></li>
-<li><a class="reference internal" href="#discretization">Discretization</a></li>
+<li><a class="reference internal" href="#semi-discrete-system">Semi-discrete System</a></li>
+<li><a class="reference internal" href="#time-integration">Time integration</a></li>
 </ul>
 
           </div>

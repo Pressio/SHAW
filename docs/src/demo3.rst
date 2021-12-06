@@ -3,8 +3,8 @@ Demo 3
 
 .. admonition:: Description:
 
-   This demo simulates the wave dynamic for multiple
-   forcings using the rank-2 formulation and the PREM Earth's model.
+   Simulates the wave dynamic for *multiple*
+   forcings using the :ref:`rank-2 formulation <rank2fom>` and the PREM Earth's model.
    For the sake of demonstration, this demo solves *the same problem*
    described in :doc:`demo2`, except that here we use the *rank-2 formulation*,
    which allows us to simulate several trajectories simultaneously.

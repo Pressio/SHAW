@@ -44,11 +44,13 @@ contain a large number of parameters (e.g., anisotropic material properties,
 signal forms and parametrizations); and (b) simulating at global scale
 with high-accuracy requires a large computational cost.
 
+We hope our code can help advance this field and foster new research and related work.
+
 
 Highlights and features
 -----------------------
 
-*  The code relies on the `Kokkos programming model <https://github.com/kokkos>`_
+*  Implementation based on the `Kokkos programming model <https://github.com/kokkos>`_
    for performance portability
 
 *  :doc:`Velocity-stress formulation in an axi-symmetric domain <goveq>`
@@ -73,7 +75,7 @@ Highlights and features
 
    *  *rank-1*:
 
-      * discrete state and forcing are stored as 1D arrays
+      * :ref:`discrete state and forcing are stored as 1D arrays <rank1fom>`
 
       * this is useful to simulate the wave dynamics due to a *single forcing term*
 
@@ -81,7 +83,7 @@ Highlights and features
 
    *  *rank-2*:
 
-      * discrete state and forcing are stored using rank-2 tensors (i.e. matrices)
+      * :ref:`discrete state and forcing are stored using rank-2 tensors (i.e. matrices) <rank2fom>`
 
       * this is useful to *simultaneously* solve the wave
 	dynamics for *multiple forcing realizations* (e.g. multiple

@@ -3,7 +3,7 @@ Demo 1
 
 .. admonition:: Description:
 
-   This demo simulates the wave dynamic
+   Simulates the wave dynamic
    for a single forcing using the PREM Earth's model.
 
 
