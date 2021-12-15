@@ -132,8 +132,9 @@ public:
 
 	if (veloNode["binary"]) vpBinaryBasis_ = veloNode["binary"].as<bool>();
       }
-      else
+      else{
 	throw std::runtime_error("Cannot find rom inputs for velocity");
+      }
 
       // get inputs for stress
       const auto stressNode = romNode["stress"];
@@ -147,8 +148,9 @@ public:
 
 	if (stressNode["binary"]) spBinaryBasis_ = stressNode["binary"].as<bool>();
       }
-      else
+      else{
 	throw std::runtime_error("Cannot find rom inputs for stress");
+      }
 
       // if {vp,sp}BasisFileName are empty, it means we use dummy basis
       if (vpBasisFileName_ == "empty" or spBasisFileName_ == "empty"){

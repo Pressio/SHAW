@@ -51,8 +51,8 @@
 
 #include "state_observer.hpp"
 #include "seismogram.hpp"
-#include "rank_one_forcing.hpp"
-#include "rank_two_forcing.hpp"
+#include "forcing_rank_one.hpp"
+#include "forcing_rank_two.hpp"
 
 namespace kokkosapp{
 
@@ -65,7 +65,8 @@ struct commonTypes
   using p_io_t  = ParserIoSection<scalar_type>;
   using p_mm_t  = ParserMaterialModel<scalar_type>;
   using p_ss_t  = ParserForcingSection<scalar_type>;
-  using parser_type  = InputParser<p_gs_t, p_io_t, p_mm_t, p_ss_t>;
+  using p_rom_t = ParserRomSection<scalar_type>;
+  using parser_type = InputParser<p_gs_t, p_io_t, p_mm_t, p_ss_t, p_rom_t>;
 
   // mesh info class
   using mesh_info_type = MeshInfo<scalar_type>;
@@ -125,6 +126,39 @@ struct rank2Types : commonTypes
   using signal_type = Signal<scalar_type>;
   using signal_instances_h_type = Kokkos::View<signal_type*, Kokkos::HostSpace>;
   using forcing_type = RankTwoForcing<scalar_type, signal_instances_h_type>;
+};
+
+struct rank1TypesRom : commonTypes
+{
+  using typename commonTypes::scalar_type;
+  using typename commonTypes::parser_type;
+  using typename commonTypes::mesh_info_type;
+  using typename commonTypes::jacobian_ord_type;
+  using typename commonTypes::jacobian_d_type;
+  using typename commonTypes::observer_type;
+  using typename commonTypes::seismogram_type;
+  using typename commonTypes::device_mem_space;
+
+  // state is a rank-1 view
+  using state_d_type = Kokkos::View<scalar_type*, device_mem_space>;
+  using state_h_type = typename state_d_type::host_mirror_type;
+
+  using kll = Kokkos::LayoutLeft;
+  using klr = Kokkos::LayoutRight;
+
+  // basis is a rank-2 view and layout matters for binary IO
+  // but not for performance, the basis are only need to compute reduced jacobians
+  // leave it to kll which is kokkos::layoutLeft
+  using basis_d_type = Kokkos::View<scalar_type**, kll, device_mem_space>;
+  using basis_h_type = typename basis_d_type::host_mirror_type;
+
+  // here the rom_jac is a rank-2 view and layout matters for performance
+  // should pick ll/lr to optimize gemv for every time step
+  using rom_jac_d_type = Kokkos::View<scalar_type**, klr, device_mem_space>;
+  using rom_jac_h_type = typename rom_jac_d_type::host_mirror_type;
+
+  // forcing
+  using forcing_type = RankOneForcing<scalar_type, state_d_type>;
 };
 
 }// end namespace
