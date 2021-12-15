@@ -239,7 +239,7 @@ Defining such a model in the :doc:`input file <../inputfile>` can be done as fol
 .. code-block:: yaml
 
   material:
-    kind: unilayer
+    kind: bilayer
     layer1:
       density:  [a0, a1, a2]   # density  must have units of kg/m^3
       velocity: [b0, b1, b2]   # velocity must have units of m/s

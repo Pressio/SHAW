@@ -42,10 +42,10 @@ add_executable(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/tools/main_reconstruct_fom_state.cc)
 target_link_libraries(reconstructFomState dl ${YAML_CPP_LIBRARIES} Kokkos::kokkoskernels)
 
-add_executable(
-  reconstructSeismogram
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/tools/main_reconstruct_seismo.cc)
-target_link_libraries(reconstructSeismogram dl ${YAML_CPP_LIBRARIES} Kokkos::kokkoskernels)
+# add_executable(
+#   reconstructSeismogram
+#   ${CMAKE_CURRENT_SOURCE_DIR}/src/tools/main_reconstruct_seismo.cc)
+# target_link_libraries(reconstructSeismogram dl ${YAML_CPP_LIBRARIES} Kokkos::kokkoskernels)
 
 add_executable(computeThinSVD ${CMAKE_CURRENT_SOURCE_DIR}/src/tools/main_eigen_svd.cc)
 target_compile_options(computeThinSVD PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-march=native>)
