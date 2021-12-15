@@ -56,33 +56,45 @@
 
 template<class dmat_t>
 typename std::enable_if< is_col_major_matrix_kokkos<dmat_t>::value >::type
-readBinaryMatrixWithSize(const std::string filename, dmat_t & M)
+fillMatrixFromBinary(const std::string filename,
+		     dmat_t & M,
+		     bool fileContainsExtents)
 {
-  using int_t = std::size_t;
   using sc_t  = typename dmat_t::value_type;
   std::ifstream fin(filename, std::ios::in | std::ios::binary);
   fin.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 
-  int_t rows={};
-  int_t cols={};
-  fin.read((char*) (&rows),sizeof(int_t));
-  fin.read((char*) (&cols),sizeof(int_t));
-  const auto nBytes = rows*cols*sizeof(sc_t);
-  Kokkos::resize(M, rows, cols);
-  fin.read( (char *) M.data(), nBytes );
+  if (fileContainsExtents){
+    using int_t = std::size_t;
+    int_t rows={};
+    int_t cols={};
+    fin.read((char*) (&rows),sizeof(int_t));
+    fin.read((char*) (&cols),sizeof(int_t));
+    std::cout << " GIGI " << rows << " " << cols << std::endl;
+    const auto nBytes = rows*cols*sizeof(sc_t);
+    if (M.extent(0) != rows || M.extent(1) != cols){
+      Kokkos::resize(M, rows, cols);
+    }
+    fin.read( (char *) M.data(), nBytes );
+
+  }else{
+    const auto nBytes = M.extent(0)*M.extent(1)*sizeof(sc_t);
+    fin.read( (char *) M.data(), nBytes );
+  }
   if (!fin){
     std::cout << std::strerror(errno) << std::endl;
     throw std::runtime_error("ERROR READING binary file");
   }
-  else
+  else{
     std::cout << fin.gcount() << " bytes read\n";
+  }
 
   fin.close();
 }
 
 template<class dmat_t>
 typename std::enable_if<is_kokkos_3dview<dmat_t>::value>::type
-readBinaryMatrixWithSize(const std::string filename, dmat_t & M)
+fillMatrixFromBinary(const std::string filename, dmat_t & M)
 {
   using int_t = std::size_t;
   using sc_t  = typename dmat_t::value_type;
@@ -103,21 +115,26 @@ readBinaryMatrixWithSize(const std::string filename, dmat_t & M)
     std::cout << std::strerror(errno) << std::endl;
     throw std::runtime_error("ERROR READING binary file");
   }
-  else
+  else{
     std::cout << fin.gcount() << " bytes read\n";
+  }
 
   fin.close();
 }
 
 template <typename dmat_t>
 typename std::enable_if< is_kokkos_2dview<dmat_t>::value >::type
-readAsciiMatrixWithSize(const std::string fileName, dmat_t M)
+fillMatrixFromAscii(const std::string fileName,
+		    dmat_t M,
+		    bool fileContainsExtents)
 {
   static_assert( is_accessible_on_host<dmat_t>::value,
-		 "readAsciiMatrixWithSize: the kokkos view must have HostSpace to read");
+		 "fillMatrixFromAscii: the kokkos view must have HostSpace to read");
 
   std::ifstream source; source.open(fileName, std::ios_base::in);
   std::string line, colv;
+
+  if (fileContainsExtents)
   {
     std::getline(source, line);
     std::istringstream in(line);

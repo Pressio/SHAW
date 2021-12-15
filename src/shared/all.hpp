@@ -65,10 +65,7 @@
 #include "./complexity.hpp"
 #include "./various/print_perf.hpp"
 
-#ifdef SHW_HAVE_TPL_EIGEN
-#include "./meta/meta_eigen.hpp"
-#endif
-#include "./meta/meta_kokkos.hpp"
+#include "./meta_kokkos.hpp"
 #include "./various/equality.hpp"
 #include "./various/angular_helpers.hpp"
 
@@ -76,12 +73,12 @@
 #include "./parser/parser_io_section.hpp"
 #include "./parser/parser_material_model.hpp"
 #include "./parser/parser_forcing_section.hpp"
+#include "./parser/parser_rom_section.hpp"
 #include "./parser/input_parser.hpp"
 
 #include "./io/matrix_write.hpp"
 #include "./io/matrix_read.hpp"
 #include "./io/read_basis.hpp"
-#include "./io/read_reference_state.hpp"
 #include "./io/vector_write.hpp"
 #include "./io/vector_read.hpp"
 

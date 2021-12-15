@@ -65,8 +65,9 @@ void write_vector_to_binary(const std::string filename,
 			    bool printSize = true)
 {
   std::ofstream out(filename, std::ios::out | std::ios::binary | std::ios::trunc);
-  if (printSize)
+  if (printSize){
     out.write((char*) (&n), sizeof(size_t));
+  }
 
   out.write((char*) A, n*sizeof(sc_t) );
   out.close();
@@ -79,8 +80,9 @@ void write_vector_to_ascii(const std::string fileName,
 			   bool printSize = true)
 {
   std::ofstream file; file.open(fileName);
-  if (printSize)
+  if (printSize){
     file << n << std::endl;
+  }
 
   for (size_t i=0; i<n; i++){
     file << std::setprecision(dblFmt) << A(i) << " \n";
@@ -100,10 +102,12 @@ writeToFile(const std::string fileName,
   static_assert(is_accessible_on_host<T>::value,
 		"cannot call writeToFile for view not accessible on host");
 
-  if (useBinary == 1)
+  if (useBinary == 1){
     impl::write_vector_to_binary(fileName, v.data(), v.extent(0), printSize);
-  else
+  }
+  else{
     impl::write_vector_to_ascii(fileName, v, v.extent(0), printSize);
+  }
 }
 
 #endif

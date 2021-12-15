@@ -2,7 +2,7 @@
 #include "CLI11.hpp"
 #include "Kokkos_Core.hpp"
 #include "../shared/constants.hpp"
-#include "../shared/meta/meta_kokkos.hpp"
+#include "../shared/meta_kokkos.hpp"
 #include "../shared/io/matrix_write.hpp"
 #include "../shared/io/matrix_read.hpp"
 #include "../shared/io/vector_write.hpp"
@@ -83,10 +83,10 @@ int main(int argc, char *argv[])
       using snap_t = Kokkos::View<sc_t**, kll, Kokkos::HostSpace>;
       snap_t snaps("snaps", 1, 1);
       if (snapBinary){
-	readBinaryMatrixWithSize(snapFile, snaps);
+	fillMatrixFromBinary(snapFile, snaps, true /* = read extents from file */);
       }
       else{
-	readAsciiMatrixWithSize(snapFile, snaps);
+	fillMatrixFromAscii(snapFile, snaps, true /* = read extents from file */);
       }
 
       std::cout << "snap size: "
@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
       using snap_t = Kokkos::View<sc_t***, kll, Kokkos::HostSpace>;
       snap_t snaps("snaps", 1, 1, 1);
       if (snapBinary){
-	readBinaryMatrixWithSize(snapFile, snaps);
+	fillMatrixFromBinary(snapFile, snaps);
       }
       else{
 	throw std::runtime_error("Rank-2  snaps ascii not supported yet");

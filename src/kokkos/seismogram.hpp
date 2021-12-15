@@ -138,7 +138,8 @@ public:
       numReceivers_ = nominalAngles.size();
 
       // loop over nominal locations and map them to grid
-      // this is because nominal values are typicall round angles like 30, 60,
+      // because nominal locations are typically angles
+      // given as "whole" numbers 30, 60,
       // but the grid does not have any point exactly at those locations
       // so we need to map the nominal angles to grid points that are closest
       // to the desired values
@@ -174,8 +175,7 @@ public:
     }
   }
 
-  bool enabled() const
-  {
+  bool enabled() const{
     return enable_;
   }
 
@@ -215,15 +215,18 @@ public:
 
   void writeReceiversToFile() const
   {
+    // for seismogram we do NOT want extents written to file
+    constexpr bool writeExtentsToFile = false;
+
     if (enable_){
       std::cout << "Writing seismogram ";
       auto fN2 = seismoFileName_ + "_" + std::to_string(runID_);
       if (MM_.extent(2) == 1){
 	const auto Mv = Kokkos::subview(MM_, Kokkos::ALL(), Kokkos::ALL(), 0);
-	writeToFile(fN2, Mv, useBinaryIO_, false); //false to not print size
+	writeToFile(fN2, Mv, useBinaryIO_, writeExtentsToFile);
       }
       else{
-	writeToFile(fN2, MM_, useBinaryIO_, false); //false to not print size
+	writeToFile(fN2, MM_, useBinaryIO_, writeExtentsToFile);
       }
       std::cout << "... Done" << std::endl;
     }

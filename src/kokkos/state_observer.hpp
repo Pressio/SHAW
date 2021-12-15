@@ -153,13 +153,11 @@ public:
     }
   }
 
-  bool enabled() const
-  {
+  bool enabled() const{
     return enableSnapMat_;
   }
 
-  void prepForNewRun(const std::size_t & runIdIn)
-  {
+  void prepForNewRun(const std::size_t & runIdIn){
     // assumes the new run has same sampling frequncies as before
     count_ = {0,0};
     runID_ = runIdIn;
@@ -206,6 +204,9 @@ public:
 
   void writeSnapshotMatrixToFile(const dofId & dof) const
   {
+    // for snapshots, we want extents written to file
+    constexpr bool writeExtentsToFile = true;
+
     if (enableSnapMat_)
     {
       std::cout << "Writing snapshots " + dofIdToString(dof);
@@ -220,10 +221,10 @@ public:
       {
 	// if the forcing has rank-1 the third dim of A is 1
 	const auto Av = Kokkos::subview(A, Kokkos::ALL(), Kokkos::ALL(), 0);
-	writeToFile(fN2, Av, useBinaryIO_);
+	writeToFile(fN2, Av, useBinaryIO_, writeExtentsToFile);
       }
       else{
-	writeToFile(fN2, A, useBinaryIO_);
+	writeToFile(fN2, A, useBinaryIO_, writeExtentsToFile);
       }
       std::cout << "... Done" << std::endl;
     }

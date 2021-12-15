@@ -51,59 +51,63 @@
 
 #include "matrix_read.hpp"
 
-#ifdef SHW_HAVE_TPL_EIGEN
-template <typename sc_t, typename int_t, typename dmat_t>
-typename std::enable_if< is_dynamic_matrix_eigen<dmat_t>::value, dmat_t >::type
-readBasis(const std::string fileName,
-	  const int_t targetRomSize,
-	  const int_t useBinary)
+template <typename dmat_t>
+void readBasis(const std::string fileName,
+	       dmat_t & phi,
+	       const int useBinary)
 {
+  static_assert(is_col_major_matrix_kokkos<dmat_t>::value,
+		"readBasis: view must be col major");
+  static_assert( has_host_space<dmat_t>::value,
+		 "readBasis: you need to read on host memory first");
+
+  const bool fileContainsExtents = true;
+
   /* here I might want only targetRomSize of basis vectors,
    * so to do this I have to:
    * 1. read the full basis vectors
    * 2. only extract the target columns I want
   */
-
-  dmat_t M;
-  if (useBinary == 1){
-    readBinaryMatrixWithSize(fileName, M);
-  }
-  else{
-    readAsciiMatrixWithSize(fileName, M);
-  }
-
-  // use the native functionalities to extract the target set of columns but
-  // we cannot just use the native functionalities since Eigen uses expressions
-  // to represnet things. So we need to construct a new object and return it.
-  return dmat_t( M.leftCols(targetRomSize) );
-}
-#endif
-
-template <typename sc_t, typename int_t, typename dmat_t>
-typename std::enable_if< is_col_major_matrix_kokkos<dmat_t>::value, dmat_t >::type
-readBasis(const std::string fileName,
-	  const int_t targetRomSize,
-	  const int_t useBinary)
-{
-  static_assert( has_host_space<dmat_t>::value,
-		 "readBasis: you need to read on host memory first");
-
-  // /* here I might want only targetRomSize of basis vectors,
-  //  * so to do this I have to:
-  //  * 1. read the full basis vectors
-  //  * 2. only extract the target columns I want
-  // */
   dmat_t M("M",1,1);
   if (useBinary == 1){
-    readBinaryMatrixWithSize(fileName, M);
+    fillMatrixFromBinary(fileName, M, fileContainsExtents);
   }
   else{
-    readAsciiMatrixWithSize(fileName, M);
+    fillMatrixFromAscii(fileName, M, fileContainsExtents);
   }
+  std::cout << " TONI " << M.extent(0) << " " << M.extent(1) << std::endl;
 
-  // only return target subset of columns
-  std::pair<std::size_t, std::size_t> indPair(0, targetRomSize);
-  return Kokkos::subview(M, Kokkos::ALL, indPair);
+  if (phi.extent(0) != M.extent(0)){
+    std::cout << " PHI resize " << std::endl;
+    Kokkos::resize(phi, M.extent(0), phi.extent(1));
+  }
+  std::cout << " PHI " << phi.extent(0) << " " << phi.extent(1) << std::endl;
+
+  Kokkos::parallel_for(phi.extent(0),
+		       KOKKOS_LAMBDA(const std::size_t i){
+			 for (std::size_t j=0; j<phi.extent(1); ++j){
+			   phi(i,j) = M(i,j);
+			 }
+		       });
+
+  // // only return target subset of columns
+  // std::pair<std::size_t, std::size_t> indPair(0, targetRomSize);
+  // return Kokkos::subview(M, Kokkos::ALL, indPair);
+}
+
+template<class dmat_t>
+typename std::enable_if< is_col_major_matrix_kokkos<dmat_t>::value >::type
+readBasis(const std::string filename,
+	  dmat_t & M,
+	  const int useBinary,
+	  bool fileContainsExtents)
+{
+  if (useBinary == 1){
+    fillMatrixFromBinary(filename, M, fileContainsExtents);
+  }
+  else{
+    fillMatrixFromAscii(filename, M, fileContainsExtents);
+  }
 }
 
 #endif
