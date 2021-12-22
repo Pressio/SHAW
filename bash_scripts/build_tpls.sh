@@ -143,6 +143,7 @@ function doYamlCpp()
 	cmake -DCMAKE_INSTALL_PREFIX=${YAMLCPPPFX} \
      	      -DYAML_CPP_BUILD_TESTS=OFF \
 	      -DCMAKE_CXX_COMPILER=${CXX} \
+	      -DYAML_BUILD_SHARED_LIBS=OFF \
 	      ../${UNPACKNAME}
 	make -j4 install
     fi

@@ -20,11 +20,16 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 #==================================
 
-find_package(yaml-cpp REQUIRED)
-message(STATUS ${YAML_CPP_INCLUDE_DIR})
-include_directories(${YAML_CPP_INCLUDE_DIR})
+find_package(yaml-cpp REQUIRED HINTS ${YAMLCPP_DIR})
+include_directories(${YAMLCPP_DIR}/include)
 
-find_package(KokkosKernels REQUIRED)
+if(EXISTS "${YAMLCPP_DIR}/lib64/libyaml-cpp.a")
+  set(YAML_CPP_LIBRARIES ${YAMLCPP_DIR}/lib64/libyaml-cpp.a)
+endif()
+if(EXISTS "${YAMLCPP_DIR}/lib/libyaml-cpp.a")
+  set(YAML_CPP_LIBRARIES ${YAMLCPP_DIR}/lib/libyaml-cpp.a)
+
+find_package(KokkosKernels REQUIRED HINTS ${KOKKOSKERNELS_DIR})
 
 # executables
 add_executable(
@@ -56,18 +61,3 @@ target_link_libraries(computeThinSVD OpenMP::OpenMP_CXX)
 # tests
 enable_testing()
 add_subdirectory(tests)
-
-
-# REMOVE BELOW
-#link_directories   (${BLAS_LIB_DIR} ${YAMLCPP_LIB_DIR})
-#link_libraries	   (dl ${OMPLINK} yaml-cpp Kokkos::kokkoskernels ${BLASLIBNAME} gfortran)
-#link_directories   (${YAMLCPP_LIB_DIR})
-#link_libraries	   (dl yaml-cpp Kokkos::kokkoskernels) # Kokkos::BLAS Kokkos::LAPACK)
-# set(exeName compareSnaps)
-# add_executable(${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/src/tools/main_cmp_snaps.cc)
-# target_include_directories(${exeName} PRIVATE ${EIGEN_INCLUDE_DIR})
-# target_compile_definitions(${exeName} PRIVATE SHW_ENABLE_TPL_EIGEN)
-# target_compile_options	(${exeName} PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-march=native>)
-# set(exeName computeThinSVD)
-# add_executable		(${exeName} ${CMAKE_CURRENT_SOURCE_DIR}/src/tools/main_eigen_svd.cc)
-# target_compile_options	(${exeName} PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-march=native>)
