@@ -222,8 +222,8 @@
 <h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cmake <span class="se">\</span>
 -DCMAKE_CXX_COMPILER<span class="o">=</span>&lt;fullpath-to-your-C++-compiler&gt; <span class="se">\</span>
--DKokkosKernels_DIR<span class="o">=</span>&lt;fullpath-to-your-kernels-install-path&gt;/lib/cmake/KokkosKernels/ <span class="se">\</span>
--Dyaml-cpp_DIR<span class="o">=</span>&lt;fullpath-to-your-yamlcpp-install-path&gt;/share/cmake/ <span class="se">\</span>
+-DKOKKOSKERNELS_DIR<span class="o">=</span>&lt;fullpath-to-your-kernels-install-path&gt; <span class="se">\</span>
+-DYAMLCPP_DIR<span class="o">=</span>&lt;fullpath-to-your-yamlcpp-install-path&gt; <span class="se">\</span>
 -B &lt;fullpath-to-where-you-want-to-build-the-code&gt; <span class="se">\</span>
 -S &lt;fullpath-to-your-shaw-repository&gt;
 
@@ -266,7 +266,7 @@ ctest
 
         <div class="related-information">
               Copyright &#169; 2021, National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS) |
-            Last updated on Dec 06, 2021. |
+            Last updated on Dec 22, 2021. |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s

@@ -25,8 +25,8 @@ Build
 
    cmake \
    -DCMAKE_CXX_COMPILER=<fullpath-to-your-C++-compiler> \
-   -DKokkosKernels_DIR=<fullpath-to-your-kernels-install-path>/lib/cmake/KokkosKernels/ \
-   -Dyaml-cpp_DIR=<fullpath-to-your-yamlcpp-install-path>/share/cmake/ \
+   -DKOKKOSKERNELS_DIR=<fullpath-to-your-kernels-install-path> \
+   -DYAMLCPP_DIR=<fullpath-to-your-yamlcpp-install-path> \
    -B <fullpath-to-where-you-want-to-build-the-code> \
    -S <fullpath-to-your-shaw-repository>
 
@@ -34,14 +34,4 @@ Build
    make -j4
 
    # running the tests is advised
-   ctest
-
-
-..
-   export WORKDIR=<path-to-where-you-want-to-work-in>  #e.g. ${HOME}/myWaveTest
-   mkdir -p ${WORKDIR}
-
-   cd ${SHAWDIR}/bash_scripts
-   ./do_build.sh --working-dir=${WORKDIR} --kokkos-pfx=${KOKKOSPFX} --kokkos-ker-pfx=${KOKKOSKERPFX}
-   cd ${WORKDIR}/build
    ctest

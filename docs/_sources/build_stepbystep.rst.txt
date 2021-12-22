@@ -92,8 +92,8 @@ Step 3: Build SHAW
    # cmake will automatically pick the up the env var CXX tha we
    # already set above in step 1
    cmake \
-     -DKokkosKernels_DIR=${WORKDIR}/tpls/kokkos-kernels-install/lib/cmake/KokkosKernels/ \
-     -Dyaml-cpp_DIR=${WORKDIR}/tpls/yamlcpp-install/share/cmake/ \
+     -DKOKKOSKERNELS_DIR=${WORKDIR}/tpls/kokkos-kernels-install \
+     -DYAMLCPP_DIR=${WORKDIR}/tpls/yamlcpp-install \
      -B ${WORKDIR}/shaw-build \
      -S ${SHAWDIR}
 

@@ -284,8 +284,8 @@ the following structure inside your <code class="docutils literal notranslate"><
 <span class="c1"># cmake will automatically pick the up the env var CXX tha we</span>
 <span class="c1"># already set above in step 1</span>
 cmake <span class="se">\</span>
-  -DKokkosKernels_DIR<span class="o">=</span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/tpls/kokkos-kernels-install/lib/cmake/KokkosKernels/ <span class="se">\</span>
-  -Dyaml-cpp_DIR<span class="o">=</span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/tpls/yamlcpp-install/share/cmake/ <span class="se">\</span>
+  -DKOKKOSKERNELS_DIR<span class="o">=</span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/tpls/kokkos-kernels-install <span class="se">\</span>
+  -DYAMLCPP_DIR<span class="o">=</span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/tpls/yamlcpp-install <span class="se">\</span>
   -B <span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/shaw-build <span class="se">\</span>
   -S <span class="si">${</span><span class="nv">SHAWDIR</span><span class="si">}</span>
 
@@ -326,7 +326,7 @@ ctest
 
         <div class="related-information">
               Copyright &#169; 2021, National Technology &amp; Engineering Solutions of Sandia, LLC (NTESS) |
-            Last updated on Dec 06, 2021. |
+            Last updated on Dec 22, 2021. |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
