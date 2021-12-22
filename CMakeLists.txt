@@ -28,6 +28,7 @@ if(EXISTS "${YAMLCPP_DIR}/lib64/libyaml-cpp.a")
 endif()
 if(EXISTS "${YAMLCPP_DIR}/lib/libyaml-cpp.a")
   set(YAML_CPP_LIBRARIES ${YAMLCPP_DIR}/lib/libyaml-cpp.a)
+endif()
 
 find_package(KokkosKernels REQUIRED HINTS ${KOKKOSKERNELS_DIR})
 
