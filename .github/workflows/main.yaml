@@ -100,9 +100,9 @@ jobs:
           cmake \
           -DCMAKE_VERBOSE_MAKEFILE:STRING=On \
           -DCMAKE_BUILD_TYPE:STRING=Debug \
-          -DKokkosKernels_DIR=$WORKDIR/tpls/kokkos-kernels-install/lib/cmake/KokkosKernels \
+          -DKOKKOSKERNELS_DIR=$WORKDIR/tpls/kokkos-kernels-install \
+          -DYAMLCPP_DIR=$WORKDIR/tpls/yamlcpp-install \
           -B $SHAWBUILDDEB_DIR -S $SHAWDIR
-          #-Dyaml-cpp_DIR=$WORKDIR/tpls/yamlcpp-install/share/cmake \
 
       - name: Build/run C++ tests (debug)
         run: |
@@ -117,9 +117,9 @@ jobs:
           cmake \
           -DCMAKE_VERBOSE_MAKEFILE:STRING=On \
           -DCMAKE_BUILD_TYPE:STRING=Release \
-          -DKokkosKernels_DIR=$WORKDIR/tpls/kokkos-kernels-install/lib/cmake/KokkosKernels \
+          -DKOKKOSKERNELS_DIR=$WORKDIR/tpls/kokkos-kernels-install \
+          -DYAMLCPP_DIR=$WORKDIR/tpls/yamlcpp-install \
           -B $SHAWBUILDREL_DIR -S $SHAWDIR
-          #-Dyaml-cpp_DIR=$WORKDIR/tpls/yamlcpp-install/share/cmake \
 
       - name: Build/run C++ tests (release)
         run: |
