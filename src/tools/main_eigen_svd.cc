@@ -6,6 +6,27 @@
 namespace
 {
 
+template <typename mat_t>
+void write_matrix_to_ascii(const std::string fileName,
+			   const mat_t & A,
+			   std::size_t m,
+			   std::size_t n,
+			   bool writeSize = true)
+{
+  std::ofstream file; file.open(fileName);
+  if (writeSize){
+    file << m << " " << n << std::endl;
+  }
+
+  for (std::size_t i=0; i<m; i++){
+    for (std::size_t j=0; j<n; j++){
+      file << std::setprecision(15) << A(i,j) << " ";
+    }
+    file << std::endl;
+  }
+  file.close();
+}
+
 template<typename sc_t>
 void write_contig_matrix_to_binary(const std::string filename,
 				   const sc_t * A,
@@ -38,6 +59,57 @@ void writeToFile(const std::string fileName,
 				A.rows(), A.cols(), writeSize);
 }
 
+template<class dmat_t>
+void readBinaryMatrixWithSize(const std::string filename, dmat_t & M)
+{
+  using int_t = typename dmat_t::Index;
+  using sc_t  = typename dmat_t::Scalar;
+  std::ifstream fin(filename, std::ios::in | std::ios::binary);
+  fin.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+
+  std::size_t rows={};
+  std::size_t cols={};
+  fin.read((char*) (&rows),sizeof(std::size_t));
+  fin.read((char*) (&cols),sizeof(std::size_t));
+  const auto nBytes = rows*cols*sizeof(sc_t);
+  M.resize(rows, cols);
+
+  fin.read( (char *) M.data(), nBytes );
+
+  if (!fin){
+    std::cout << std::strerror(errno) << std::endl;
+    throw std::runtime_error("ERROR READING binary file");
+  }
+  else
+    std::cout << fin.gcount() << " bytes read\n";
+
+  fin.close();
+}
+
+snap_t loadTargetSnapshotMatrix(const std::string file,
+			      std::size_t & numRows,
+			      std::size_t & numCols,
+			      const std::string & inputFormat)
+{
+  snap_t M;
+
+  if (inputFormat == "binary"){
+    std::cout << "Using Binary " << std::endl;
+    readBinaryMatrixWithSize(file, M);
+  }
+  // else{
+  //   std::cout << "Using ascii " << std::endl;
+  //   fillMatrixFromAscii(file, M);
+  // }
+
+  numRows = M.rows();
+  numCols = M.cols();
+  std::cout << "Current snapshots size: "
+	    << numRows << " "
+	    << numCols << std::endl;
+  return M;
+}
+
 template <typename T>
 void doThinSVDm0(T & A,
 		 const std::string lsvFileName,
@@ -47,7 +119,7 @@ void doThinSVDm0(T & A,
 		 const std::string outputFormat)
 {
 
-  std::cout << "Computing SVD method 0" << std::endl;
+  std::cout << "Computing SVD method 1" << std::endl;
 
   std::cout << "MinMax(A) "
 	    << A.minCoeff() << " "
@@ -88,79 +160,47 @@ void doThinSVDm1(T & A,
 		 const std::string outputFormat)
 {
 
-  std::cout << "Computing SVD method 0" << std::endl;
+  std::cout << "Computing SVD method 2" << std::endl;
 
   std::cout << "MinMax(A) "
 	    << A.minCoeff() << " "
 	    << A.maxCoeff() << std::endl;
 
-  Eigen::HouseholderQR<T> qr(A);
-  // auto Q = qr.householderQ() * Q_type::Identity(rows,cols);
-  // auto R = qr.matrixQR().block(0,0,A.cols(),A.cols());
+  Eigen::HouseholderQR<snap_t> qr(A);
 
-  // Eigen::BDCSVD<decltype(R)> svd(R, Eigen::ComputeFullU & Eigen::ComputeFullV);
-  // const auto & singVal = svd.singularValues();
-  // const auto & U       = svd.matrixU();
-  // const auto & V       = svd.matrixV();
+  using R_type = Eigen::Matrix<sc_t, -1,-1>;
+  R_type R = qr.matrixQR().block(0,0,A.cols(),A.cols()).template triangularView<Eigen::Upper>();
 
-  // ...
+  Eigen::BDCSVD<R_type> svd(R, Eigen::ComputeFullU);
+  const auto singVal = svd.singularValues();
+  const auto U0      = svd.matrixU();
+
+  snap_t thinQ = snap_t::Identity(A.rows(),A.cols());
+  thinQ = qr.householderQ() * thinQ;
+  snap_t U = thinQ * U0;
+
+  {
+    std::cout << "Printing sing values" << std::endl;
+    std::ofstream file; file.open(singValuesFileName);
+    file << std::setprecision(dblFmt) << singVal << '\n';
+    file.close();
+  }
+
+  std::cout << std::endl;
+  std::cout << "Printing left-sing vectors to file" << std::endl;
+  {
+    writeToFile(lsvFileName, U, outputFormat);
+  }
 
   std::cout << "Done with SVD" << std::endl;
   std::cout << "----------------" << std::endl;
 }
 
-template<class dmat_t>
-void readBinaryMatrixWithSize(const std::string filename, dmat_t & M)
-{
-  using int_t = typename dmat_t::Index;
-  using sc_t  = typename dmat_t::Scalar;
-  std::ifstream fin(filename, std::ios::in | std::ios::binary);
-  fin.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-
-  std::size_t rows={};
-  std::size_t cols={};
-  fin.read((char*) (&rows),sizeof(std::size_t));
-  fin.read((char*) (&cols),sizeof(std::size_t));
-  const auto nBytes = rows*cols*sizeof(sc_t);
-  M.resize(rows, cols);
-
-  fin.read( (char *) M.data(), nBytes );
-
-  if (!fin){
-    std::cout << std::strerror(errno) << std::endl;
-    throw std::runtime_error("ERROR READING binary file");
-  }
-  else
-    std::cout << fin.gcount() << " bytes read\n";
-
-  fin.close();
-}
-
-void loadTargetSnapshotMatrix(const std::string file,
-			      std::size_t & numRows,
-			      std::size_t & numCols,
-			      snap_t & M,
-			      const std::string & inputFormat)
-{
-
-  // load snapshot matrix
-  if (inputFormat == "binary"){
-    std::cout << "Using Binary " << std::endl;
-    readBinaryMatrixWithSize(file, M);
-  }
-  // else{
-  //   std::cout << "Using ascii " << std::endl;
-  //   fillMatrixFromAscii(file, M);
-  // }
-  numRows = M.rows();
-  numCols = M.cols();
-  std::cout << "Current snapshots size: " << numRows << " " << numCols << std::endl;
-}
-
 void processDirs(std::string dofName,
 		 const std::vector<std::string> & dirs,
 		 const std::string & outputFormat,
-		 const std::string & inputFormat)
+		 const std::string & inputFormat,
+		 const int method)
 {
   // the matrix containing all snapshots for this dof
   snap_t allSnaps;
@@ -176,10 +216,8 @@ void processDirs(std::string dofName,
     // load curren snapshot matrix
     std::size_t numRows  = {};
     std::size_t numSnaps = {};
-    snap_t snaps;
-    loadTargetSnapshotMatrix(file, numRows, numSnaps, snaps, inputFormat);
+    auto snaps = loadTargetSnapshotMatrix(file, numRows, numSnaps, inputFormat);
 
-    // store data
     if (iDir == 0){
       // when iDir == 0, needs to full resize allSnaps
       allSnaps.resize(numRows, numSnaps);
@@ -200,7 +238,6 @@ void processDirs(std::string dofName,
       const auto currNColsAllSnaps = allSnaps.cols();
       // resize to make space for current data
       allSnaps.conservativeResize(numRows, currNColsAllSnaps+numSnaps);
-
       // copy current snapshot matrix into allSnaps
       allSnaps.block(0, currNColsAllSnaps, numRows, numSnaps) = snaps;
     }
@@ -217,13 +254,16 @@ void processDirs(std::string dofName,
 	    << elapsed1.count() << std::endl;
 
   auto startTime2 = std::chrono::high_resolution_clock::now();
-  // file names for:
-  // left-sing vectors (lsv), right-sing vectors (rsv) and sing values (sing_vals)
   auto lsvFN = "lsv_"+dofName;
   auto rsvFN = "rsv_"+dofName;
   auto svFN  = "sva_"+dofName;
 
-  doThinSVDm0(allSnaps, lsvFN, rsvFN, svFN, dofName, outputFormat);
+  if (method==1){
+    doThinSVDm0(allSnaps, lsvFN, rsvFN, svFN, dofName, outputFormat);
+  }
+  else if (method==2){
+    doThinSVDm1(allSnaps, lsvFN, rsvFN, svFN, dofName, outputFormat);
+  }
 
   const auto finishTime2 = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> elapsed2 = finishTime2 - startTime1;
@@ -235,31 +275,32 @@ void processDirs(std::string dofName,
 
 }//end anonym namespace
 
-
 int main(int argc, char *argv[])
 {
   CLI::App app;
-
   std::vector<std::string> dirs = {};
   std::string outputFormat = {};
   std::string inputFormat = {};
-
+  int method = -1;
   app.add_option("--dirs", dirs,
 		 "Directories")->required();
-
   app.add_option("--informat", inputFormat,
 		 "Inputformat: binary/ascii")->required();
-
   app.add_option("--outformat", outputFormat,
 		 "Outputformat: binary/ascii")->required();
-
+  app.add_option("--method", method,
+		 "Method: 1: Eigen SVD, 2: via QR")->required();
   try{
     app.parse(argc, argv);
   }
   catch (...){}
 
-  processDirs("vp", dirs, inputFormat, outputFormat);
-  processDirs("sp", dirs, inputFormat, outputFormat);
+  if (method == -1){
+    throw std::runtime_error("Invalid method");
+  }
+
+  processDirs("vp", dirs, inputFormat, outputFormat, method);
+  processDirs("sp", dirs, inputFormat, outputFormat, method);
 
   return 0;
 }
@@ -330,3 +371,38 @@ int main(int argc, char *argv[])
 //   std::cout << "Done with SVD" << std::endl;
 //   std::cout << "----------------" << std::endl;
 // }
+
+
+
+
+
+  // using T = Eigen::MatrixXd;
+  // T A = T::Random(20,4);
+  // write_matrix_to_ascii("A.txt", A, A.rows(), A.cols(), false);
+
+  // {
+  //   Eigen::BDCSVD<T> svd(A, Eigen::ComputeThinU);
+  //   const auto & singVal = svd.singularValues();
+  //   const auto & U       = svd.matrixU();
+  //   std::cout << singVal << '\n';
+  //   std::cout << "\n";
+  //   std::cout << U << '\n';
+  // }
+
+  // {
+  //   int m = A.cols();
+  //   Eigen::HouseholderQR<T> qr(A);
+  //   T Q = qr.householderQ();
+  //   T R = qr.matrixQR().block(0,0,m,m).template triangularView<Eigen::Upper>();
+  //   Eigen::BDCSVD<decltype(R)> svd(R, Eigen::ComputeFullU | Eigen::ComputeFullV);
+  //   const auto & singVal = svd.singularValues();
+  //   const auto & U0      = svd.matrixU();
+  //   const auto & V0      = svd.matrixV();
+
+  //   T U = Q * U0;
+  //   std::cout << "\n";
+  //   std::cout << singVal << '\n';
+  //   std::cout << "\n";
+  //   std::cout << U << '\n';
+  //   std::cout << U.col(0).dot(U.col(1)) << '\n';
+  // }
