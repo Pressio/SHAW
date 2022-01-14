@@ -49,7 +49,7 @@ jobs:
           echo ======================================================
           echo CPU Threads: $(grep -c processor /proc/cpuinfo)
           echo ======================================================
-          echo $(which $CXX) --version
+#          echo $(which $CXX) --version
           $CXX --version
           echo ======================================================
           echo $(which python) --version
