@@ -42,7 +42,7 @@ RUN mkdir -p $YAMLCPP_LIB
 # System update and packages installation
 RUN apt-get update && apt-get upgrade -y
 # Installing Utilities
-RUN apt-get install -y wget git make hwloc
+RUN apt-get install -y wget git make hwloc python3-pip python-is-python3
 # Installing OpenMPI
 RUN apt-get install -y openmpi-bin openmpi-doc
 # Installing Libraries

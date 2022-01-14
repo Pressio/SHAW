@@ -49,8 +49,8 @@ jobs:
           echo ======================================================
           echo CPU Threads: $(grep -c processor /proc/cpuinfo)
           echo ======================================================
-          echo $(which python3) --version
-          python3 --version
+          echo $(which python) --version
+          python --version
           echo ======================================================
           cmake --version
           echo ======================================================
