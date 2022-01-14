@@ -5,7 +5,7 @@ name: Build/Test SHAW # GUI display name
 
 on: # Triggers, see https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows
   push:
-    branches: [master, develop]
+    branches: [master, develop, 2-Enable-github-actions-via-docker]
   pull_request:
     branches: [master, develop]
 
