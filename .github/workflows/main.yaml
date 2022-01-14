@@ -16,7 +16,6 @@ on: # Triggers, see https://docs.github.com/en/actions/learn-github-actions/even
 jobs:
   CI:
     runs-on: ubuntu-latest
-    container: pressiomodelreduction/ubuntu-20.04-kokkos_3.5.00-kokkoskernels_3.5.00-yamlcpp_0.7.0-openmp:latest
     strategy:
       fail-fast: false # true -> cancel all jobs if any fails
       max-parallel: 8
@@ -28,8 +27,8 @@ jobs:
       # - mode: build mode inside Pressio (Debug / Release)
       matrix:
         config:
-          - { cxx: clang++ }
-          - { cxx: g++ }
+          - { cxx: clang++, image: ubuntu-20.04-kokkos_3.5.00-kokkoskernels_3.5.00-yamlcpp_0.7.0-openmp }
+          - { cxx: g++, image: ubuntu-20.04-kokkos_3.5.00-kokkoskernels_3.5.00-yamlcpp_0.7.0-openmp-clang }
 
     env: # environment variables available to all steps
       CXX: ${{ matrix.config.cxx }}
@@ -40,25 +39,10 @@ jobs:
       SHAWBUILDDEB_DIR: /home/runner/work/build/shaw-build-debug
       SHAWBUILDREL_DIR: /home/runner/work/build/shaw-build-release
 
+    container: pressiomodelreduction/${{ matrix.config.image }}
+
     steps:
       - uses: actions/checkout@v2 # check out the repository
-
-      - name: Install packages
-        run: |
-          apt-get update
-          apt-get install -y --install-suggests $APT_PACKAGES
-
-      # - name: Install CMake
-      #   run: |
-      #     export CMAKE_KEYRING=/usr/share/keyrings/kitware-archive-keyring.gpg
-      #     wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null \
-      #       | gpg --dearmor - \
-      #       | sudo tee $CMAKE_KEYRING >/dev/null
-      #     echo "deb [signed-by=$CMAKE_KEYRING] https://apt.kitware.com/ubuntu/ focal main" \
-      #       | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
-      #     sudo apt-get update
-      #     rm $CMAKE_KEYRING
-      #     sudo apt-get install -y kitware-archive-keyring cmake
 
       - name: Check environment
         run: |
@@ -87,12 +71,6 @@ jobs:
           echo ======================================================
           pip list
           echo ======================================================
-
-#      - name: Build/Install TPLs
-#        run: |
-#          mkdir $WORKDIR
-#          cd $SHAWDIR/bash_scripts
-#          bash build_tpls.sh $WORKDIR
 
       - name: Configure SHAW (debug)
         run: |
