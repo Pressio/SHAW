@@ -16,7 +16,7 @@ on: # Triggers, see https://docs.github.com/en/actions/learn-github-actions/even
 jobs:
   CI:
     runs-on: ubuntu-latest
-
+    container: pressiomodelreduction/ubuntu-20.04-kokkos_3.5.00-kokkoskernels_3.5.00-yamlcpp_0.7.0-openmp:latest
     strategy:
       fail-fast: false # true -> cancel all jobs if any fails
       max-parallel: 8
@@ -88,11 +88,11 @@ jobs:
           pip list
           echo ======================================================
 
-      - name: Build/Install TPLs
-        run: |
-          mkdir $WORKDIR
-          cd $SHAWDIR/bash_scripts
-          bash build_tpls.sh $WORKDIR
+#      - name: Build/Install TPLs
+#        run: |
+#          mkdir $WORKDIR
+#          cd $SHAWDIR/bash_scripts
+#          bash build_tpls.sh $WORKDIR
 
       - name: Configure SHAW (debug)
         run: |
@@ -100,9 +100,9 @@ jobs:
           cmake \
           -DCMAKE_VERBOSE_MAKEFILE:STRING=On \
           -DCMAKE_BUILD_TYPE:STRING=Debug \
-          -DKokkosKernels_DIR=$WORKDIR/tpls/kokkos-kernels-install/lib/cmake/KokkosKernels \
+          -DKokkosKernels_DIR=/tpls/kokkoskernels/lib/cmake/KokkosKernels \
           -B $SHAWBUILDDEB_DIR -S $SHAWDIR
-          #-Dyaml-cpp_DIR=$WORKDIR/tpls/yamlcpp-install/share/cmake \
+          #-Dyaml-cpp_DIR=/tpls/yamlcpp/share/cmake \
 
       - name: Build/run C++ tests (debug)
         run: |
@@ -117,9 +117,9 @@ jobs:
           cmake \
           -DCMAKE_VERBOSE_MAKEFILE:STRING=On \
           -DCMAKE_BUILD_TYPE:STRING=Release \
-          -DKokkosKernels_DIR=$WORKDIR/tpls/kokkos-kernels-install/lib/cmake/KokkosKernels \
+          -DKokkosKernels_DIR=/tpls/kokkoskernels/lib/cmake/KokkosKernels \
           -B $SHAWBUILDREL_DIR -S $SHAWDIR
-          #-Dyaml-cpp_DIR=$WORKDIR/tpls/yamlcpp-install/share/cmake \
+          #-Dyaml-cpp_DIR=/tpls/yamlcpp/share/cmake \
 
       - name: Build/run C++ tests (release)
         run: |
