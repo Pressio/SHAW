@@ -64,7 +64,7 @@ jobs:
 
       - name: Install required Python modules
         run: |
-          sudo pip install $PIP_PACKAGES
+          pip install $PIP_PACKAGES
           echo ======================================================
           pip list
           echo ======================================================
