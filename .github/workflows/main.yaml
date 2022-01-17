@@ -45,6 +45,9 @@ jobs:
       - name: Check environment
         run: |
           echo ======================================================
+          ls -la $WORKDIR
+          ls -la $SHAWBUILDDEB_DIR
+          ls -la $SHAWBUILDREL_DIR
           echo Creating directories: 
           echo ===> $WORKDIR
           mkdir -p $WORKDIR
