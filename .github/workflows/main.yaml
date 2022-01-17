@@ -46,9 +46,9 @@ jobs:
 
       - name: Check environment
         run: |
-          ls -la /
+          ls -la /__w/SHAW
           echo ------------------------------------------------------
-          ls -la /__w
+          ls -la /__w/SHAW/SHAW
           echo ======================================================
           echo CPU Threads: $(grep -c processor /proc/cpuinfo)
           echo ======================================================
