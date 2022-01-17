@@ -80,7 +80,7 @@ jobs:
           cmake \
           -DCMAKE_VERBOSE_MAKEFILE:STRING=On \
           -DCMAKE_BUILD_TYPE:STRING=Debug \
-          -DKokkosKernels_DIR=/tpls/kokkoskernels/lib/cmake/KokkosKernels \
+          -DKokkosKernels_DIR=/tpl/kokkoskernels/lib/cmake/KokkosKernels \
           -DYAMLCPP_DIR=/tpl/yamlcpp/share/cmake/yaml-cpp \
           -B $SHAWBUILDDEB_DIR -S $SHAWDIR
 
@@ -97,7 +97,7 @@ jobs:
           cmake \
           -DCMAKE_VERBOSE_MAKEFILE:STRING=On \
           -DCMAKE_BUILD_TYPE:STRING=Release \
-          -DKokkosKernels_DIR=/tpls/kokkoskernels/lib/cmake/KokkosKernels \
+          -DKokkosKernels_DIR=/tpl/kokkoskernels/lib/cmake/KokkosKernels \
           -DYAMLCPP_DIR=/tpl/yamlcpp/share/cmake/yaml-cpp \
           -B $SHAWBUILDREL_DIR -S $SHAWDIR
 
