@@ -34,10 +34,10 @@ jobs:
       CXX: ${{ matrix.config.cxx }}
       APT_PACKAGES: python3 pip python-is-python3 g++ clang gpg wget libyaml-cpp-dev
       PIP_PACKAGES: pytest numpy scipy matplotlib
-      SHAWDIR: /home/runner/work/SHAW/SHAW
-      WORKDIR: /home/runner/work/build
-      SHAWBUILDDEB_DIR: /home/runner/work/build/shaw-build-debug
-      SHAWBUILDREL_DIR: /home/runner/work/build/shaw-build-release
+      SHAWDIR: /__w/SHAW/SHAW
+      WORKDIR: /out/build
+      SHAWBUILDDEB_DIR: /out/build/shaw-build-debug
+      SHAWBUILDREL_DIR: /out/build/shaw-build-release
 
     container: pressiomodelreduction/${{ matrix.config.image }}
 
@@ -46,9 +46,11 @@ jobs:
 
       - name: Check environment
         run: |
-          ls -la /__w/SHAW
-          echo ------------------------------------------------------
-          ls -la /__w/SHAW/SHAW
+          echo ======================================================
+          echo Creating directories:
+          mkdir -p $WORKDIR
+          mkdir -p $SHAWBUILDDEB_DIR
+          mkdir -p $SHAWBUILDREL_DIR
           echo ======================================================
           echo CPU Threads: $(grep -c processor /proc/cpuinfo)
           echo ======================================================
