@@ -27,8 +27,8 @@ jobs:
       # - mode: build mode inside Pressio (Debug / Release)
       matrix:
         config:
-          - { cxx: clang++-9, image: ubuntu-20.04-kokkos_3.5.00-kokkoskernels_3.5.00-yamlcpp_0.7.0-openmp }
-          - { cxx: g++-9, image: ubuntu-20.04-kokkos_3.5.00-kokkoskernels_3.5.00-yamlcpp_0.7.0-openmp-clang }
+          - { cxx: clang++-10, image: ubuntu-20.04-kokkos_3.5.00-kokkoskernels_3.5.00-yamlcpp_0.7.0-openmp }
+          - { cxx: g++-10, image: ubuntu-20.04-kokkos_3.5.00-kokkoskernels_3.5.00-yamlcpp_0.7.0-openmp-clang }
 
     env: # environment variables available to all steps
       CXX: ${{ matrix.config.cxx }}
