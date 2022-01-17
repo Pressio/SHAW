@@ -31,7 +31,7 @@ jobs:
           - { cxx: g++-10, image: ubuntu-20.04-kokkos_3.5.00-kokkoskernels_3.5.00-yamlcpp_0.7.0-openmp-clang }
 
     env: # environment variables available to all steps
-      CXX: ${{ matrix.config.cxx }}
+#      CXX: ${{ matrix.config.cxx }}
       APT_PACKAGES: python3 pip python-is-python3 g++ clang gpg wget libyaml-cpp-dev
       PIP_PACKAGES: pytest numpy scipy matplotlib
       SHAWDIR: /__w/SHAW/SHAW
