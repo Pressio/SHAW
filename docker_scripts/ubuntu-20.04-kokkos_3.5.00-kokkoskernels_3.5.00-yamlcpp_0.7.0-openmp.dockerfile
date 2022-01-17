@@ -5,12 +5,12 @@ ARG TZ=Europe/Warsaw
 # CMake Version
 ARG CMAKE_VERSION=3.18.6
 # Compilers
-ARG GNU_VER=9
+ARG GNU_VER=10
 ARG CC=gcc-$GNU_VER
 ARG CXX=g++-$GNU_VER
 ARG GFORTRAN=gfortran-$GNU_VER
-ARG CC_PATH=/usr/bin/gcc
-ARG CXX_PATH=/usr/bin/g++
+ARG CC_PATH=/usr/bin/$CC
+ARG CXX_PATH=/usr/bin/$CXX
 # Options
 ARG ENABLE_OPENMP=On
 # TPLs
@@ -55,13 +55,13 @@ RUN rm cmake.sh
 
 # Compilers installation
 RUN apt-get install -y $CC $CXX $GFORTRAN
-RUN update-alternatives --install $CC_PATH gcc /usr/bin/$CC 10
-RUN update-alternatives --install $CXX_PATH g++ /usr/bin/$CXX 10
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/$CC 10
+RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/$CXX 10
 RUN update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/$GFORTRAN 10
-RUN update-alternatives --install /usr/bin/cc cc $CC_PATH 20
-RUN update-alternatives --set cc $CC_PATH
-RUN update-alternatives --install /usr/bin/c++ c++ $CXX_PATH 20
-RUN update-alternatives --set c++ $CXX_PATH
+RUN update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 20
+RUN update-alternatives --set cc /usr/bin/gcc
+RUN update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 20
+RUN update-alternatives --set c++ /usr/bin/g++
 RUN update-alternatives --install /usr/bin/fortrann fortrann /usr/bin/gfortran 20
 RUN update-alternatives --set fortrann /usr/bin/gfortran
 
@@ -71,7 +71,7 @@ WORKDIR $KOKKOS_SRC
 RUN wget -O $KOKKOS_VER.tar.gz https://github.com/kokkos/kokkos/archive/refs/tags/$KOKKOS_VER.tar.gz
 RUN tar -xzf $KOKKOS_VER.tar.gz
 WORKDIR $KOKKOS_SRC/kokkos-$KOKKOS_VER
-RUN mkdir build && cd build && cmake .. -DCMAKE_CXX_COMPILER=$CXX_PATH -DCMAKE_INSTALL_PREFIX=$KOKKOS_LIB -DKokkos_ENABLE_SERIAL=$ENABLE_OPENMP -DKokkos_ENABLE_OPENMP=On -DKokkos_ARCH_HSW=On -DKokkos_HWLOC_DIR=/usr/bin -DKokkos_ENABLE_AGGRESSIVE_VECTORIZATION=Off -DKokkos_ENABLE_TESTS=On && make install -j 8 && make test -j 8
+RUN mkdir build && cd build && cmake .. -DCMAKE_CXX_COMPILER=$CXX_PATH -DCMAKE_INSTALL_PREFIX=$KOKKOS_LIB -DKokkos_ENABLE_SERIAL=On -DKokkos_ENABLE_OPENMP=$ENABLE_OPENMP -DKokkos_ARCH_HSW=On -DKokkos_HWLOC_DIR=/usr/bin -DKokkos_ENABLE_AGGRESSIVE_VECTORIZATION=Off -DKokkos_ENABLE_TESTS=On && make install -j 8 && make test -j 8
 # Building Kokkoskernels
 WORKDIR $KOKKOSKERNELS_SRC
 RUN wget -O $KOKKOSKERNELS_VER.tar.gz https://github.com/kokkos/kokkos-kernels/archive/refs/tags/$KOKKOSKERNELS_VER.tar.gz

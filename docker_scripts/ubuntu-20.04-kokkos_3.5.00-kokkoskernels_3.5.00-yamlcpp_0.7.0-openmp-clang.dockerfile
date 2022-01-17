@@ -5,12 +5,12 @@ ARG TZ=Europe/Warsaw
 # CMake Version
 ARG CMAKE_VERSION=3.18.6
 # Compilers
-ARG CLANG_VER=9
+ARG CLANG_VER=10
 ARG CC=clang-$CLANG_VER
 ARG CXX=clang++-$CLANG_VER
 ARG GFORTRAN=gfortran-9
-ARG CC_PATH=/usr/bin/clang-9
-ARG CXX_PATH=/usr/bin/clang++-9
+ARG CC_PATH=/usr/bin/$CC
+ARG CXX_PATH=/usr/bin/$CXX
 # Options
 ARG ENABLE_OPENMP=On
 # TPLs
