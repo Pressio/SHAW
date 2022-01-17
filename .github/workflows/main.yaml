@@ -23,7 +23,7 @@ jobs:
       # Build matrix for your jobs: you can define different variations to run each job in
       # matrix configurations - reachable with ${{ matrix.config.<key> }}.
       # Extra options:
-      # - cxx:  path to C++ compiler
+      # - cxx: C++ compiler
       # - mode: build mode inside Pressio (Debug / Release)
       matrix:
         config:
