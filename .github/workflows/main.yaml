@@ -46,8 +46,9 @@ jobs:
 
       - name: Check environment
         run: |
+          ls -la /tpls/yamlcpp/share/cmake/yaml-cpp
           echo ======================================================
-          echo Creating directories:
+          echo Creating directories $WORKDIR $SHAWBUILDDEB_DIR $SHAWBUILDREL_DIR
           mkdir -p $WORKDIR
           mkdir -p $SHAWBUILDDEB_DIR
           mkdir -p $SHAWBUILDREL_DIR
