@@ -48,6 +48,8 @@ jobs:
           echo Creating directories: 
           ls -la /out
           cd /out
+          who
+          whoami
           echo ===> $WORKDIR
           mkdir build
           echo ===> $SHAWBUILDDEB_DIR
