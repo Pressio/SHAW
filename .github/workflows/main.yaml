@@ -46,6 +46,7 @@ jobs:
         run: |
           echo ======================================================
           echo Creating directories: 
+          ls -la /out
           echo ===> $WORKDIR
           mkdir -p $WORKDIR
           echo ===> $SHAWBUILDDEB_DIR
