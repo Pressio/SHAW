@@ -25,6 +25,8 @@ ARG YAMLCPP_SRC=$SRC/yamlcpp
 ARG KOKKOS_LIB=$LIB/kokkos
 ARG KOKKOSKERNELS_LIB=$LIB/kokkoskernels
 ARG YAMLCPP_LIB=$LIB/yamlcpp
+ARG SHAWBUILDDEB_DIR=/out/build/shaw-build-debug
+ARG SHAWBUILDREL_DIR=/out/build/shaw-build-release
 
 # Setting timezone
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -38,6 +40,8 @@ RUN mkdir -p $YAMLCPP_SRC
 RUN mkdir -p $KOKKOS_LIB
 RUN mkdir -p $KOKKOSKERNELS_LIB
 RUN mkdir -p $YAMLCPP_LIB
+RUN mkdir -p $SHAWBUILDDEB_DIR
+RUN mkdir -p $SHAWBUILDREL_DIR
 
 # System update and packages installation
 RUN apt-get update && apt-get upgrade -y

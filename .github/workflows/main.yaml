@@ -45,17 +45,12 @@ jobs:
       - name: Check environment
         run: |
           echo ======================================================
-          echo Creating directories: 
-          ls -la /out
-          cd /out
-          who
-          whoami
           echo ===> $WORKDIR
-          mkdir build
-          echo ===> $SHAWBUILDDEB_DIR
-          cd $WORKDIR
-          mkdir shaw-build-debug shaw-build-release
           ls -la $WORKDIR
+          echo ===> $SHAWBUILDDEB_DIR
+          ls -la $SHAWBUILDDEB_DIR
+          echo ===> $SHAWBUILDREL_DIR
+          ls -la $SHAWBUILDREL_DIR
           echo ======================================================
           echo CPU Threads: $(grep -c processor /proc/cpuinfo)
           echo ======================================================
