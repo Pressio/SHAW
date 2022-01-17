@@ -81,7 +81,7 @@ jobs:
           -DCMAKE_VERBOSE_MAKEFILE:STRING=On \
           -DCMAKE_BUILD_TYPE:STRING=Debug \
           -DKokkosKernels_DIR=/tpl/kokkoskernels/lib/cmake/KokkosKernels \
-          -DYAMLCPP_DIR=/tpl/yamlcpp/share/cmake/yaml-cpp \
+          -Dyaml-cpp_DIR=/tpl/yamlcpp/share/cmake/yaml-cpp \
           -B $SHAWBUILDDEB_DIR -S $SHAWDIR
 
       - name: Build/run C++ tests (debug)
@@ -98,7 +98,7 @@ jobs:
           -DCMAKE_VERBOSE_MAKEFILE:STRING=On \
           -DCMAKE_BUILD_TYPE:STRING=Release \
           -DKokkosKernels_DIR=/tpl/kokkoskernels/lib/cmake/KokkosKernels \
-          -DYAMLCPP_DIR=/tpl/yamlcpp/share/cmake/yaml-cpp \
+          -Dyaml-cpp_DIR=/tpl/yamlcpp/share/cmake/yaml-cpp \
           -B $SHAWBUILDREL_DIR -S $SHAWDIR
 
       - name: Build/run C++ tests (release)
