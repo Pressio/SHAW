@@ -45,12 +45,12 @@ jobs:
       - name: Check environment
         run: |
           echo ======================================================
-          echo ===> $WORK_DIR
-          ls -la $WORK_DIR
-          echo ===> $SHAWBUILDDEB_DIR
-          ls -la $SHAWBUILDDEB_DIR
-          echo ===> $SHAWBUILDREL_DIR
-          ls -la $SHAWBUILDREL_DIR
+#          echo ===> $WORK_DIR
+#          ls -la $WORK_DIR
+#          echo ===> $SHAWBUILDDEB_DIR
+#          ls -la $SHAWBUILDDEB_DIR
+#          echo ===> $SHAWBUILDREL_DIR
+#          ls -la $SHAWBUILDREL_DIR
           echo ======================================================
           echo CPU Threads: $(grep -c processor /proc/cpuinfo)
           echo ======================================================
