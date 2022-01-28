@@ -5,9 +5,9 @@ name: Build/Test SHAW # GUI display name
 
 on: # Triggers, see https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows
   push:
-    branches: [master, develop, 2-Enable-github-actions-via-docker]
+    branches: [ master, develop, 2-Enable-github-actions-via-docker ]
   pull_request:
-    branches: [master, develop]
+    branches: [ master, develop ]
 
 # concurrency: # Concurrency group: which jobs run together and which cancel each other
 #  group: CI-${{ github.head_ref }}
@@ -44,13 +44,6 @@ jobs:
 
       - name: Check environment
         run: |
-          echo ======================================================
-#          echo ===> $WORK_DIR
-#          ls -la $WORK_DIR
-#          echo ===> $SHAWBUILDDEB_DIR
-#          ls -la $SHAWBUILDDEB_DIR
-#          echo ===> $SHAWBUILDREL_DIR
-#          ls -la $SHAWBUILDREL_DIR
           echo ======================================================
           echo CPU Threads: $(grep -c processor /proc/cpuinfo)
           echo ======================================================
