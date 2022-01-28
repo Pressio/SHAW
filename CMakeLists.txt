@@ -20,9 +20,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 #==================================
 
-find_package(yaml-cpp REQUIRED)
-message(STATUS ${YAML_CPP_INCLUDE_DIR})
-include_directories(${YAML_CPP_INCLUDE_DIR})
+find_package(yaml-cpp REQUIRED HINTS ${YAMLCPP_DIR})
+include_directories(${YAMLCPP_DIR}/include)
 
 if(EXISTS "${YAMLCPP_DIR}/lib64/libyaml-cpp.a")
   set(YAML_CPP_LIBRARIES ${YAMLCPP_DIR}/lib64/libyaml-cpp.a)
