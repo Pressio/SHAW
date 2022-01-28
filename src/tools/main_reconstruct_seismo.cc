@@ -100,11 +100,11 @@ int main(int argc, char *argv[])
   std::string outputFormat = {};
   std::string outFileAppend = {};
 
-  app.add_option("--podmodes", podModes,
-		 "Pair: fullpath_POD_modes binary/ascii")->required();
-
   app.add_option("--romsize", romSize,
 		 "ROM size")->required();
+
+  app.add_option("--podmodes", podModes,
+		 "Pair: fullpath_POD_modes binary/ascii")->required();
 
   app.add_option("--romsnaps", romSnaps,
 		 "Pair: fullpath_ROM_snaps binary/ascii")->required();
@@ -144,14 +144,11 @@ int main(int argc, char *argv[])
   const auto romSnapFile   = std::get<0>(romSnaps);
   const bool romSnapBinary = std::get<1>(romSnaps)=="binary";
 
-
-  //------------------------------------------------------------
   Kokkos::initialize (argc, argv);
   {
     using sc_t = double;
-    using exe_space = Kokkos::DefaultExecutionSpace;
+    using exe_space = Kokkos::DefaultHostExecutionSpace;
     using kll = Kokkos::LayoutLeft;
-    static_assert(is_host_space<exe_space>::value, "");
     using pod_t = Kokkos::View<sc_t**, kll, exe_space>;
 
     const auto numPts = targetGridPoints.size();
@@ -165,9 +162,12 @@ int main(int argc, char *argv[])
       // *** load ROM states ***
       using snap_t = Kokkos::View<sc_t**, kll, exe_space>;
       snap_t snapsRom("snapsRom", 1, 1);
-      if (romSnapBinary) fillMatrixFromBinary(romSnapFile, snapsRom, true);
-      else
+      if (romSnapBinary){
+	fillMatrixFromBinary(romSnapFile, snapsRom, true);
+      }
+      else{
       	throw std::runtime_error("Rank-1 ROM snaps ascii not supported yet");
+      }
       std::cout << "ROM snap size: "
       		<< snapsRom.extent(0) << " "
       		<< snapsRom.extent(1) << std::endl;
@@ -186,43 +186,45 @@ int main(int argc, char *argv[])
     }
     else if (fSize >= 2)
     {
-      ////////////////////////////
-      // this is rank-2 case
-      ////////////////////////////
+      throw std::runtime_error("reconstruction for rank2 to renable");
 
-      // *** load ROM states ***
-      using snap_t = Kokkos::View<sc_t***, kll, exe_space>;
-      snap_t snapsRom("snapsRom", 1, 1, 1);
-      if (romSnapBinary) fillMatrixFromBinary(romSnapFile, snapsRom);
-      else
-      	throw std::runtime_error("Rank-2 ROM snaps ascii not supported yet");
-      std::cout << "ROM snap size: "
-      		<< snapsRom.extent(0) << " "
-      		<< snapsRom.extent(1) << " "
-      		<< snapsRom.extent(2) << std::endl;
+      // ////////////////////////////
+      // // this is rank-2 case
+      // ////////////////////////////
 
-      // *** reconstruct seismogram ***
-      // S: 2d view, each row contains the velocity time series for a target point
-      using seismo_t = Kokkos::View<sc_t**, kll, exe_space>;
-      seismo_t S("S", numPts, snapsRom.extent(1));
+      // // *** load ROM states ***
+      // using snap_t = Kokkos::View<sc_t***, kll, exe_space>;
+      // snap_t snapsRom("snapsRom", 1, 1, 1);
+      // if (romSnapBinary) fillMatrixFromBinary(romSnapFile, snapsRom);
+      // else
+      // 	throw std::runtime_error("Rank-2 ROM snaps ascii not supported yet");
+      // std::cout << "ROM snap size: "
+      // 		<< snapsRom.extent(0) << " "
+      // 		<< snapsRom.extent(1) << " "
+      // 		<< snapsRom.extent(2) << std::endl;
 
-      // loop over the forcing realizations
-      for (std::size_t fId=0; fId<snapsRom.extent(2); ++fId)
-      {
-      	const std::string fString = "f_"+std::to_string(fId);
+      // // *** reconstruct seismogram ***
+      // // S: 2d view, each row contains the velocity time series for a target point
+      // using seismo_t = Kokkos::View<sc_t**, kll, exe_space>;
+      // seismo_t S("S", numPts, snapsRom.extent(1));
 
-	auto currSnaps = Kokkos::subview(snapsRom, Kokkos::ALL(), Kokkos::ALL(), fId);
-	KokkosBlas::fill(S, 0.0);
+      // // loop over the forcing realizations
+      // for (std::size_t fId=0; fId<snapsRom.extent(2); ++fId)
+      // {
+      // 	const std::string fString = "f_"+std::to_string(fId);
 
-	// reconstruct seismogram, use parallel for over each target location
-	using func_t = ComputeSeismoRankOneState<sc_t, decltype(currSnaps), seismo_t, pod_t>;
-	func_t F(phi, currSnaps, S);
-	Kokkos::parallel_for(numPts, F);
+      // 	auto currSnaps = Kokkos::subview(snapsRom, Kokkos::ALL(), Kokkos::ALL(), fId);
+      // 	KokkosBlas::fill(S, 0.0);
 
-	auto seismoFile = "seismo_"+fString;
-	if (outFileAppend.empty() == false) seismoFile += "_" + outFileAppend;
-	writeToFile(seismoFile, S, (outputFormat=="binary"), true);
-      }
+      // 	// reconstruct seismogram, use parallel for over each target location
+      // 	using func_t = ComputeSeismoRankOneState<sc_t, decltype(currSnaps), seismo_t, pod_t>;
+      // 	func_t F(phi, currSnaps, S);
+      // 	Kokkos::parallel_for(numPts, F);
+
+      // 	auto seismoFile = "seismo_"+fString;
+      // 	if (outFileAppend.empty() == false) seismoFile += "_" + outFileAppend;
+      // 	writeToFile(seismoFile, S, (outputFormat=="binary"), true);
+      // }
     }
   }
 
