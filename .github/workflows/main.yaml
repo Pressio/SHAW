@@ -42,33 +42,33 @@ jobs:
     steps:
       - uses: actions/checkout@v2 # check out the repository
 
-      - name: Check environment
-        run: |
-          echo ======================================================
-          echo ===> $WORKDIR
-          ls -la $WORKDIR
-          echo ===> $SHAWBUILDDEB_DIR
-          ls -la $SHAWBUILDDEB_DIR
-          echo ===> $SHAWBUILDREL_DIR
-          ls -la $SHAWBUILDREL_DIR
-          echo ======================================================
-          echo CPU Threads: $(grep -c processor /proc/cpuinfo)
-          echo ======================================================
-          echo $(which $CXX) --version
-          $CXX --version
-          echo ======================================================
-          echo $(which python) --version
-          python --version
-          echo ======================================================
-          cmake --version
-          echo ======================================================
-          echo Source directory: $SHAWDIR
-          echo work directory: $WORKDIR
-          echo ======================================================
-          git --version
-          cd $SHAWDIR
-          git status
-          git branch
+#      - name: Check environment
+#        run: |
+#          echo ======================================================
+#          echo ===> $WORKDIR
+#          ls -la $WORKDIR
+#          echo ===> $SHAWBUILDDEB_DIR
+#          ls -la $SHAWBUILDDEB_DIR
+#          echo ===> $SHAWBUILDREL_DIR
+#          ls -la $SHAWBUILDREL_DIR
+#          echo ======================================================
+#          echo CPU Threads: $(grep -c processor /proc/cpuinfo)
+#          echo ======================================================
+#          echo $(which $CXX) --version
+#          $CXX --version
+#          echo ======================================================
+#          echo $(which python) --version
+#          python --version
+#          echo ======================================================
+#          cmake --version
+#          echo ======================================================
+#          echo Source directory: $SHAWDIR
+#          echo work directory: $WORKDIR
+#          echo ======================================================
+#          git --version
+#          cd $SHAWDIR
+#          git status
+#          git branch
 
       - name: Install required Python modules
         run: |
