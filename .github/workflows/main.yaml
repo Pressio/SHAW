@@ -32,8 +32,8 @@ jobs:
 
     env: # environment variables available to all steps
       PIP_PACKAGES: pytest numpy scipy matplotlib
-      SHAWDIR: /__w/SHAW/SHAW
-      WORKDIR: /out/build
+      SHAW_DIR: /__w/SHAW/SHAW
+      WORK_DIR: /out/build
       SHAWBUILDDEB_DIR: /out/build/shaw-build-debug
       SHAWBUILDREL_DIR: /out/build/shaw-build-release
 
@@ -45,8 +45,8 @@ jobs:
       - name: Check environment
         run: |
           echo ======================================================
-          echo ===> $WORKDIR
-          ls -la $WORKDIR
+          echo ===> $WORK_DIR
+          ls -la $WORK_DIR
           echo ===> $SHAWBUILDDEB_DIR
           ls -la $SHAWBUILDDEB_DIR
           echo ===> $SHAWBUILDREL_DIR
@@ -62,11 +62,11 @@ jobs:
           echo ======================================================
           cmake --version
           echo ======================================================
-          echo Source directory: $SHAWDIR
-          echo work directory: $WORKDIR
+          echo Source directory: $SHAW_DIR
+          echo work directory: $WORK_DIR
           echo ======================================================
           git --version
-          cd $SHAWDIR
+          cd $SHAW_DIR
           git status
           git branch
 
@@ -79,14 +79,14 @@ jobs:
 
       - name: Configure SHAW (debug)
         run: |
-          cd $WORKDIR
+          cd $WORK_DIR
           cmake \
           -DCMAKE_VERBOSE_MAKEFILE:STRING=On \
           -DCMAKE_BUILD_TYPE:STRING=Debug \
           -DKokkosKernels_DIR=/tpl/kokkoskernels/lib/cmake/KokkosKernels \
           -Dyaml-cpp_DIR=/tpl/yamlcpp/share/cmake/yaml-cpp \
           -DYAMLCPP_DIR=/tpl/yamlcpp \
-          -B $SHAWBUILDDEB_DIR -S $SHAWDIR
+          -B $SHAWBUILDDEB_DIR -S $SHAW_DIR
 
       - name: Build/run C++ tests (debug)
         run: |
@@ -97,14 +97,14 @@ jobs:
 
       - name: Configure SHAW (release)
         run: |
-          cd $WORKDIR
+          cd $WORK_DIR
           cmake \
           -DCMAKE_VERBOSE_MAKEFILE:STRING=On \
           -DCMAKE_BUILD_TYPE:STRING=Release \
           -DKokkosKernels_DIR=/tpl/kokkoskernels/lib/cmake/KokkosKernels \
           -Dyaml-cpp_DIR=/tpl/yamlcpp/share/cmake/yaml-cpp \
           -DYAMLCPP_DIR=/tpl/yamlcpp \
-          -B $SHAWBUILDREL_DIR -S $SHAWDIR
+          -B $SHAWBUILDREL_DIR -S $SHAW_DIR
 
       - name: Build/run C++ tests (release)
         run: |
